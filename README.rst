@@ -1,6 +1,6 @@
 .. SPDX-License-Identifier: (MIT OR GPL-2.0-or-later)
 ..
-   Author: Jeff Webb <jeff.webb@codecraftsmen.org>
+   Copyright (C) 2022 Jeff Webb <jeff.webb@codecraftsmen.org>
    
    This software and the associated documentation files are dual-licensed and
    are made available under the terms of the MIT License or under the terms

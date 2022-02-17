@@ -1,1 +1,22 @@
-MIT OR GPL-2.0-or-later
+For compatibility with the Linux Kernel, the software under the kernel/linux
+and doc/kerneldoc subdirectories of this source distribution is provided
+under:
+
+  SPDX-License-Identifier: GPL-2.0
+
+Being under the terms of the GNU General Public License version 2 only, as
+described in this file:
+
+  LICENSE.GPL-2.0
+
+All other software and documentation in this source distribution is
+dual-licensed under:
+
+  SPDX-License-Identifier: (MIT OR GPL-2.0-or-later)
+
+Being under the terms of the MIT License or under the terms of the GNU
+General Public License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.  You may
+select (at your option) either of the licenses listed above.  See the
+LICENSE.MIT and LICENSE.GPL-2.0 files for copyright information and license
+terms.

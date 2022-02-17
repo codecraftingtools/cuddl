@@ -1,0 +1,13 @@
+The files in this directory are copied verbatim from the Linux source tree.
+
+These scripts / plug-ins enable the Sphinx documentation system to generate
+API documentation from any kernel-doc formatted structured documentation
+comments embedded in C source files.
+
+The format for kernel-doc comments is described here:
+
+  https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html
+
+The Sphinx documentation for the C domain may also be useful:
+
+  https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#the-c-domain

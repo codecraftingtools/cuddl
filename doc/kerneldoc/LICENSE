@@ -1,0 +1,7 @@
+For compatibility with the Linux Kernel, the software under this directory is
+provided under:
+
+  SPDX-License-Identifier: GPL-2.0
+
+Being under the terms of the GNU General Public License version 2 only, as
+described in the COPYING file.

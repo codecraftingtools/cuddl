@@ -1,0 +1,9 @@
+# Cross-platform user-space device driver layer Linux kernel Kbuild file
+#
+# See https://www.kernel.org/doc/html/latest/kbuild/modules.html
+
+obj-m := cuddl.o
+cuddl-y := src/cuddlk_linux.o
+ccflags-y := -I$(src)/include \
+             -I$(src)/../include \
+             -I$(src)/../../common/include

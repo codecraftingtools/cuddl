@@ -26,9 +26,6 @@
  * on the ``CUDDLK_USE_UDD`` *#define*).
  */
 
-#define CUDDLK_DISABLE_UDD_ON_XENOMAI /* Only UIO is implemented for now */
-#define CUDDL_BUILD_WARN_TARGET
-
 #include <linux/module.h>
 #include <cuddl/kernel.h>
 
@@ -76,8 +73,8 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 			uio->mem[i].memtype = dev->mem[i].type;
 		}
 	}
-	uio->irq = dev->events[0].intr.irq;
-	if ((uio->irq > 0) && (uio->handler)) {
+	if ((dev->events[0].intr.irq > 0) && (dev->events[0].intr.handler)) {
+		uio->irq = dev->events[0].intr.irq;
 		if (dev->events[0].intr.flags & CUDDLK_IRQF_SHARED) {
 			uio->irq_flags |= IRQF_SHARED;
 		}

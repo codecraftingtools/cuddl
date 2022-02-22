@@ -28,14 +28,16 @@
  * DOC: Compile-time options applicable to kernel-space code.
  *
  * These flags may be set by editing *cuddl/kernel_impl.h*, or by adding
- * flags to define the required symbols when invoking the C compiler.
+ * flags to define the required symbols when invoking the C compiler.  Take
+ * care to ensure that all kernel modules (including any Cuddl drivers) are
+ * compiled with the same options or some disaster may occur.
  *
  * .. c:macro:: CUDDLK_DISABLE_UDD_ON_XENOMAI
  *
  *    Disables UDD support on a Xenomai system for testing purposes.  Linux
  *    UIO is used instead.
  */
-//#define CUDDLK_DISABLE_UDD_ON_XENOMAI
+#define CUDDLK_DISABLE_UDD_ON_XENOMAI /* Only UIO is implemented for now */
 
 /* Allow use of Linux UIO configuration on Xenomai systems for testing */
 #if defined(CONFIG_XENOMAI) && !defined(CUDDLK_DISABLE_UDD_ON_XENOMAI)

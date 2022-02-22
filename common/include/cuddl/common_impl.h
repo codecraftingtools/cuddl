@@ -28,7 +28,9 @@
  * DOC: Compile-time options applicable to both kernel and user-space code.
  *
  * These flags may be set by editing *cuddl/common_impl.h*, or by adding
- * flags to define the required symbols when invoking the C compiler.
+ * flags to define the required symbols when invoking the C compiler.  Take
+ * care to ensure that all user-space code is compiled with the same options
+ * or some disaster may occur.
  *
  * .. c:macro:: CUDDL_BUILD_WARN_TARGET
  *

@@ -31,9 +31,9 @@
 #ifdef CUDDL_BUILD_WARN_TARGET
   #warning Compiling for Linux kernel
   #if defined(CUDDLK_USE_UDD)
-#warning Compiling for Xenomai UDD (kernel)
+    #warning Compiling for Xenomai UDD (kernel)
   #else /* UIO */
-#warning Compiling for Linux UIO (kernel)
+    #warning Compiling for Linux UIO (kernel)
   #endif
 #endif /* CUDDL_BUILD_WARN_TARGET */
 
@@ -46,10 +46,6 @@
 
 #if defined(CUDDLK_USE_UDD)
   #include <rtdm/udd.h>
-  static_assert(CUDDLK_IMPL_MEMT_NONE    == UDD_MEM_NONE);
-  static_assert(CUDDLK_IMPL_MEMT_PHYS    == UDD_MEM_PHYS);
-  static_assert(CUDDLK_IMPL_MEMT_LOGICAL == UDD_MEM_LOGICAL);
-  static_assert(CUDDLK_IMPL_MEMT_VIRTUAL == UDD_MEM_VIRTUAL);
 
   #define CUDDLK_IMPL_VARIANT_STR "Xenomai UDD"
 
@@ -107,6 +103,7 @@ struct cuddlk_eventsrc_priv {
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlk_device_priv {
+	struct uio_info uio;
 };
 
 #endif /* !_CUDDL_KERNEL_IMPL_LINUX_H */

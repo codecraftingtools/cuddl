@@ -93,16 +93,16 @@ struct cuddlk_device_kernel {
  *
  * @events: Array of event sources to expose.
  *
- * @parent_dev: Parent device pointer.
+ * @parent_dev_ptr: Parent device pointer.
  *
- *              OS-specific field that contains a pointer to the "parent"
- *              device.
- *                
- *              On Linux, this field should be a pointer to a ``struct
- *              device``, which is usually the ``dev`` member of a ``struct
- *              pci_dev`` or ``struct platform_device``.
- *                
- *              This field is not used on RTEMS.
+ *                  OS-specific field that contains a pointer to the "parent"
+ *                  device.
+ *                    
+ *                  On Linux, this field should be a pointer to a ``struct
+ *                  device``, which is usually the ``dev`` member of a
+ *                  ``struct pci_dev`` or ``struct platform_device``.
+ *                    
+ *                  This field is not used on RTEMS.
  *
  * @kernel: Kernel-managed memory region data that is available for use by
  *          Cuddl drivers.
@@ -126,7 +126,7 @@ struct cuddlk_device {
 	char name[CUDDLK_MAX_STR_LEN];
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
-	cuddlk_parent_device_t *parent_dev;
+	cuddlk_parent_device_t *parent_dev_ptr;
 	struct cuddlk_device_kernel kernel;
 	struct cuddlk_device_priv priv;
 };
@@ -144,7 +144,7 @@ struct cuddlk_device {
  *
  *   int udd_register_device(struct udd_device *udd);
  */
-extern int cuddlk_register_device(struct cuddlk_device *dev);
+int cuddlk_register_device(struct cuddlk_device *dev);
 
 /**
  * cuddlk_unregister_device() - Unregister a Cuddl device.
@@ -159,6 +159,6 @@ extern int cuddlk_register_device(struct cuddlk_device *dev);
  *
  *   int udd_unregister_device(struct udd_device *udd);
  */
-extern int cuddlk_unregister_device(struct cuddlk_device *dev);
+int cuddlk_unregister_device(struct cuddlk_device *dev);
 
 #endif /* !_CUDDL_KERNEL_DEVICE_H */

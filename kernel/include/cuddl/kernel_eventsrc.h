@@ -84,6 +84,6 @@ struct cuddlk_eventsrc {
  *
  *   void udd_notify_event(struct udd_device *udd)
  */
-extern void cuddlk_event_notify(struct cuddlk_eventsrc *eventsrc);
+void cuddlk_event_notify(struct cuddlk_eventsrc *eventsrc);
 
 #endif /* !_CUDDL_KERNEL_EVENTSRC_H */

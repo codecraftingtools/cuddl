@@ -52,9 +52,9 @@
  *
  * Note that the equivalent Xenomai UDD and Linux UIO constants have similar
  * values.  Our implementation currently relies on this condition, so we
- * confirm this via compile-time assertions in ``cuddl/kernel_impl_linux.h.``
- * We also assume ``CUDDLK_MEMT_NONE`` is ``0`` for proper default
- * initialization, so we confirm that via a compile-time assertion here.
+ * confirm this via compile-time assertions in *cuddlk_linux.c*.  We also
+ * assume ``CUDDLK_MEMT_NONE`` is ``0`` for proper default initialization, so
+ * that condition is checked as well.
  */
 enum cuddlk_memregion_types {
 	CUDDLK_MEMT_NONE    = CUDDLK_IMPL_MEMT_NONE,
@@ -62,7 +62,6 @@ enum cuddlk_memregion_types {
 	CUDDLK_MEMT_LOGICAL = CUDDLK_IMPL_MEMT_LOGICAL,
 	CUDDLK_MEMT_VIRTUAL = CUDDLK_IMPL_MEMT_VIRTUAL,
 };
-static_assert(CUDDLK_MEMT_NONE == 0);
 
 /** 
  * enum cuddl_memregion_flags - Memory region flags for kernel space.

@@ -77,14 +77,13 @@ enum cuddlk_interrupt_handler_return_values {
  * single interrupt system will be selected at compile time.
  *
  * Our implementation does rely on the condition that ``CUDDLK_IRQ_NONE`` is
- * ``0`` for proper default initialization, so we confirm this via
- * compile-time assertion here.
+ * ``0`` for proper default initialization, so we confirm this via a
+ * compile-time assertion in *cuddlk_linux.c*.
  */
 enum cuddlk_special_irq_values {
 	CUDDLK_IRQ_NONE = CUDDLK_IMPL_IRQ_NONE,
 	CUDDLK_IRQ_CUSTOM = CUDDLK_IMPL_IRQ_CUSTOM,
 };
-static_assert(CUDDLK_IRQ_NONE == 0);
 
 /**
  * enum cuddlk_interrupt_flags - Interrupt flags for kernel space.
@@ -146,14 +145,14 @@ struct cuddlk_interrupt_kernel {
  *          indicates failure.  This field may be set to ``NULL`` if external
  *          interrupt unmasking control is not required.
  *
- * @mem: This field is available for use by Cuddl drivers to store a pointer
- *       to mapped I/O memory.  This field is not managed (or used) by the
- *       Cuddl implementation, so this field must set up (if desired)
- *       manually during driver initialization.
+ * @mem_ptr: This field is available for use by Cuddl drivers to store a
+ *           pointer to mapped I/O memory.  This field is not managed (or
+ *           used) by the Cuddl implementation, so this field must set up (if
+ *           desired) manually during driver initialization.
  *
- * @extra: This field is available for use by Cuddl drivers to store a
- *         pointer to a custom data structure for use by the driver. This
- *         field is not manged or used by the Cuddl implementation.
+ * @extra_ptr: This field is available for use by Cuddl drivers to store a
+ *             pointer to a custom data structure for use by the driver. This
+ *             field is not manged or used by the Cuddl implementation.
  *
  * @irq: IRQ number for which the associated handler will be installed, or
  *       one of the ``cuddlk_special_irq_values``.
@@ -187,8 +186,8 @@ struct cuddlk_interrupt {
 	int (*handler)(struct cuddlk_interrupt *intr);
 	int (*mask)   (struct cuddlk_interrupt *intr);
 	int (*unmask) (struct cuddlk_interrupt *intr);
-	cuddlk_iomem_t *mem;
-	void *extra;
+	cuddlk_iomem_t *mem_ptr;
+	void *extra_ptr;
 	int irq;
 	int flags;
 	struct cuddlk_interrupt_kernel kernel;

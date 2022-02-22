@@ -26,25 +26,80 @@
  * on the ``CUDDLK_USE_UDD`` *#define*).
  */
 
+#define CUDDLK_DISABLE_UDD_ON_XENOMAI /* Only UIO is implemented for now */
+#define CUDDL_BUILD_WARN_TARGET
+
 #include <linux/module.h>
-#include <linux/slab.h> /* kzalloc */
 #include <cuddl/kernel.h>
+
+/* Note that static_assert() works on newer kernels, but
+ * BUILD_BUG_ON() is required for older kernels.  Note that
+ * static_assert() can be used at file scope, whereas BUILD_BUG_ON()
+ * cannot. */
+static void check_assertions(void){
+	BUILD_BUG_ON(CUDDLK_MEMT_NONE != 0);
+	BUILD_BUG_ON(CUDDLK_IRQ_NONE != 0);
+#if defined(CUDDLK_USE_UDD)
+	BUILD_BUG_ON(CUDDLK_MEMT_NONE    != UDD_MEM_NONE);
+	BUILD_BUG_ON(CUDDLK_MEMT_PHYS    != UDD_MEM_PHYS);
+	BUILD_BUG_ON(CUDDLK_MEMT_LOGICAL != UDD_MEM_LOGICAL);
+	BUILD_BUG_ON(CUDDLK_MEMT_VIRTUAL != UDD_MEM_VIRTUAL);
+#endif
+}
+
+static irqreturn_t cuddl_uio_interrupt_handler(
+	int irq, struct uio_info *uinfo)
+{
+	struct cuddlk_device *dev;
+	struct cuddlk_interrupt *intr;
+	
+	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
+	intr = &dev->events[0].intr;
+	return intr->handler(intr);
+}
 
 int cuddlk_register_device(struct cuddlk_device *dev)
 {
-	return -1;
+	int i;
+	int ret = 0;
+	struct uio_info *uio;
+
+	uio = &dev->priv.uio;
+	uio->name = dev->name;
+	uio->version = "0.0.1";
+	for (i=0; i<CUDDLK_MAX_DEV_MEM_REGIONS; i++) {
+		if (i<MAX_UIO_MAPS) {
+			uio->mem[i].name    = dev->mem[i].name;
+			uio->mem[i].addr    = dev->mem[i].pa_addr;
+			uio->mem[i].offs    = dev->mem[i].start_offset;
+			uio->mem[i].size    = dev->mem[i].pa_len;
+			uio->mem[i].memtype = dev->mem[i].type;
+		}
+	}
+	uio->irq = dev->events[0].intr.irq;
+	if ((uio->irq > 0) && (uio->handler)) {
+		if (dev->events[0].intr.flags & CUDDLK_IRQF_SHARED) {
+			uio->irq_flags |= IRQF_SHARED;
+		}
+		uio->handler = cuddl_uio_interrupt_handler;
+	}
+	ret = uio_register_device(dev->parent_dev_ptr, uio);
+	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_register_device);
 
+int cuddlk_unregister_device(struct cuddlk_device *dev)
+{
+	uio_unregister_device(&dev->priv.uio);
+	return 0;
+}
+EXPORT_SYMBOL_GPL(cuddlk_unregister_device);
+
 static int __init cuddl_init(void)
 {
-	int ret;
-	struct cuddlk_device *dev;
-
-	dev = kzalloc(sizeof(struct cuddlk_device), GFP_KERNEL);
-	ret = cuddlk_register_device(dev);
-	kfree(dev);
-	return ret;
+	/* This must be called somewhere for assertions to trigger. */
+	check_assertions();
+	return 0;
 }
 
 static void __exit cuddl_exit(void)

@@ -23,3 +23,4 @@
    kernel
    impl
    build_options
+   external

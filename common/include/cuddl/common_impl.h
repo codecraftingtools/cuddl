@@ -29,8 +29,8 @@
  *
  * These flags may be set by editing *cuddl/common_impl.h*, or by adding
  * flags to define the required symbols when invoking the C compiler.  Take
- * care to ensure that all user-space code is compiled with the same options
- * or some disaster may occur.
+ * care to ensure that all kernel and user-space code is compiled with the
+ * same options or some disaster may possibly occur.
  *
  * .. c:macro:: CUDDL_BUILD_WARN_TARGET
  *

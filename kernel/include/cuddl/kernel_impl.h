@@ -30,7 +30,7 @@
  * These flags may be set by editing *cuddl/kernel_impl.h*, or by adding
  * flags to define the required symbols when invoking the C compiler.  Take
  * care to ensure that all kernel modules (including any Cuddl drivers) are
- * compiled with the same options or some disaster may occur.
+ * compiled with the same options or some disaster may possibly occur.
  *
  * .. c:macro:: CUDDLK_DISABLE_UDD_ON_XENOMAI
  *

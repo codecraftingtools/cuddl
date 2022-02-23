@@ -21,13 +21,16 @@ This project provides a cross-platform user-space device driver layer.  The
 intent is to provide a cross-platform API for writing user-space device
 drivers that works under `Linux`_, `Xenomai`_, and `RTEMS`_.
 
-Cuddl is part of the `Code Craftsmen`_ project.  The `source code`_ can be
-found on `GitHub`_.
+`Cuddl`_ is part of the `Code Craftsmen`_ project.  The `documentation`_ is
+hosted on `Read the Docs`_ and the `source code`_ can be found on `GitHub`_.
 
+.. _Cuddl: https://www.codecraftsmen.org/software.html#cuddl
 .. _Linux: https://www.kernel.org
 .. _Xenomai: https://www.xenomai.org
 .. _RTEMS: https://www.rtems.org
 .. _Code Craftsmen: https://www.codecraftsmen.org
+.. _documentation: https://cuddl.readthedocs.io
+.. _Read the Docs: https://www.codecraftsmen.org/foundation.html#read-the-docs
 .. _source code: https://github.com/codecraftingtools/cuddl
 .. _GitHub: https://www.codecraftsmen.org/foundation.html#github
 

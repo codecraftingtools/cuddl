@@ -44,6 +44,18 @@ static void check_assertions(void){
 #endif
 }
 
+#if defined(CUDDLK_USE_UDD)
+static int cuddl_udd_interrupt_handler(struct udd_device *udd_dev)
+{
+	struct cuddlk_device *dev;
+	struct cuddlk_interrupt *intr;
+	
+	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
+	intr = &dev->events[0].intr;
+	return intr->handler(intr);
+}
+
+#else /* UIO */
 static irqreturn_t cuddl_uio_interrupt_handler(
 	int irq, struct uio_info *uinfo)
 {
@@ -54,6 +66,7 @@ static irqreturn_t cuddl_uio_interrupt_handler(
 	intr = &dev->events[0].intr;
 	return intr->handler(intr);
 }
+#endif
 
 int cuddlk_register_device(struct cuddlk_device *dev)
 {
@@ -61,9 +74,20 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 	int ret = 0;
 	struct uio_info *uio;
 
+#if defined(CUDDLK_USE_UDD)
+	struct udd_device *udd;
+#endif
+
 	uio = &dev->priv.uio;
 	uio->name = dev->name;
 	uio->version = "0.0.1";
+
+#if defined(CUDDLK_USE_UDD)
+	udd = &dev->priv.udd;
+	udd->device_name = dev->name;
+	udd->device_flags = RTDM_NAMED_DEVICE;
+#endif
+
 	for (i=0; i<CUDDLK_MAX_DEV_MEM_REGIONS; i++) {
 		if (i<MAX_UIO_MAPS) {
 			uio->mem[i].name    = dev->mem[i].name;
@@ -72,23 +96,71 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 			uio->mem[i].size    = dev->mem[i].pa_len;
 			uio->mem[i].memtype = dev->mem[i].type;
 		}
+
+#if defined(CUDDLK_USE_UDD)
+		if (i<UDD_NR_MAPS) {
+			udd->mem_regions[i].name = dev->mem[i].name;
+			udd->mem_regions[i].addr = dev->mem[i].pa_addr;
+			udd->mem_regions[i].len  = dev->mem[i].pa_len;
+			udd->mem_regions[i].type = dev->mem[i].type;
+		}
+#endif
 	}
+
 	if ((dev->events[0].intr.irq > 0) && (dev->events[0].intr.handler)) {
+#if defined(CUDDLK_USE_UDD)
+		udd->irq = dev->events[0].intr.irq;
+		udd->ops.interrupt = cuddl_udd_interrupt_handler;
+		uio->irq = UIO_IRQ_CUSTOM;
+
+#else /* UIO */
 		uio->irq = dev->events[0].intr.irq;
 		if (dev->events[0].intr.flags & CUDDLK_IRQF_SHARED) {
 			uio->irq_flags |= IRQF_SHARED;
 		}
 		uio->handler = cuddl_uio_interrupt_handler;
+#endif
 	}
+
+	if (dev->events[0].intr.irq == CUDDLK_IRQ_CUSTOM) {
+		uio->irq = UIO_IRQ_CUSTOM;
+#if defined(CUDDLK_USE_UDD)
+		udd->irq = UDD_IRQ_CUSTOM;
+#endif
+	}
+	
 	ret = uio_register_device(dev->parent_dev_ptr, uio);
+	if (ret)
+		goto fail_uio_register;
+
+#if defined(CUDDLK_USE_UDD)
+	ret = udd_register_device(udd);
+	if (ret)
+		goto fail_udd_register;
+#endif
+
+	return 0;
+
+fail_udd_register:
+	uio_unregister_device(uio);
+
+fail_uio_register:
 	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_register_device);
 
 int cuddlk_unregister_device(struct cuddlk_device *dev)
 {
+	int ret;
+
 	uio_unregister_device(&dev->priv.uio);
-	return 0;
+	ret = 0;
+	
+#if defined(CUDDLK_USE_UDD)
+	ret = udd_unregister_device(&dev->priv.udd);
+#endif
+
+	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_unregister_device);
 

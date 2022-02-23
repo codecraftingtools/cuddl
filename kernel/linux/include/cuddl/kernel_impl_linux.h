@@ -104,6 +104,9 @@ struct cuddlk_eventsrc_priv {
  */
 struct cuddlk_device_priv {
 	struct uio_info uio;
+#if defined(CUDDLK_USE_UDD)
+	struct udd_device udd;
+#endif
 };
 
 #endif /* !_CUDDL_KERNEL_IMPL_LINUX_H */

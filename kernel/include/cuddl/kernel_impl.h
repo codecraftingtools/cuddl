@@ -37,7 +37,7 @@
  *    Disables UDD support on a Xenomai system for testing purposes.  Linux
  *    UIO is used instead.
  */
-#define CUDDLK_DISABLE_UDD_ON_XENOMAI /* Only UIO is implemented for now */
+//#define CUDDLK_DISABLE_UDD_ON_XENOMAI /* For testing purposes */
 
 /* Allow use of Linux UIO configuration on Xenomai systems for testing */
 #if defined(CONFIG_XENOMAI) && !defined(CUDDLK_DISABLE_UDD_ON_XENOMAI)

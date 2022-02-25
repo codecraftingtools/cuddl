@@ -95,10 +95,11 @@ struct cuddlk_interrupt_priv {
  */
 struct cuddlk_eventsrc_priv {
 	int uio_open_count;
-	int udd_open_count;
 #if defined(CUDDLK_USE_UDD)
+	int udd_open_count;
 	rtdm_nrtsig_t nrt_sig;
 #endif
+	struct mutex mut;
 };
 
 /**

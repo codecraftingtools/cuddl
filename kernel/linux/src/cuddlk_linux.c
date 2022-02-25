@@ -156,6 +156,7 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 	int i;
 	int ret = 0;
 	struct uio_info *uio;
+	struct cuddlk_memregion *mem_i;
 	struct cuddlk_eventsrc *eventsrc;
 	struct cuddlk_interrupt *intr;
 
@@ -165,6 +166,10 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 
 	eventsrc = &dev->events[0];
 	intr = &eventsrc->intr;
+
+	if (dev->name)
+		strncpy(dev->kernel.name, dev->name, CUDDLK_MAX_STR_LEN);
+	dev->name = dev->kernel.name;
 	mutex_init(&eventsrc->priv.mut);
 
 	uio = &dev->priv.uio;
@@ -178,23 +183,34 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 #endif
 
 	for (i=0; i<CUDDLK_MAX_DEV_MEM_REGIONS; i++) {
+		mem_i = &dev->mem[i];
+		if (mem_i->name)
+			strncpy(mem_i->kernel.name, mem_i->name,
+				CUDDLK_MAX_STR_LEN);
+		mem_i->name = mem_i->kernel.name;
+
 		if (i<MAX_UIO_MAPS) {
-			uio->mem[i].name    = dev->mem[i].name;
-			uio->mem[i].addr    = dev->mem[i].pa_addr;
-			uio->mem[i].offs    = dev->mem[i].start_offset;
-			uio->mem[i].size    = dev->mem[i].pa_len;
-			uio->mem[i].memtype = dev->mem[i].type;
+			uio->mem[i].name    = mem_i->name;
+			uio->mem[i].addr    = mem_i->pa_addr;
+			uio->mem[i].offs    = mem_i->start_offset;
+			uio->mem[i].size    = mem_i->pa_len;
+			uio->mem[i].memtype = mem_i->type;
 		}
 
 #if defined(CUDDLK_USE_UDD)
 		if (i<UDD_NR_MAPS) {
-			udd->mem_regions[i].name = dev->mem[i].name;
-			udd->mem_regions[i].addr = dev->mem[i].pa_addr;
-			udd->mem_regions[i].len  = dev->mem[i].pa_len;
-			udd->mem_regions[i].type = dev->mem[i].type;
+			udd->mem_regions[i].name = mem_i->name;
+			udd->mem_regions[i].addr = mem_i->pa_addr;
+			udd->mem_regions[i].len  = mem_i->pa_len;
+			udd->mem_regions[i].type = mem_i->type;
 		}
 #endif
 	}
+
+	if (eventsrc->name)
+		strncpy(eventsrc->kernel.name, eventsrc->name,
+			CUDDLK_MAX_STR_LEN);
+	eventsrc->name = eventsrc->kernel.name;
 
 	if ((intr->irq > 0) && (intr->handler)) {
 #if defined(CUDDLK_USE_UDD)

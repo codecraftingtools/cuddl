@@ -57,10 +57,13 @@
 /**
  * struct cuddlk_device_kernel - Kernel-managed device data members.
  *
+ * @name: Internal storage for name used to identify the device.
+ *
  * Kernel-managed ``cuddlk_device`` data members that are available for use
  * by Cuddl drivers.
  */
 struct cuddlk_device_kernel {
+	char name[CUDDLK_MAX_STR_LEN];
 };
 
 /**
@@ -123,7 +126,7 @@ struct cuddlk_device_kernel {
  * ``memset()`` to zeroize the structure after allocation.
  */
 struct cuddlk_device {
-	char name[CUDDLK_MAX_STR_LEN];
+	char *name;
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
 	cuddlk_parent_device_t *parent_dev_ptr;

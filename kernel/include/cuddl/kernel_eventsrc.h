@@ -31,6 +31,8 @@
 /**
  * struct cuddlk_eventsrc_kernel - Kernel-managed event source data members.
  *
+ * @name: Internal storage for name used to identify the event source.
+ *
  * @ref_count: Number of user-space applications that have claimed this event
  *             source.  This should be either ``0`` or ``1``.
  *
@@ -38,6 +40,7 @@
  * by Cuddl drivers.
  */
 struct cuddlk_eventsrc_kernel {
+	char name[CUDDLK_MAX_STR_LEN];
 	int ref_count;
 };
 
@@ -63,7 +66,7 @@ struct cuddlk_eventsrc_kernel {
  * ``memset()`` to zeroize the structure after allocation.
  */
 struct cuddlk_eventsrc {
-	char name[CUDDLK_MAX_STR_LEN];
+	char *name;
 	struct cuddlk_interrupt intr;
 	struct cuddlk_eventsrc_kernel kernel;
 	struct cuddlk_eventsrc_priv priv;

@@ -80,6 +80,8 @@ enum cuddlk_memregion_flags {
 /**
  * struct cuddlk_memregion_kernel - Kernel-managed memory region data members.
  *
+ * @name: Internal storage for name used to identify the memory region.
+ *
  * @ref_count: Number of user-space applications that have claimed this
  *             memory region.  This should be either ``0`` or ``1`` unless
  *             the memory region has the ``CUDDLK_MEMF_SHARED`` flag set.
@@ -88,6 +90,7 @@ enum cuddlk_memregion_flags {
  * use by Cuddl drivers.
  */
 struct cuddlk_memregion_kernel {
+	char name[CUDDLK_MAX_STR_LEN];
 	int ref_count;
 };
 
@@ -177,7 +180,7 @@ struct cuddlk_memregion_kernel {
  * ``memset()`` to zeroize the structure after allocation.
  */
 struct cuddlk_memregion {
-	char name[CUDDLK_MAX_STR_LEN];
+	char *name;
 	unsigned long pa_addr;
 	size_t pa_len;
 	size_t start_offset;

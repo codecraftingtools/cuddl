@@ -48,11 +48,21 @@ static void check_assertions(void){
 static int cuddlk_udd_interrupt_handler(struct udd_device *udd_dev)
 {
 	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
 	struct cuddlk_interrupt *intr;
+	int ret;
 	
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
-	intr = &dev->events[0].intr;
-	return intr->handler(intr);
+	eventsrc = &dev->events[0];
+	intr = &eventsrc->intr;
+	ret = intr->handler(intr);
+
+	if (eventsrc->priv.uio_open_count > 0) {
+		rtdm_nrtsig_pend(&eventsrc->priv.nrt_sig);
+	}
+	
+	/* udd_notify_event() is triggered by caller */
+	return ret;
 }
 
 #else /* UIO */
@@ -64,19 +74,89 @@ static irqreturn_t cuddlk_uio_interrupt_handler(
 	
 	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
 	intr = &dev->events[0].intr;
+	
+	/* uio_event_notify() is triggered by caller */
 	return intr->handler(intr);
 }
 #endif
+
+#if defined(CUDDLK_USE_UDD)
+void event_nrtsig_handler(rtdm_nrtsig_t *nrt_sig, void *data)
+{
+	struct uio_info *uinfo = (struct uio_info *)data;
+	uio_event_notify(uinfo);
+}
+#endif
+
+#if defined(CUDDLK_USE_UDD)
+static int cuddlk_udd_eventsrc_open(struct rtdm_fd *fd, int oflags)
+{
+	struct udd_device *udd_dev;
+	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
+	
+	udd_dev = container_of(
+		rtdm_fd_device(fd), struct udd_device, __reserved.device);
+	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
+	eventsrc = &dev->events[0];
+	eventsrc->priv.udd_open_count += 1;
+	return 0;
+}
+#endif
+
+static int cuddlk_uio_eventsrc_or_mem_open(
+	struct uio_info *uinfo, struct inode *inode)
+{
+	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
+
+	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
+	eventsrc = &dev->events[0];
+	eventsrc->priv.uio_open_count += 1;
+	return 0;
+}
+
+#if defined(CUDDLK_USE_UDD)
+static void cuddlk_udd_eventsrc_close(struct rtdm_fd *fd)
+{
+	struct udd_device *udd_dev;
+	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
+	
+	udd_dev = container_of(
+		rtdm_fd_device(fd), struct udd_device, __reserved.device);
+	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
+	eventsrc = &dev->events[0];
+	eventsrc->priv.udd_open_count -= 1;
+}
+#endif
+
+static int cuddlk_uio_eventsrc_or_mem_close(
+	struct uio_info *uinfo, struct inode *inode)
+{
+	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
+
+	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
+	eventsrc = &dev->events[0];
+	eventsrc->priv.uio_open_count -= 1;
+	return 0;
+}
 
 int cuddlk_register_device(struct cuddlk_device *dev)
 {
 	int i;
 	int ret = 0;
 	struct uio_info *uio;
+	struct cuddlk_eventsrc *eventsrc;
+	struct cuddlk_interrupt *intr;
 
 #if defined(CUDDLK_USE_UDD)
 	struct udd_device *udd;
 #endif
+
+	eventsrc = &dev->events[0];
+	intr = &eventsrc->intr;
 
 	uio = &dev->priv.uio;
 	uio->name = dev->name;
@@ -107,25 +187,34 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 #endif
 	}
 
-	if ((dev->events[0].intr.irq > 0) && (dev->events[0].intr.handler)) {
+	if ((intr->irq > 0) && (intr->handler)) {
 #if defined(CUDDLK_USE_UDD)
-		udd->irq = dev->events[0].intr.irq;
+		udd->irq = intr->irq;
 		udd->ops.interrupt = cuddlk_udd_interrupt_handler;
 		uio->irq = UIO_IRQ_CUSTOM;
 
 #else /* UIO */
-		uio->irq = dev->events[0].intr.irq;
-		if (dev->events[0].intr.flags & CUDDLK_IRQF_SHARED) {
+		uio->irq = intr->irq;
+		if (intr->flags & CUDDLK_IRQF_SHARED) {
 			uio->irq_flags |= IRQF_SHARED;
 		}
 		uio->handler = cuddlk_uio_interrupt_handler;
 #endif
 	}
 
-	if (dev->events[0].intr.irq == CUDDLK_IRQ_CUSTOM) {
+	if (intr->irq == CUDDLK_IRQ_CUSTOM) {
 		uio->irq = UIO_IRQ_CUSTOM;
 #if defined(CUDDLK_USE_UDD)
 		udd->irq = UDD_IRQ_CUSTOM;
+#endif
+	}
+	
+	if ((intr->irq > 0) || (intr->irq == CUDDLK_IRQ_CUSTOM)) {
+		uio->open = cuddlk_uio_eventsrc_or_mem_open;
+		uio->release = cuddlk_uio_eventsrc_or_mem_close;
+#if defined(CUDDLK_USE_UDD)
+		udd->ops.open = cuddlk_udd_eventsrc_open;
+		udd->ops.close = cuddlk_udd_eventsrc_close;
 #endif
 	}
 	
@@ -134,6 +223,9 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 		goto fail_uio_register;
 
 #if defined(CUDDLK_USE_UDD)
+	rtdm_nrtsig_init(&eventsrc->priv.nrt_sig,
+			 event_nrtsig_handler, uio);
+	
 	ret = udd_register_device(udd);
 	if (ret)
 		goto fail_udd_register;
@@ -141,7 +233,10 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 
 	return 0;
 
+#if defined(CUDDLK_USE_UDD)
 fail_udd_register:
+#endif
+
 	uio_unregister_device(uio);
 
 fail_uio_register:
@@ -151,14 +246,14 @@ EXPORT_SYMBOL_GPL(cuddlk_register_device);
 
 int cuddlk_unregister_device(struct cuddlk_device *dev)
 {
-	int ret;
-
-	uio_unregister_device(&dev->priv.uio);
-	ret = 0;
+	int ret = 0;
 	
 #if defined(CUDDLK_USE_UDD)
 	ret = udd_unregister_device(&dev->priv.udd);
+	rtdm_nrtsig_destroy(&dev->events[0].priv.nrt_sig);
 #endif
+
+	uio_unregister_device(&dev->priv.uio);
 
 	return ret;
 }

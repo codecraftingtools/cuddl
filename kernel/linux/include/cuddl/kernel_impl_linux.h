@@ -94,6 +94,11 @@ struct cuddlk_interrupt_priv {
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlk_eventsrc_priv {
+	int uio_open_count;
+	int udd_open_count;
+#if defined(CUDDLK_USE_UDD)
+	rtdm_nrtsig_t nrt_sig;
+#endif
 };
 
 /**

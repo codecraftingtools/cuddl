@@ -45,7 +45,7 @@ static void check_assertions(void){
 }
 
 #if defined(CUDDLK_USE_UDD)
-static int cuddl_udd_interrupt_handler(struct udd_device *udd_dev)
+static int cuddlk_udd_interrupt_handler(struct udd_device *udd_dev)
 {
 	struct cuddlk_device *dev;
 	struct cuddlk_interrupt *intr;
@@ -56,7 +56,7 @@ static int cuddl_udd_interrupt_handler(struct udd_device *udd_dev)
 }
 
 #else /* UIO */
-static irqreturn_t cuddl_uio_interrupt_handler(
+static irqreturn_t cuddlk_uio_interrupt_handler(
 	int irq, struct uio_info *uinfo)
 {
 	struct cuddlk_device *dev;
@@ -110,7 +110,7 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 	if ((dev->events[0].intr.irq > 0) && (dev->events[0].intr.handler)) {
 #if defined(CUDDLK_USE_UDD)
 		udd->irq = dev->events[0].intr.irq;
-		udd->ops.interrupt = cuddl_udd_interrupt_handler;
+		udd->ops.interrupt = cuddlk_udd_interrupt_handler;
 		uio->irq = UIO_IRQ_CUSTOM;
 
 #else /* UIO */
@@ -118,7 +118,7 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 		if (dev->events[0].intr.flags & CUDDLK_IRQF_SHARED) {
 			uio->irq_flags |= IRQF_SHARED;
 		}
-		uio->handler = cuddl_uio_interrupt_handler;
+		uio->handler = cuddlk_uio_interrupt_handler;
 #endif
 	}
 
@@ -164,17 +164,17 @@ int cuddlk_unregister_device(struct cuddlk_device *dev)
 }
 EXPORT_SYMBOL_GPL(cuddlk_unregister_device);
 
-static int __init cuddl_init(void)
+static int __init cuddlk_init(void)
 {
 	/* This must be called somewhere for assertions to trigger. */
 	check_assertions();
 	return 0;
 }
 
-static void __exit cuddl_exit(void)
+static void __exit cuddlk_exit(void)
 {
 }
 
-module_init(cuddl_init)
-module_exit(cuddl_exit)
+module_init(cuddlk_init)
+module_exit(cuddlk_exit)
 MODULE_LICENSE("GPL");

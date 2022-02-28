@@ -57,17 +57,22 @@
 /**
  * struct cuddlk_device_kernel - Kernel-managed device data members.
  *
+ * @group: Internal storage for the group used to identify the device.
+ *
  * @name: Internal storage for the name used to identify the device.
  *
  * Kernel-managed ``cuddlk_device`` data members that are available for use
  * by Cuddl drivers.
  */
 struct cuddlk_device_kernel {
+	char group[CUDDLK_MAX_STR_LEN];
 	char name[CUDDLK_MAX_STR_LEN];
 };
 
 /**
  * struct cuddlk_device - Kernel-managed Cuddl device data structure.
+ *
+ * @group: Group used to identify the device.
  *
  * @name: Name used to identify the device.
  *
@@ -86,6 +91,8 @@ struct cuddlk_device_kernel {
  *          /dev/uio0
  *         
  *        So, in this case, the ``0`` has nothing to do with the device name.
+ *
+ * @instance: Integer identifier to ensure uniqueness.
  *
  * @mem: Array of memory regions to expose.
  *
@@ -126,7 +133,9 @@ struct cuddlk_device_kernel {
  * ``memset()`` to zeroize the structure after allocation.
  */
 struct cuddlk_device {
+	char *group;
 	char *name;
+	int instance;
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
 	cuddlk_parent_device_t *parent_dev_ptr;

@@ -105,10 +105,13 @@ struct cuddlk_eventsrc_priv {
 /**
  * struct cuddlk_device_priv - Private kernel device data.
  *
+ * @unique_name: Unique base name for use when creating UDD/UIO device nodes.
+ *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlk_device_priv {
+	char unique_name[CUDDL_MAX_STR_LEN]; // FIXME?: CUDDLK_MAX_STR_LEN not defined yet
 	struct uio_info uio;
 #if defined(CUDDLK_USE_UDD)
 	struct udd_device udd;

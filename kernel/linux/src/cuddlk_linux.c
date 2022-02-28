@@ -167,18 +167,24 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 	eventsrc = &dev->events[0];
 	intr = &eventsrc->intr;
 
+	if (dev->group)
+		strncpy(dev->kernel.group, dev->group, CUDDLK_MAX_STR_LEN);
+	dev->group = dev->kernel.group;
 	if (dev->name)
 		strncpy(dev->kernel.name, dev->name, CUDDLK_MAX_STR_LEN);
 	dev->name = dev->kernel.name;
+	snprintf(dev->priv.unique_name, CUDDLK_MAX_STR_LEN, "%s.%s.%d",
+	         dev->group, dev->name, dev->instance);
+
 	mutex_init(&eventsrc->priv.mut);
 
 	uio = &dev->priv.uio;
-	uio->name = dev->name;
+	uio->name = dev->priv.unique_name;
 	uio->version = "0.0.1";
 
 #if defined(CUDDLK_USE_UDD)
 	udd = &dev->priv.udd;
-	udd->device_name = dev->name;
+	udd->device_name = dev->priv.unique_name;
 	udd->device_flags = RTDM_NAMED_DEVICE;
 #endif
 

@@ -57,6 +57,7 @@ static int cuddlk_udd_interrupt_handler(struct udd_device *udd_dev)
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
 	eventsrc = &dev->events[0];
 	intr = &eventsrc->intr;
+
 	ret = intr->handler(intr);
 
 	if (eventsrc->priv.uio_open_count > 0) {
@@ -101,9 +102,11 @@ static int cuddlk_udd_eventsrc_open(struct rtdm_fd *fd, int oflags)
 		rtdm_fd_device(fd), struct udd_device, __reserved.device);
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
 	eventsrc = &dev->events[0];
+
 	mutex_lock(&eventsrc->priv.mut);
 	eventsrc->priv.udd_open_count += 1;
 	mutex_unlock(&eventsrc->priv.mut);
+
 	return 0;
 }
 #endif
@@ -116,9 +119,11 @@ static int cuddlk_uio_eventsrc_or_mem_open(
 
 	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
 	eventsrc = &dev->events[0];
+
 	mutex_lock(&eventsrc->priv.mut);
 	eventsrc->priv.uio_open_count += 1;
 	mutex_unlock(&eventsrc->priv.mut);
+
 	return 0;
 }
 
@@ -133,6 +138,7 @@ static void cuddlk_udd_eventsrc_close(struct rtdm_fd *fd)
 		rtdm_fd_device(fd), struct udd_device, __reserved.device);
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
 	eventsrc = &dev->events[0];
+	
 	mutex_lock(&eventsrc->priv.mut);
 	eventsrc->priv.udd_open_count -= 1;
 	mutex_unlock(&eventsrc->priv.mut);
@@ -147,16 +153,61 @@ static int cuddlk_uio_eventsrc_or_mem_close(
 
 	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
 	eventsrc = &dev->events[0];
+
 	mutex_lock(&eventsrc->priv.mut);
 	eventsrc->priv.uio_open_count -= 1;
 	mutex_unlock(&eventsrc->priv.mut);
+
 	return 0;
+}
+
+enum cuddlk_registration_failure {
+	CUDDLK_FAIL_NULL_GROUP,
+	CUDDLK_FAIL_NULL_NAME,
+	CUDDLK_FAIL_UNIQUE_NAME,
+	CUDDLK_FAIL_UIO_REGISTER,
+	CUDDLK_FAIL_UDD_REGISTER,
+	CUDDLK_NO_FAILURE,
+};
+
+static int cuddlk_cleanup(struct cuddlk_device *dev,
+			  enum cuddlk_registration_failure  failure)
+{
+	int ret = 0;
+
+	switch(failure) {
+	case CUDDLK_NO_FAILURE:
+#if defined(CUDDLK_USE_UDD)
+		ret = udd_unregister_device(&dev->priv.udd);
+#endif
+		/* FALLTHROUGH */
+	case CUDDLK_FAIL_UDD_REGISTER:
+#if defined(CUDDLK_USE_UDD)
+		rtdm_nrtsig_destroy(&dev->events[0].priv.nrt_sig);
+#endif
+		uio_unregister_device(&dev->priv.uio);
+		/* FALLTHROUGH */
+	case CUDDLK_FAIL_UIO_REGISTER:
+		kfree(dev->priv.unique_name);
+		/* FALLTHROUGH */
+	case CUDDLK_FAIL_UNIQUE_NAME:
+		/* FALLTHROUGH */
+	case CUDDLK_FAIL_NULL_NAME:
+		/* FALLTHROUGH */
+	case CUDDLK_FAIL_NULL_GROUP:
+		/* FALLTHROUGH */
+	default:
+		break;
+	}
+
+	return ret;
 }
 
 int cuddlk_register_device(struct cuddlk_device *dev)
 {
 	int i;
 	int ret;
+	enum cuddlk_registration_failure failure;
 	struct uio_info *uio;
 	struct cuddlk_memregion *mem_i;
 	struct cuddlk_eventsrc *eventsrc;
@@ -171,18 +222,21 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 
 	if (!dev->group) {
 		ret = -EINVAL;
-		goto fail_group;
+		failure = CUDDLK_FAIL_NULL_GROUP;
+		goto handle_failure;
 	}
 	if (!dev->name) {
 		ret = -EINVAL;
-		goto fail_name;
+		failure = CUDDLK_FAIL_NULL_NAME;
+		goto handle_failure;
 	}
 	dev->priv.unique_name = kasprintf(
 		GFP_KERNEL, "%s.%s.%d",
 		dev->group, dev->name, dev->instance);
 	if (!dev->priv.unique_name) {
 		ret = -ENOMEM;
-		goto fail_unique_name;
+		failure = CUDDLK_FAIL_UNIQUE_NAME;
+		goto handle_failure;
 	}
 	
 	mutex_init(&eventsrc->priv.mut);
@@ -250,48 +304,33 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 	}
 	
 	ret = uio_register_device(dev->parent_dev_ptr, uio);
-	if (ret)
-		goto fail_uio_register;
+	if (ret) {
+		failure = CUDDLK_FAIL_UIO_REGISTER;
+		goto handle_failure;
+	}
 
 #if defined(CUDDLK_USE_UDD)
 	rtdm_nrtsig_init(&eventsrc->priv.nrt_sig,
 			 event_nrtsig_handler, uio);
 	
 	ret = udd_register_device(udd);
-	if (ret)
-		goto fail_udd_register;
+	if (ret) {
+		failure = CUDDLK_FAIL_UDD_REGISTER;
+		goto handle_failure;
+	}
 #endif
 
 	return 0;
 
-#if defined(CUDDLK_USE_UDD)
-fail_udd_register:
-	rtdm_nrtsig_destroy(&eventsrc->priv.nrt_sig);
-#endif
-
-	uio_unregister_device(uio);
-
-fail_uio_register:
-	kfree(dev->priv.unique_name);
-fail_unique_name:
-fail_name:
-fail_group:
+handle_failure:
+	cuddlk_cleanup(dev, failure);
 	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_register_device);
 
 int cuddlk_unregister_device(struct cuddlk_device *dev)
 {
-	int ret = 0;
-	
-#if defined(CUDDLK_USE_UDD)
-	ret = udd_unregister_device(&dev->priv.udd);
-	rtdm_nrtsig_destroy(&dev->events[0].priv.nrt_sig);
-#endif
-
-	uio_unregister_device(&dev->priv.uio);
-	kfree(dev->priv.unique_name);
-	return ret;
+	return cuddlk_cleanup(dev, CUDDLK_NO_FAILURE);
 }
 EXPORT_SYMBOL_GPL(cuddlk_unregister_device);
 

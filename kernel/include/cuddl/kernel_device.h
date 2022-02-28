@@ -57,7 +57,7 @@
 /**
  * struct cuddlk_device_kernel - Kernel-managed device data members.
  *
- * @name: Internal storage for name used to identify the device.
+ * @name: Internal storage for the name used to identify the device.
  *
  * Kernel-managed ``cuddlk_device`` data members that are available for use
  * by Cuddl drivers.

@@ -31,7 +31,7 @@
 /**
  * struct cuddlk_eventsrc_kernel - Kernel-managed event source data members.
  *
- * @name: Internal storage for name used to identify the event source.
+ * @name: Internal storage for the name used to identify the event source.
  *
  * @ref_count: Number of user-space applications that have claimed this event
  *             source.  This should be either ``0`` or ``1``.

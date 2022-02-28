@@ -31,6 +31,7 @@ Xenomai Documentation
 - `Xenomai Website`_
 - `Xenomai UDD API`_ Documentation
 - `Xenomai RTDM API`_ Documentation
+- `Supplemental UDD Info`_
 
 .. _Linux Kernel Documentation:
    https://www.kernel.org/doc/html/latest/index.html
@@ -48,3 +49,5 @@ Xenomai Documentation
    https://xenomai.org/documentation/xenomai-3/html/xeno3prm/group__rtdm__udd.html
 .. _Xenomai RTDM API:
    https://xenomai.org/documentation/xenomai-3/html/xeno3prm/group__rtdm.html
+.. _Supplemental UDD Info:
+   http://xenomai.org/pipermail/xenomai/2017-February/037121.html

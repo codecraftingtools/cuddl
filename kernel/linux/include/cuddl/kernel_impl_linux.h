@@ -111,7 +111,7 @@ struct cuddlk_eventsrc_priv {
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlk_device_priv {
-	char unique_name[CUDDL_MAX_STR_LEN]; // FIXME?: CUDDLK_MAX_STR_LEN not defined yet
+	char *unique_name;
 	struct uio_info uio;
 #if defined(CUDDLK_USE_UDD)
 	struct udd_device udd;

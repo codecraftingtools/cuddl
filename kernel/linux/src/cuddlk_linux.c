@@ -27,6 +27,7 @@
  */
 
 #include <linux/module.h>
+#include <linux/slab.h>
 #include <cuddl/kernel.h>
 
 /* Note that static_assert() works on newer kernels, but
@@ -154,7 +155,7 @@ static int cuddlk_uio_eventsrc_or_mem_close(
 int cuddlk_register_device(struct cuddlk_device *dev)
 {
 	int i;
-	int ret = 0;
+	int ret;
 	struct uio_info *uio;
 	struct cuddlk_memregion *mem_i;
 	struct cuddlk_eventsrc *eventsrc;
@@ -167,15 +168,22 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 	eventsrc = &dev->events[0];
 	intr = &eventsrc->intr;
 
-	if (dev->group)
-		strncpy(dev->kernel.group, dev->group, CUDDLK_MAX_STR_LEN);
-	dev->group = dev->kernel.group;
-	if (dev->name)
-		strncpy(dev->kernel.name, dev->name, CUDDLK_MAX_STR_LEN);
-	dev->name = dev->kernel.name;
-	snprintf(dev->priv.unique_name, CUDDLK_MAX_STR_LEN, "%s.%s.%d",
-	         dev->group, dev->name, dev->instance);
-
+	if (!dev->group) {
+		ret = -EINVAL;
+		goto fail_group;
+	}
+	if (!dev->name) {
+		ret = -EINVAL;
+		goto fail_name;
+	}
+	dev->priv.unique_name = kasprintf(
+		GFP_KERNEL, "%s.%s.%d",
+		dev->group, dev->name, dev->instance);
+	if (!dev->priv.unique_name) {
+		ret = -ENOMEM;
+		goto fail_unique_name;
+	}
+	
 	mutex_init(&eventsrc->priv.mut);
 
 	uio = &dev->priv.uio;
@@ -190,10 +198,6 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 
 	for (i=0; i<CUDDLK_MAX_DEV_MEM_REGIONS; i++) {
 		mem_i = &dev->mem[i];
-		if (mem_i->name)
-			strncpy(mem_i->kernel.name, mem_i->name,
-				CUDDLK_MAX_STR_LEN);
-		mem_i->name = mem_i->kernel.name;
 
 		if (i<MAX_UIO_MAPS) {
 			uio->mem[i].name    = mem_i->name;
@@ -212,11 +216,6 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 		}
 #endif
 	}
-
-	if (eventsrc->name)
-		strncpy(eventsrc->kernel.name, eventsrc->name,
-			CUDDLK_MAX_STR_LEN);
-	eventsrc->name = eventsrc->kernel.name;
 
 	if ((intr->irq > 0) && (intr->handler)) {
 #if defined(CUDDLK_USE_UDD)
@@ -266,11 +265,16 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 
 #if defined(CUDDLK_USE_UDD)
 fail_udd_register:
+	rtdm_nrtsig_destroy(&eventsrc->priv.nrt_sig);
 #endif
 
 	uio_unregister_device(uio);
 
 fail_uio_register:
+	kfree(dev->priv.unique_name);
+fail_unique_name:
+fail_name:
+fail_group:
 	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_register_device);
@@ -285,7 +289,7 @@ int cuddlk_unregister_device(struct cuddlk_device *dev)
 #endif
 
 	uio_unregister_device(&dev->priv.uio);
-
+	kfree(dev->priv.unique_name);
 	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_unregister_device);

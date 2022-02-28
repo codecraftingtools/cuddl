@@ -34,7 +34,8 @@
  * BUILD_BUG_ON() is required for older kernels.  Note that
  * static_assert() can be used at file scope, whereas BUILD_BUG_ON()
  * cannot. */
-static void check_assertions(void){
+static void check_assertions(void)
+{
 	BUILD_BUG_ON(CUDDLK_MEMT_NONE != 0);
 	BUILD_BUG_ON(CUDDLK_IRQ_NONE != 0);
 #if defined(CUDDLK_USE_UDD)

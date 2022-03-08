@@ -22,6 +22,12 @@ Linux Kernel Documentation
 - `Linux Driver Implementer's API`_
 - `Linux Userspace IO HOWTO`_ (UIO)
 - `Linux Device Drivers Book`_ (Old, but may be useful)
+- `Linux Device Drivers Book Examples (Orig)`_
+- `Linux Device Drivers Book Examples (Git Repo)`_
+- `Linux Device Drivers Book Examples (Updated)`_
+- `IOCTL Example`_
+- `IOCTL Macros`_
+- `IOCTL Stack Overflow Question`_
 - `IOCTL Docs`_ (Old, but may be useful)
 - `IBM Linux Kernel Module Docs`_
 
@@ -40,7 +46,18 @@ Xenomai Documentation
 .. _Linux Userspace IO HOWTO:
    https://www.kernel.org/doc/html/latest/driver-api/uio-howto.html
 .. _Linux Device Drivers Book: https://lwn.net/Kernel/LDD3/
+.. _Linux Device Drivers Book Examples (Orig):
+   https://resources.oreilly.com/examples/9780596005900/
+.. _Linux Device Drivers Book Examples (Git Repo):
+   https://github.com/matrix207/ldd
+.. _Linux Device Drivers Book Examples (Updated):
+   https://github.com/martinezjavier/ldd3
 .. _IOCTL Docs: https://tldp.org/LDP/lkmpg/2.6/html/lkmpg.html#AEN885
+.. _IOCTL Example: https://github.com/Tristaan/linux-driver-ioctl-example
+.. _IOCTL Macros:
+   https://elixir.bootlin.com/linux/v5.12.9/source/include/uapi/asm-generic/ioctl.h#L88
+.. _IOCTL Stack Overflow Question:
+   https://stackoverflow.com/questions/67856695/find-ioctl-number-in-linux
 .. _IBM Linux Kernel Module Docs:
    https://developer.ibm.com/articles/control-linux-kernel-extensions/
 

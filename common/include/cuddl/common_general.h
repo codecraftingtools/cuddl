@@ -51,9 +51,9 @@ typedef cuddl_impl_size_t cuddl_size_t;
  * @resource: Name of a particular resource (i.e. specific memory region or
  *            event source) that is associated with a specific device.
  *
- * @number: Used to differentiate between multiple resources that are
- *          registered with identical ``group``, ``device``, and ``resource``
- *          fields.
+ * @instance: Used to differentiate between multiple resources that are
+ *            registered with identical ``group``, ``device``, and
+ *            ``resource`` fields.
  *
  * Specifies a memory region or event source resource by name.  If any field
  * contains a ``NULL`` string value, the field will be treated as *don't
@@ -63,7 +63,7 @@ struct cuddl_resource_id {
 	char group[CUDDL_MAX_STR_LEN];
 	char device[CUDDL_MAX_STR_LEN];
 	char resource[CUDDL_MAX_STR_LEN];
-	int number;
+	int instance;
 };
 
 #endif /* !_CUDDL_COMMON_GENERAL_H */

@@ -78,4 +78,13 @@ struct cuddlk_eventsrc_priv {
 struct cuddlk_device_priv {
 };
 
+/**
+ * struct cuddlk_manager_priv - Private kernel device data.
+ *
+ * This data structure contains private, platform-specific data members
+ * reserved for internal use by the Cuddl implementation.
+ */
+struct cuddlk_manager_priv {
+};
+
 #endif /* !_CUDDL_KERNEL_IMPL_RTEMS_H */

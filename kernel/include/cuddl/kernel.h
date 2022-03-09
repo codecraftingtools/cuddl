@@ -16,7 +16,7 @@
 #ifndef _CUDDL_KERNEL_H
 #define _CUDDL_KERNEL_H
 
-#include <cuddl/kernel_device.h>
+#include <cuddl/kernel_manager.h>
 
 /*
  * Kernel-space declarations.

@@ -27,7 +27,28 @@
  */
 
 #include <linux/module.h>
+#include <linux/slab.h>
 #include <cuddl/kernel.h>
+
+static struct cuddlk_manager *manager;
+
+int cuddlk_manager_add(struct cuddlk_device *dev)
+{
+	printk("Cuddl managing %s %s %d\n",
+	       dev->group, dev->name, dev->instance);
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(cuddlk_manager_add);
+
+int cuddlk_manager_remove(struct cuddlk_device *dev)
+{
+	printk("Cuddl releasing %s %s %d\n",
+	       dev->group, dev->name, dev->instance);
+
+	return 0;
+}
+EXPORT_SYMBOL_GPL(cuddlk_manager_remove);
 
 int cuddlk_manage_device(struct cuddlk_device *dev)
 {
@@ -35,28 +56,53 @@ int cuddlk_manage_device(struct cuddlk_device *dev)
 
 	ret = cuddlk_register_device(dev);
 	if (ret) {
-		goto handle_failure;
+		goto fail_register;
 	}
+
+	ret = cuddlk_manager_add(dev);
+	if (ret) {
+		goto fail_manager_add;
+	}
+
 	return 0;
 
-handle_failure:
+fail_manager_add:
+	cuddlk_unregister_device(dev);
+fail_register:
 	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_manage_device);
 
 int cuddlk_release_device(struct cuddlk_device *dev)
 {
-	return cuddlk_unregister_device(dev);
+	int ret;
+
+	ret = cuddlk_manager_remove(dev);
+	ret = cuddlk_unregister_device(dev);
+	return ret;
 }
 EXPORT_SYMBOL_GPL(cuddlk_release_device);
 
 static int __init cuddlk_manager_init(void)
 {
+	int err;
+
+	manager = kzalloc(sizeof(struct cuddlk_manager), GFP_KERNEL);
+	if (!manager) {
+		err = -ENOMEM;
+		printk("%s: kzalloc failed: %d\n", __func__, err);
+		goto fail_kzalloc;
+	}
 	return 0;
+
+fail_kzalloc:
+	manager = NULL;
+	return err;
 }
 
 static void __exit cuddlk_manager_exit(void)
 {
+	kfree(manager);
 }
 
 module_init(cuddlk_manager_init)

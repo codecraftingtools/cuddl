@@ -64,7 +64,7 @@ struct cuddlk_device_kernel {
 };
 
 /**
- * struct cuddlk_device - Kernel-managed Cuddl device data structure.
+ * struct cuddlk_device - Cuddl device information.
  *
  * @group: Group used to identify the device.
  *

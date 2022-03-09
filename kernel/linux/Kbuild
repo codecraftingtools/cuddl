@@ -4,6 +4,10 @@
 
 obj-m := cuddl.o
 cuddl-y := src/cuddlk_linux.o
+
+obj-m += cuddl_manager.o
+cuddl_manager-y := src/cuddlk_manager_linux.o
+
 ccflags-y := -I$(src)/include \
              -I$(src)/../include \
              -I$(src)/../../common/include

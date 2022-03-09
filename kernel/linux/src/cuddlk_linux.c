@@ -20,7 +20,7 @@
  */
 
 /*
- * Linux kernel module implementation.
+ * Linux kernel module implementation for device registration.
  *
  * This code implements both Linux UIO and Xenomai UDD functionality (based
  * on the ``CUDDLK_USE_UDD`` *#define*).

@@ -149,6 +149,8 @@ struct cuddlk_device {
  * Xenomai UDD equivalent in *rtdm/udd.h*::
  *
  *   int udd_register_device(struct udd_device *udd);
+ *
+ * Return: ``0`` on success, or a negative error code.
  */
 int cuddlk_register_device(struct cuddlk_device *dev);
 
@@ -164,7 +166,27 @@ int cuddlk_register_device(struct cuddlk_device *dev);
  * Xenomai UDD equivalent in *rtdm/udd.h*::
  *
  *   int udd_unregister_device(struct udd_device *udd);
+ *
+ * Return: ``0`` on success, or a negative error code.
  */
 int cuddlk_unregister_device(struct cuddlk_device *dev);
+
+/**
+ * cuddlk_manage_device() - Register and manage Cuddl device.
+ *
+ * @dev: Cuddl device to manage.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddlk_manage_device(struct cuddlk_device *dev);
+
+/**
+ * cuddlk_release_device() - Release and unregister a managed Cuddl device.
+ *
+ * @dev: Managed Cuddl device to release.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddlk_release_device(struct cuddlk_device *dev);
 
 #endif /* !_CUDDL_KERNEL_DEVICE_H */

@@ -3,10 +3,10 @@
 # See https://www.kernel.org/doc/html/latest/kbuild/modules.html
 
 obj-m := cuddl.o
-cuddl-y := src/cuddlk_linux.o
+cuddl-y := src/cuddlk_linux.o ../src/cuddlk_common.o
 
 obj-m += cuddl_manager.o
-cuddl_manager-y := src/cuddlk_manager_linux.o
+cuddl_manager-y := src/cuddlk_manager_linux.o ../src/cuddlk_manager_common.o
 
 ccflags-y := -I$(src)/include \
              -I$(src)/../include \

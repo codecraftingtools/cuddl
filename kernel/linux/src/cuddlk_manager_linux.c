@@ -30,65 +30,22 @@
 #include <linux/slab.h>
 #include <cuddl/kernel.h>
 
-static struct cuddlk_manager *manager;
-
-int cuddlk_manager_add(struct cuddlk_device *dev)
-{
-	printk("Cuddl managing %s %s %d\n",
-	       dev->group, dev->name, dev->instance);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(cuddlk_manager_add);
-
-int cuddlk_manager_remove(struct cuddlk_device *dev)
-{
-	printk("Cuddl releasing %s %s %d\n",
-	       dev->group, dev->name, dev->instance);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(cuddlk_manager_remove);
-
-int cuddlk_manage_device(struct cuddlk_device *dev)
-{
-	int ret;
-
-	ret = cuddlk_register_device(dev);
-	if (ret) {
-		goto fail_register;
-	}
-
-	ret = cuddlk_manager_add(dev);
-	if (ret) {
-		goto fail_manager_add;
-	}
-
-	return 0;
-
-fail_manager_add:
-	cuddlk_unregister_device(dev);
-fail_register:
-	return ret;
-}
+/* Export symbols from cuddlk_manager_common.c */
+EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_matching);
+EXPORT_SYMBOL_GPL(cuddlk_manager_find_device);
+EXPORT_SYMBOL_GPL(cuddlk_manager_find_empty_slot);
+EXPORT_SYMBOL_GPL(cuddlk_manager_add_device);
+EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
 EXPORT_SYMBOL_GPL(cuddlk_manage_device);
-
-int cuddlk_release_device(struct cuddlk_device *dev)
-{
-	int ret;
-
-	ret = cuddlk_manager_remove(dev);
-	ret = cuddlk_unregister_device(dev);
-	return ret;
-}
 EXPORT_SYMBOL_GPL(cuddlk_release_device);
 
 static int __init cuddlk_manager_init(void)
 {
 	int err;
 
-	manager = kzalloc(sizeof(struct cuddlk_manager), GFP_KERNEL);
-	if (!manager) {
+	cuddlk_global_manager = kzalloc(
+		sizeof(struct cuddlk_manager), GFP_KERNEL);
+	if (!cuddlk_global_manager) {
 		err = -ENOMEM;
 		printk("%s: kzalloc failed: %d\n", __func__, err);
 		goto fail_kzalloc;
@@ -96,13 +53,13 @@ static int __init cuddlk_manager_init(void)
 	return 0;
 
 fail_kzalloc:
-	manager = NULL;
+	cuddlk_global_manager = NULL;
 	return err;
 }
 
 static void __exit cuddlk_manager_exit(void)
 {
-	kfree(manager);
+	kfree(cuddlk_global_manager);
 }
 
 module_init(cuddlk_manager_init)

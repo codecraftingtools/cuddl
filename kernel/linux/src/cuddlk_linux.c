@@ -30,6 +30,10 @@
 #include <linux/slab.h>
 #include <cuddl/kernel.h>
 
+/* Export symbols from cuddlk_common.c */
+EXPORT_SYMBOL_GPL(cuddlk_device_find_eventsrc);
+EXPORT_SYMBOL_GPL(cuddlk_device_find_memregion);
+
 /* Note that static_assert() works on newer kernels, but
  * BUILD_BUG_ON() is required for older kernels.  Note that
  * static_assert() can be used at file scope, whereas BUILD_BUG_ON()

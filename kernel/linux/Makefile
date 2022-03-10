@@ -11,3 +11,4 @@ default:
 clean:
 	$(MAKE) -C $(KDIR) M=$$PWD quiet= clean
 	/usr/bin/find $(CUDDL_TOP) -name '*~' | xargs $(RM)
+	$(RM) ../src/*.o ../src/.*.cmd

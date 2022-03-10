@@ -138,6 +138,30 @@ struct cuddlk_device {
 };
 
 /**
+ * cuddlk_device_find_memregion() - Search for a memory region by name.
+ *
+ * @dev: Cuddl device to query.
+ *
+ * @name: Name of the memory region to search for.
+ *
+ * Return: Index of matching memory region in the ``mem`` array on success,
+ * or a negative error code.
+ */
+int cuddlk_device_find_memregion(struct cuddlk_device *dev, const char *name);
+
+/**
+ * cuddlk_device_find_eventsrc() - Search for an event source by name.
+ *
+ * @dev: Cuddl device to query.
+ *
+ * @name: Name of the event source to search for.
+ *
+ * Return: Index of matching event source in the ``events`` array on success,
+ * or a negative error code.
+ */
+int cuddlk_device_find_eventsrc(struct cuddlk_device *dev, const char *name);
+
+/**
  * cuddlk_register_device() - Register a Cuddl device.
  *
  * @dev: Cuddl device to register.

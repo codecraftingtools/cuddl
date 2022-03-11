@@ -36,8 +36,8 @@ EXPORT_SYMBOL_GPL(cuddlk_manager_find_device);
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_empty_slot);
 EXPORT_SYMBOL_GPL(cuddlk_manager_add_device);
 EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
-EXPORT_SYMBOL_GPL(cuddlk_manage_device);
-EXPORT_SYMBOL_GPL(cuddlk_release_device);
+EXPORT_SYMBOL_GPL(cuddlk_device_manage);
+EXPORT_SYMBOL_GPL(cuddlk_device_release);
 
 static int __init cuddlk_manager_init(void)
 {

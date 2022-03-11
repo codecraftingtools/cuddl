@@ -207,7 +207,7 @@ static int cuddlk_cleanup(struct cuddlk_device *dev,
 	return ret;
 }
 
-int cuddlk_register_device(struct cuddlk_device *dev)
+int cuddlk_device_register(struct cuddlk_device *dev)
 {
 	int i;
 	int ret;
@@ -307,7 +307,7 @@ int cuddlk_register_device(struct cuddlk_device *dev)
 #endif
 	}
 	
-	ret = uio_register_device(dev->parent_dev_ptr, uio);
+	ret = uio_register_device(dev->parent_device_ptr, uio);
 	if (ret) {
 		failure = CUDDLK_FAIL_UIO_REGISTER;
 		goto handle_failure;
@@ -330,13 +330,13 @@ handle_failure:
 	cuddlk_cleanup(dev, failure);
 	return ret;
 }
-EXPORT_SYMBOL_GPL(cuddlk_register_device);
+EXPORT_SYMBOL_GPL(cuddlk_device_register);
 
-int cuddlk_unregister_device(struct cuddlk_device *dev)
+int cuddlk_device_unregister(struct cuddlk_device *dev)
 {
 	return cuddlk_cleanup(dev, CUDDLK_NO_FAILURE);
 }
-EXPORT_SYMBOL_GPL(cuddlk_unregister_device);
+EXPORT_SYMBOL_GPL(cuddlk_device_unregister);
 
 static int __init cuddlk_init(void)
 {

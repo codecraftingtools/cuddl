@@ -29,7 +29,7 @@
  */
 
 /**
- * enum cuddlk_memregion_types - Memory region types for kernel space.
+ * enum cuddlk_memregion_type - Memory region types for kernel space.
  *
  * @CUDDLK_MEMT_NONE: No memory region is associated with this
  *                    ``cuddlk_memregion`` instance (i.e. this array slot is
@@ -56,7 +56,7 @@
  * assume ``CUDDLK_MEMT_NONE`` is ``0`` for proper default initialization, so
  * that condition is checked as well.
  */
-enum cuddlk_memregion_types {
+enum cuddlk_memregion_type {
 	CUDDLK_MEMT_NONE    = CUDDLK_IMPL_MEMT_NONE,
 	CUDDLK_MEMT_PHYS    = CUDDLK_IMPL_MEMT_PHYS,
 	CUDDLK_MEMT_LOGICAL = CUDDLK_IMPL_MEMT_LOGICAL,
@@ -159,10 +159,10 @@ struct cuddlk_memregion_kernel {
  *       value does NOT need to be a multiple of ``PAGE_SIZE``.
  *
  * @type: The type of memory region to be mapped.  This should be one of the
- *        ``cuddlk_memregion_types`` described elsewhere.
+ *        ``cuddlk_memregion_type`` enumeration values described elsewhere.
  *
  * @flags: Flags that describe the properties of the memory region.  This
- *         field may be a set of ``cuddl_k_memregion_flags`` ORed together.
+ *         field may be a set of ``cuddlk_memregion_flags`` ORed together.
  *
  * @kernel: Kernel-managed memory region data that is available for use by
  *          Cuddl drivers.

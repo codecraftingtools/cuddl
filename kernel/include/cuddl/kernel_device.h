@@ -55,6 +55,18 @@
 #define CUDDLK_MAX_DEV_EVENTS 1
 
 /**
+ * typedef cuddlk_parent_device_t - Parent device type.
+ *
+ * OS-specific parent device type.
+ *
+ * On Linux, this type is a ``struct device``, which is usually the ``dev``
+ * member of a ``struct pci_dev`` or ``struct platform_device``.
+ *   
+ * This type is not used on RTEMS.
+ */
+typedef cuddlk_impl_parent_device_t cuddlk_parent_device_t;
+
+/**
  * struct cuddlk_device_kernel - Kernel-managed device data members.
  *
  * Kernel-managed ``cuddlk_device`` data members that are available for use
@@ -97,16 +109,16 @@ struct cuddlk_device_kernel {
  *
  * @events: Array of event sources to expose.
  *
- * @parent_dev_ptr: Parent device pointer.
+ * @parent_device_ptr: Parent device pointer.
  *
- *                  OS-specific field that contains a pointer to the "parent"
- *                  device.
+ *                     OS-specific field that contains a pointer to the
+ *                     "parent" device.
  *                    
- *                  On Linux, this field should be a pointer to a ``struct
- *                  device``, which is usually the ``dev`` member of a
- *                  ``struct pci_dev`` or ``struct platform_device``.
+ *                     On Linux, this field should be a pointer to a ``struct
+ *                     device``, which is usually the ``dev`` member of a
+ *                     ``struct pci_dev`` or ``struct platform_device``.
  *                    
- *                  This field is not used on RTEMS.
+ *                     This field is not used on RTEMS.
  *
  * @kernel: Kernel-managed memory region data that is available for use by
  *          Cuddl drivers.
@@ -132,7 +144,7 @@ struct cuddlk_device {
 	int instance;
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
-	cuddlk_parent_device_t *parent_dev_ptr;
+	cuddlk_parent_device_t *parent_device_ptr;
 	struct cuddlk_device_kernel kernel;
 	struct cuddlk_device_priv priv;
 };
@@ -162,7 +174,7 @@ int cuddlk_device_find_memregion(struct cuddlk_device *dev, const char *name);
 int cuddlk_device_find_eventsrc(struct cuddlk_device *dev, const char *name);
 
 /**
- * cuddlk_register_device() - Register a Cuddl device.
+ * cuddlk_device_register() - Register a Cuddl device.
  *
  * @dev: Cuddl device to register.
  *
@@ -176,10 +188,10 @@ int cuddlk_device_find_eventsrc(struct cuddlk_device *dev, const char *name);
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddlk_register_device(struct cuddlk_device *dev);
+int cuddlk_device_register(struct cuddlk_device *dev);
 
 /**
- * cuddlk_unregister_device() - Unregister a Cuddl device.
+ * cuddlk_device_unregister() - Unregister a Cuddl device.
  *
  * @dev: Cuddl device to unregister.
  *
@@ -193,24 +205,24 @@ int cuddlk_register_device(struct cuddlk_device *dev);
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddlk_unregister_device(struct cuddlk_device *dev);
+int cuddlk_device_unregister(struct cuddlk_device *dev);
 
 /**
- * cuddlk_manage_device() - Register and manage Cuddl device.
+ * cuddlk_device_manage() - Register and manage Cuddl device.
  *
  * @dev: Cuddl device to manage.
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddlk_manage_device(struct cuddlk_device *dev);
+int cuddlk_device_manage(struct cuddlk_device *dev);
 
 /**
- * cuddlk_release_device() - Release and unregister a managed Cuddl device.
+ * cuddlk_device_release() - Release and unregister a managed Cuddl device.
  *
  * @dev: Managed Cuddl device to release.
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddlk_release_device(struct cuddlk_device *dev);
+int cuddlk_device_release(struct cuddlk_device *dev);
 
 #endif /* !_CUDDL_KERNEL_DEVICE_H */

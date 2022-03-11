@@ -23,7 +23,7 @@ struct cuddlk_manager *cuddlk_global_manager;
 
 int cuddlk_manager_find_device_matching(
 	const char *group, const char *name, const char *resource,
-	int instance, enum cuddlk_resource_t type, int start_index)
+	int instance, enum cuddlk_resource type, int start_index)
 {
 	int i;
 	int found_match = 0;
@@ -119,11 +119,11 @@ int cuddlk_manager_remove_device(struct cuddlk_device *dev)
 	return 0;
 }
 
-int cuddlk_manage_device(struct cuddlk_device *dev)
+int cuddlk_device_manage(struct cuddlk_device *dev)
 {
 	int ret;
 
-	ret = cuddlk_register_device(dev);
+	ret = cuddlk_device_register(dev);
 	if (ret)
 		goto fail_register;
 
@@ -134,16 +134,16 @@ int cuddlk_manage_device(struct cuddlk_device *dev)
 	return 0;
 
 fail_manager_add_device:
-	cuddlk_unregister_device(dev);
+	cuddlk_device_unregister(dev);
 fail_register:
 	return ret;
 }
 
-int cuddlk_release_device(struct cuddlk_device *dev)
+int cuddlk_device_release(struct cuddlk_device *dev)
 {
 	int ret;
 
 	ret = cuddlk_manager_remove_device(dev);
-	ret = cuddlk_unregister_device(dev);
+	ret = cuddlk_device_unregister(dev);
 	return ret;
 }

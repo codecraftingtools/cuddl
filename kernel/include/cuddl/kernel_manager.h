@@ -35,7 +35,7 @@
 #define CUDDLK_MAX_MANAGED_DEVICES 100
 
 /**
- * enum cuddlk_resource_t - Types of device resources.
+ * enum cuddlk_resource - Types of device resources.
  *
  * @CUDDLK_RESOURCE_UNSPECIFIED: No resource type is specified.
  *
@@ -46,7 +46,7 @@
  * This type enumerates the kinds of device resources that may be queried by
  * name.
  */
-enum cuddlk_resource_t {
+enum cuddlk_resource {
 	CUDDLK_RESOURCE_UNSPECIFIED = 0,
 	CUDDLK_RESOURCE_MEMREGION   = 1,
 	CUDDLK_RESOURCE_EVENTSRC    = 2,
@@ -120,7 +120,7 @@ int cuddlk_manager_remove_device(struct cuddlk_device *dev);
  */
 int cuddlk_manager_find_device_matching(
 	const char *group, const char *name, const char *resource,
-	int instance, enum cuddlk_resource_t type, int start_index);
+	int instance, enum cuddlk_resource type, int start_index);
 
 /**
  * cuddlk_manager_find_device() - Search for a device by reference.

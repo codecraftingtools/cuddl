@@ -51,16 +51,4 @@
  */
 typedef cuddlk_impl_iomem_t cuddlk_iomem_t;
 
-/**
- * typedef cuddlk_parent_device_t - Parent device type.
- *
- * OS-specific parent device type.
- *
- * On Linux, this type is a ``struct device``, which is usually the ``dev``
- * member of a ``struct pci_dev`` or ``struct platform_device``.
- *   
- * This type is not used on RTEMS.
- */
-typedef cuddlk_impl_parent_device_t cuddlk_parent_device_t;
-
 #endif /* !_CUDDL_KERNEL_GENERAL_H */

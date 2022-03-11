@@ -70,7 +70,7 @@ struct cuddlk_eventsrc {
 };
 
 /**
- * cuddlk_event_notify() - Programmatically trigger a user-space event.
+ * cuddlk_eventsrc_notify() - Programmatically trigger a user-space event.
  *
  * Trigger a user-space interrupt event for the specified device
  *
@@ -84,6 +84,6 @@ struct cuddlk_eventsrc {
  *
  *   void udd_notify_event(struct udd_device *udd)
  */
-void cuddlk_event_notify(struct cuddlk_eventsrc *eventsrc);
+void cuddlk_eventsrc_notify(struct cuddlk_eventsrc *eventsrc);
 
 #endif /* !_CUDDL_KERNEL_EVENTSRC_H */

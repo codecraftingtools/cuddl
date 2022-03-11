@@ -146,6 +146,22 @@ int cuddlk_manager_find_device(struct cuddlk_device *dev);
  */
 int cuddlk_manager_find_empty_slot(void);
 
+/**
+ * cuddlk_next_available_instance_id_for() - Find next available instance id.
+ *
+ * Search the global device manager's ``devices`` array for devices with a
+ * ``group`` and ``name`` combination matching the specified device.  The
+ * next available instance identifier that is not used by one of the found
+ * devices will be returned.
+ *
+ * @dev: Cuddl device supplying the ``group`` and ``name`` fields to search
+ *       for.
+ *
+ * Return: Next available unique instance identifier on success, or a
+ * negative error code.
+ */
+int cuddlk_next_available_instance_id_for(struct cuddlk_device *dev);
+
 /* Global device manager instance. (kerneldoc comment at top of file) */
 extern struct cuddlk_manager *cuddlk_global_manager;
 

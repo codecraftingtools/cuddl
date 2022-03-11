@@ -100,6 +100,14 @@ struct cuddlk_device_kernel {
  *
  * @instance: Integer identifier to ensure uniqueness.
  *
+ *            This field must be positive and unique when passed to
+ *            ``cuddlk_device_register()``.  A value of ``0`` may be passed
+ *            to ``cuddlk_device_manage()``, however.  In this case,
+ *            ``cuddlk_device_manage()`` will determine the next available
+ *            unique instance number for the specified ``group`` and ``name``
+ *            combination and then update this field with the new value
+ *            before calling ``cuddlk_device_register()``.
+ *
  * @mem: Array of memory regions to expose.
  *
  *       The associated UIO/UDD field declarations look like this::

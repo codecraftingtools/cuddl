@@ -29,9 +29,65 @@
  *
  * Type used to access kernel-space memory-mapped I/O regions.
  *
- * Under Linux, pointers of type ``cuddlk_iomem_t *`` can be passed to
- * ``ioread32()``, ``iowrite16()``, etc.
+ * Pointers of type ``cuddlk_iomem_t *`` can be passed to
+ * ``cuddlk_ioread32()``, ``cuddlk_iowrite16()``, etc.
  */
 typedef cuddlk_impl_iomem_t cuddlk_iomem_t;
+
+/* Linux definitions are included by kernel_impl_linux.h */
+#ifndef CUDDLK_LINUX
+
+/**
+ * cuddlk_ioread_8() - Read an 8-bit value from device I/O memory.
+ *
+ * @addr: I/O memory address for reading.
+ *
+ * Return: Value that results from reading the specified memory address.
+ */
+uint8_t   cuddlk_ioread8(cuddlk_iomem_t *addr);
+
+/**
+ * cuddlk_ioread_16() - Read a 16-bit value from device I/O memory.
+ *
+ * @addr: I/O memory address for reading.
+ *
+ * Return: Value that results from reading the specified memory address.
+ */
+uint16_t cuddlk_ioread16(cuddlk_iomem_t *addr);
+
+/**
+ * cuddlk_ioread_32() - Read a 32-bit value from device I/O memory.
+ *
+ * @addr: I/O memory address for reading.
+ *
+ * Return: Value that results from reading the specified memory address.
+ */
+uint32_t cuddlk_ioread32(cuddlk_iomem_t *addr);
+
+/**
+ * cuddlk_iowrite_8() - Write an 8-bit value to device I/O memory.
+ *
+ * @value: Value to be written.
+ * @addr: I/O memory address for writing.
+ */
+void cuddlk_iowrite8(uint8_t value, cuddlk_iomem_t *addr);
+
+/**
+ * cuddlk_iowrite_16() - Write a 16-bit value to device I/O memory.
+ *
+ * @value: Value to be written.
+ * @addr: I/O memory address for writing.
+ */
+void cuddlk_iowrite16(uint16_t value, cuddlk_iomem_t *addr);
+
+/**
+ * cuddlk_iowrite_32() - Write a 32-bit value to device I/O memory.
+ *
+ * @value: Value to be written.
+ * @addr: I/O memory address for writing.
+ */
+void cuddlk_iowrite32(uint32_t value, cuddlk_iomem_t *addr);
+
+#endif /* CUDDLK_LINUX */
 
 #endif /* !_CUDDL_KERNEL_IOMEM_H */

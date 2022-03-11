@@ -39,6 +39,14 @@
 
 #include <linux/uio_driver.h>
 
+#define cuddlk_ioread8  ioread8
+#define cuddlk_ioread16 ioread16
+#define cuddlk_ioread32 ioread32
+
+#define cuddlk_iowrite8  iowrite8
+#define cuddlk_iowrite16 iowrite16
+#define cuddlk_iowrite32 iowrite32
+
 #define CUDDLK_IMPL_MEMT_NONE    UIO_MEM_NONE
 #define CUDDLK_IMPL_MEMT_PHYS    UIO_MEM_PHYS
 #define CUDDLK_IMPL_MEMT_LOGICAL UIO_MEM_LOGICAL

@@ -41,14 +41,4 @@
 #define CUDDLK_MAX_STR_LEN CUDDL_MAX_STR_LEN
 #define CUDDLK_VARIANT_STR CUDDLK_IMPL_VARIANT_STR
 
-/**
- * typedef cuddlk_iomem_t - I/O memory accessor for kernel space.
- *
- * Type used to access kernel-space memory-mapped I/O regions.
- *
- * Under Linux, pointers of type ``cuddlk_iomem_t *`` can be passed to
- * ``ioread32()``, ``iowrite16()``, etc.
- */
-typedef cuddlk_impl_iomem_t cuddlk_iomem_t;
-
 #endif /* !_CUDDL_KERNEL_GENERAL_H */

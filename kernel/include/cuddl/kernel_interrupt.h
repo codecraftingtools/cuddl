@@ -16,7 +16,7 @@
 #ifndef _CUDDL_KERNEL_INTERRUPT_H
 #define _CUDDL_KERNEL_INTERRUPT_H
 
-#include <cuddl/kernel_general.h>
+#include <cuddl/kernel_iomem.h>
 
 /**
  * DOC: Kernel-space interrupt handler declarations.

@@ -19,6 +19,7 @@
    :maxdepth: 2
    :caption: Topics:
 
+   install
    user
    kernel
    impl

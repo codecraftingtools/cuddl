@@ -31,7 +31,9 @@ Linux Kernel Documentation
 - `IOCTL Docs`_ (Old, but may be useful)
 - `IBM Linux Kernel Module Docs`_
 - `Registration with sysfs`_
-  
+- `Kernel-doc Information`_
+- `Sphinx C Domain Information`_
+
 Xenomai Documentation
 =====================
 
@@ -63,6 +65,10 @@ Xenomai Documentation
    https://developer.ibm.com/articles/control-linux-kernel-extensions/
 .. _Registration with sysfs:
    https://www.kernel.org/doc/html/v4.15/driver-api/infrastructure.html#c.device_create
+.. _Kernel-doc Information:
+   https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html
+.. _Sphinx C Domain Information:
+   https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#the-c-domain
 .. _Xenomai Website: https://www.xenomai.org
 .. _Xenomai UDD API:
    https://xenomai.org/documentation/xenomai-3/html/xeno3prm/group__rtdm__udd.html

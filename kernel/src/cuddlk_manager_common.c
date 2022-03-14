@@ -19,7 +19,7 @@
 
 #include <cuddl/kernel.h>
 
-struct cuddlk_manager *cuddlk_global_manager;
+struct cuddlk_manager *cuddlk_global_manager_ptr;
 
 int cuddlk_manager_find_device_matching(
 	const char *group, const char *name, const char *resource,
@@ -30,7 +30,7 @@ int cuddlk_manager_find_device_matching(
 	struct cuddlk_device *dev = NULL;
 	
 	for (i=start_index; i<CUDDLK_MAX_MANAGED_DEVICES; i++) {
-		dev = cuddlk_global_manager->devices[i];
+		dev = cuddlk_global_manager_ptr->devices[i];
 		if (!dev)
 			continue;
 		if (instance)
@@ -70,7 +70,7 @@ int cuddlk_manager_find_device(struct cuddlk_device *dev)
 	int found_slot = 0;
 
 	for (i=0; i<CUDDLK_MAX_MANAGED_DEVICES; i++) {
-		if (cuddlk_global_manager->devices[i] != dev)
+		if (cuddlk_global_manager_ptr->devices[i] != dev)
 			continue;
 		found_slot = 1;
 		break;
@@ -118,7 +118,7 @@ int cuddlk_manager_add_device(struct cuddlk_device *dev)
 	if (slot < 0)
 		return -ENOMEM;
 
-	cuddlk_global_manager->devices[slot] = dev;
+	cuddlk_global_manager_ptr->devices[slot] = dev;
 
 	return 0;
 }
@@ -131,7 +131,7 @@ int cuddlk_manager_remove_device(struct cuddlk_device *dev)
 	if (slot < 0)
 		return slot;
 	
-	cuddlk_global_manager->devices[slot] = NULL;
+	cuddlk_global_manager_ptr->devices[slot] = NULL;
 
 	return 0;
 }

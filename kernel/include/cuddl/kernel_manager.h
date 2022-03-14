@@ -27,7 +27,7 @@
  *
  *    Maximum number of Cuddl devices that can be managed.
  *
- * .. c:var:: extern struct cuddlk_manager *cuddlk_global_manager;
+ * .. c:var:: extern struct cuddlk_manager *cuddlk_global_manager_ptr;
  *
  *    Global device manager instance pointer.
  */
@@ -163,6 +163,6 @@ int cuddlk_manager_find_empty_slot(void);
 int cuddlk_next_available_instance_id_for(struct cuddlk_device *dev);
 
 /* Global device manager instance. (kerneldoc comment at top of file) */
-extern struct cuddlk_manager *cuddlk_global_manager;
+extern struct cuddlk_manager *cuddlk_global_manager_ptr;
 
 #endif /* !_CUDDL_KERNEL_MANAGER_H */

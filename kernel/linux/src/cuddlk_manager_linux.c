@@ -44,9 +44,9 @@ static int __init cuddlk_manager_init(void)
 {
 	int err;
 
-	cuddlk_global_manager = kzalloc(
+	cuddlk_global_manager_ptr = kzalloc(
 		sizeof(struct cuddlk_manager), GFP_KERNEL);
-	if (!cuddlk_global_manager) {
+	if (!cuddlk_global_manager_ptr) {
 		err = -ENOMEM;
 		printk("%s: kzalloc failed: %d\n", __func__, err);
 		goto fail_kzalloc;
@@ -54,13 +54,13 @@ static int __init cuddlk_manager_init(void)
 	return 0;
 
 fail_kzalloc:
-	cuddlk_global_manager = NULL;
+	cuddlk_global_manager_ptr = NULL;
 	return err;
 }
 
 static void __exit cuddlk_manager_exit(void)
 {
-	kfree(cuddlk_global_manager);
+	kfree(cuddlk_global_manager_ptr);
 }
 
 module_init(cuddlk_manager_init)

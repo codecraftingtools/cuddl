@@ -28,6 +28,7 @@
 
 #include <linux/module.h>
 #include <linux/slab.h>
+#include <linux/cdev.h>
 #include <cuddl/kernel.h>
 
 /* Export symbols from cuddlk_manager_common.c */
@@ -40,27 +41,110 @@ EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
 EXPORT_SYMBOL_GPL(cuddlk_device_manage);
 EXPORT_SYMBOL_GPL(cuddlk_device_release);
 
+static dev_t cuddlk_manager_dev;
+static struct cdev cuddlk_manager_cdev;
+static struct class *cuddlk_manager_class;
+static struct device *cuddlk_manager_device;
+
+const struct file_operations cuddlk_manager_fops = {
+    .owner = THIS_MODULE,
+};
+
+enum cuddlk_manager_init_failure {
+	CUDDLK_MGR_FAIL_ALLOC_MANAGER,
+	CUDDLK_MGR_FAIL_ALLOC_CHRDEV,
+	CUDDLK_MGR_FAIL_CDEV_ADD,
+	CUDDLK_MGR_FAIL_CLASS_CREATE,
+	CUDDLK_MGR_FAIL_DEVICE_CREATE,
+	CUDDLK_MGR_NO_FAILURE,
+};
+
+static int cuddlk_manager_cleanup(enum cuddlk_manager_init_failure failure)
+{
+	int ret = 0;
+
+	switch(failure) {
+	case CUDDLK_MGR_NO_FAILURE:
+		device_destroy(cuddlk_manager_class, cuddlk_manager_dev);
+		/* FALLTHROUGH */
+	case CUDDLK_MGR_FAIL_DEVICE_CREATE:
+		class_destroy(cuddlk_manager_class);
+		/* FALLTHROUGH */
+	case CUDDLK_MGR_FAIL_CLASS_CREATE:
+		cdev_del(&cuddlk_manager_cdev);
+		/* FALLTHROUGH */
+	case CUDDLK_MGR_FAIL_CDEV_ADD:
+		unregister_chrdev_region(cuddlk_manager_dev, 1);
+		/* FALLTHROUGH */
+	case CUDDLK_MGR_FAIL_ALLOC_CHRDEV:
+		kfree(cuddlk_global_manager_ptr);
+		/* FALLTHROUGH */
+	case CUDDLK_MGR_FAIL_ALLOC_MANAGER:
+		/* FALLTHROUGH */
+	default:
+		break;
+	}
+
+	cuddlk_global_manager_ptr = NULL;
+	
+	return ret;
+}
+
 static int __init cuddlk_manager_init(void)
 {
-	int err;
-
+	int ret;
+	enum cuddlk_manager_init_failure failure;
+	
 	cuddlk_global_manager_ptr = kzalloc(
 		sizeof(struct cuddlk_manager), GFP_KERNEL);
 	if (!cuddlk_global_manager_ptr) {
-		err = -ENOMEM;
-		printk("%s: kzalloc failed: %d\n", __func__, err);
-		goto fail_kzalloc;
+		ret = -ENOMEM;
+		failure = CUDDLK_MGR_FAIL_ALLOC_MANAGER;
+		printk("%s: kzalloc failed: %d\n", __func__, ret);
+		goto handle_failure;
 	}
+
+	ret = alloc_chrdev_region(&cuddlk_manager_dev, 0, 1, "cuddl");
+	if (ret < 0) {
+		failure = CUDDLK_MGR_FAIL_ALLOC_CHRDEV;
+		goto handle_failure;
+	}
+
+	cdev_init(&cuddlk_manager_cdev, &cuddlk_manager_fops);
+	ret = cdev_add(&cuddlk_manager_cdev, cuddlk_manager_dev, 1);
+	if (ret < 0) {
+		failure = CUDDLK_MGR_FAIL_CDEV_ADD;
+		goto handle_failure;
+	}
+
+	/* Create sysfs class node */
+	cuddlk_manager_class = class_create(THIS_MODULE, "cuddl");
+	if (IS_ERR(cuddlk_manager_class)) {
+		ret = -ENODEV;
+		failure = CUDDLK_MGR_FAIL_CLASS_CREATE;
+		goto handle_failure;
+	}
+
+	/* Create sysfs device node */
+	cuddlk_manager_device = device_create(
+		cuddlk_manager_class, NULL, cuddlk_manager_dev, NULL,
+		"cuddl");
+	if (IS_ERR(cuddlk_manager_device)) {
+		ret = -ENODEV;
+		failure = CUDDLK_MGR_FAIL_DEVICE_CREATE;
+		goto handle_failure;
+	}
+
 	return 0;
 
-fail_kzalloc:
-	cuddlk_global_manager_ptr = NULL;
-	return err;
+handle_failure:
+	cuddlk_manager_cleanup(failure);
+	return ret;
 }
 
 static void __exit cuddlk_manager_exit(void)
 {
-	kfree(cuddlk_global_manager_ptr);
+	cuddlk_manager_cleanup(CUDDLK_MGR_NO_FAILURE);
 }
 
 module_init(cuddlk_manager_init)

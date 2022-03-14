@@ -30,7 +30,8 @@ Linux Kernel Documentation
 - `IOCTL Stack Overflow Question`_
 - `IOCTL Docs`_ (Old, but may be useful)
 - `IBM Linux Kernel Module Docs`_
-
+- `Registration with sysfs`_
+  
 Xenomai Documentation
 =====================
 
@@ -60,7 +61,8 @@ Xenomai Documentation
    https://stackoverflow.com/questions/67856695/find-ioctl-number-in-linux
 .. _IBM Linux Kernel Module Docs:
    https://developer.ibm.com/articles/control-linux-kernel-extensions/
-
+.. _Registration with sysfs:
+   https://www.kernel.org/doc/html/v4.15/driver-api/infrastructure.html#c.device_create
 .. _Xenomai Website: https://www.xenomai.org
 .. _Xenomai UDD API:
    https://xenomai.org/documentation/xenomai-3/html/xeno3prm/group__rtdm__udd.html

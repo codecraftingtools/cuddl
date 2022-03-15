@@ -29,7 +29,9 @@
 #include <linux/module.h>
 #include <linux/slab.h>
 #include <linux/cdev.h>
+#include <linux/uaccess.h>
 #include <cuddl/kernel.h>
+#include <cuddl/common_impl_linux_ioctl.h>
 
 /* Export symbols from cuddlk_manager_common.c */
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_matching);
@@ -46,8 +48,48 @@ static struct cdev cuddlk_manager_cdev;
 static struct class *cuddlk_manager_class;
 static struct device *cuddlk_manager_device;
 
+static long cuddlk_manager_ioctl(
+	struct file *file, unsigned int cmd, unsigned long arg)
+{
+	struct cuddl_memregion_claim_ioctl_data data;
+
+	printk("cuddlk_manager_ioctl\n");
+	printk("  cmd:  %u\n", cmd);
+	printk("  dir:  %u\n", _IOC_DIR(cmd));
+	printk("  type: %u\n", _IOC_TYPE(cmd));
+	printk("  nr:   %u\n", _IOC_NR(cmd));
+	printk("  size: %u\n", _IOC_SIZE(cmd));
+	printk("  arg:  %lu\n", arg);
+
+	switch(cmd) {
+	case CUDDL_MEMREGION_CLAIM_IOCTL:
+		printk("CUDDL_MEMREGION_CLAIM_IOCTL called\n");
+		if (copy_from_user(&data, (void*)arg, sizeof(data))) {
+			printk("copy_from_user failed\n");
+			break;
+		}
+		printk("  %s %s %s %d\n", data.id.group, data.id.device,
+		       data.id.resource, data.id.instance);
+		data.info.pa_len = 1;
+		data.info.start_offset = 2;
+		data.info.len = 1;
+		data.info.flags = 3;
+		if (copy_to_user((void*)arg, &data, sizeof(data))) {
+			printk("copy_to_user failed\n");
+			break;
+		}
+		printk("  success\n");
+		break;
+	default:
+		printk("Unknown Cuddl IOCTL\n");
+	}
+	
+	return 0;
+}
+
 const struct file_operations cuddlk_manager_fops = {
     .owner = THIS_MODULE,
+    .unlocked_ioctl = cuddlk_manager_ioctl,
 };
 
 enum cuddlk_manager_init_failure {

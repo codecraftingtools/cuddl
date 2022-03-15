@@ -17,4 +17,12 @@
 Linux/Xenomai User/Kernel Space
 ===============================
 
+Base Declarations
+=================
+
 .. kernel-doc:: common/include/cuddl/common_impl_linux.h
+
+IOCTL Declarations
+==================
+
+.. kernel-doc:: common/include/cuddl/common_impl_linux_ioctl.h

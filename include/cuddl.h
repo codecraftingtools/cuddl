@@ -19,6 +19,10 @@
 #include <cuddl/memregion.h>
 #include <cuddl/eventsrc.h>
 
+#ifdef CUDDL_LINUX
+#include <cuddl/common_impl_linux_ioctl.h>
+#endif
+
 /*
  * User-space declarations.
  *

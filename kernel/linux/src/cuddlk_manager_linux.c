@@ -53,9 +53,12 @@ static long cuddlk_manager_ioctl(
 {
 	int slot;
 	int mslot;
+	int eslot;
 	int rt = 0;
+	int ret = 0;
 	struct cuddlk_device *dev;
-	struct cuddl_memregion_claim_ioctl_data data;
+	struct cuddl_memregion_claim_ioctl_data *mdata;
+	struct cuddl_eventsrc_claim_ioctl_data *edata;
 
 	printk("cuddlk_manager_ioctl\n");
 	printk("  cmd:  %u\n", cmd);
@@ -65,61 +68,138 @@ static long cuddlk_manager_ioctl(
 	printk("  size: %u\n", _IOC_SIZE(cmd));
 	printk("  arg:  %lu\n", arg);
 
+	mdata = kzalloc(
+		sizeof(struct cuddl_memregion_claim_ioctl_data),
+		GFP_KERNEL);
+	if (!mdata) {
+		printk("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
+	edata = kzalloc(
+		sizeof(struct cuddl_eventsrc_claim_ioctl_data),
+		GFP_KERNEL);
+	if (!edata) {
+		kfree(mdata);
+		printk("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
 	switch(cmd) {
 	case CUDDL_MEMREGION_CLAIM_UDD_IOCTL:
 		rt = 1;
 		/* FALLTHROUGH */
 	case CUDDL_MEMREGION_CLAIM_UIO_IOCTL:
 		printk("CUDDL_MEMREGION_CLAIM_*_IOCTL called\n");
-		if (copy_from_user(&data, (void*)arg, sizeof(data))) {
+		if (copy_from_user(mdata, (void*)arg, sizeof(*mdata))) {
 			printk("copy_from_user failed\n");
+			ret = -1;
 			break;
 		}
-		printk("  %s %s %s %d\n", data.id.group, data.id.device,
-		       data.id.resource, data.id.instance);
+
+		printk("  %s %s %s %d\n", mdata->id.group, mdata->id.device,
+		       mdata->id.resource, mdata->id.instance);
 		slot = cuddlk_manager_find_device_matching(
-			data.id.group, data.id.device, data.id.resource,
-			data.id.instance, CUDDLK_RESOURCE_MEMREGION, 0);
-		if (slot < 0)
-			return slot;
+			mdata->id.group, mdata->id.device, mdata->id.resource,
+			mdata->id.instance, CUDDLK_RESOURCE_MEMREGION, 0);
+		if (slot < 0) {
+			ret = slot;
+			break;
+		}
 
 		printk("found slot: %d\n", slot);
 		dev = cuddlk_global_manager_ptr->devices[slot];
-		mslot = cuddlk_device_find_memregion(dev, data.id.resource);
-		if (mslot < 0)
-			return mslot;
+		mslot = cuddlk_device_find_memregion(dev, mdata->id.resource);
+		if (mslot < 0) {
+			ret = mslot;
+			break;
+		}
 
-		data.info.pa_len = dev->mem[mslot].pa_len;
-		data.info.start_offset = dev->mem[mslot].start_offset;
-		data.info.len = dev->mem[mslot].len;
-		data.info.flags = 0;
+		mdata->info.pa_len = dev->mem[mslot].pa_len;
+		mdata->info.start_offset = dev->mem[mslot].start_offset;
+		mdata->info.len = dev->mem[mslot].len;
+		mdata->info.flags = 0;
 		if (dev->mem[mslot].flags && CUDDLK_MEMF_SHARED)
-			data.info.flags |= CUDDL_MEMF_SHARED;
+			mdata->info.flags |= CUDDL_MEMF_SHARED;
 		if (rt) {
-			data.info.priv.pa_mmap_offset = 0;
-			snprintf(data.info.priv.device_name,
+			mdata->info.priv.pa_mmap_offset = 0;
+			snprintf(mdata->info.priv.device_name,
 				 CUDDL_MAX_STR_LEN,
 				 "/dev/rtdm/%s,mapper%d",
 				 dev->priv.unique_name,
 				 mslot);
 		} else {
-			data.info.priv.pa_mmap_offset = mslot;
-			snprintf(data.info.priv.device_name,
+			mdata->info.priv.pa_mmap_offset = mslot;
+			snprintf(mdata->info.priv.device_name,
 				 CUDDL_MAX_STR_LEN,
 				 "/dev/uio%d",
 				 dev->priv.uio.uio_dev->minor);
 		}
-		if (copy_to_user((void*)arg, &data, sizeof(data))) {
+		if (copy_to_user((void*)arg, mdata, sizeof(*mdata))) {
 			printk("copy_to_user failed\n");
+			ret = -1;
+			break;
+		}
+		printk("  success\n");
+		break;
+
+	case CUDDL_EVENTSRC_CLAIM_UDD_IOCTL:
+		rt = 1;
+		/* FALLTHROUGH */
+	case CUDDL_EVENTSRC_CLAIM_UIO_IOCTL:
+		printk("CUDDL_EVENTSRC_CLAIM_*_IOCTL called\n");
+		if (copy_from_user(edata, (void*)arg, sizeof(*edata))) {
+			printk("copy_from_user failed\n");
+			ret = -1;
+			break;
+		}
+
+		printk("  %s %s %s %d\n", edata->id.group, edata->id.device,
+		       edata->id.resource, edata->id.instance);
+		slot = cuddlk_manager_find_device_matching(
+			edata->id.group, edata->id.device, edata->id.resource,
+			edata->id.instance, CUDDLK_RESOURCE_EVENTSRC, 0);
+		if (slot < 0) {
+			ret = slot;
+			break;
+		}
+
+		printk("found slot: %d\n", slot);
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		eslot = cuddlk_device_find_eventsrc(dev, edata->id.resource);
+		if (eslot < 0) {
+			ret = eslot;
+			break;
+		}
+
+		edata->info.flags = 0;
+		edata->info.flags |= CUDDL_EVENTSRCF_WAITABLE;
+		if (rt) {
+			snprintf(edata->info.priv.device_name,
+				 CUDDL_MAX_STR_LEN,
+				 "/dev/rtdm/%s",
+				 dev->priv.unique_name);
+		} else {
+			snprintf(edata->info.priv.device_name,
+				 CUDDL_MAX_STR_LEN,
+				 "/dev/uio%d",
+				 dev->priv.uio.uio_dev->minor);
+		}
+		if (copy_to_user((void*)arg, edata, sizeof(*edata))) {
+			printk("copy_to_user failed\n");
+			ret = -1;
 			break;
 		}
 		printk("  success\n");
 		break;
 	default:
 		printk("Unknown Cuddl IOCTL\n");
+		ret = -1;
 	}
-	
-	return 0;
+
+	kfree(edata);
+	kfree(mdata);
+	return ret;
 }
 
 const struct file_operations cuddlk_manager_fops = {

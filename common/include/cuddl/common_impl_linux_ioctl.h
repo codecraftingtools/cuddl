@@ -35,10 +35,18 @@
  * .. c:macro:: CUDDL_MEMREGION_CLAIM_UDD_IOCTL
  *
  *    IOCTL call associated with ``cuddl_memregion_claim()`` for Xenomai UDD.
+ *
+ * .. c:macro:: CUDDL_EVENTSRC_CLAIM_UIO_IOCTL
+ *
+ *    IOCTL call associated with ``cuddl_eventsrc_claim()`` for Linux UIO.
+ *
+ * .. c:macro:: CUDDL_EVENTSRC_CLAIM_UDD_IOCTL
+ *
+ *    IOCTL call associated with ``cuddl_eventsrc_claim()`` for Xenomai UDD.
  */
 
 /**
- * struct cuddl_memregion_claim_ioctl_data - Memregion claim IOCTL data.
+ * struct cuddl_memregion_claim_ioctl_data - Memory region claim IOCTL data.
  *
  * @id: Resource identifier passed in from user space.
  * @info: Memory region information returned from kernel space.
@@ -48,10 +56,25 @@ struct cuddl_memregion_claim_ioctl_data {
 	struct cuddl_meminfo info;
 };
 
+/**
+ * struct cuddl_eventsrc_claim_ioctl_data - Event source claim IOCTL data.
+ *
+ * @id: Resource identifier passed in from user space.
+ * @info: Event source information returned from kernel space.
+ */
+struct cuddl_eventsrc_claim_ioctl_data {
+	struct cuddl_resource_id id;
+	struct cuddl_eventinfo info;
+};
+
 #define CUDDL_IOCTL_TYPE 'A'
 #define CUDDL_MEMREGION_CLAIM_UIO_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 2, struct cuddl_memregion_claim_ioctl_data)
 #define CUDDL_MEMREGION_CLAIM_UDD_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 3, struct cuddl_memregion_claim_ioctl_data)
+#define CUDDL_EVENTSRC_CLAIM_UIO_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 4, struct cuddl_memregion_claim_ioctl_data)
+#define CUDDL_EVENTSRC_CLAIM_UDD_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 5, struct cuddl_memregion_claim_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

@@ -51,6 +51,10 @@ static struct device *cuddlk_manager_device;
 static long cuddlk_manager_ioctl(
 	struct file *file, unsigned int cmd, unsigned long arg)
 {
+	int slot;
+	int mslot;
+	int rt = 0;
+	struct cuddlk_device *dev;
 	struct cuddl_memregion_claim_ioctl_data data;
 
 	printk("cuddlk_manager_ioctl\n");
@@ -62,18 +66,49 @@ static long cuddlk_manager_ioctl(
 	printk("  arg:  %lu\n", arg);
 
 	switch(cmd) {
-	case CUDDL_MEMREGION_CLAIM_IOCTL:
-		printk("CUDDL_MEMREGION_CLAIM_IOCTL called\n");
+	case CUDDL_MEMREGION_CLAIM_UDD_IOCTL:
+		rt = 1;
+		/* FALLTHROUGH */
+	case CUDDL_MEMREGION_CLAIM_UIO_IOCTL:
+		printk("CUDDL_MEMREGION_CLAIM_*_IOCTL called\n");
 		if (copy_from_user(&data, (void*)arg, sizeof(data))) {
 			printk("copy_from_user failed\n");
 			break;
 		}
 		printk("  %s %s %s %d\n", data.id.group, data.id.device,
 		       data.id.resource, data.id.instance);
-		data.info.pa_len = 1;
-		data.info.start_offset = 2;
-		data.info.len = 1;
-		data.info.flags = 3;
+		slot = cuddlk_manager_find_device_matching(
+			data.id.group, data.id.device, data.id.resource,
+			data.id.instance, CUDDLK_RESOURCE_MEMREGION, 0);
+		if (slot < 0)
+			return slot;
+
+		printk("found slot: %d\n", slot);
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		mslot = cuddlk_device_find_memregion(dev, data.id.resource);
+		if (mslot < 0)
+			return mslot;
+
+		data.info.pa_len = dev->mem[mslot].pa_len;
+		data.info.start_offset = dev->mem[mslot].start_offset;
+		data.info.len = dev->mem[mslot].len;
+		data.info.flags = 0;
+		if (dev->mem[mslot].flags && CUDDLK_MEMF_SHARED)
+			data.info.flags |= CUDDL_MEMF_SHARED;
+		if (rt) {
+			data.info.priv.pa_mmap_offset = 0;
+			snprintf(data.info.priv.device_name,
+				 CUDDL_MAX_STR_LEN,
+				 "/dev/rtdm/%s,mapper%d",
+				 dev->priv.unique_name,
+				 mslot);
+		} else {
+			data.info.priv.pa_mmap_offset = mslot;
+			snprintf(data.info.priv.device_name,
+				 CUDDL_MAX_STR_LEN,
+				 "/dev/uio%d",
+				 dev->priv.uio.uio_dev->minor);
+		}
 		if (copy_to_user((void*)arg, &data, sizeof(data))) {
 			printk("copy_to_user failed\n");
 			break;

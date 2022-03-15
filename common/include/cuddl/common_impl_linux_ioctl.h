@@ -28,9 +28,13 @@
  * kernel-space code, however the only intended kernel-space usage of these
  * declarations is to convey information to user-space applications.
  *
- * .. c:macro:: CUDDL_MEMREGION_CLAIM_IOCTL
+ * .. c:macro:: CUDDL_MEMREGION_CLAIM_UIO_IOCTL
  *
- *    IOCTL call associated with ``cuddl_memregion_claim()``.
+ *    IOCTL call associated with ``cuddl_memregion_claim()`` for Linux UIO.
+ *
+ * .. c:macro:: CUDDL_MEMREGION_CLAIM_UDD_IOCTL
+ *
+ *    IOCTL call associated with ``cuddl_memregion_claim()`` for Xenomai UDD.
  */
 
 /**
@@ -45,7 +49,9 @@ struct cuddl_memregion_claim_ioctl_data {
 };
 
 #define CUDDL_IOCTL_TYPE 'A'
-#define CUDDL_MEMREGION_CLAIM_IOCTL \
+#define CUDDL_MEMREGION_CLAIM_UIO_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 2, struct cuddl_memregion_claim_ioctl_data)
+#define CUDDL_MEMREGION_CLAIM_UDD_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 3, struct cuddl_memregion_claim_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

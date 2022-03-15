@@ -83,7 +83,7 @@ struct cuddl_eventsrc {
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_eventsrc_claim(
-	struct cuddl_eventinfo *eventinfo,
+	struct cuddl_eventsrc_info *eventinfo,
 	const struct cuddl_resource_id *id,
 	int options);
 
@@ -99,7 +99,7 @@ int cuddl_eventsrc_claim(
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddl_eventsrc_release(struct cuddl_eventinfo *eventinfo);
+int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
 
 /**
  * cuddl_eventsrc_open() - Open an event source from user space.
@@ -127,7 +127,7 @@ int cuddl_eventsrc_release(struct cuddl_eventinfo *eventinfo);
  */
 int cuddl_eventsrc_open(
 	struct cuddl_eventsrc *eventsrc,
-	const struct cuddl_eventinfo *eventinfo,
+	const struct cuddl_eventsrc_info *eventinfo,
 	int options);
 
 /**

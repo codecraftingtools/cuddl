@@ -40,7 +40,7 @@
 typedef size_t cuddl_impl_size_t;
 
 /**
- * struct cuddl_meminfo_priv - Private memory region information.
+ * struct cuddl_memregion_info_priv - Private memory region information.
  *
  * @pa_mmap_offset: Page-aligned mmap offset.
  *
@@ -81,13 +81,13 @@ typedef size_t cuddl_impl_size_t;
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_meminfo_priv {
+struct cuddl_memregion_info_priv {
 	unsigned long pa_mmap_offset;
 	char device_name[CUDDL_IMPL_MAX_STR_LEN];
 };
 
 /**
- * struct cuddl_eventinfo_priv - Private event source information.
+ * struct cuddl_eventsrc_info_priv - Private event source information.
  *
  * @device_name:
  *
@@ -110,7 +110,7 @@ struct cuddl_meminfo_priv {
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_eventinfo_priv {
+struct cuddl_eventsrc_info_priv {
 	char device_name[CUDDL_IMPL_MAX_STR_LEN];
 };
 

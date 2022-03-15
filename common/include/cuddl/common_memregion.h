@@ -40,7 +40,7 @@ enum cuddl_memregion_flags {
 };
 
 /**
- * struct cuddl_meminfo - Memory region information for user space.
+ * struct cuddl_memregion_info - Memory region information for user space.
  *
  * @pa_len: Page-aligned length of the memory region. This field represents
  *          the size of the memory region to be mapped, in bytes.  This value
@@ -81,12 +81,12 @@ enum cuddl_memregion_flags {
  * On Linux and Xenomai systems, this information is retrieved from the
  * kernel via an ``ioctl`` call.
  */
-struct cuddl_meminfo {
+struct cuddl_memregion_info {
 	cuddl_size_t pa_len;
 	cuddl_size_t start_offset;
 	cuddl_size_t len;
 	int flags;
-	struct cuddl_meminfo_priv priv;
+	struct cuddl_memregion_info_priv priv;
 };
 
 #endif /* !_CUDDL_COMMON_MEMREGION_H */

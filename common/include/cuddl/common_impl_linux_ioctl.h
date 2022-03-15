@@ -53,7 +53,7 @@
  */
 struct cuddl_memregion_claim_ioctl_data {
 	struct cuddl_resource_id id;
-	struct cuddl_meminfo info;
+	struct cuddl_memregion_info info;
 };
 
 /**
@@ -64,7 +64,7 @@ struct cuddl_memregion_claim_ioctl_data {
  */
 struct cuddl_eventsrc_claim_ioctl_data {
 	struct cuddl_resource_id id;
-	struct cuddl_eventinfo info;
+	struct cuddl_eventsrc_info info;
 };
 
 #define CUDDL_IOCTL_TYPE 'A'

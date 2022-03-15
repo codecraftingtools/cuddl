@@ -63,7 +63,7 @@ enum cuddl_eventsrc_flags {
 };
 
 /**
- * struct cuddl_eventinfo - Event source information for user space.
+ * struct cuddl_eventsrc_info - Event source information for user space.
  *
  * @flags: Flags that describe the properties of the event source.  This
  *         field may be a set of ``cuddl_eventsrc_flags`` ORed together.
@@ -75,9 +75,9 @@ enum cuddl_eventsrc_flags {
  * On Linux and Xenomai systems, this information is retrieved from the
  * kernel via an ``ioctl`` call.
  */
-struct cuddl_eventinfo {
+struct cuddl_eventsrc_info {
 	int flags;
-	struct cuddl_eventinfo_priv priv;
+	struct cuddl_eventsrc_info_priv priv;
 };
 
 #endif /* !_CUDDL_COMMON_EVENTSRC_H */

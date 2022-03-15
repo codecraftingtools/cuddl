@@ -69,7 +69,7 @@ struct cuddl_memregion {
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_memregion_claim(
-	struct cuddl_meminfo *meminfo,
+	struct cuddl_memregion_info *meminfo,
 	const struct cuddl_resource_id *id,
 	int options);
 
@@ -85,7 +85,7 @@ int cuddl_memregion_claim(
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddl_memregion_release(struct cuddl_meminfo *meminfo);
+int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
 
 /**
  * cuddl_memregion_map() - Map a memory region for user-space access.
@@ -112,7 +112,7 @@ int cuddl_memregion_release(struct cuddl_meminfo *meminfo);
  */
 int cuddl_memregion_map(
 	struct cuddl_memregion *memregion,
-	const struct cuddl_meminfo *meminfo,
+	const struct cuddl_memregion_info *meminfo,
 	int options);
 
 /**

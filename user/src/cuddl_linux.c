@@ -25,6 +25,7 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <sys/mman.h>
+#include <stdint.h>
 
 #include <cuddl.h>
 #include <cuddl/common_impl_linux_ioctl.h>
@@ -174,4 +175,28 @@ int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc)
 {
 	close(eventsrc->priv.fd);
 	return 0;
+}
+
+int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc)
+{
+	ssize_t n_bytes_read;
+	uint32_t count = 0;
+
+	n_bytes_read = read(eventsrc->priv.fd, &count, sizeof(count));
+	if (n_bytes_read == -1)
+		return -errno;
+
+	return 0;
+}
+
+int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
+{
+	return -1;
+}
+
+int cuddl_eventsrc_timedwait(
+	struct cuddl_eventsrc *eventsrc,
+	const struct cuddl_timespec *timeout)
+{
+	return -1;
 }

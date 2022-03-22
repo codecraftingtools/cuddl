@@ -25,4 +25,4 @@ User/Kernel Space
 User Space
 ==========
 
-.. kernel-doc:: include/cuddl/eventsrc.h
+.. kernel-doc:: user/include/cuddl/eventsrc.h

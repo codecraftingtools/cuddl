@@ -17,4 +17,4 @@
 Linux/Xenomai User Space
 ========================
 
-.. kernel-doc:: include/cuddl/impl_linux.h
+.. kernel-doc:: user/include/cuddl/impl_linux.h

@@ -17,4 +17,4 @@
 RTEMS User Space
 ================
 
-.. kernel-doc:: include/cuddl/impl_rtems.h
+.. kernel-doc:: user/include/cuddl/impl_rtems.h

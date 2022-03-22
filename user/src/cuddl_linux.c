@@ -31,8 +31,10 @@
 
 #ifdef __XENO__
 #define CUDDL_MEMREGION_CLAIM_IOCTL CUDDL_MEMREGION_CLAIM_UDD_IOCTL
+#define CUDDL_EVENTSRC_CLAIM_IOCTL  CUDDL_EVENTSRC_CLAIM_UDD_IOCTL
 #else
 #define CUDDL_MEMREGION_CLAIM_IOCTL CUDDL_MEMREGION_CLAIM_UIO_IOCTL
+#define CUDDL_EVENTSRC_CLAIM_IOCTL  CUDDL_EVENTSRC_CLAIM_UIO_IOCTL
 #endif
 
 int cuddl_memregion_claim(
@@ -117,4 +119,59 @@ int cuddl_memregion_unmap(struct cuddl_memregion *memregion)
 		ret = -errno;
 
 	return ret;
+}
+
+int cuddl_eventsrc_claim(
+	struct cuddl_eventsrc_info *eventinfo,
+	const struct cuddl_resource_id *id,
+	int options)
+{
+	int fd;
+	int ret;
+	struct cuddl_eventsrc_claim_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	memcpy(&s.id, id, sizeof(s.id));
+
+	ret = ioctl(fd, CUDDL_EVENTSRC_CLAIM_IOCTL, &s);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	memcpy(eventinfo, &s.info, sizeof(*eventinfo));
+
+	close(fd);
+	return 0;
+}
+
+int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo)
+{
+	return 0;
+}
+
+int cuddl_eventsrc_open(
+	struct cuddl_eventsrc *eventsrc,
+	const struct cuddl_eventsrc_info *eventinfo,
+	int options)
+{
+	int fd;
+
+	fd = open(eventinfo->priv.device_name, O_RDWR);
+	if (fd < 0)
+		return -errno;
+
+	eventsrc->flags = eventinfo->flags;
+	eventsrc->priv.fd = fd;
+
+	return 0;
+}
+
+int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc)
+{
+	close(eventsrc->priv.fd);
+	return 0;
 }

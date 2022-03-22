@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
+#include <sys/mman.h>
 
 #include <cuddl.h>
 #include <cuddl/common_impl_linux_ioctl.h>
@@ -64,4 +65,56 @@ int cuddl_memregion_claim(
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo)
 {
 	return 0;
+}
+
+int cuddl_memregion_map(
+	struct cuddl_memregion *memregion,
+	const struct cuddl_memregion_info *meminfo,
+	int options)
+{
+	int fd;
+	void *addr;
+
+	fd = open(meminfo->priv.device_name, O_RDWR);
+	if (fd < 0)
+		return -errno;
+
+	addr = mmap(
+		NULL,
+		meminfo->pa_len,
+		PROT_READ | PROT_WRITE,
+		MAP_SHARED,
+		fd,
+		meminfo->priv.pa_mmap_offset);
+	if (addr == (void *) -1) {
+		close(fd);
+		return -errno;
+	}
+
+	memregion->priv.fd = fd;
+	memregion->priv.pa_len = meminfo->pa_len;
+	memregion->priv.pa_addr = (unsigned long) addr;
+	memregion->addr = (void *) (
+		memregion->priv.pa_addr + meminfo->start_offset);
+	memregion->len = meminfo->len;
+	memregion->flags = meminfo->flags;
+		
+	return 0;
+}
+
+
+int cuddl_memregion_unmap(struct cuddl_memregion *memregion)
+{
+	int ret = 0;
+	int err;
+
+	err = munmap((void*)memregion->priv.pa_addr, memregion->priv.pa_len);
+	if (err == -1)
+		ret = -errno;
+
+	err = close(memregion->priv.fd);
+	if (err == -1)
+		ret = -errno;
+
+	return ret;
 }

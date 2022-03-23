@@ -76,8 +76,8 @@ struct cuddl_memregion {
  * particular memory region is identified by the ``group``, ``device``,
  * ``memregion``, and ``instance`` fields.  If any of these fields is
  * ``NULL`` or contains a ``NULL`` string (or ``0``) value, the field will be
- * treated as *don't care* value when searching for a matching memory region
- * in the resource list.
+ * treated as a *don't care* value when searching for a matching memory
+ * region in the resource list.
  *
  * Return: ``0`` on success, or a negative error code.
  */

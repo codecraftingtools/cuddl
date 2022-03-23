@@ -91,7 +91,7 @@ struct cuddl_eventsrc {
  * events in user space.  The particular event source is identified by the
  * ``group``, ``device``, ``eventsrc``, and ``instance`` fields.  If any of
  * these fields is ``NULL`` or contains a ``NULL`` string (or ``0``) value,
- * the field will be treated as *don't care* value when searching for a
+ * the field will be treated as a *don't care* value when searching for a
  * matching event source in the resource list.
  *
  * Return: ``0`` on success, or a negative error code.

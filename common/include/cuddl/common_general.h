@@ -56,7 +56,7 @@ typedef cuddl_impl_size_t cuddl_size_t;
  *            ``resource`` fields.
  *
  * Specifies a memory region or event source resource by name.  If any field
- * contains a ``NULL`` string value, the field will be treated as *don't
+ * contains a ``NULL`` string value, the field will be treated as a *don't
  * care* value when searching for a matching resource in the resource list.
  */
 struct cuddl_resource_id {

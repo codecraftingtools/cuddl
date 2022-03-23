@@ -65,9 +65,36 @@ If the built-in Linux UIO code has been configured as a module::
 
 If running a Xenomai kernel and UDD is configured as a module::
 
-  sudo modprobe udd
+  sudo modprobe xeno_udd
 
 Now insert the kernel modules that were built in the previous step::
 
   sudo insmod cuddl.ko
   sudo insmod cuddl_manager.ko
+
+Building a User-Space Application
+---------------------------------
+
+There are currently no makefiles or build scripts provided for the Cuddl
+user-space code, so users will need to compile and link the required source
+files into their applications manually.
+
+Assuming that ``cuddl_DIR`` is set to the root directory of the Cuddl source
+repository, the following include directories should be added to the
+C-preprocessor search path::
+
+  $(cuddl_DIR)/user/include
+  $(cuddl_DIR)/common/include
+
+The following source files also need to be compiled and linked with the
+application::
+
+  $(cuddl_DIR)/user/src/cuddl_linux.c
+
+For Xenomai applications, the Cuddl source files need to be compiled and
+linked with the appropriate flags (as supplied by ``xeno-config``).
+
+RTEMS
+=====
+
+RTEMS support has not yet been implemented.

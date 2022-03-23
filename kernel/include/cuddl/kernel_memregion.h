@@ -128,7 +128,10 @@ struct cuddlk_memregion_kernel {
  * @pa_len: Page-aligned length.
  *
  *          The size of the memory region to be mapped, in bytes.  This value
- *          must be a multiple of ``PAGE_SIZE``.
+ *          must be a multiple of ``PAGE_SIZE``.  If this field is not
+ *          specified (i.e. ``0``), it will be set to the value of ``len``
+ *          rounded up to the next ``PAGE_SIZE`` when the parent device is
+ *          registered.
  *           
  *          Under Linux UIO, the field value can be read from a file::
  *           
@@ -156,7 +159,9 @@ struct cuddlk_memregion_kernel {
  *       UDD: N/A
  *
  * @len: The exact size of the memory region to be mapped, in bytes.  This
- *       value does NOT need to be a multiple of ``PAGE_SIZE``.
+ *       value does NOT need to be a multiple of ``PAGE_SIZE``.  If this
+ *       field is not specified (i.e. ``0``), it will be set to the value of
+ *       ``pa_len`` when the parent device is registered
  *
  * @type: The type of memory region to be mapped.  This should be one of the
  *        ``cuddlk_memregion_type`` enumeration values described elsewhere.

@@ -34,6 +34,17 @@
 EXPORT_SYMBOL_GPL(cuddlk_device_find_eventsrc);
 EXPORT_SYMBOL_GPL(cuddlk_device_find_memregion);
 
+static cuddl_size_t page_size_aligned(cuddl_size_t i)
+{
+	int lower;
+
+	if ((i % PAGE_SIZE) == 0)
+		return i;
+
+	lower = i / PAGE_SIZE;
+	return PAGE_SIZE * (lower + 1);
+}
+
 /* Note that static_assert() works on newer kernels, but
  * BUILD_BUG_ON() is required for older kernels.  Note that
  * static_assert() can be used at file scope, whereas BUILD_BUG_ON()
@@ -257,6 +268,11 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 
 	for (i=0; i<CUDDLK_MAX_DEV_MEM_REGIONS; i++) {
 		mem_i = &dev->mem[i];
+
+		if (mem_i->len == 0)
+			mem_i->len = mem_i->pa_len;
+		if (mem_i->pa_len == 0)
+			mem_i->pa_len = page_size_aligned(mem_i->len);
 
 		if (i<MAX_UIO_MAPS) {
 			uio->mem[i].name    = mem_i->name;

@@ -52,25 +52,41 @@ struct cuddl_memregion {
  *
  * @meminfo: Pointer to a data structure that will receive the information
  *           required to map the specified memory region from user space.  If
- *           the claim operation is successful, and if this parameter is
- *           non-``NULL``, the required information will be copied into the
- *           data structure specified by this parameter.
+ *           the claim operation is successful, the required information will
+ *           be copied into the data structure specified by this parameter.
  *
- * @id: Input parameter identifying the memory region to be claimed.
+ * @group: Name of the group in which the specified memory region's parent
+ *         device resides.  In some cases, this field is used to indicate the
+ *         PCI card on which the parent device is located.
+ *
+ * @device: Name of the specified memory region's parent device.
+ *
+ * @memregion: Name of the specific memory region to be claimed.
+ *
+ * @instance: Used to differentiate between multiple memory regions that are
+ *            registered with identical ``group``, ``device``, and
+ *            ``resource`` (i.e. ``memregion``) fields.
  *
  * @options: Input parameter consisting of a set of flags (ORed together)
  *           that are applicable to the memory region claim operation.  No
  *           claim flags are currently defined for memory regions, so this
  *           parameter should be set to ``0``.
  *
- * Request ownership of the memory region identified by ``id`` for user-space
- * access.
+ * Request ownership of a specific memory region for user-space access.  The
+ * particular memory region is identified by the ``group``, ``device``,
+ * ``memregion``, and ``instance`` fields.  If any of these fields is
+ * ``NULL`` or contains a ``NULL`` string (or ``0``) value, the field will be
+ * treated as *don't care* value when searching for a matching memory region
+ * in the resource list.
  *
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_memregion_claim(
 	struct cuddl_memregion_info *meminfo,
-	const struct cuddl_resource_id *id,
+	const char *group,
+	const char *device,
+	const char *memregion,
+	int instance,
 	int options);
 
 /**

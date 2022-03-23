@@ -66,25 +66,42 @@ struct cuddl_eventsrc {
  *
  * @eventinfo: Pointer to a data structure that will receive the information
  *             required to open the specified event source from user space.
- *             If the claim operation is successful, and if this parameter is
- *             non-``NULL``, the required information will be copied into the
- *             data structure specified by this parameter.
+ *             If the claim operation is successful, the required information
+ *             will be copied into the data structure specified by this
+ *             parameter.
  *
- * @id: Input parameter identifying the event source to be claimed.
+ * @group: Name of the group in which the specified event source's parent
+ *         device resides.  In some cases, this field is used to indicate the
+ *         PCI card on which the parent device is located.
+ *
+ * @device: Name of the specified event source's parent device.
+ *
+ * @eventsrc: Name of the specific event source to be claimed.
+ *
+ * @instance: Used to differentiate between event sources that are registered
+ *            with identical ``group``, ``device``, and ``resource``
+ *            (i.e. ``eventsrc``) fields.
  *
  * @options: Input parameter consisting of a set of flags (ORed together)
  *           that are applicable to the event source claim operation.  No
  *           claim flags are currently defined for event sources, so this
  *           parameter should be set to ``0``.
  *
- * Request ownership of the event source identified by ``id`` for the purpose
- * of receiving events in user space.
+ * Request ownership of a specific event source for the purpose of receiving
+ * events in user space.  The particular event source is identified by the
+ * ``group``, ``device``, ``eventsrc``, and ``instance`` fields.  If any of
+ * these fields is ``NULL`` or contains a ``NULL`` string (or ``0``) value,
+ * the field will be treated as *don't care* value when searching for a
+ * matching event source in the resource list.
  *
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_eventsrc_claim(
 	struct cuddl_eventsrc_info *eventinfo,
-	const struct cuddl_resource_id *id,
+	const char *group,
+	const char *device,
+	const char *eventsrc,
+	int instance,
 	int options);
 
 /**

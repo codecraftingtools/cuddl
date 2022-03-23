@@ -40,7 +40,10 @@
 
 int cuddl_memregion_claim(
 	struct cuddl_memregion_info *meminfo,
-	const struct cuddl_resource_id *id,
+	const char *group,
+	const char *device,
+	const char *memregion,
+	int instance,
 	int options)
 {
 	int fd;
@@ -51,7 +54,19 @@ int cuddl_memregion_claim(
 	if (fd == -1)
 		return -errno;
 
-	memcpy(&s.id, id, sizeof(s.id));
+	if (group)
+		strncpy(s.id.group, group, CUDDL_MAX_STR_LEN);
+	else
+		s.id.group[0] = '\0';
+	if (device)
+		strncpy(s.id.device, device, CUDDL_MAX_STR_LEN);
+	else
+		s.id.device[0] = '\0';
+	if (memregion)
+		strncpy(s.id.resource, memregion, CUDDL_MAX_STR_LEN);
+	else
+		s.id.resource[0] = '\0';
+	s.id.instance = instance;
 
 	ret = ioctl(fd, CUDDL_MEMREGION_CLAIM_IOCTL, &s);
 	if (ret) {
@@ -124,7 +139,10 @@ int cuddl_memregion_unmap(struct cuddl_memregion *memregion)
 
 int cuddl_eventsrc_claim(
 	struct cuddl_eventsrc_info *eventinfo,
-	const struct cuddl_resource_id *id,
+	const char *group,
+	const char *device,
+	const char *eventsrc,
+	int instance,
 	int options)
 {
 	int fd;
@@ -135,7 +153,19 @@ int cuddl_eventsrc_claim(
 	if (fd == -1)
 		return -errno;
 
-	memcpy(&s.id, id, sizeof(s.id));
+	if (group)
+		strncpy(s.id.group, group, CUDDL_MAX_STR_LEN);
+	else
+		s.id.group[0] = '\0';
+	if (device)
+		strncpy(s.id.device, device, CUDDL_MAX_STR_LEN);
+	else
+		s.id.device[0] = '\0';
+	if (eventsrc)
+		strncpy(s.id.resource, eventsrc, CUDDL_MAX_STR_LEN);
+	else
+		s.id.resource[0] = '\0';
+	s.id.instance = instance;
 
 	ret = ioctl(fd, CUDDL_EVENTSRC_CLAIM_IOCTL, &s);
 	if (ret) {

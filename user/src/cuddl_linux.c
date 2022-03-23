@@ -221,12 +221,40 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc)
 
 int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
 {
-	return -1;
+	struct cuddl_timespec timeout;
+
+	timeout.tv_sec = 0;
+	timeout.tv_nsec = 0;
+
+	return cuddl_eventsrc_timedwait(eventsrc, &timeout);
 }
 
 int cuddl_eventsrc_timedwait(
 	struct cuddl_eventsrc *eventsrc,
 	const struct cuddl_timespec *timeout)
 {
-	return -1;
+	fd_set fds;
+	int ret;
+	ssize_t n_bytes_read;
+	uint32_t count = 0;
+
+	FD_ZERO(&fds);
+	FD_SET(eventsrc->priv.fd, &fds);
+
+	struct timeval tv;
+	tv.tv_sec = timeout->tv_sec;
+	tv.tv_usec = timeout->tv_nsec/1000;
+
+	ret = select(eventsrc->priv.fd + 1, &fds, NULL, NULL, &tv);
+	if (ret == -1)
+		return -errno;
+
+	if (!FD_ISSET(eventsrc->priv.fd, &fds))
+		return -ETIMEDOUT;
+
+	n_bytes_read = read(eventsrc->priv.fd, &count, sizeof(count));
+	if (n_bytes_read == -1)
+		return -errno;
+
+	return 0;
 }

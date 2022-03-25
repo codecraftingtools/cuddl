@@ -129,7 +129,7 @@ static long cuddlk_manager_ioctl(
 				 dev->priv.unique_name,
 				 mslot);
 		} else {
-			mdata->info.priv.pa_mmap_offset = mslot;
+			mdata->info.priv.pa_mmap_offset = mslot * PAGE_SIZE;
 			snprintf(mdata->info.priv.device_name,
 				 CUDDL_MAX_STR_LEN,
 				 "/dev/uio%d",

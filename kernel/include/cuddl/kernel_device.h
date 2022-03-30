@@ -147,8 +147,8 @@ struct cuddlk_device_kernel {
  * ``memset()`` to zeroize the structure after allocation.
  */
 struct cuddlk_device {
-	char *group;
-	char *name;
+	const char *group;
+	const char *name;
 	int instance;
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];

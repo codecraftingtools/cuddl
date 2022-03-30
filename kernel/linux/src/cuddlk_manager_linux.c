@@ -42,6 +42,7 @@ EXPORT_SYMBOL_GPL(cuddlk_manager_add_device);
 EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
 EXPORT_SYMBOL_GPL(cuddlk_device_manage);
 EXPORT_SYMBOL_GPL(cuddlk_device_release);
+EXPORT_SYMBOL_GPL(cuddlk_global_manager_ptr);
 
 static dev_t cuddlk_manager_dev;
 static struct cdev cuddlk_manager_cdev;

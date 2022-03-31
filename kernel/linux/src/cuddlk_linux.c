@@ -100,6 +100,27 @@ static irqreturn_t cuddlk_uio_interrupt_handler(
 #endif
 
 #if defined(CUDDLK_USE_UDD)
+static int cuddlk_xenomai_interrupt_handler(rtdm_irq_t *irqh)
+{
+	struct cuddlk_interrupt *intr;
+
+	intr = rtdm_irq_get_arg(irqh, struct cuddlk_interrupt);
+
+	return intr->handler(intr);
+}
+
+#else /* UIO */
+static irqreturn_t cuddlk_linux_interrupt_handler(int irq, void *arg)
+{
+	struct cuddlk_interrupt *intr;
+
+	intr = (struct cuddlk_interrupt *) arg;
+
+	return intr->handler(intr);
+}
+#endif
+
+#if defined(CUDDLK_USE_UDD)
 void event_nrtsig_handler(rtdm_nrtsig_t *nrt_sig, void *data)
 {
 	struct uio_info *uinfo = (struct uio_info *)data;
@@ -354,6 +375,43 @@ int cuddlk_device_unregister(struct cuddlk_device *dev)
 	return cuddlk_cleanup(dev, CUDDLK_NO_FAILURE);
 }
 EXPORT_SYMBOL_GPL(cuddlk_device_unregister);
+
+int cuddlk_interrupt_register(struct cuddlk_interrupt *intr, const char *name)
+{
+	int ret;
+	unsigned long flags = 0;
+
+#if defined(CUDDLK_USE_UDD)
+	ret = rtdm_irq_request(&intr->priv.irqh, intr->irq,
+			       cuddlk_xenomai_interrupt_handler,
+			       flags, name, intr);
+
+#else /* UIO */
+	if (intr->flags & CUDDLK_IRQF_SHARED) {
+		flags |= IRQF_SHARED;
+	}
+	ret = request_irq(intr->irq, cuddlk_linux_interrupt_handler,
+			  flags, name, intr);
+#endif
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(cuddlk_interrupt_register);
+
+int cuddlk_interrupt_unregister(struct cuddlk_interrupt *intr)
+{
+	int ret = 0;
+
+#if defined(CUDDLK_USE_UDD)
+	ret = rtdm_irq_free(&intr->priv.irqh);
+
+#else /* UIO */
+	free_irq(intr->irq, intr);
+#endif
+
+	return ret;
+}
+EXPORT_SYMBOL_GPL(cuddlk_interrupt_unregister);
 
 static int __init cuddlk_init(void)
 {

@@ -93,6 +93,9 @@ struct cuddlk_memregion_priv {
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlk_interrupt_priv {
+#if defined(CUDDLK_USE_UDD)
+	rtdm_irq_t irqh;
+#endif
 };
 
 /**

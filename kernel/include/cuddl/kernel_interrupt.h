@@ -197,4 +197,47 @@ struct cuddlk_interrupt {
 	struct cuddlk_interrupt_priv priv;
 };
 
+/**
+ * cuddlk_interrupt_register() - Register a Cuddl interrupt handler.
+ *
+ * @intr: Cuddl interrupt structure describing the interrupt to register.
+ *
+ * Linux UIO equivalent in *linux/interrupt.h*::
+ *
+ *   int request_irq(unsigned int irq, irq_handler_t handler, unsigned long
+ *                   flags, const char *name, void *dev);
+ *
+ * Xenomai UDD equivalent in *rtdm/driver.h*::
+ *
+ *   int rtdm_irq_request(rtdm_irq_t *irq_handle, unsigned int irq_no,
+ *                        rtdm_irq_handler_t handler, unsigned long flags,
+ *                        const char *device_name, void *arg);
+ *
+ * Hardware interrupts may be handled by populating the ``events`` member of
+ * a ``cuddlk_device``, or by installing a separate handler that is not
+ * associated with one particular device.  This function accomplishes the
+ * latter.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddlk_interrupt_register(
+	struct cuddlk_interrupt *intr, const char *name);
+
+/**
+ * cuddlk_interrupt_unregister() - Unregister a Cuddl interrupt handler.
+ *
+ * @intr: Cuddl interrupt structure describing the interrupt to unregister.
+ *
+ * Linux UIO equivalent in *linux/interrupt.h*::
+ *
+ *   void *free_irq(unsigned int, void *);
+ *
+ * Xenomai UDD equivalent in *rtdm/driver.h*::
+ *
+ *   int rtdm_irq_free(rtdm_irq_t *irq_handle);
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddlk_interrupt_unregister(struct cuddlk_interrupt *intr);
+
 #endif /* !_CUDDL_KERNEL_INTERRUPT_H */

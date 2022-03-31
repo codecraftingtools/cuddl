@@ -75,7 +75,8 @@ static int cuddlk_udd_interrupt_handler(struct udd_device *udd_dev)
 
 	ret = intr->handler(intr);
 
-	if (eventsrc->priv.uio_open_count > 0) {
+	if ((eventsrc->priv.uio_open_count > 0) &&
+	    (ret == CUDDLK_RET_INTR_HANDLED)) {
 		rtdm_nrtsig_pend(&eventsrc->priv.nrt_sig);
 	}
 	

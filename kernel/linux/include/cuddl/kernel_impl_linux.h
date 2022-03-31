@@ -106,8 +106,10 @@ struct cuddlk_interrupt_priv {
  */
 struct cuddlk_eventsrc_priv {
 	int uio_open_count;
+	struct uio_info *uio_ptr;
 #if defined(CUDDLK_USE_UDD)
 	int udd_open_count;
+	struct udd_device *udd_ptr;
 	rtdm_nrtsig_t nrt_sig;
 #endif
 	struct mutex mut;

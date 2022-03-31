@@ -276,6 +276,7 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 		goto handle_failure;
 	}
 	
+	eventsrc->priv.uio_ptr = &dev->priv.uio;
 	mutex_init(&eventsrc->priv.mut);
 
 	uio = &dev->priv.uio;
@@ -283,6 +284,7 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 	uio->version = "0.0.1";
 
 #if defined(CUDDLK_USE_UDD)
+	eventsrc->priv.udd_ptr = &dev->priv.udd;
 	udd = &dev->priv.udd;
 	udd->device_name = dev->priv.unique_name;
 	udd->device_flags = RTDM_NAMED_DEVICE;
@@ -375,6 +377,19 @@ int cuddlk_device_unregister(struct cuddlk_device *dev)
 	return cuddlk_cleanup(dev, CUDDLK_NO_FAILURE);
 }
 EXPORT_SYMBOL_GPL(cuddlk_device_unregister);
+
+void cuddlk_eventsrc_notify(struct cuddlk_eventsrc *eventsrc)
+{
+#if defined(CUDDLK_USE_UDD)
+	udd_notify_event(eventsrc->priv.udd_ptr);
+	if (eventsrc->priv.uio_open_count > 0) {
+		rtdm_nrtsig_pend(&eventsrc->priv.nrt_sig);
+	}
+#else /* UIO */
+	uio_event_notify(eventsrc->priv.uio_ptr);
+#endif
+}
+EXPORT_SYMBOL_GPL(cuddlk_eventsrc_notify);
 
 int cuddlk_interrupt_register(struct cuddlk_interrupt *intr, const char *name)
 {

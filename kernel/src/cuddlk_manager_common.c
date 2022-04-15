@@ -36,13 +36,13 @@ int cuddlk_manager_find_device_matching(
 		if (instance)
 			if (dev->instance != instance)
 				continue;
-		if (group)
+		if (group && (strnlen(group, CUDDLK_MAX_STR_LEN) > 0))
 			if (strncmp(dev->group, group, CUDDLK_MAX_STR_LEN)
 			    != 0) continue;
-		if (name)
+		if (name && (strnlen(name, CUDDLK_MAX_STR_LEN) > 0))
 			if (strncmp(dev->name, name, CUDDLK_MAX_STR_LEN)
 			    != 0) continue;
-		if (resource) {
+		if (resource && (strnlen(resource, CUDDLK_MAX_STR_LEN) > 0)) {
 			if (type == CUDDLK_RESOURCE_MEMREGION) {
 				if (cuddlk_device_find_memregion(
 					    dev, resource) < 0)

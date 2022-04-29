@@ -215,17 +215,17 @@ static int cuddlk_udd_eventsrc_ioctl(
 
 	switch (request) {
 	case UDD_RTIOC_IRQEN:
-		if (intr->unmask)
-			return intr->unmask(intr);
+		if (intr->enable)
+			return intr->enable(intr);
 		else
-			rtdm_printk("%s: intr->unmask is NULL in %s\n",
+			rtdm_printk("%s: intr->enable is NULL in %s\n",
 			            THIS_MODULE->name, __func__);
 		break;
 	case UDD_RTIOC_IRQDIS:
-		if (intr->mask)
-			return intr->mask(intr);
+		if (intr->disable)
+			return intr->disable(intr);
 		else
-			rtdm_printk("%s: intr->mask is NULL in %s\n",
+			rtdm_printk("%s: intr->disable is NULL in %s\n",
 			            THIS_MODULE->name, __func__);
 		break;
 	default:
@@ -247,16 +247,16 @@ static int cuddlk_uio_eventsrc_or_mem_irqcontrol(
 	intr = &eventsrc->intr;
 
 	if (irq_on) {
-		if (intr->unmask)
-			return intr->unmask(intr);
+		if (intr->enable)
+			return intr->enable(intr);
 		else
-			printk("%s: intr->unmask is NULL in %s\n",
+			printk("%s: intr->enable is NULL in %s\n",
 			       THIS_MODULE->name, __func__);
 	} else {
-		if (intr->mask)
-			return intr->mask(intr);
+		if (intr->disable)
+			return intr->disable(intr);
 		else
-			printk("%s: intr->mask is NULL in %s\n",
+			printk("%s: intr->disable is NULL in %s\n",
 			       THIS_MODULE->name, __func__);
 	}
 	return -EINVAL;

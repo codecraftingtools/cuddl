@@ -36,17 +36,17 @@
  *     ``read()`` operation on the file descriptor associated with the event
  *     source.
  *
- * @CUDDL_EVENTSRCF_MASKABLE:
- *     Indicates that a user-space task may mask interrupt events through the
- *     event source.
+ * @CUDDL_EVENTSRCF_HAS_DISABLE:
+ *     Indicates that a user-space task may disable interrupt events through
+ *     the event source.
  *
  *     On Linux and Xenomai, this feature is implemented via a 4-byte
  *     ``write()`` operation on file descriptor associated with the event
  *     source.  If supported, writing a ``uint32_t`` value of ``0`` to the
  *     file descriptor masks (disables) interrupt events.
  *
- * @CUDDL_EVENTSRCF_UNMASKABLE:
- *     Indicates that a user-space task may unmask interrupt events through
+ * @CUDDL_EVENTSRCF_HAS_ENABLE:
+ *     Indicates that a user-space task may enable interrupt events through
  *     the event source.
  *
  *     On Linux and Xenomai, this feature is implemented via a 4-byte
@@ -57,9 +57,9 @@
  * Flags that describe the properties of an event source to user-space code.
  */
 enum cuddl_eventsrc_flags {
-	CUDDL_EVENTSRCF_WAITABLE   = (1 << 0),
-	CUDDL_EVENTSRCF_MASKABLE   = (1 << 1),
-	CUDDL_EVENTSRCF_UNMASKABLE = (1 << 2),
+	CUDDL_EVENTSRCF_WAITABLE    = (1 << 0),
+	CUDDL_EVENTSRCF_HAS_DISABLE = (1 << 1),
+	CUDDL_EVENTSRCF_HAS_ENABLE  = (1 << 2),
 };
 
 /**

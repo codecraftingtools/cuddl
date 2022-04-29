@@ -64,8 +64,8 @@ struct cuddl_memregion_priv {
  *
  * @fd: File descriptor used in the ``open()`` call when opening the event
  *      source.  This file descriptor will be to wait on events and to
- *      mask/unmask interrupt events.  The file descriptor will be closed via
- *      ``close()`` when closing the event source.
+ *      enable/disable interrupt events.  The file descriptor will be closed
+ *      via ``close()`` when closing the event source.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.

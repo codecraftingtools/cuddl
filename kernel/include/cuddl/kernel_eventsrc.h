@@ -47,7 +47,7 @@ struct cuddlk_eventsrc_kernel {
  * @name: Name used to identify the event source.
  *
  * @intr: Data structure for managing the interrupt handler and
- *        masking/unmasking functions.
+ *        enable/disable functions.
  *
  * @kernel: Kernel-managed memory region data that is available for use by
  *          Cuddl drivers.

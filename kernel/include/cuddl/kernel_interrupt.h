@@ -138,15 +138,15 @@ struct cuddlk_interrupt_kernel {
  *
  *             int (*interrupt)(struct udd_device *udd);
  *
- * @mask: Pointer to a routine that will mask the interrupt source. A return
- *        value of ``0`` indicates success and a negative value indicates
- *        failure.  This field may be set to ``NULL`` if external interrupt
- *        masking control is not required.
+ * @disable: Pointer to a routine that will disable the interrupt source. A
+ *           return value of ``0`` indicates success and a negative value
+ *           indicates failure.  This field may be set to ``NULL`` if
+ *           external interrupt disabling control is not required.
  *
- * @unmask: Pointer to a routine that will unmask the interrupt source. A
+ * @enable: Pointer to a routine that will enable the interrupt source. A
  *          return value of ``0`` indicates success and a negative value
  *          indicates failure.  This field may be set to ``NULL`` if external
- *          interrupt unmasking control is not required.
+ *          interrupt enabling control is not required.
  *
  * @iomem_ptr: This field is available for use by Cuddl drivers to store a
  *             pointer to mapped I/O memory.  This field is not managed (or
@@ -187,8 +187,8 @@ struct cuddlk_interrupt_kernel {
  */
 struct cuddlk_interrupt {
 	int (*handler)(struct cuddlk_interrupt *intr);
-	int (*mask)   (struct cuddlk_interrupt *intr);
-	int (*unmask) (struct cuddlk_interrupt *intr);
+	int (*disable)   (struct cuddlk_interrupt *intr);
+	int (*enable) (struct cuddlk_interrupt *intr);
 	cuddlk_iomem_t *iomem_ptr;
 	void *extra_ptr;
 	int irq;

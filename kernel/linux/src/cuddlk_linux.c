@@ -170,12 +170,12 @@ static void cuddlk_udd_eventsrc_close(struct rtdm_fd *fd)
 	struct udd_device *udd_dev;
 	struct cuddlk_device *dev;
 	struct cuddlk_eventsrc *eventsrc;
-	
+
 	udd_dev = container_of(
 		rtdm_fd_device(fd), struct udd_device, __reserved.device);
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
 	eventsrc = &dev->events[0];
-	
+
 	mutex_lock(&eventsrc->priv.mut);
 	eventsrc->priv.udd_open_count -= 1;
 	mutex_unlock(&eventsrc->priv.mut);
@@ -197,6 +197,71 @@ static int cuddlk_uio_eventsrc_or_mem_close(
 
 	return 0;
 }
+
+#if defined(CUDDLK_USE_UDD)
+static int cuddlk_udd_eventsrc_ioctl(
+	struct rtdm_fd *fd, unsigned int request, void *arg)
+{
+	struct udd_device *udd_dev;
+	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
+	struct cuddlk_interrupt *intr;
+
+	udd_dev = container_of(
+		rtdm_fd_device(fd), struct udd_device, __reserved.device);
+	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
+	eventsrc = &dev->events[0];
+	intr = &eventsrc->intr;
+
+	switch (request) {
+	case UDD_RTIOC_IRQEN:
+		if (intr->unmask)
+			return intr->unmask(intr);
+		else
+			rtdm_printk("%s: intr->unmask is NULL in %s\n",
+			            THIS_MODULE->name, __func__);
+		break;
+	case UDD_RTIOC_IRQDIS:
+		if (intr->mask)
+			return intr->mask(intr);
+		else
+			rtdm_printk("%s: intr->mask is NULL in %s\n",
+			            THIS_MODULE->name, __func__);
+		break;
+	default:
+		break;
+	}
+	return -EINVAL;
+}
+#endif
+
+static int cuddlk_uio_eventsrc_or_mem_irqcontrol(
+	struct uio_info *uinfo, int32_t irq_on)
+{
+	struct cuddlk_device *dev;
+	struct cuddlk_eventsrc *eventsrc;
+	struct cuddlk_interrupt *intr;
+
+	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
+	eventsrc = &dev->events[0];
+	intr = &eventsrc->intr;
+
+	if (irq_on) {
+		if (intr->unmask)
+			return intr->unmask(intr);
+		else
+			printk("%s: intr->unmask is NULL in %s\n",
+			       THIS_MODULE->name, __func__);
+	} else {
+		if (intr->mask)
+			return intr->mask(intr);
+		else
+			printk("%s: intr->mask is NULL in %s\n",
+			       THIS_MODULE->name, __func__);
+	}
+	return -EINVAL;
+}
+
 
 enum cuddlk_registration_failure {
 	CUDDLK_FAIL_NULL_GROUP,
@@ -337,13 +402,15 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 		udd->irq = UDD_IRQ_CUSTOM;
 #endif
 	}
-	
+
 	if ((intr->irq > 0) || (intr->irq == CUDDLK_IRQ_CUSTOM)) {
 		uio->open = cuddlk_uio_eventsrc_or_mem_open;
 		uio->release = cuddlk_uio_eventsrc_or_mem_close;
+		uio->irqcontrol = cuddlk_uio_eventsrc_or_mem_irqcontrol;
 #if defined(CUDDLK_USE_UDD)
 		udd->ops.open = cuddlk_udd_eventsrc_open;
 		udd->ops.close = cuddlk_udd_eventsrc_close;
+		udd->ops.ioctl = cuddlk_udd_eventsrc_ioctl;
 #endif
 	}
 	

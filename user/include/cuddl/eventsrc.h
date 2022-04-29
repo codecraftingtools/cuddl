@@ -212,4 +212,32 @@ int cuddl_eventsrc_timedwait(
 	struct cuddl_eventsrc *eventsrc,
 	const struct cuddl_timespec *timeout);
 
+/**
+ * cuddl_eventsrc_enable() - Enable an event source from user space.
+ *
+ * @eventsrc: Input parameter identifying the source of the event to be
+ *            enabled.  The data structure pointed to by this parameter
+ *            should contain the information returned by a successful call to
+ *            ``cuddl_eventsrc_open()``.
+ *
+ * Enables the event source if this operation is supported.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc);
+
+/**
+ * cuddl_eventsrc_disable() - Disables an event source from user space.
+ *
+ * @eventsrc: Input parameter identifying the source of the event to be
+ *            disabled.  The data structure pointed to by this parameter
+ *            should contain the information returned by a successful call to
+ *            ``cuddl_eventsrc_open()``.
+ *
+ * Disables the event source if this operation is supported.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc);
+
 #endif /* !_CUDDL_EVENTSRC_H */

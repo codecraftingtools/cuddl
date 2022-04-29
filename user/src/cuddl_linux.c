@@ -258,3 +258,27 @@ int cuddl_eventsrc_timedwait(
 
 	return 0;
 }
+
+int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc)
+{
+	int ret;
+	uint32_t value = 1;
+
+	ret = write(eventsrc->priv.fd, &value, 4);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
+}
+
+int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc)
+{
+	int ret;
+	uint32_t value = 0;
+
+	ret = write(eventsrc->priv.fd, &value, 4);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
+}

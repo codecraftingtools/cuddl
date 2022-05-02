@@ -99,7 +99,7 @@ int cuddl_memregion_map(
 
 	addr = mmap(
 		NULL,
-		meminfo->pa_len,
+		meminfo->priv.pa_len,
 		PROT_READ | PROT_WRITE,
 		MAP_SHARED,
 		fd,
@@ -110,10 +110,10 @@ int cuddl_memregion_map(
 	}
 
 	memregion->priv.fd = fd;
-	memregion->priv.pa_len = meminfo->pa_len;
+	memregion->priv.pa_len = meminfo->priv.pa_len;
 	memregion->priv.pa_addr = (unsigned long) addr;
 	memregion->addr = (void *) (
-		memregion->priv.pa_addr + meminfo->start_offset);
+		memregion->priv.pa_addr + meminfo->priv.start_offset);
 	memregion->len = meminfo->len;
 	memregion->flags = meminfo->flags;
 		

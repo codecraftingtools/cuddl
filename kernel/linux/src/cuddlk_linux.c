@@ -34,7 +34,7 @@
 EXPORT_SYMBOL_GPL(cuddlk_device_find_eventsrc);
 EXPORT_SYMBOL_GPL(cuddlk_device_find_memregion);
 
-static cuddl_size_t page_size_aligned(cuddl_size_t i)
+static cuddlk_size_t page_size_aligned(cuddlk_size_t i)
 {
 	int lower;
 

@@ -29,8 +29,10 @@
  * struct cuddl_memregion - User-space memory-mapped I/O region accessor.
  *
  * @addr: Pointer to the starting address of the memory-mapped I/O region.
+ *        This value is not necessarily ``PAGE_SIZE``-aligned
  *
- * @len: Length of the memory-mapped I/O region, in bytes.
+ * @len: The exact size of the memory region to be mapped, in bytes.  This is
+ *       not necessarily a multiple of the system ``PAGE_SIZE``.
  *
  * @flags: Flags that describe the properties of the memory region.  This
  *         field may be a set of ``cuddl_memregion_flags`` ORed together.
@@ -56,10 +58,11 @@ struct cuddl_memregion {
  *           be copied into the data structure specified by this parameter.
  *
  * @group: Name of the group in which the specified memory region's parent
- *         device resides.  In some cases, this field is used to indicate the
- *         PCI card on which the parent device is located.
+ *         device resides.  In some cases, the ``group`` is used to indicate
+ *         the PCI card on which the parent device is located.
  *
- * @device: Name of the specified memory region's parent device.
+ * @device: Name of the specified memory region's parent device
+ *          (i.e. peripheral).
  *
  * @memregion: Name of the specific memory region to be claimed.
  *
@@ -74,10 +77,10 @@ struct cuddl_memregion {
  *
  * Request ownership of a specific memory region for user-space access.  The
  * particular memory region is identified by the ``group``, ``device``,
- * ``memregion``, and ``instance`` fields.  If any of these fields is
- * ``NULL`` or contains a ``NULL`` string (or ``0``) value, the field will be
- * treated as a *don't care* value when searching for a matching memory
- * region in the resource list.
+ * ``memregion``, and ``instance`` arguments.  If any of these arguments is
+ * ``NULL`` or contains an empty string (or ``instance`` is ``0``), the
+ * parameter will be treated as a *don't care* value when searching for a
+ * matching memory region in the resource list.
  *
  * Return: ``0`` on success, or a negative error code.
  */

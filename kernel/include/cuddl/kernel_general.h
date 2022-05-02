@@ -28,17 +28,24 @@
  *
  *    Maximum allowed length for Cuddl kernel strings.
  *
- *    In theory, this could have a different value than
- *    ``CUDDL_MAX_STR_LEN``, but we would rather keep our sanity.  For
- *    consistency in notation, however, ``CUDDLK_MAX_STR_LEN`` is used in
- *    kernel code.
+ *    This is equivalent to ``CUDDL_MAX_STR_LEN``, but ``CUDDLK_MAX_STR_LEN``
+ *    is used in kernel code to keep the notation consistent.
  *
  * .. c:macro:: CUDDLK_VARIANT_STR
  *
  *    String identifying the kernel implementation.
  */
 
-#define CUDDLK_MAX_STR_LEN CUDDL_MAX_STR_LEN
+#define CUDDLK_MAX_STR_LEN CUDDL_IMPL_MAX_STR_LEN
 #define CUDDLK_VARIANT_STR CUDDLK_IMPL_VARIANT_STR
+
+/**
+ * typedef cuddlk_size_t - Kernel type used to represent a count of bytes.
+ *
+ * This will be equivalent to ``size_t`` on POSIX systems.  This is also
+ * equivalent to ``cuddl_size_t``, but ``cuddlk_size_t`` is used in kernel
+ * code to keep the notation consistent.
+ */
+typedef cuddl_impl_size_t cuddlk_size_t;
 
 #endif /* !_CUDDL_KERNEL_GENERAL_H */

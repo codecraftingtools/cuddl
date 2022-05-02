@@ -202,6 +202,8 @@ struct cuddlk_interrupt {
  *
  * @intr: Cuddl interrupt structure describing the interrupt to register.
  *
+ * @name: Unique name for this interrupt.
+ *
  * Linux UIO equivalent in *linux/interrupt.h*::
  *
  *   int request_irq(unsigned int irq, irq_handler_t handler, unsigned long

@@ -64,7 +64,7 @@ enum cuddlk_memregion_type {
 };
 
 /** 
- * enum cuddl_memregion_flags - Memory region flags for kernel space.
+ * enum cuddlk_memregion_flags - Memory region flags for kernel space.
  *
  * @CUDDLK_MEMF_SHARED: Indicates that the associated memory region may be
  *                      claimed by more than one user-space application
@@ -184,9 +184,9 @@ struct cuddlk_memregion_kernel {
 struct cuddlk_memregion {
 	char *name;
 	unsigned long pa_addr;
-	size_t pa_len;
-	size_t start_offset;
-	size_t len;
+	cuddlk_size_t pa_len;
+	cuddlk_size_t start_offset;
+	cuddlk_size_t len;
 	int type;
 	int flags;
 	struct cuddlk_memregion_kernel kernel;

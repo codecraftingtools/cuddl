@@ -42,34 +42,8 @@ enum cuddl_memregion_flags {
 /**
  * struct cuddl_memregion_info - Memory region information for user space.
  *
- * @pa_len: Page-aligned length of the memory region. This field represents
- *          the size of the memory region to be mapped, in bytes.  This value
- *          will be a multiple of the system ``PAGE_SIZE``.
- *
- *          On Linux and Xenomai systems, this value will be used as the
- *          ``length`` argument when mapping this memory region via the POSIX
- *          ``mmap()`` system call on the device node specified in the
- *          ``priv`` data structure.
- *
- *          Under RTEMS, the page-aligned length field will be set, but is
- *          not typically used.
- *
- * @start_offset: Starting offset of the memory region to be mapped, in
- *                bytes.  This value does NOT need to be
- *                ``PAGE_SIZE``-aligned, so it is used when defining
- *                non-``PAGE_SIZE``-aligned memory regions.
- *
- *                On Linux and Xenomai systems, the start offset is relative
- *                to the page-aligned address returned by the ``mmap()``
- *                system call.
- *
- *                Under RTEMS, this value is added to the page-aligned
- *                address (``pa_addr``) specified in the ``priv`` data
- *                structure to determine the precise starting address for the
- *                memory region.
- *
- * @len: The exact size of the memory region to be mapped, in bytes.  This
- *       value does NOT need to be a multiple of the system ``PAGE_SIZE``.
+ * @len: The exact size of the memory region to be mapped, in bytes.  This is
+ *       not necessarily a multiple of the system ``PAGE_SIZE``.
  *
  * @flags: Flags that describe the properties of the memory region.  This
  *         field may be a set of ``cuddl_memregion_flags`` ORed together.
@@ -82,8 +56,6 @@ enum cuddl_memregion_flags {
  * kernel via an ``ioctl`` call.
  */
 struct cuddl_memregion_info {
-	cuddl_size_t pa_len;
-	cuddl_size_t start_offset;
 	cuddl_size_t len;
 	int flags;
 	struct cuddl_memregion_info_priv priv;

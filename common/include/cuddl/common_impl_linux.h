@@ -42,6 +42,22 @@ typedef size_t cuddl_impl_size_t;
 /**
  * struct cuddl_memregion_info_priv - Private memory region information.
  *
+ * @pa_len: Page-aligned length of the memory region. This field represents
+ *          the size of the memory region to be mapped, in bytes.  This value
+ *          will be a multiple of the system ``PAGE_SIZE``.
+ *
+ *          This value will be used as the ``length`` argument when mapping
+ *          this memory region via the POSIX ``mmap()`` system call on the
+ *          device node specified by the ``device_name`` field.
+ *
+ * @start_offset: Starting offset of the memory region to be mapped, in
+ *                bytes.  This value does NOT need to be
+ *                ``PAGE_SIZE``-aligned, so it is used when defining
+ *                non-``PAGE_SIZE``-aligned memory regions.
+ *
+ *                The start offset is relative to the page-aligned address
+ *                returned by the ``mmap()`` system call.
+ *
  * @pa_mmap_offset: Page-aligned mmap offset.
  *
  *     Value to be used as the ``offset`` argument when mapping this memory
@@ -82,6 +98,8 @@ typedef size_t cuddl_impl_size_t;
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddl_memregion_info_priv {
+	cuddl_impl_size_t pa_len;
+	cuddl_impl_size_t start_offset;
 	unsigned long pa_mmap_offset;
 	char device_name[CUDDL_IMPL_MAX_STR_LEN];
 };

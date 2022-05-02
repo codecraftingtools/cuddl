@@ -71,10 +71,11 @@ struct cuddl_eventsrc {
  *             parameter.
  *
  * @group: Name of the group in which the specified event source's parent
- *         device resides.  In some cases, this field is used to indicate the
- *         PCI card on which the parent device is located.
+ *         device resides.  In some cases, the ``group`` is used to indicate
+ *         the PCI card on which the parent device is located.
  *
  * @device: Name of the specified event source's parent device.
+ *          (i.e. peripheral).
  *
  * @eventsrc: Name of the specific event source to be claimed.
  *
@@ -89,10 +90,10 @@ struct cuddl_eventsrc {
  *
  * Request ownership of a specific event source for the purpose of receiving
  * events in user space.  The particular event source is identified by the
- * ``group``, ``device``, ``eventsrc``, and ``instance`` fields.  If any of
- * these fields is ``NULL`` or contains a ``NULL`` string (or ``0``) value,
- * the field will be treated as a *don't care* value when searching for a
- * matching event source in the resource list.
+ * ``group``, ``device``, ``eventsrc``, and ``instance`` arguments.  If any
+ * of these arguments is ``NULL`` or contains an empy string (or ``instance``
+ * is ``0``), the parameter will be treated as a *don't care* value when
+ * searching for a matching event source in the resource list.
  *
  * Return: ``0`` on success, or a negative error code.
  */

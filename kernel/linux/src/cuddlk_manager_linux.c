@@ -116,8 +116,8 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
-		mdata->info.pa_len = dev->mem[mslot].pa_len;
-		mdata->info.start_offset = dev->mem[mslot].start_offset;
+		mdata->info.priv.pa_len = dev->mem[mslot].pa_len;
+		mdata->info.priv.start_offset = dev->mem[mslot].start_offset;
 		mdata->info.len = dev->mem[mslot].len;
 		mdata->info.flags = 0;
 		if (dev->mem[mslot].flags && CUDDLK_MEMF_SHARED)

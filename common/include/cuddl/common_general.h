@@ -46,18 +46,21 @@ typedef cuddl_impl_size_t cuddl_size_t;
  *         In some cases, this field is used to indicate the PCI card on
  *         which the parent device is located.
  *
- * @device: Name of the parent device for a particular resource.
+ * @device: Name of the parent device (i.e. peripheral) for a particular
+ *          resource.
  *
  * @resource: Name of a particular resource (i.e. specific memory region or
- *            event source) that is associated with a specific device.
+ *            event source) that is associated with a specific (parent)
+ *            device.
  *
  * @instance: Used to differentiate between multiple resources that are
  *            registered with identical ``group``, ``device``, and
  *            ``resource`` fields.
  *
  * Specifies a memory region or event source resource by name.  If any field
- * contains a ``NULL`` string value, the field will be treated as a *don't
- * care* value when searching for a matching resource in the resource list.
+ * is ``NULL`` or contains an empty string (or ``instance`` is ``0``), the
+ * field will be treated as a *don't care* value when searching for a
+ * matching resource in the resource list.
  */
 struct cuddl_resource_id {
 	char group[CUDDL_MAX_STR_LEN];

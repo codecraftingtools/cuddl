@@ -41,13 +41,13 @@ typedef time_t cuddl_impl_time_t;
  *
  * @pa_len: Page-aligned length of the memory region. This field represents
  *          the size of the memory region to be mapped, in bytes, and will be
- *          a multiple of the system ``PAGE_SIZE``.  This value will be used
- *          as the ``length`` argument when calling ``munmap()`` to unmap the
+ *          a multiple of ``CUDDLK_PAGE_SIZE``.  This value will be used as
+ *          the ``length`` argument when calling ``munmap()`` to unmap the
  *          memory region.
  *
  * @pa_addr: Page-aligned starting address for the memory region mapping, as
- *           returned by ``mmap()``.  This value will be a multiple of the
- *           system ``PAGE_SIZE``.  It will be used as the ``addr`` argument
+ *           returned by ``mmap()``.  This value will be a multiple of
+ *           ``CUDDLK_PAGE_SIZE``.  It will be used as the ``addr`` argument
  *           when calling ``munmap()`` to unmap the memory region.
  *
  * This data structure contains private, platform-specific data members

@@ -38,11 +38,11 @@ static cuddlk_size_t page_size_aligned(cuddlk_size_t i)
 {
 	int lower;
 
-	if ((i % PAGE_SIZE) == 0)
+	if ((i % CUDDLK_PAGE_SIZE) == 0)
 		return i;
 
-	lower = i / PAGE_SIZE;
-	return PAGE_SIZE * (lower + 1);
+	lower = i / CUDDLK_PAGE_SIZE;
+	return CUDDLK_PAGE_SIZE * (lower + 1);
 }
 
 /* Note that static_assert() works on newer kernels, but

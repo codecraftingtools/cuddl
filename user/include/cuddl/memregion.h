@@ -29,10 +29,10 @@
  * struct cuddl_memregion - User-space memory-mapped I/O region accessor.
  *
  * @addr: Pointer to the starting address of the memory-mapped I/O region.
- *        This value is not necessarily ``PAGE_SIZE``-aligned
+ *        This value is not necessarily ``CUDDLK_PAGE_SIZE``-aligned
  *
  * @len: The exact size of the memory region to be mapped, in bytes.  This is
- *       not necessarily a multiple of the system ``PAGE_SIZE``.
+ *       not necessarily a multiple of ``CUDDLK_PAGE_SIZE``.
  *
  * @flags: Flags that describe the properties of the memory region.  This
  *         field may be a set of ``cuddl_memregion_flags`` ORed together.

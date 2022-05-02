@@ -39,6 +39,8 @@
 
 #include <linux/uio_driver.h>
 
+#define CUDDLK_PAGE_SIZE PAGE_SIZE
+
 #define cuddlk_ioread8  ioread8
 #define cuddlk_ioread16 ioread16
 #define cuddlk_ioread32 ioread32

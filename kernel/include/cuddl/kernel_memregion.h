@@ -114,7 +114,7 @@ struct cuddlk_memregion_kernel {
  * @pa_addr: Page-aligned address.
  *
  *           This is the starting address for the memory region to be mapped
- *           and must be must be ``PAGE_SIZE``-aligned.
+ *           and must be must be ``CUDDLK_PAGE_SIZE``-aligned.
  *            
  *           Under Linux UIO, the field value can be read from a file::
  *            
@@ -128,10 +128,10 @@ struct cuddlk_memregion_kernel {
  * @pa_len: Page-aligned length.
  *
  *          The size of the memory region to be mapped, in bytes.  This value
- *          must be a multiple of ``PAGE_SIZE``.  If this field is not
+ *          must be a multiple of ``CUDDLK_PAGE_SIZE``.  If this field is not
  *          specified (i.e. ``0``), it will be set to the value of ``len``
- *          rounded up to the next ``PAGE_SIZE`` when the parent device is
- *          registered.
+ *          rounded up to the next ``CUDDLK_PAGE_SIZE`` when the parent
+ *          device is registered.
  *           
  *          Under Linux UIO, the field value can be read from a file::
  *           
@@ -146,8 +146,8 @@ struct cuddlk_memregion_kernel {
  *
  *     Starting offset of the memory region to be mapped (relative to
  *     ``pa_addr``), in bytes.  This value does NOT need to be
- *     ``PAGE_SIZE``-aligned, so it is used when defining
- *     non-``PAGE_SIZE``-aligned memory regions.
+ *     ``CUDDLK_PAGE_SIZE``-aligned, so it is used when defining
+ *     non-``CUDDLK_PAGE_SIZE``-aligned memory regions.
  *      
  *     Under Linux UIO, the field value can be read from a file::
  *      
@@ -159,9 +159,9 @@ struct cuddlk_memregion_kernel {
  *       UDD: N/A
  *
  * @len: The exact size of the memory region to be mapped, in bytes.  This
- *       value does NOT need to be a multiple of ``PAGE_SIZE``.  If this
- *       field is not specified (i.e. ``0``), it will be set to the value of
- *       ``pa_len`` when the parent device is registered
+ *       value does NOT need to be a multiple of ``CUDDLK_PAGE_SIZE``.  If
+ *       this field is not specified (i.e. ``0``), it will be set to the
+ *       value of ``pa_len`` when the parent device is registered
  *
  * @type: The type of memory region to be mapped.  This should be one of the
  *        ``cuddlk_memregion_type`` enumeration values described elsewhere.

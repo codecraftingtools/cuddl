@@ -44,7 +44,7 @@ typedef size_t cuddl_impl_size_t;
  *
  * @pa_len: Page-aligned length of the memory region. This field represents
  *          the size of the memory region to be mapped, in bytes.  This value
- *          will be a multiple of the system ``PAGE_SIZE``.
+ *          will be a multiple of ``CUDDLK_PAGE_SIZE``.
  *
  *          This value will be used as the ``length`` argument when mapping
  *          this memory region via the POSIX ``mmap()`` system call on the
@@ -52,8 +52,8 @@ typedef size_t cuddl_impl_size_t;
  *
  * @start_offset: Starting offset of the memory region to be mapped, in
  *                bytes.  This value does NOT need to be
- *                ``PAGE_SIZE``-aligned, so it is used when defining
- *                non-``PAGE_SIZE``-aligned memory regions.
+ *                ``CUDDLK_PAGE_SIZE``-aligned, so it is used when defining
+ *                non-``CUDDLK_PAGE_SIZE``-aligned memory regions.
  *
  *                The start offset is relative to the page-aligned address
  *                returned by the ``mmap()`` system call.
@@ -63,7 +63,7 @@ typedef size_t cuddl_impl_size_t;
  *     Value to be used as the ``offset`` argument when mapping this memory
  *     region via the ``mmap()`` system call on the device named
  *     ``device_name``.  This value is expressed in bytes, and will be a
- *     multiple of ``PAGE_SIZE``.
+ *     multiple of ``CUDDLK_PAGE_SIZE``.
  *
  *     Under Linux UIO, this value will be ``N * getpagesize()``, where ``N``
  *     is the memory region number.

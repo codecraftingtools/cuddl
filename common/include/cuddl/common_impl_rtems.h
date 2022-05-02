@@ -39,7 +39,7 @@ typedef size_t cuddl_impl_size_t;
  *
  * @pa_addr: Page-aligned starting address for the memory region to be
  *           mapped.  This value will be a multiple of the system
- *           ``PAGE_SIZE``.
+ *           ``CUDDLK_PAGE_SIZE``.
  *
  * This data structure contains private, and likely platform-specific, data
  * members reserved for internal use by the Cuddl implementation.

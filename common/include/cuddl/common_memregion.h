@@ -43,7 +43,7 @@ enum cuddl_memregion_flags {
  * struct cuddl_memregion_info - Memory region information for user space.
  *
  * @len: The exact size of the memory region to be mapped, in bytes.  This is
- *       not necessarily a multiple of the system ``PAGE_SIZE``.
+ *       not necessarily a multiple of ``CUDDLK_PAGE_SIZE``.
  *
  * @flags: Flags that describe the properties of the memory region.  This
  *         field may be a set of ``cuddl_memregion_flags`` ORed together.

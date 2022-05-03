@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: (MIT OR GPL-2.0-or-later) */
 /*
- * Cross-platform user-space device driver layer I/O memory kernel decls.
+ * Cross-platform user-space device driver layer I/O memory user-space decls.
  *
  * Copyright (C) 2022 Jeff Webb <jeff.webb@codecraftsmen.org>
  *
@@ -13,99 +13,95 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_IOMEM_H
-#define _CUDDL_KERNEL_IOMEM_H
+#ifndef _CUDDL_IOMEM_H
+#define _CUDDL_IOMEM_H
 
-#include <cuddl/kernel_general.h>
+#include <stdint.h>
+#include <cuddl/impl.h>
 
 /**
- * DOC: Kernel-space I/O memory access declarations.
+ * DOC: User-space I/O memory access declarations.
  *
- * This part of the API is only applicable to kernel-space code.
+ * This part of the API is only applicable to user-space code.
  */
 
 /**
- * typedef cuddlk_iomem_t - I/O memory accessor for kernel space.
+ * typedef cuddl_iomem_t - I/O memory accessor for user space.
  *
- * Type used to access kernel-space memory-mapped I/O regions.
+ * Type used to access user-space memory-mapped I/O regions.
  *
- * Pointers of type ``cuddlk_iomem_t *`` can be passed to
- * ``cuddlk_ioread32()``, ``cuddlk_iowrite16()``, etc.
+ * Pointers of type ``cuddl_iomem_t *`` can be passed to
+ * ``cuddl_ioread32()``, ``cuddl_iowrite16()``, etc.
  */
-typedef cuddlk_impl_iomem_t cuddlk_iomem_t;
-
-/* Linux definitions are included by kernel_impl_linux.h */
-#ifndef CUDDLK_LINUX
+typedef void cuddl_iomem_t;
 
 /**
- * cuddlk_ioread8() - Read an 8-bit value from device I/O memory.
+ * cuddl_ioread8() - Read an 8-bit value from device I/O memory.
  *
  * @addr: I/O memory address for reading.
  *
  * Return: Value that results from reading the specified memory address.
  */
-inline uint8_t cuddlk_ioread8(cuddlk_iomem_t *addr)
+inline uint8_t cuddl_ioread8(cuddl_iomem_t *addr)
 {
 	return *(volatile uint8_t *) (addr);
 }
 
 /**
- * cuddlk_ioread16() - Read a 16-bit value from device I/O memory.
+ * cuddl_ioread16() - Read a 16-bit value from device I/O memory.
  *
  * @addr: I/O memory address for reading.
  *
  * Return: Value that results from reading the specified memory address.
  */
-inline uint16_t cuddlk_ioread16(cuddlk_iomem_t *addr)
+inline uint16_t cuddl_ioread16(cuddl_iomem_t *addr)
 {
 	return *(volatile uint16_t *) (addr);
 }
 
 /**
- * cuddlk_ioread32() - Read a 32-bit value from device I/O memory.
+ * cuddl_ioread32() - Read a 32-bit value from device I/O memory.
  *
  * @addr: I/O memory address for reading.
  *
  * Return: Value that results from reading the specified memory address.
  */
-inline uint32_t cuddlk_ioread32(cuddlk_iomem_t *addr)
+inline uint32_t cuddl_ioread32(cuddl_iomem_t *addr)
 {
 	return *(volatile uint32_t *) (addr);
 }
 
 /**
- * cuddlk_iowrite8() - Write an 8-bit value to device I/O memory.
+ * cuddl_iowrite8() - Write an 8-bit value to device I/O memory.
  *
  * @value: Value to be written.
  * @addr: I/O memory address for writing.
  */
-inline void cuddlk_iowrite8(uint8_t value, cuddlk_iomem_t *addr)
+inline void cuddl_iowrite8(uint8_t value, cuddl_iomem_t *addr)
 {
 	(*(volatile uint8_t *) (addr)) = value;
 }
 
 /**
- * cuddlk_iowrite16() - Write a 16-bit value to device I/O memory.
+ * cuddl_iowrite16() - Write a 16-bit value to device I/O memory.
  *
  * @value: Value to be written.
  * @addr: I/O memory address for writing.
  */
-inline void cuddlk_iowrite16(uint16_t value, cuddlk_iomem_t *addr)
+inline void cuddl_iowrite16(uint16_t value, cuddl_iomem_t *addr)
 {
 	(*(volatile uint16_t *) (addr)) = value;
 }
 
 /**
- * cuddlk_iowrite32() - Write a 32-bit value to device I/O memory.
+ * cuddl_iowrite32() - Write a 32-bit value to device I/O memory.
  *
  * @value: Value to be written.
  * @addr: I/O memory address for writing.
  */
-inline void cuddlk_iowrite32(uint32_t value, cuddlk_iomem_t *addr)
+inline void cuddl_iowrite32(uint32_t value, cuddl_iomem_t *addr)
 {
 	(*(volatile uint32_t *) (addr)) = value;
 }
 
-#endif /* CUDDLK_LINUX */
-
-#endif /* !_CUDDL_KERNEL_IOMEM_H */
+#endif /* !_CUDDL_IOMEM_H */

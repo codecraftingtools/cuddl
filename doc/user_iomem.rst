@@ -13,17 +13,8 @@
    
 .. highlight:: C
 
-================
-User-Space C API
-================
+=================
+I/O Memory Access
+=================
 
-The C API described in the following sections is available to user-space
-applications.
-
-.. toctree::
-   :maxdepth: 1
-
-   user_general
-   user_iomem
-   user_memregion
-   user_eventsrc
+.. kernel-doc:: user/include/cuddl/iomem.h

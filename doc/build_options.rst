@@ -20,10 +20,10 @@ Build Options
 Common Kernel/User-Space Build Options
 ======================================
 
-.. kernel-doc:: common/include/cuddl/common_impl.h
+.. kernel-doc:: common/include/cuddl/common_compilation_opts.h
 
 Kernel Build Options
 ====================
 
-.. kernel-doc:: kernel/include/cuddl/kernel_impl.h
+.. kernel-doc:: kernel/include/cuddl/kernel_compilation_opts.h
 

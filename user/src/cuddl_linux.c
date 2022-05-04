@@ -82,7 +82,7 @@ int cuddl_memregion_claim(
 
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo)
 {
-	return 0;
+	return cuddl_memregion_release_by_token(meminfo->token);
 }
 
 int cuddl_memregion_map(
@@ -137,6 +137,45 @@ int cuddl_memregion_unmap(struct cuddl_memregion *memregion)
 	return ret;
 }
 
+int cuddl_memregion_claim_and_map(
+	struct cuddl_memregion *memregion,
+	const char *group,
+	const char *device,
+	const char *resource,
+	int instance,
+	int claim_options,
+	int map_options)
+{
+	int ret;
+	struct cuddl_memregion_info meminfo;
+
+	ret = cuddl_memregion_claim(
+		&meminfo, group, device, resource, instance, claim_options);
+	if (ret)
+		return ret;
+
+	ret = cuddl_memregion_map(memregion, &meminfo, map_options);
+	if (ret)
+		cuddl_memregion_release(&meminfo);
+	return ret;
+}
+
+int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion)
+{
+	int ret1, ret2;
+
+	ret1 = cuddl_memregion_unmap(memregion);
+	ret2 = cuddl_memregion_release_by_token(memregion->token);
+	if (ret1)
+		return ret1;
+	return ret2;
+}
+
+int cuddl_memregion_release_by_token(cuddl_token_t token)
+{
+	return 0;
+}
+
 int cuddl_eventsrc_claim(
 	struct cuddl_eventsrc_info *eventinfo,
 	const char *group,
@@ -181,7 +220,7 @@ int cuddl_eventsrc_claim(
 
 int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo)
 {
-	return 0;
+	return cuddl_eventsrc_release_by_token(eventinfo->token);
 }
 
 int cuddl_eventsrc_open(
@@ -204,6 +243,45 @@ int cuddl_eventsrc_open(
 int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc)
 {
 	close(eventsrc->priv.fd);
+	return 0;
+}
+
+int cuddl_eventsrc_claim_and_open(
+	struct cuddl_eventsrc *eventsrc,
+	const char *group,
+	const char *device,
+	const char *resource,
+	int instance,
+	int claim_options,
+	int open_options)
+{
+	int ret;
+	struct cuddl_eventsrc_info eventinfo;
+
+	ret = cuddl_eventsrc_claim(
+		&eventinfo, group, device, resource, instance, claim_options);
+	if (ret)
+		return ret;
+
+	ret = cuddl_eventsrc_open(eventsrc, &eventinfo, open_options);
+	if (ret)
+		cuddl_eventsrc_release(&eventinfo);
+	return ret;
+}
+
+int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc)
+{
+	int ret1, ret2;
+
+	ret1 = cuddl_eventsrc_close(eventsrc);
+	ret2 = cuddl_eventsrc_release_by_token(eventsrc->token);
+	if (ret1)
+		return ret1;
+	return ret2;
+}
+
+int cuddl_eventsrc_release_by_token(cuddl_token_t token)
+{
 	return 0;
 }
 

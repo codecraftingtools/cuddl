@@ -22,11 +22,8 @@
 /**
  * DOC: Common user/kernel-space declarations for the Linux IOTCL calls.
  *
- * These declarations apply to both Linux UIO and Xenomai UDD.
- *
- * These declarations are technically available to both user-space and
- * kernel-space code, however the only intended kernel-space usage of these
- * declarations is to convey information to user-space applications.
+ * These declarations apply to both Linux UIO and Xenomai UDD, and are used
+ * to transfer information between user-space and kernel-space code.
  *
  * .. c:macro:: CUDDL_MEMREGION_CLAIM_UIO_IOCTL
  *

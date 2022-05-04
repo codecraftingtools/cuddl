@@ -40,6 +40,14 @@
 typedef cuddl_impl_size_t cuddl_size_t;
 
 /**
+ * typedef cuddl_token_t - User-space handle to a mem region or event source.
+ *
+ * Opaque token used (internally) when claiming and releasing memory regions
+ * and event sources.
+ */
+typedef cuddl_impl_token_t cuddl_token_t;
+
+/**
  * struct cuddl_resource_id - User-space resource identifier.
  *
  * @group: Name of the group in which the resource's parent device resides.

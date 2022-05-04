@@ -65,6 +65,9 @@ enum cuddl_eventsrc_flags {
 /**
  * struct cuddl_eventsrc_info - Event source information for user space.
  *
+ * @token: Opaque token used (internally) when releasing ownership of the
+ *         associated memory region.
+ *
  * @flags: Flags that describe the properties of the event source.  This
  *         field may be a set of ``cuddl_eventsrc_flags`` ORed together.
  *
@@ -76,6 +79,7 @@ enum cuddl_eventsrc_flags {
  * kernel via an ``ioctl`` call.
  */
 struct cuddl_eventsrc_info {
+	cuddl_token_t token;
 	int flags;
 	struct cuddl_eventsrc_info_priv priv;
 };

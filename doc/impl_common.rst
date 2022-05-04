@@ -13,21 +13,8 @@
    
 .. highlight:: C
 
-======================
-Implementation Details
-======================
+======================================
+Platform-Independent User/Kernel Space
+======================================
 
-The declarations in the following sections contain target-specific
-implementation details.
-
-.. toctree::
-   :maxdepth: 2
-
-   impl_common
-   impl_linux_common
-   impl_linux_user
-   impl_linux_kernel
-   impl_rtems_common
-   impl_rtems_user
-   impl_rtems_kernel
-
+.. kernel-doc:: common/include/cuddl/common_impl.h

@@ -16,32 +16,32 @@
 #ifndef _CUDDL_COMMON_IMPL_H
 #define _CUDDL_COMMON_IMPL_H
 
-/*
- * Common user/kernel-space implementation declarations for all targets.
- *
- * These declarations are technically available to both user-space and
- * kernel-space code, however the only intended kernel-space usage of these
- * declarations is to convey information to user-space applications.
- */
+#include <cuddl/common_compilation_opts.h>
 
 /**
- * DOC: Compile-time options applicable to both kernel and user-space code.
+ * DOC: Common user/kernel-space implementation declarations for all targets.
  *
- * These flags may be set by editing *cuddl/common_impl.h*, or by adding
- * flags to define the required symbols when invoking the C compiler.  Take
- * care to ensure that all kernel and user-space code is compiled with the
- * same options or some disaster may possibly occur.
+ * These declarations are available to both user-space and kernel-space code.
  *
- * .. c:macro:: CUDDL_BUILD_WARN_TARGET
+ * .. c:macro:: CUDDL_IMPL_MAX_STR_LEN
  *
- *    If this symbol is defined, pre-processor ``#warning`` output will be
- *    enabled to indicate the type of target system detected at build time.
- *    This may be useful for debugging purposes.
+ *    Maximum allowed length for Cuddl strings.  (Equivalent to
+ *    ``CUDDL_MAX_STR_LEN`` / ``CUDDLK_MAX_STR_LEN``.)
  */
-//#define CUDDL_BUILD_WARN_TARGET
 
 /* Maximum allowed length for Cuddl strings. */
 #define CUDDL_IMPL_MAX_STR_LEN 128
+
+/**
+ * typedef cuddl_impl_token_t - User-space handle to a memregion or eventsrc.
+ *
+ * Opaque token used (internally) when claiming and releasing memory regions
+ * and event sources.  (Equivalent to ``cuddl_token_t``.)
+ */
+typedef struct {
+	int device_index;
+	int resource_index;
+} cuddl_impl_token_t;
 
 #if defined(__rtems__)
 #define CUDDL_RTEMS

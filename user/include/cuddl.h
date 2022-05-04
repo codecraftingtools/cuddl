@@ -16,7 +16,6 @@
 #ifndef _CUDDL_H
 #define _CUDDL_H
 
-#include <cuddl/iomem.h>
 #include <cuddl/memregion.h>
 #include <cuddl/eventsrc.h>
 

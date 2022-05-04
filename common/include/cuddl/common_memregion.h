@@ -42,6 +42,9 @@ enum cuddl_memregion_flags {
 /**
  * struct cuddl_memregion_info - Memory region information for user space.
  *
+ * @token: Opaque token used (internally) when releasing ownership of the
+ *         associated memory region.
+ *
  * @len: The exact size of the memory region to be mapped, in bytes.  This is
  *       not necessarily a multiple of ``CUDDLK_PAGE_SIZE``.
  *
@@ -56,6 +59,7 @@ enum cuddl_memregion_flags {
  * kernel via an ``ioctl`` call.
  */
 struct cuddl_memregion_info {
+	cuddl_token_t token;
 	cuddl_size_t len;
 	int flags;
 	struct cuddl_memregion_info_priv priv;

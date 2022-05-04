@@ -48,6 +48,9 @@ struct cuddl_timespec {
 /**
  * struct cuddl_eventsrc - User-space event source interface.
  *
+ * @token: Opaque token used (internally) when releasing ownership of the
+ *         associated memory region.
+ *
  * @flags: Flags that describe the properties of the event source.  This
  *         field may be a set of ``cuddl_eventsrc_flags`` ORed together.
  *
@@ -57,6 +60,7 @@ struct cuddl_timespec {
  * kernel-based (e.g. interrupt) events.
  */
 struct cuddl_eventsrc {
+	cuddl_token_t token;
 	int flags;
 	struct cuddl_eventsrc_priv priv;
 };
@@ -162,6 +166,66 @@ int cuddl_eventsrc_open(
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc);
+
+/**
+ * cuddl_eventsrc_claim_and_open() - Claim and open an event source.
+ *
+ * @eventsrc: See ``cuddl_eventsrc_open()``.
+ * @group: See ``cuddl_eventsrc_claim()``.
+ * @device: See ``cuddl_eventsrc_claim()``.
+ * @resource: Name of the specific event source to be claimed.
+ * @instance: See ``cuddl_eventsrc_claim()``.
+ * @claim_options: See ``cuddl_eventsrc_claim()``.
+ * @open_options1: See ``cuddl_eventsrc_open()``.
+ *
+ * Request ownership of a specific event source and then open it for the
+ * purpose of receiving events in user space.  See ``cuddl_eventsrc_claim()``
+ * and ``cuddl_eventsrc_open()`` for more details.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_eventsrc_claim_and_open(
+	struct cuddl_eventsrc *eventsrc,
+	const char *group,
+	const char *device,
+	const char *resource,
+	int instance,
+	int claim_options,
+	int open_options1);
+
+/**
+ * cuddl_eventsrc_close_and_release() - Close and release an event source.
+ *
+ * @eventsrc: Input identifying the event source to be closed and released.
+ *            The data structure pointed to by this parameter should contain
+ *            the information returned by a successful call to
+ *            ``cuddl_eventsrc_open()``.
+ *
+ * Close the event source ``eventsrc`` (disabling the reception of events
+ * from this source in user space), and then release ownership of the event
+ * source.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
+
+/**
+ * cuddl_eventsrc_release_by_token() - Release event source using a token.
+ *
+ * @token: Input parameter identifying the event source to be released.
+ *         Event source tokens originate with a successful call to to
+ *         ``cuddl_eventsrc_claim()``, and can be obtained from the ``token``
+ *         member of a ``cuddl_eventsrc_info`` or ``cuddl_eventsrc``
+ *         structure.
+ *
+ * Release ownership of the event source identified by ``token`` from user
+ * space.  Typically this function is not called directly, but event sources
+ * are instead released by calling ``cuddl_eventsrc_release()`` or
+ * ``cuddl_eventsrc_close_and_release()``.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_eventsrc_release_by_token(cuddl_token_t token);
 
 /**
  * cuddl_eventsrc_wait() - Wait for an event in user space.

@@ -45,7 +45,7 @@ typedef cuddl_impl_size_t cuddl_size_t;
  * Opaque token used (internally) when claiming and releasing memory regions
  * and event sources.
  */
-typedef cuddl_impl_token_t cuddl_token_t;
+typedef struct cuddl_impl_token cuddl_token_t;
 
 /**
  * struct cuddl_resource_id - User-space resource identifier.

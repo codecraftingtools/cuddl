@@ -33,9 +33,13 @@
 #ifdef __XENO__
 #define CUDDL_MEMREGION_CLAIM_IOCTL CUDDL_MEMREGION_CLAIM_UDD_IOCTL
 #define CUDDL_EVENTSRC_CLAIM_IOCTL  CUDDL_EVENTSRC_CLAIM_UDD_IOCTL
+#define CUDDL_MEMREGION_RELEASE_IOCTL CUDDL_MEMREGION_RELEASE_UDD_IOCTL
+#define CUDDL_EVENTSRC_RELEASE_IOCTL  CUDDL_EVENTSRC_RELEASE_UDD_IOCTL
 #else
 #define CUDDL_MEMREGION_CLAIM_IOCTL CUDDL_MEMREGION_CLAIM_UIO_IOCTL
 #define CUDDL_EVENTSRC_CLAIM_IOCTL  CUDDL_EVENTSRC_CLAIM_UIO_IOCTL
+#define CUDDL_MEMREGION_RELEASE_IOCTL CUDDL_MEMREGION_RELEASE_UIO_IOCTL
+#define CUDDL_EVENTSRC_RELEASE_IOCTL  CUDDL_EVENTSRC_RELEASE_UIO_IOCTL
 #endif
 
 int cuddl_memregion_claim(
@@ -116,6 +120,7 @@ int cuddl_memregion_map(
 		memregion->priv.pa_addr + meminfo->priv.start_offset);
 	memregion->len = meminfo->len;
 	memregion->flags = meminfo->flags;
+	memregion->token = meminfo->token;
 		
 	return 0;
 }
@@ -173,6 +178,23 @@ int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion)
 
 int cuddl_memregion_release_by_token(cuddl_token_t token)
 {
+	int fd;
+	int ret;
+	struct cuddl_memregion_release_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.token = token;
+
+	ret = ioctl(fd, CUDDL_MEMREGION_RELEASE_IOCTL, &s);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	close(fd);
 	return 0;
 }
 
@@ -235,6 +257,7 @@ int cuddl_eventsrc_open(
 		return -errno;
 
 	eventsrc->flags = eventinfo->flags;
+	eventsrc->token = eventinfo->token;
 	eventsrc->priv.fd = fd;
 
 	return 0;
@@ -282,6 +305,23 @@ int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc)
 
 int cuddl_eventsrc_release_by_token(cuddl_token_t token)
 {
+	int fd;
+	int ret;
+	struct cuddl_eventsrc_release_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.token = token;
+
+	ret = ioctl(fd, CUDDL_EVENTSRC_RELEASE_IOCTL, &s);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	close(fd);
 	return 0;
 }
 

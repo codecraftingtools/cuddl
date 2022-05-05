@@ -33,15 +33,19 @@
 #define CUDDL_IMPL_MAX_STR_LEN 128
 
 /**
- * typedef cuddl_impl_token_t - User-space handle to a memregion or eventsrc.
+ * struct cuddl_impl_token - User-space handle to a memregion or eventsrc.
+ *
+ *
+ * @device_index: Index of device in device manager array.
+ * @resource_index: Index of memregion or eventsrc in device's array.
  *
  * Opaque token used (internally) when claiming and releasing memory regions
  * and event sources.  (Equivalent to ``cuddl_token_t``.)
  */
-typedef struct {
+struct cuddl_impl_token {
 	int device_index;
 	int resource_index;
-} cuddl_impl_token_t;
+};
 
 #if defined(__rtems__)
 #define CUDDL_RTEMS

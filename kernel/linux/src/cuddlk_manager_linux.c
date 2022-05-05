@@ -60,6 +60,8 @@ static long cuddlk_manager_ioctl(
 	struct cuddlk_device *dev;
 	struct cuddl_memregion_claim_ioctl_data *mdata;
 	struct cuddl_eventsrc_claim_ioctl_data *edata;
+	struct cuddl_memregion_release_ioctl_data *mrdata;
+	struct cuddl_eventsrc_release_ioctl_data *erdata;
 
 	printk("cuddlk_manager_ioctl\n");
 	printk("  cmd:  %u\n", cmd);
@@ -86,6 +88,27 @@ static long cuddlk_manager_ioctl(
 		return -ENOMEM;
 	}
 
+	mrdata = kzalloc(
+		sizeof(struct cuddl_memregion_release_ioctl_data),
+		GFP_KERNEL);
+	if (!mrdata) {
+		kfree(edata);
+		kfree(mdata);
+		printk("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
+	erdata = kzalloc(
+		sizeof(struct cuddl_eventsrc_release_ioctl_data),
+		GFP_KERNEL);
+	if (!erdata) {
+		kfree(mrdata);
+		kfree(edata);
+		kfree(mdata);
+		printk("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
 	switch(cmd) {
 	case CUDDL_MEMREGION_CLAIM_UDD_IOCTL:
 		rt = 1;
@@ -107,15 +130,18 @@ static long cuddlk_manager_ioctl(
 			ret = slot;
 			break;
 		}
-
-		printk("found slot: %d\n", slot);
 		dev = cuddlk_global_manager_ptr->devices[slot];
+		printk("  found slot: %d (dev_ptr: %p)\n", slot, dev);
+
 		mslot = cuddlk_device_find_memregion(dev, mdata->id.resource);
 		if (mslot < 0) {
 			ret = mslot;
 			break;
 		}
+		printk("  found mslot: %d\n", mslot);
 
+		mdata->info.token.device_index = slot;
+		mdata->info.token.resource_index = mslot;
 		mdata->info.priv.pa_len = dev->mem[mslot].pa_len;
 		mdata->info.priv.start_offset = dev->mem[mslot].start_offset;
 		mdata->info.len = dev->mem[mslot].len;
@@ -142,7 +168,9 @@ static long cuddlk_manager_ioctl(
 			ret = -1;
 			break;
 		}
-		printk("  success\n");
+		dev->mem[mslot].kernel.ref_count += 1;
+		printk("  success: ref_count: %d\n",
+		       dev->mem[mslot].kernel.ref_count);
 		break;
 
 	case CUDDL_EVENTSRC_CLAIM_UDD_IOCTL:
@@ -165,15 +193,18 @@ static long cuddlk_manager_ioctl(
 			ret = slot;
 			break;
 		}
-
-		printk("found slot: %d\n", slot);
 		dev = cuddlk_global_manager_ptr->devices[slot];
+		printk("  found slot: %d (dev_ptr: %p)\n", slot, dev);
+
 		eslot = cuddlk_device_find_eventsrc(dev, edata->id.resource);
 		if (eslot < 0) {
 			ret = eslot;
 			break;
 		}
+		printk("  found eslot: %d\n", eslot);
 
+		edata->info.token.device_index = slot;
+		edata->info.token.resource_index = eslot;
 		edata->info.flags = 0;
 		edata->info.flags |= CUDDL_EVENTSRCF_WAITABLE;
 		if (rt) {
@@ -193,12 +224,90 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 		printk("  success\n");
+		dev->events[eslot].kernel.ref_count += 1;
+		printk("  success: ref_count: %d\n",
+		       dev->events[eslot].kernel.ref_count);
 		break;
+
+	case CUDDL_MEMREGION_RELEASE_UDD_IOCTL:
+		rt = 1;
+		/* FALLTHROUGH */
+	case CUDDL_MEMREGION_RELEASE_UIO_IOCTL:
+		printk("CUDDL_MEMREGION_RELEASE_*_IOCTL called\n");
+		if (copy_from_user(mrdata, (void*)arg, sizeof(*mrdata))) {
+			printk("copy_from_user failed\n");
+			ret = -1;
+			break;
+		}
+		slot = mrdata->token.device_index;
+		mslot = mrdata->token.resource_index;
+		printk("  token: %d %d\n", slot, mslot);
+
+		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
+			ret = -1;
+			break;
+		}
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			ret = -1;
+			break;
+		}
+		printk("  found slot: %d (dev_ptr: %p)\n", slot, dev);
+
+		if ((mslot >= CUDDLK_MAX_DEV_MEM_REGIONS) || (mslot < 0)) {
+			ret = -1;
+			break;
+		}
+		printk("  found mslot: %d\n", mslot);
+
+		dev->mem[mslot].kernel.ref_count -= 1;
+		printk("  success: ref_count: %d\n",
+		       dev->mem[mslot].kernel.ref_count);
+		break;
+
+	case CUDDL_EVENTSRC_RELEASE_UDD_IOCTL:
+		rt = 1;
+		/* FALLTHROUGH */
+	case CUDDL_EVENTSRC_RELEASE_UIO_IOCTL:
+		printk("CUDDL_EVENTSRC_RELEASE_*_IOCTL called\n");
+		if (copy_from_user(erdata, (void*)arg, sizeof(*erdata))) {
+			printk("copy_from_user failed\n");
+			ret = -1;
+			break;
+		}
+		slot = erdata->token.device_index;
+		eslot = erdata->token.resource_index;
+		printk("  token: %d %d\n", slot, eslot);
+
+		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
+			ret = -1;
+			break;
+		}
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			ret = -1;
+			break;
+		}
+		printk("  found slot: %d (dev_ptr: %p)\n", slot, dev);
+
+		if ((eslot >= CUDDLK_MAX_DEV_EVENTS) || (eslot < 0)) {
+			ret = -1;
+			break;
+		}
+		printk("  found eslot: %d\n", eslot);
+
+		dev->events[eslot].kernel.ref_count -= 1;
+		printk("  success: ref_count: %d\n",
+		       dev->events[eslot].kernel.ref_count);
+		break;
+
 	default:
 		printk("Unknown Cuddl IOCTL\n");
 		ret = -1;
 	}
 
+	kfree(erdata);
+	kfree(mrdata);
 	kfree(edata);
 	kfree(mdata);
 	return ret;

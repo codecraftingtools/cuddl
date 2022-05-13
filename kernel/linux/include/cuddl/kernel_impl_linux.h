@@ -59,6 +59,8 @@
 
   #define CUDDLK_IMPL_VARIANT_STR "Xenomai UDD"
 
+  #define cuddlk_impl_print(...) rtdm_printk(__VA_ARGS__)
+
   #define CUDDLK_IMPL_RET_INTR_NOT_HANDLED RTDM_IRQ_NONE
   #define CUDDLK_IMPL_RET_INTR_HANDLED     RTDM_IRQ_HANDLED
 
@@ -67,6 +69,8 @@
 
 #else /* Linux UIO */
   #define CUDDLK_IMPL_VARIANT_STR "Linux UIO"
+
+  #define cuddlk_impl_print(...) printk(__VA_ARGS__)
 
   #define CUDDLK_IMPL_RET_INTR_NOT_HANDLED IRQ_NONE
   #define CUDDLK_IMPL_RET_INTR_HANDLED     IRQ_HANDLED

@@ -28,7 +28,19 @@
  *
  *    Disables UDD support on a Xenomai system for testing purposes.  Linux
  *    UIO is used instead.
+ *
+ * .. c:macro:: CUDDLK_ENABLE_DEBUG_PRINT
+ *
+ *    Enables standard debug print statements.
+ *
+ * .. c:macro:: CUDDLK_ENABLE_INTRUSIVE_DEBUG_PRINT
+ *
+ *    Enables intrusive debug print statements.
+ *
+ *    Enabling this option is likely to affect performance.
  */
 //#define CUDDLK_DISABLE_UDD_ON_XENOMAI /* For testing purposes */
+//#define CUDDLK_ENABLE_DEBUG_PRINT
+//#define CUDDLK_ENABLE_INTRUSIVE_DEBUG_PRINT
 
 #endif /* !_CUDDL_KERNEL_COMPILATION_OPTS_H */

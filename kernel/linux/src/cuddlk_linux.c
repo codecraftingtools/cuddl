@@ -218,15 +218,15 @@ static int cuddlk_udd_eventsrc_ioctl(
 		if (intr->enable)
 			return intr->enable(intr);
 		else
-			rtdm_printk("%s: intr->enable is NULL in %s\n",
-			            THIS_MODULE->name, __func__);
+			cuddlk_idebug("%s: intr->enable is NULL in %s\n",
+				      THIS_MODULE->name, __func__);
 		break;
 	case UDD_RTIOC_IRQDIS:
 		if (intr->disable)
 			return intr->disable(intr);
 		else
-			rtdm_printk("%s: intr->disable is NULL in %s\n",
-			            THIS_MODULE->name, __func__);
+			cuddlk_idebug("%s: intr->disable is NULL in %s\n",
+				      THIS_MODULE->name, __func__);
 		break;
 	default:
 		break;
@@ -250,14 +250,14 @@ static int cuddlk_uio_eventsrc_or_mem_irqcontrol(
 		if (intr->enable)
 			return intr->enable(intr);
 		else
-			printk("%s: intr->enable is NULL in %s\n",
-			       THIS_MODULE->name, __func__);
+			cuddlk_idebug("%s: intr->enable is NULL in %s\n",
+				      THIS_MODULE->name, __func__);
 	} else {
 		if (intr->disable)
 			return intr->disable(intr);
 		else
-			printk("%s: intr->disable is NULL in %s\n",
-			       THIS_MODULE->name, __func__);
+			cuddlk_idebug("%s: intr->disable is NULL in %s\n",
+				      THIS_MODULE->name, __func__);
 	}
 	return -EINVAL;
 }

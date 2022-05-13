@@ -13,21 +13,8 @@
    
 .. highlight:: C
 
-==================
-Kernel-Space C API
-==================
+========
+Printing
+========
 
-The C API described in the following sections is available to kernel-space
-applications.
-
-.. toctree::
-   :maxdepth: 1
-
-   kernel_general
-   kernel_print
-   kernel_iomem
-   kernel_memregion
-   kernel_interrupt
-   kernel_eventsrc
-   kernel_device
-   kernel_manager
+.. kernel-doc:: kernel/include/cuddl/kernel_print.h

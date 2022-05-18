@@ -21,6 +21,9 @@
 /**
  * DOC: Kernel-space I/O memory access declarations.
  *
+ * Cuddl kernel drivers may use this API to read from (or write to) a
+ * peripheral's hardware registers in a platform-independent manner.
+ *
  * This part of the API is only applicable to kernel-space code.
  */
 
@@ -29,7 +32,10 @@
  *
  * Type used to access kernel-space memory-mapped I/O regions.
  *
- * Pointers of type ``cuddlk_iomem_t *`` can be passed to
+ * Under Linux and Xenomai, this type is equivalent to ``void __iomem``.
+ * Under RTEMS, this type is a raw pointer.
+ *
+ * Pointers of type ``cuddlk_iomem_t *`` can be used with
  * ``cuddlk_ioread32()``, ``cuddlk_iowrite16()``, etc.
  */
 typedef cuddlk_impl_iomem_t cuddlk_iomem_t;

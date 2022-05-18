@@ -21,6 +21,9 @@
 /**
  * DOC: Kernel-space event source declarations.
  *
+ * Event sources are used to wake up user-space tasks when a specific event
+ * (such as a hardware interrupt from a specific peripheral device) occurs.
+ *
  * This part of the API is only applicable to kernel-space code.
  *
  * Note that the comments in this file regarding Linux UIO and Xenomai UDD
@@ -56,7 +59,7 @@ struct cuddlk_eventsrc_kernel {
  *        implementation.
  *
  * Represents an event source (usually triggered by an interrupt) that may be
- * mapped by user-space applications.
+ * monitored by user-space applications.
  *
  * Unused members of this data structure must be set to zero.  This is
  * typically done by allocating this structure via ``kzalloc()`` or using
@@ -72,7 +75,12 @@ struct cuddlk_eventsrc {
 /**
  * cuddlk_eventsrc_notify() - Programmatically trigger a user-space event.
  *
- * Trigger a user-space interrupt event for the specified device
+ * Trigger a user-space interrupt event for the specified device.  This
+ * routine is typically not called directly unless the event source's
+ * ``intr.irq`` field is set to ``CUDDLK_IRQ_CUSTOM``.  If the event source
+ * is directly associated with a hardware interrupt (i.e. ``int.irq`` >
+ * ``0``), then user-space events are triggered automatically without calling
+ * this function.
  *
  * @eventsrc: Event source to notify.
  *

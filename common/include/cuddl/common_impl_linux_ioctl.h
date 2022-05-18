@@ -86,7 +86,7 @@ struct cuddl_eventsrc_claim_ioctl_data {
  * @token: Token for resource to be released (passed in from user space).
  */
 struct cuddl_memregion_release_ioctl_data {
-	cuddl_token_t token;
+	struct cuddl_impl_token token;
 };
 
 /**
@@ -95,7 +95,7 @@ struct cuddl_memregion_release_ioctl_data {
  * @token: Token for resource to be released (passed in from user space).
  */
 struct cuddl_eventsrc_release_ioctl_data {
-	cuddl_token_t token;
+	struct cuddl_impl_token token;
 };
 
 #define CUDDL_IOCTL_TYPE 'A'

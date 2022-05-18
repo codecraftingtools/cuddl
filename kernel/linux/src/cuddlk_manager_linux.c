@@ -141,8 +141,8 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
-		mdata->info.token.device_index = slot;
-		mdata->info.token.resource_index = mslot;
+		mdata->info.priv.token.device_index = slot;
+		mdata->info.priv.token.resource_index = mslot;
 		mdata->info.priv.pa_len = dev->mem[mslot].pa_len;
 		mdata->info.priv.start_offset = dev->mem[mslot].start_offset;
 		mdata->info.len = dev->mem[mslot].len;
@@ -205,8 +205,8 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
-		edata->info.token.device_index = slot;
-		edata->info.token.resource_index = eslot;
+		edata->info.priv.token.device_index = slot;
+		edata->info.priv.token.resource_index = eslot;
 		edata->info.flags = 0;
 		edata->info.flags |= CUDDL_EVENTSRCF_WAITABLE;
 		if (rt) {

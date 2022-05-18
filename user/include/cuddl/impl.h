@@ -18,11 +18,47 @@
 
 #include <cuddl/common_impl.h>
 
-/*
- * User-space implementation declarations for all targets.
+/**
+ * DOC: User-space implementation declarations for all targets.
  *
  * These declarations are only available to user-space code.
  */
+
+/**
+ * cuddl_memregion_release_by_token() - Release memory region using a token.
+ *
+ * @token: Input parameter identifying the memory region to be released.
+ *         Memory region tokens originate with a successful call to to
+ *         ``cuddl_memregion_claim()``, and can be obtained from the
+ *         ``token`` member of a ``cuddl_memregion_info`` or
+ *         ``cuddl_memregion`` structure.
+ *
+ * Release ownership of the memory region identified by ``token`` from user
+ * space.  Typically this function is not called directly, but memory regions
+ * are instead released by calling ``cuddl_memregion_release()`` or
+ * ``cuddl_memregion_unmap_and_release()``.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
+
+/**
+ * cuddl_eventsrc_release_by_token() - Release event source using a token.
+ *
+ * @token: Input parameter identifying the event source to be released.
+ *         Event source tokens originate with a successful call to to
+ *         ``cuddl_eventsrc_claim()``, and can be obtained from the ``token``
+ *         member of a ``cuddl_eventsrc_info`` or ``cuddl_eventsrc``
+ *         structure.
+ *
+ * Release ownership of the event source identified by ``token`` from user
+ * space.  Typically this function is not called directly, but event sources
+ * are instead released by calling ``cuddl_eventsrc_release()`` or
+ * ``cuddl_eventsrc_close_and_release()``.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ */
+int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token);
 
 #if defined(CUDDL_RTEMS)
 #include <cuddl/impl_rtems.h>

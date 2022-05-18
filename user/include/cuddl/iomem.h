@@ -22,16 +22,22 @@
 /**
  * DOC: User-space I/O memory access declarations.
  *
+ * User-space applications may use this API to read from (or write to) a
+ * peripheral's hardware registers in a platform-independent manner.
+ *
  * This part of the API is only applicable to user-space code.
  */
 
 /**
  * typedef cuddl_iomem_t - I/O memory accessor for user space.
  *
- * Type used to access user-space memory-mapped I/O regions.
+ * Data type used to access user-space memory-mapped I/O regions.
  *
- * Pointers of type ``cuddl_iomem_t *`` can be passed to
- * ``cuddl_ioread32()``, ``cuddl_iowrite16()``, etc.
+ * Pointers of type ``cuddl_iomem_t *`` are typically obtained from the
+ * ``addr`` field of a ``cuddl_memregion`` struct returned by
+ * ``cuddl_memregion_map()`` or ``cuddl_memregion_claim_and_map()``.  These
+ * pointers can then be used with ``cuddl_ioread32()``,
+ * ``cuddl_iowrite16()``, etc.
  */
 typedef void cuddl_iomem_t;
 

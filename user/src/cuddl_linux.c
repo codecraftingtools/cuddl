@@ -86,7 +86,7 @@ int cuddl_memregion_claim(
 
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo)
 {
-	return cuddl_memregion_release_by_token(meminfo->token);
+	return cuddl_memregion_release_by_token(meminfo->priv.token);
 }
 
 int cuddl_memregion_map(
@@ -120,7 +120,7 @@ int cuddl_memregion_map(
 		memregion->priv.pa_addr + meminfo->priv.start_offset);
 	memregion->len = meminfo->len;
 	memregion->flags = meminfo->flags;
-	memregion->token = meminfo->token;
+	memregion->priv.token = meminfo->priv.token;
 		
 	return 0;
 }
@@ -170,13 +170,13 @@ int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion)
 	int ret1, ret2;
 
 	ret1 = cuddl_memregion_unmap(memregion);
-	ret2 = cuddl_memregion_release_by_token(memregion->token);
+	ret2 = cuddl_memregion_release_by_token(memregion->priv.token);
 	if (ret1)
 		return ret1;
 	return ret2;
 }
 
-int cuddl_memregion_release_by_token(cuddl_token_t token)
+int cuddl_memregion_release_by_token(struct cuddl_impl_token token)
 {
 	int fd;
 	int ret;
@@ -242,7 +242,7 @@ int cuddl_eventsrc_claim(
 
 int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo)
 {
-	return cuddl_eventsrc_release_by_token(eventinfo->token);
+	return cuddl_eventsrc_release_by_token(eventinfo->priv.token);
 }
 
 int cuddl_eventsrc_open(
@@ -257,7 +257,7 @@ int cuddl_eventsrc_open(
 		return -errno;
 
 	eventsrc->flags = eventinfo->flags;
-	eventsrc->token = eventinfo->token;
+	eventsrc->priv.token = eventinfo->priv.token;
 	eventsrc->priv.fd = fd;
 
 	return 0;
@@ -297,13 +297,13 @@ int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc)
 	int ret1, ret2;
 
 	ret1 = cuddl_eventsrc_close(eventsrc);
-	ret2 = cuddl_eventsrc_release_by_token(eventsrc->token);
+	ret2 = cuddl_eventsrc_release_by_token(eventsrc->priv.token);
 	if (ret1)
 		return ret1;
 	return ret2;
 }
 
-int cuddl_eventsrc_release_by_token(cuddl_token_t token)
+int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token)
 {
 	int fd;
 	int ret;

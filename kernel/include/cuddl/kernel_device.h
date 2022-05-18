@@ -22,6 +22,12 @@
 /**
  * DOC: Kernel-space device declarations.
  *
+ * The primary function of a Cuddl kernel driver is to set up a
+ * ``cuddlk_device`` data structure for each hardware peripheral, expose each
+ * peripheral to user-space applications by calling
+ * ``cuddlk_device_manage()``, and then clean them up up by calling
+ * ``cuddlk_device_release()``.
+ *
  * This part of the API is only applicable to kernel-space code.
  *
  * Note that the comments in this file regarding Linux UIO and Xenomai UDD
@@ -62,7 +68,7 @@
  * On Linux, this type is a ``struct device``, which is usually the ``dev``
  * member of a ``struct pci_dev`` or ``struct platform_device``.
  *   
- * This type is not used on RTEMS.
+ * This type is not used on RTEMS, so it is defined as ``void``.
  */
 typedef cuddlk_impl_parent_device_t cuddlk_parent_device_t;
 
@@ -81,22 +87,6 @@ struct cuddlk_device_kernel {
  * @group: Group used to identify the device.
  *
  * @name: Name used to identify the device.
- *
- *        Under Xenomai UDD, this field is used to construct device names::
- *         
- *          Interrupt event device name: /dev/rtdm/<NAME>
- *          Memory region 0 device name: /dev/rtdm/<NAME>,mapper0
- *         
- *        Under Linux UIO, the value of this field can be read from a file::
- *         
- *          e.g. /sys/class/uio/uio0/name
- *         
- *        but the UIO device name itself, however, is simply generated from
- *        the registration order::
- *         
- *          /dev/uio0
- *         
- *        So, in this case, the ``0`` has nothing to do with the device name.
  *
  * @instance: Integer identifier to ensure uniqueness.
  *
@@ -142,6 +132,25 @@ struct cuddlk_device_kernel {
  *   struct uio_info   in linux/uio_driver.h for Linux   UIO
  *   struct udd_device in rtdm/udd.h         for Xenomai UDD
  *
+ * Under Xenomai UDD, the ``GROUP``, ``NAME``, and ``INSTANCE`` fields are
+ * used to construct device names::
+ *
+ *   Interrupt event device name: /dev/rtdm/<UNIQUE_NAME>
+ *   Memory region 0 device name: /dev/rtdm/<UNIQUE_NAME>,mapper0
+ *
+ * where ``<UNIQUE_NAME>`` is equivalent to ``<GROUP>.<NAME>.<INSTANCE>``.
+ *
+ * Under Linux UIO, the value of ``<UNIQUE_NAME>`` can be read from a file::
+ *
+ *   e.g. /sys/class/uio/uio0/name
+ *
+ * The UIO device name itself, however, is simply generated from the
+ * registration order::
+ *
+ *   /dev/uio0
+ *
+ * So, in the above case, the ``0`` has nothing to do with the device name.
+ *
  * Unused members of this data structure must be set to zero.  This is
  * typically done by allocating this structure via ``kzalloc()`` or using
  * ``memset()`` to zeroize the structure after allocation.
@@ -186,6 +195,9 @@ int cuddlk_device_find_eventsrc(struct cuddlk_device *dev, const char *name);
  *
  * @dev: Cuddl device to register.
  *
+ * This routine is automatically called from ``cuddlk_device_manage()``, so
+ * Cuddl drivers do not typically need to call this routine directly.
+ *
  * Linux UIO equivalent in *linux/uio_driver.h*::
  *
  *   int uio_register_device(struct device *parent, struct uio_info *info);
@@ -202,6 +214,9 @@ int cuddlk_device_register(struct cuddlk_device *dev);
  * cuddlk_device_unregister() - Unregister a Cuddl device.
  *
  * @dev: Cuddl device to unregister.
+ *
+ * This routine is automatically called from ``cuddlk_device_release()``, so
+ * Cuddl drivers do not typically need to call this routine directly.
  *
  * Linux UIO equivalent in *linux/uio_driver.h*::
  *

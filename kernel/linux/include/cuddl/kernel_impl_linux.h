@@ -95,6 +95,8 @@ struct cuddlk_memregion_priv {
 /**
  * struct cuddlk_interrupt_priv - Private kernel interrupt handler data.
  *
+ * @irqh: Xenomai RTDM interrupt data structure.
+ *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
@@ -106,6 +108,13 @@ struct cuddlk_interrupt_priv {
 
 /**
  * struct cuddlk_eventsrc_priv - Private kernel event source data.
+ *
+ * @uio_open_count: Count of open Linux UIO file descriptors.
+ * @uio_ptr: Pointer to the associated Linux UIO device.
+ * @udd_open_count: Count of open Xenomai UDD file descriptors.
+ * @udd_ptr: Pointer to the associated Xenoami UDD device.
+ * @nrt_sig: Xenomai real-time/non-real-time signaling mechanism.
+ * @mut: Mutex protecting the open counts.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
@@ -125,6 +134,8 @@ struct cuddlk_eventsrc_priv {
  * struct cuddlk_device_priv - Private kernel device data.
  *
  * @unique_name: Unique base name for use when creating UDD/UIO device nodes.
+ * @uio: The associate Linux UIO device.
+ * @udd: The associate Xenomai UDD device.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.

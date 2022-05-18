@@ -22,14 +22,14 @@
 /**
  * DOC: User-space memory region declarations.
  *
+ * Memory regions are commonly used to expose device registers to user-space
+ * applications for reading and writing.
+ *
  * This part of the API is only available to user-space code.
  */
 
 /**
  * struct cuddl_memregion - User-space memory-mapped I/O region accessor.
- *
- * @token: Opaque token used (internally) when releasing ownership of the
- *         associated memory region.
  *
  * @addr: Pointer to the starting address of the memory-mapped I/O region.
  *        This value is not necessarily ``CUDDLK_PAGE_SIZE``-aligned
@@ -46,7 +46,6 @@
  * region.
  */
 struct cuddl_memregion {
-	cuddl_token_t token;
 	cuddl_iomem_t *addr;
 	cuddl_size_t len;
 	int flags;
@@ -66,7 +65,7 @@ struct cuddl_memregion {
  *         the PCI card on which the parent device is located.
  *
  * @device: Name of the specified memory region's parent device
- *          (i.e. peripheral).
+ *          (i.e. hardware peripheral).
  *
  * @memregion: Name of the specific memory region to be claimed.
  *
@@ -82,9 +81,13 @@ struct cuddl_memregion {
  * Request ownership of a specific memory region for user-space access.  The
  * particular memory region is identified by the ``group``, ``device``,
  * ``memregion``, and ``instance`` arguments.  If any of these arguments is
- * ``NULL`` or contains an empty string (or ``instance`` is ``0``), the
- * parameter will be treated as a *don't care* value when searching for a
- * matching memory region in the resource list.
+ * ``NULL`` or contains an empty string (or is ``0``, in the case of
+ * ``instance``), the parameter will be treated as a *don't care* value when
+ * searching for a matching memory region in the resource list.
+ *
+ * This routine is automatically called from
+ * ``cuddl_memregion_claim_and_map()``, so user-space applications do not
+ * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -106,6 +109,10 @@ int cuddl_memregion_claim(
  *
  * Release ownership of the memory region identified by ``meminfo``.
  *
+ * This routine is automatically called from
+ * ``cuddl_memregion_unmap_and_release()``, so user-space applications do not
+ * typically need to call this routine directly.
+ *
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
@@ -115,9 +122,9 @@ int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
  *
  * @memregion: Pointer to a data structure that will receive the information
  *             required to access the specified memory region from user
- *             space.  If the map operation is successful, and if this
- *             parameter is non-``NULL``, the required information will be
- *             copied into the data structure specified by this parameter.
+ *             space.  If the map operation is successful, the required
+ *             information will be copied into the data structure specified
+ *             by this parameter.
  *
  * @meminfo: Input parameter identifying the memory region to be mapped.  The
  *           data structure pointed to by this parameter should contain the
@@ -130,6 +137,10 @@ int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
  *           parameter should be set to ``0``.
  *
  * Map the memory region identified by ``meminfo`` for user-space access.
+ *
+ * This routine is automatically called from
+ * ``cuddl_memregion_claim_and_map()``, so user-space applications do not
+ * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -148,6 +159,10 @@ int cuddl_memregion_map(
  *
  * Unmap the memory region associated with the ``memregion`` memory region
  * accessor.
+ *
+ * This routine is automatically called from
+ * ``cuddl_memregion_unmap_and_release()``, so user-space applications do not
+ * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -185,31 +200,15 @@ int cuddl_memregion_claim_and_map(
  * @memregion: Input identifying the memory region to be unmapped and
  *             released.  The data structure pointed to by this parameter
  *             should contain the information returned by a successful call
- *             to ``cuddl_memregion_map()``.
+ *             to ``cuddl_memregion_claim_and_map()``.
  *
  * Unmap the memory region associated with the ``memregion`` memory region
- * accessor and then release ownership of the memory region.
+ * accessor and then release ownership of the memory region.  See
+ * ``cuddl_memregion_unmap()`` and ``cuddl_memregion_release()`` for more
+ * details.
  *
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion);
-
-/**
- * cuddl_memregion_release_by_token() - Release memory region using a token.
- *
- * @token: Input parameter identifying the memory region to be released.
- *         Memory region tokens originate with a successful call to to
- *         ``cuddl_memregion_claim()``, and can be obtained from the
- *         ``token`` member of a ``cuddl_memregion_info`` or
- *         ``cuddl_memregion`` structure.
- *
- * Release ownership of the memory region identified by ``token`` from user
- * space.  Typically this function is not called directly, but memory regions
- * are instead released by calling ``cuddl_memregion_release()`` or
- * ``cuddl_memregion_unmap_and_release()``.
- *
- * Return: ``0`` on success, or a negative error code.
- */
-int cuddl_memregion_release_by_token(cuddl_token_t token);
 
 #endif /* !_CUDDL_MEMREGION_H */

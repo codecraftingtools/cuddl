@@ -22,11 +22,13 @@
 /**
  * DOC: General-purpose kernel-space declarations.
  *
+ * These basic declarations are available to Cuddl kernel drivers.
+ *
  * This part of the API is only applicable to kernel-space code.
  *
  * .. c:macro:: CUDDLK_MAX_STR_LEN
  *
- *    Maximum allowed length for Cuddl kernel strings.
+ *    Maximum allowed length for Cuddl kernel string variables.
  *
  *    This is equivalent to ``CUDDL_MAX_STR_LEN``, but ``CUDDLK_MAX_STR_LEN``
  *    is used in kernel code to keep the notation consistent.
@@ -34,6 +36,8 @@
  * .. c:macro:: CUDDLK_VARIANT_STR
  *
  *    String identifying the kernel implementation.
+ *
+ *    (e.g. ``"Xenomai UDD"``, ``"Linux UIO"``, ``"RTEMS"``)
  */
 
 #define CUDDLK_MAX_STR_LEN CUDDL_IMPL_MAX_STR_LEN

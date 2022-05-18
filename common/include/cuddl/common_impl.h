@@ -25,7 +25,7 @@
  *
  * .. c:macro:: CUDDL_IMPL_MAX_STR_LEN
  *
- *    Maximum allowed length for Cuddl strings.  (Equivalent to
+ *    Maximum allowed length for Cuddl string variables.  (Equivalent to
  *    ``CUDDL_MAX_STR_LEN`` / ``CUDDLK_MAX_STR_LEN``.)
  */
 
@@ -35,12 +35,11 @@
 /**
  * struct cuddl_impl_token - User-space handle to a memregion or eventsrc.
  *
- *
  * @device_index: Index of device in device manager array.
  * @resource_index: Index of memregion or eventsrc in device's array.
  *
- * Opaque token used (internally) when claiming and releasing memory regions
- * and event sources.  (Equivalent to ``cuddl_token_t``.)
+ * Opaque token used internally when claiming and releasing memory regions
+ * and event sources.
  */
 struct cuddl_impl_token {
 	int device_index;

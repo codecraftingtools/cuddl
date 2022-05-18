@@ -21,6 +21,9 @@
 /**
  * DOC: Common user/kernel-space memory region declarations.
  *
+ * Memory regions are commonly used to expose device registers to user-space
+ * applications for reading and writing.
+ *
  * This part of the API is technically available to both user-space and
  * kernel-space code, however the only intended kernel-space usage of these
  * declarations is to convey information to user-space applications.
@@ -42,9 +45,6 @@ enum cuddl_memregion_flags {
 /**
  * struct cuddl_memregion_info - Memory region information for user space.
  *
- * @token: Opaque token used (internally) when releasing ownership of the
- *         associated memory region.
- *
  * @len: The exact size of the memory region to be mapped, in bytes.  This is
  *       not necessarily a multiple of ``CUDDLK_PAGE_SIZE``.
  *
@@ -53,13 +53,14 @@ enum cuddl_memregion_flags {
  *
  * @priv: Private data reserved for internal use by the Cuddl implementation.
  *
- * Memory region information that is exported to user-space code.
+ * Memory region information that is exported to user-space code.  Typically,
+ * the internal members of this structure do not need to be directly accessed
+ * from user-space applications.
  *
  * On Linux and Xenomai systems, this information is retrieved from the
  * kernel via an ``ioctl`` call.
  */
 struct cuddl_memregion_info {
-	cuddl_token_t token;
 	cuddl_size_t len;
 	int flags;
 	struct cuddl_memregion_info_priv priv;

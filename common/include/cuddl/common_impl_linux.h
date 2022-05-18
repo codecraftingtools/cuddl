@@ -42,6 +42,20 @@ typedef size_t cuddl_impl_size_t;
 /**
  * struct cuddl_memregion_info_priv - Private memory region information.
  *
+ * @pa_mmap_offset: Page-aligned mmap offset.
+ *
+ *     Value to be used as the ``offset`` argument when mapping this memory
+ *     region via the ``mmap()`` system call on the device named
+ *     ``device_name``.  This value is expressed in bytes, and will be a
+ *     multiple of ``CUDDLK_PAGE_SIZE``.
+ *
+ *     Under Linux UIO, this value will be ``N * getpagesize()``, where ``N``
+ *     is the memory region number.
+ *
+ *     This value will always be zero under Xenomai UDD (because a separate
+ *     device node is created for each memory region), but should still be
+ *     used for portability reasons.
+ *
  * @pa_len: Page-aligned length of the memory region. This field represents
  *          the size of the memory region to be mapped, in bytes.  This value
  *          will be a multiple of ``CUDDLK_PAGE_SIZE``.
@@ -58,19 +72,8 @@ typedef size_t cuddl_impl_size_t;
  *                The start offset is relative to the page-aligned address
  *                returned by the ``mmap()`` system call.
  *
- * @pa_mmap_offset: Page-aligned mmap offset.
- *
- *     Value to be used as the ``offset`` argument when mapping this memory
- *     region via the ``mmap()`` system call on the device named
- *     ``device_name``.  This value is expressed in bytes, and will be a
- *     multiple of ``CUDDLK_PAGE_SIZE``.
- *
- *     Under Linux UIO, this value will be ``N * getpagesize()``, where ``N``
- *     is the memory region number.
- *
- *     This value will always be zero under Xenomai UDD (because a separate
- *     device node is created for each memory region), but should still be
- *     used for portability reasons.
+ * @token: Opaque token used (internally) when releasing ownership of the
+ *         associated memory region.
  *
  * @device_name:
  *
@@ -98,14 +101,18 @@ typedef size_t cuddl_impl_size_t;
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddl_memregion_info_priv {
+	unsigned long pa_mmap_offset;
 	cuddl_impl_size_t pa_len;
 	cuddl_impl_size_t start_offset;
-	unsigned long pa_mmap_offset;
+	struct cuddl_impl_token token;
 	char device_name[CUDDL_IMPL_MAX_STR_LEN];
 };
 
 /**
  * struct cuddl_eventsrc_info_priv - Private event source information.
+ *
+ * @token: Opaque token used (internally) when releasing ownership of the
+ *         associated memory region.
  *
  * @device_name:
  *
@@ -129,6 +136,7 @@ struct cuddl_memregion_info_priv {
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddl_eventsrc_info_priv {
+	struct cuddl_impl_token token;
 	char device_name[CUDDL_IMPL_MAX_STR_LEN];
 };
 

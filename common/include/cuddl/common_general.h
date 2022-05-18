@@ -21,41 +21,35 @@
 /**
  * DOC: Common user/kernel-space general-purpose declarations.
  *
+ * These basic declarations are provided to user-space applications.
+ *
  * This part of the API is technically available to both user-space and
  * kernel-space code, however the only intended kernel-space usage of these
  * declarations is to convey information to user-space applications.
  *
  * .. c:macro:: CUDDL_MAX_STR_LEN
  *
- *    Maximum allowed length for Cuddl strings.
+ *    Maximum allowed length for Cuddl string variables.
  */
 
 #define CUDDL_MAX_STR_LEN CUDDL_IMPL_MAX_STR_LEN
 
 /**
- * typedef cuddl_size_t - Type used to represent a count of bytes.
+ * typedef cuddl_size_t - Data type used to represent a count of bytes.
  *
  * This will be equivalent to ``size_t`` on POSIX systems.
  */
 typedef cuddl_impl_size_t cuddl_size_t;
 
 /**
- * typedef cuddl_token_t - User-space handle to a mem region or event source.
- *
- * Opaque token used (internally) when claiming and releasing memory regions
- * and event sources.
- */
-typedef struct cuddl_impl_token cuddl_token_t;
-
-/**
- * struct cuddl_resource_id - User-space resource identifier.
+ * struct cuddl_resource_id - Resource identifier.
  *
  * @group: Name of the group in which the resource's parent device resides.
  *         In some cases, this field is used to indicate the PCI card on
  *         which the parent device is located.
  *
- * @device: Name of the parent device (i.e. peripheral) for a particular
- *          resource.
+ * @device: Name of the parent device (i.e. hardware peripheral) for a
+ *          particular resource.
  *
  * @resource: Name of a particular resource (i.e. specific memory region or
  *            event source) that is associated with a specific (parent)
@@ -65,9 +59,10 @@ typedef struct cuddl_impl_token cuddl_token_t;
  *            registered with identical ``group``, ``device``, and
  *            ``resource`` fields.
  *
- * Specifies a memory region or event source resource by name.  If any field
- * is ``NULL`` or contains an empty string (or ``instance`` is ``0``), the
- * field will be treated as a *don't care* value when searching for a
+ * Data structure used to specify a memory region or event source resource by
+ * name.  If any field contains an empty string (or is ``0``, in the case of
+ * ``instance``), the field is considered to be unspecified.  Unspecified
+ * fields will be treated as *don't care* values when searching for a
  * matching resource in the resource list.
  */
 struct cuddl_resource_id {

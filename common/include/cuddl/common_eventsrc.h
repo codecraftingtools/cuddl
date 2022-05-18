@@ -21,6 +21,9 @@
 /**
  * DOC: Common user/kernel-space event source declarations.
  *
+ * Event sources are used to wake up user-space tasks when a specific event
+ * (such as a hardware interrupt from a specific peripheral device) occurs.
+ *
  * This part of the API is technically available to both user-space and
  * kernel-space code, however the only intended kernel-space usage of these
  * declarations is to convey information to user-space applications.
@@ -32,13 +35,19 @@
  * @CUDDL_EVENTSRCF_WAITABLE:
  *     Indicates that the event source can wake up a waiting user-space task.
  *
+ *     If this flag is set, ``cuddl_eventsrc_wait()`` and
+ *     ``cuddl_eventsrc_timedwait()`` are supported.
+ *
  *     On Linux and Xenomai, this feature is implemented via a 4-byte
- *     ``read()`` operation on the file descriptor associated with the event
- *     source.
+ *     blocking ``read()`` operation on the file descriptor associated with
+ *     the event source. The ``select()`` operation is used when a timeout is
+ *     specified.
  *
  * @CUDDL_EVENTSRCF_HAS_DISABLE:
  *     Indicates that a user-space task may disable interrupt events through
  *     the event source.
+ *
+ *     If this flag is set, ``cuddl_eventsrc_disable()`` is supported.
  *
  *     On Linux and Xenomai, this feature is implemented via a 4-byte
  *     ``write()`` operation on file descriptor associated with the event
@@ -48,6 +57,8 @@
  * @CUDDL_EVENTSRCF_HAS_ENABLE:
  *     Indicates that a user-space task may enable interrupt events through
  *     the event source.
+ *
+ *     If this flag is set, ``cuddl_eventsrc_enable()`` is supported.
  *
  *     On Linux and Xenomai, this feature is implemented via a 4-byte
  *     ``write()`` operation on file descriptor associated with the event
@@ -65,21 +76,19 @@ enum cuddl_eventsrc_flags {
 /**
  * struct cuddl_eventsrc_info - Event source information for user space.
  *
- * @token: Opaque token used (internally) when releasing ownership of the
- *         associated memory region.
- *
  * @flags: Flags that describe the properties of the event source.  This
  *         field may be a set of ``cuddl_eventsrc_flags`` ORed together.
  *
  * @priv: Private data reserved for internal use by the Cuddl implementation.
  *
- * Event source information that is exported to user-space code.
+ * Event source information that is exported to user-space code.  Typically,
+ * the internal members of this structure do not need to be directly accessed
+ * from user-space applications.
  *
  * On Linux and Xenomai systems, this information is retrieved from the
  * kernel via an ``ioctl`` call.
  */
 struct cuddl_eventsrc_info {
-	cuddl_token_t token;
 	int flags;
 	struct cuddl_eventsrc_info_priv priv;
 };

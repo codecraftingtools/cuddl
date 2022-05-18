@@ -21,6 +21,9 @@
 /**
  * DOC: Kernel-space memory region declarations.
  *
+ * Memory regions are commonly used to expose device registers to user-space
+ * applications for reading and writing.
+ *
  * This part of the API is only applicable to kernel-space code.
  *
  * Note that the comments in this file regarding Linux UIO and Xenomai UDD
@@ -99,17 +102,6 @@ struct cuddlk_memregion_kernel {
  *        Under Linux UIO, the value of this field can be read from a file::
  *         
  *          e.g. /sys/class/uio/uio0/maps/map0/name
- *         
- *        Under Linux UIO and Xenomai UDD, memory regions are mapped via a
- *        ``mmap()`` system call on a device file descriptor.
- *         
- *        Under RTEMS, the kernel and applications share a common address
- *        space, so ``mmap()`` is not required.
- *         
- *        Similar to::
- *         
- *          struct uio_mem       in linux/uio_driver.h for Linux   UIO
- *          struct udd_memregion in rtdm/udd.h         for Xenomai UDD
  *
  * @pa_addr: Page-aligned address.
  *
@@ -176,6 +168,17 @@ struct cuddlk_memregion_kernel {
  *        implementation.
  *
  * Represents a memory region that may be mapped by user-space applications.
+ *         
+ * Under Linux UIO and Xenomai UDD, memory regions are mapped via a
+ * ``mmap()`` system call on a device file descriptor.
+ *
+ * Under RTEMS, the kernel and applications share a common address
+ * space, so ``mmap()`` is not required.
+ *
+ * Similar to::
+ *
+ *   struct uio_mem       in linux/uio_driver.h for Linux   UIO
+ *   struct udd_memregion in rtdm/udd.h         for Xenomai UDD
  *
  * Unused members of this data structure must be set to zero.  This is
  * typically done by allocating this structure via ``kzalloc()`` or using

@@ -19,11 +19,17 @@
 /**
  * DOC: Kernel-space printing declarations.
  *
+ * Cuddl kernel drivers may use this API to print information information in
+ * a platform-independent manner.
+ *
  * This part of the API is only applicable to kernel-space code.
  *
  * .. c:function:: int cuddlk_print(...)
  *
  *    Platform-specific kernel ``printf()`` implementation.
+ *
+ *    This maps to ``printk()`` on standard Linux, ``rtdm_printk()`` on
+ *    Xenomai, and ``printf()`` on RTEMS.
  *
  * .. c:function:: int cuddlk_debug(...)
  *

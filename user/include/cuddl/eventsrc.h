@@ -22,11 +22,14 @@
 /**
  * DOC: User-space event source declarations.
  *
+ * Event sources are used to wake up user-space tasks when a specific event
+ * (such as a hardware interrupt from a specific peripheral device) occurs.
+ *
  * This part of the API is only available to user-space code.
  */
 
 /**
- * typedef cuddl_time_t - Type used to represent a time in seconds.
+ * typedef cuddl_time_t - Data type used to represent a time in seconds.
  *
  * This will be equivalent to ``time_t`` on POSIX systems.
  */
@@ -48,9 +51,6 @@ struct cuddl_timespec {
 /**
  * struct cuddl_eventsrc - User-space event source interface.
  *
- * @token: Opaque token used (internally) when releasing ownership of the
- *         associated memory region.
- *
  * @flags: Flags that describe the properties of the event source.  This
  *         field may be a set of ``cuddl_eventsrc_flags`` ORed together.
  *
@@ -60,7 +60,6 @@ struct cuddl_timespec {
  * kernel-based (e.g. interrupt) events.
  */
 struct cuddl_eventsrc {
-	cuddl_token_t token;
 	int flags;
 	struct cuddl_eventsrc_priv priv;
 };
@@ -79,7 +78,7 @@ struct cuddl_eventsrc {
  *         the PCI card on which the parent device is located.
  *
  * @device: Name of the specified event source's parent device.
- *          (i.e. peripheral).
+ *          (i.e. hardware peripheral).
  *
  * @eventsrc: Name of the specific event source to be claimed.
  *
@@ -95,9 +94,14 @@ struct cuddl_eventsrc {
  * Request ownership of a specific event source for the purpose of receiving
  * events in user space.  The particular event source is identified by the
  * ``group``, ``device``, ``eventsrc``, and ``instance`` arguments.  If any
- * of these arguments is ``NULL`` or contains an empy string (or ``instance``
- * is ``0``), the parameter will be treated as a *don't care* value when
- * searching for a matching event source in the resource list.
+ * of these arguments is ``NULL`` or contains an empty string (or is ``0``,
+ * in the case of ``instance``), the parameter will be treated as a *don't
+ * care* value when searching for a matching event source in the resource
+ * list.
+ *
+ * This routine is automatically called from
+ * ``cuddl_eventsrc_claim_and_open()``, so user-space applications do not
+ * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -119,6 +123,10 @@ int cuddl_eventsrc_claim(
  *
  * Release ownership of the event source identified by ``eventinfo``.
  *
+ * This routine is automatically called from
+ * ``cuddl_memregion_close_and_release()``, so user-space applications do not
+ * typically need to call this routine directly.
+ *
  * Return: ``0`` on success, or a negative error code.
  */
 int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
@@ -128,9 +136,8 @@ int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
  *
  * @eventsrc: Pointer to a data structure that will receive the information
  *            required to receive events in user space.  If the open
- *            operation is successful, and if this parameter is non-``NULL``,
- *            the required information will be copied into the data structure
- *            specified by this parameter.
+ *            operation is successful, the required information will be
+ *            copied into the data structure specified by this parameter.
  *
  * @eventinfo: Input parameter identifying the event source to be opened.
  *             The data structure pointed to by this parameter should contain
@@ -144,6 +151,10 @@ int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
  *
  * Open the event source identified by ``eventinfo`` to enable reception of
  * events in user space.
+ *
+ * This routine is automatically called from
+ * ``cuddl_eventsrc_claim_and_open()``, so user-space applications do not
+ * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -162,6 +173,10 @@ int cuddl_eventsrc_open(
  *
  * Close the event source ``eventsrc`` to disable reception of events from
  * this source in user space.
+ *
+ * This routine is automatically called from
+ * ``cuddl_memregion_close_and_release()``, so user-space applications do not
+ * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -199,7 +214,7 @@ int cuddl_eventsrc_claim_and_open(
  * @eventsrc: Input identifying the event source to be closed and released.
  *            The data structure pointed to by this parameter should contain
  *            the information returned by a successful call to
- *            ``cuddl_eventsrc_open()``.
+ *            ``cuddl_eventsrc_claim_and_open()``.
  *
  * Close the event source ``eventsrc`` (disabling the reception of events
  * from this source in user space), and then release ownership of the event
@@ -210,30 +225,13 @@ int cuddl_eventsrc_claim_and_open(
 int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
 
 /**
- * cuddl_eventsrc_release_by_token() - Release event source using a token.
- *
- * @token: Input parameter identifying the event source to be released.
- *         Event source tokens originate with a successful call to to
- *         ``cuddl_eventsrc_claim()``, and can be obtained from the ``token``
- *         member of a ``cuddl_eventsrc_info`` or ``cuddl_eventsrc``
- *         structure.
- *
- * Release ownership of the event source identified by ``token`` from user
- * space.  Typically this function is not called directly, but event sources
- * are instead released by calling ``cuddl_eventsrc_release()`` or
- * ``cuddl_eventsrc_close_and_release()``.
- *
- * Return: ``0`` on success, or a negative error code.
- */
-int cuddl_eventsrc_release_by_token(cuddl_token_t token);
-
-/**
  * cuddl_eventsrc_wait() - Wait for an event in user space.
  *
  * @eventsrc: Input parameter identifying the source of the event to be
  *            waited on.  The data structure pointed to by this parameter
  *            should contain the information returned by a successful call to
- *            ``cuddl_eventsrc_open()``.
+ *            ``cuddl_eventsrc_open()`` or
+ *            ``cuddl_eventsrc_claim_and_open()``.
  *
  * Performs a blocking wait for events from ``eventsrc``.
  *
@@ -241,7 +239,8 @@ int cuddl_eventsrc_release_by_token(cuddl_token_t token);
  */
 int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
 
-/**
+/* NOT PUBLIC AT THIS TIME -- This may not turn out to be useful.
+ *
  * cuddl_eventsrc_trywait() - Check for the occurance of a user-space event.
  *
  * @eventsrc: Input parameter identifying the event source to be polled for
@@ -263,7 +262,8 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
  * @eventsrc: Input parameter identifying the source of the event to be
  *            waited on.  The data structure pointed to by this parameter
  *            should contain the information returned by a successful call to
- *            ``cuddl_eventsrc_open()``.
+ *            ``cuddl_eventsrc_open()`` or
+ *            ``cuddl_eventsrc_claim_and_open()``.
  *
  * @timeout: Relative time value specifying the maximum time to wait for an
  *           event.
@@ -283,7 +283,8 @@ int cuddl_eventsrc_timedwait(
  * @eventsrc: Input parameter identifying the source of the event to be
  *            enabled.  The data structure pointed to by this parameter
  *            should contain the information returned by a successful call to
- *            ``cuddl_eventsrc_open()``.
+ *            ``cuddl_eventsrc_open()`` or
+ *            ``cuddl_eventsrc_claim_and_open()``.
  *
  * Enables the event source if this operation is supported.
  *
@@ -297,7 +298,8 @@ int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc);
  * @eventsrc: Input parameter identifying the source of the event to be
  *            disabled.  The data structure pointed to by this parameter
  *            should contain the information returned by a successful call to
- *            ``cuddl_eventsrc_open()``.
+ *            ``cuddl_eventsrc_open()`` or
+ *            ``cuddl_eventsrc_claim_and_open()``.
  *
  * Disables the event source if this operation is supported.
  *

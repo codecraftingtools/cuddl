@@ -21,6 +21,13 @@
 /**
  * DOC: Kernel-space device manager declarations.
  *
+ * In most cases, Cuddl kernel drivers interact with the device manager by
+ * simply calling the ``cuddlk_device_manage()`` and
+ * ``cuddlk_device_release()`` routines described elsewhere.  This means that
+ * most of the manager routines documented here (i.e. ``cuddlk_manager_*``)
+ * are not typically called directly, but some of them may be useful in
+ * certain situations.
+ *
  * This part of the API is only applicable to kernel-space code.
  *
  * .. c:macro:: CUDDLK_MAX_MANAGED_DEVICES
@@ -63,7 +70,8 @@ enum cuddlk_resource {
  * The device manager keeps track of all managed Cuddl devices, their memory
  * regions, and their event sources.  User-space applications may query the
  * device manager to retrieve the information required to access a particular
- * memory region or event source.
+ * memory region or event source.  Typically, there is only a single, global
+ * ``cuddlk_manager`` instance that is managed by the Cuddl implementation.
  *
  * Unused members of this data structure must be set to zero.  This is
  * typically done by allocating this structure via ``kzalloc()`` or using
@@ -80,6 +88,9 @@ struct cuddlk_manager {
  * @dev: Cuddl device to manage.
  *
  * Add the specified device to the global device manager's ``devices`` array.
+ * This routine is automatically called from ``cuddlk_device_manage()``, so
+ * Cuddl drivers do not typically need to call this routine directly.
+ *
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -91,7 +102,9 @@ int cuddlk_manager_add_device(struct cuddlk_device *dev);
  * @dev: Cuddl device to stop managing.
  *
  * Remove the specified device from the global device manager's ``devices``
- * array.
+ * array.  This routine is automatically called from
+ * ``cuddlk_device_release()``, so Cuddl drivers do not typically need to
+ * call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
@@ -139,7 +152,8 @@ int cuddlk_manager_find_device(struct cuddlk_device *dev);
  * cuddlk_manager_find_empty_slot() - Search for an empty device slot.
  *
  * Search the global device manager's ``devices`` array for an empty device
- * slot.
+ * slot.  This routine is not typically called directly by Cuddl kernel
+ * drivers.
  *
  * Return: Index of first empty slot in the ``devices`` array on success, or
  * a negative error code.
@@ -152,7 +166,8 @@ int cuddlk_manager_find_empty_slot(void);
  * Search the global device manager's ``devices`` array for devices with a
  * ``group`` and ``name`` combination matching the specified device.  The
  * next available instance identifier that is not used by one of the found
- * devices will be returned.
+ * devices will be returned.  This routine is not typically called directly
+ * by Cuddl kernel drivers.
  *
  * @dev: Cuddl device supplying the ``group`` and ``name`` fields to search
  *       for.

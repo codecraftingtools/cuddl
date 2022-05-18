@@ -121,9 +121,9 @@ struct cuddlk_memregion_kernel {
  *
  *          The size of the memory region to be mapped, in bytes.  This value
  *          must be a multiple of ``CUDDLK_PAGE_SIZE``.  If this field is not
- *          specified (i.e. ``0``), it will be set to the value of ``len``
- *          rounded up to the next ``CUDDLK_PAGE_SIZE`` when the parent
- *          device is registered.
+ *          specified (i.e. ``0``), it will be set to the value of ``(len +
+ *          start_offset)`` rounded up to the next ``CUDDLK_PAGE_SIZE`` when
+ *          the parent device is registered.
  *           
  *          Under Linux UIO, the field value can be read from a file::
  *           

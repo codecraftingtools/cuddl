@@ -361,7 +361,8 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 		if (mem_i->len == 0)
 			mem_i->len = mem_i->pa_len;
 		if (mem_i->pa_len == 0)
-			mem_i->pa_len = page_size_aligned(mem_i->len);
+			mem_i->pa_len = page_size_aligned(
+				mem_i->len + mem_i->start_offset);
 
 		if (i<MAX_UIO_MAPS) {
 			uio->mem[i].name    = mem_i->name;

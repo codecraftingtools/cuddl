@@ -90,6 +90,12 @@ struct cuddl_memregion {
  * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_memregion_claim(
 	struct cuddl_memregion_info *meminfo,
@@ -114,6 +120,9 @@ int cuddl_memregion_claim(
  * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Error code returned by ``cuddl_memregion_release_by_token()``.
  */
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
 
@@ -143,6 +152,12 @@ int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
  * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       UIO or UDD memory region device.
+ *     - Linux: Value of ``-errno`` resulting from from ``mmap()`` call on
+ *       UIO or UDD memory region file descriptior.
  */
 int cuddl_memregion_map(
 	struct cuddl_memregion *memregion,
@@ -165,6 +180,12 @@ int cuddl_memregion_map(
  * typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``munmap()`` call on
+ *       UIO or UDD memory region file descriptor.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       UIO or UDD memory region file descriptor.
  */
 int cuddl_memregion_unmap(struct cuddl_memregion *memregion);
 
@@ -184,6 +205,10 @@ int cuddl_memregion_unmap(struct cuddl_memregion *memregion);
  * ``cuddl_memregion_map()`` for more details.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Error code returned by ``cuddl_memregion_claim()``.
+ *     - Linux: Error code returned by ``cuddl_memregion_map()``.
  */
 int cuddl_memregion_claim_and_map(
 	struct cuddl_memregion *memregion,
@@ -208,6 +233,10 @@ int cuddl_memregion_claim_and_map(
  * details.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Error code returned by ``cuddl_memregion_unmap()``.
+ *     - Linux: Error code returned by ``cuddl_memregion_release_by_token()``.
  */
 int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion);
 

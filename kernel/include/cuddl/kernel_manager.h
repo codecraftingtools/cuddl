@@ -99,6 +99,9 @@ struct cuddlk_manager *cuddlk_manager_get(void);
  *
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENOMEM``: No empty device slots available.
  */
 int cuddlk_manager_add_device(
 	struct cuddlk_manager * manager, struct cuddlk_device *dev);
@@ -114,6 +117,9 @@ int cuddlk_manager_add_device(
  * Cuddl drivers do not typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Error code returned from ``cuddlk_manager_find_device()``.
  */
 int cuddlk_manager_remove_device(
 	struct cuddlk_manager * manager, struct cuddlk_device *dev);
@@ -140,6 +146,9 @@ int cuddlk_manager_remove_device(
  *
  * Return: Index of a matching device in the ``devices`` array on success, or
  * a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: No match was found.
  */
 int cuddlk_manager_find_device_matching(
 	struct cuddlk_manager *manager,
@@ -156,6 +165,9 @@ int cuddlk_manager_find_device_matching(
  *
  * Return: Index of matching device in the ``devices`` array on success, or a
  * negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: No match was found.
  */
 int cuddlk_manager_find_device(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev);
@@ -170,6 +182,9 @@ int cuddlk_manager_find_device(
  *
  * Return: Index of first empty slot in the ``devices`` array on success, or
  * a negative error code.
+ *
+ *   Error codes:
+ *     - Error code returned from ``cuddlk_manager_find_device()``.
  */
 int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
 
@@ -188,6 +203,9 @@ int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
  *
  * Return: Next available unique instance identifier on success, or a
  * negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENOMEM``: No empty managed device slots are available.
  */
 int cuddlk_next_available_instance_id_for(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev);

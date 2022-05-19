@@ -175,6 +175,9 @@ struct cuddlk_device {
  *
  * Return: Index of matching memory region in the ``mem`` array on success,
  * or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: The specified memory region was not found.
  */
 int cuddlk_device_find_memregion(struct cuddlk_device *dev, const char *name);
 
@@ -187,6 +190,9 @@ int cuddlk_device_find_memregion(struct cuddlk_device *dev, const char *name);
  *
  * Return: Index of matching event source in the ``events`` array on success,
  * or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: The specified event source was not found.
  */
 int cuddlk_device_find_eventsrc(struct cuddlk_device *dev, const char *name);
 
@@ -207,6 +213,12 @@ int cuddlk_device_find_eventsrc(struct cuddlk_device *dev, const char *name);
  *   int udd_register_device(struct udd_device *udd);
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-EINVAL``: Invalid ``group`` or ``name`` argument.
+ *     - ``-ENOMEM``: Memory allocation error.
+ *     - Linux: Error code returned from ``uio_device_register()``.
+ *     - Xenomai UDD: Error code returned from ``udd_register_device()``.
  */
 int cuddlk_device_register(struct cuddlk_device *dev);
 
@@ -227,6 +239,10 @@ int cuddlk_device_register(struct cuddlk_device *dev);
  *   int udd_unregister_device(struct udd_device *udd);
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux UIO: None.
+ *     - Xenomai UDD: Error code returned from ``udd_unregister_device()``.
  */
 int cuddlk_device_unregister(struct cuddlk_device *dev);
 
@@ -236,6 +252,13 @@ int cuddlk_device_unregister(struct cuddlk_device *dev);
  * @dev: Cuddl device to manage.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-EINVAL``: Invalid ``group`` or ``name`` argument
+ *     - ``-ENOMEM``: Memory allocation error.
+ *     - Error code returned from ``cuddlk_next_available_instance_id_for()``.
+ *     - Error code returned from ``cuddlk_device_register()``.
+ *     - Error code returned from ``cuddlk_manager_add_device()``.
  */
 int cuddlk_device_manage(struct cuddlk_device *dev);
 
@@ -245,6 +268,10 @@ int cuddlk_device_manage(struct cuddlk_device *dev);
  * @dev: Managed Cuddl device to release.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Error code returned from ``cuddlk_manager_remove_device()``.
+ *     - Error code returned from ``cuddlk_device_unregister()``.
  */
 int cuddlk_device_release(struct cuddlk_device *dev);
 

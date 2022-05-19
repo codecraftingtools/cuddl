@@ -185,11 +185,13 @@ fail_null_group:
 
 int cuddlk_device_release(struct cuddlk_device *dev)
 {
-	int ret;
+	int ret1, ret2;
 	struct cuddlk_manager *manager;
 
 	manager = cuddlk_manager_get();
-	ret = cuddlk_manager_remove_device(manager, dev);
-	ret = cuddlk_device_unregister(dev);
-	return ret;
+	ret1 = cuddlk_manager_remove_device(manager, dev);
+	ret2 = cuddlk_device_unregister(dev);
+	if (ret1)
+		return ret1;
+	return ret2;
 }

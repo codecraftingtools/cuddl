@@ -39,6 +39,12 @@
  * ``cuddl_memregion_unmap_and_release()``.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
 
@@ -57,6 +63,12 @@ int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
  * ``cuddl_eventsrc_close_and_release()``.
  *
  * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token);
 

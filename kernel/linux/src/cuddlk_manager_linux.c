@@ -42,12 +42,18 @@ EXPORT_SYMBOL_GPL(cuddlk_manager_add_device);
 EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
 EXPORT_SYMBOL_GPL(cuddlk_device_manage);
 EXPORT_SYMBOL_GPL(cuddlk_device_release);
-EXPORT_SYMBOL_GPL(cuddlk_global_manager_ptr);
 
 static dev_t cuddlk_manager_dev;
 static struct cdev cuddlk_manager_cdev;
 static struct class *cuddlk_manager_class;
 static struct device *cuddlk_manager_device;
+static struct cuddlk_manager *cuddlk_global_manager_ptr;
+
+struct cuddlk_manager *cuddlk_manager_get(void)
+{
+	return cuddlk_global_manager_ptr;
+}
+EXPORT_SYMBOL_GPL(cuddlk_manager_get);
 
 static long cuddlk_manager_ioctl(
 	struct file *file, unsigned int cmd, unsigned long arg)
@@ -125,6 +131,7 @@ static long cuddlk_manager_ioctl(
 			     mdata->id.group, mdata->id.device,
 			     mdata->id.resource, mdata->id.instance);
 		slot = cuddlk_manager_find_device_matching(
+			cuddlk_global_manager_ptr,
 			mdata->id.group, mdata->id.device, mdata->id.resource,
 			mdata->id.instance, CUDDLK_RESOURCE_MEMREGION, 0);
 		if (slot < 0) {
@@ -189,6 +196,7 @@ static long cuddlk_manager_ioctl(
 			     edata->id.group, edata->id.device,
 			     edata->id.resource, edata->id.instance);
 		slot = cuddlk_manager_find_device_matching(
+			cuddlk_global_manager_ptr,
 			edata->id.group, edata->id.device, edata->id.resource,
 			edata->id.instance, CUDDLK_RESOURCE_EVENTSRC, 0);
 		if (slot < 0) {

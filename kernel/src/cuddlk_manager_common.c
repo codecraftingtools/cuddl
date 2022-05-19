@@ -19,18 +19,17 @@
 
 #include <cuddl/kernel.h>
 
-struct cuddlk_manager *cuddlk_global_manager_ptr;
-
 int cuddlk_manager_find_device_matching(
+	struct cuddlk_manager *manager,
 	const char *group, const char *name, const char *resource,
 	int instance, enum cuddlk_resource type, int start_index)
 {
 	int i;
 	int found_match = 0;
 	struct cuddlk_device *dev = NULL;
-	
+
 	for (i=start_index; i<CUDDLK_MAX_MANAGED_DEVICES; i++) {
-		dev = cuddlk_global_manager_ptr->devices[i];
+		dev = manager->devices[i];
 		if (!dev)
 			continue;
 		if (instance)
@@ -58,19 +57,21 @@ int cuddlk_manager_find_device_matching(
 		found_match = 1;
 		break;
 	}
+
 	if (!found_match)
 		return -ENXIO;
 
 	return i;
 }
 
-int cuddlk_manager_find_device(struct cuddlk_device *dev)
+int cuddlk_manager_find_device(
+	struct cuddlk_manager *manager, struct cuddlk_device *dev)
 {
 	int i;
 	int found_slot = 0;
 
 	for (i=0; i<CUDDLK_MAX_MANAGED_DEVICES; i++) {
-		if (cuddlk_global_manager_ptr->devices[i] != dev)
+		if (manager->devices[i] != dev)
 			continue;
 		found_slot = 1;
 		break;
@@ -81,12 +82,13 @@ int cuddlk_manager_find_device(struct cuddlk_device *dev)
 	return i;
 }
 
-int cuddlk_manager_find_empty_slot(void)
+int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager)
 {
-	return cuddlk_manager_find_device(NULL);
+	return cuddlk_manager_find_device(manager, NULL);
 }
 
-int cuddlk_next_available_instance_id_for(struct cuddlk_device *dev)
+int cuddlk_next_available_instance_id_for(
+	struct cuddlk_manager *manager, struct cuddlk_device *dev)
 {
 	int instance;
 	int slot;
@@ -95,7 +97,8 @@ int cuddlk_next_available_instance_id_for(struct cuddlk_device *dev)
 	slot = 0;
 	while (1) {
 		slot = cuddlk_manager_find_device_matching(
-			dev->group, dev->name,  NULL, instance, 0, slot);
+			manager, dev->group, dev->name,  NULL, instance, 0,
+			slot);
 		if (slot < 0)
 			break;
 		if (slot < CUDDLK_MAX_MANAGED_DEVICES - 1) {
@@ -110,28 +113,30 @@ int cuddlk_next_available_instance_id_for(struct cuddlk_device *dev)
 	return instance;
 }
 
-int cuddlk_manager_add_device(struct cuddlk_device *dev)
+int cuddlk_manager_add_device(
+	struct cuddlk_manager * manager, struct cuddlk_device *dev)
 {
 	int slot;
 
-	slot = cuddlk_manager_find_empty_slot();
+	slot = cuddlk_manager_find_empty_slot(manager);
 	if (slot < 0)
 		return -ENOMEM;
 
-	cuddlk_global_manager_ptr->devices[slot] = dev;
+	manager->devices[slot] = dev;
 
 	return 0;
 }
 
-int cuddlk_manager_remove_device(struct cuddlk_device *dev)
+int cuddlk_manager_remove_device(
+	struct cuddlk_manager * manager, struct cuddlk_device *dev)
 {
 	int slot;
 
-	slot = cuddlk_manager_find_device(dev);
+	slot = cuddlk_manager_find_device(manager, dev);
 	if (slot < 0)
 		return slot;
 	
-	cuddlk_global_manager_ptr->devices[slot] = NULL;
+	manager->devices[slot] = NULL;
 
 	return 0;
 }
@@ -139,6 +144,9 @@ int cuddlk_manager_remove_device(struct cuddlk_device *dev)
 int cuddlk_device_manage(struct cuddlk_device *dev)
 {
 	int ret;
+	struct cuddlk_manager *manager;
+
+	manager = cuddlk_manager_get();
 
 	if (!dev->group) {
 		ret = -EINVAL;
@@ -149,7 +157,7 @@ int cuddlk_device_manage(struct cuddlk_device *dev)
 		goto fail_null_name;
 	}
 	if (!dev->instance) {
-		ret = cuddlk_next_available_instance_id_for(dev);
+		ret = cuddlk_next_available_instance_id_for(manager, dev);
 		if (ret < 0) {
 			goto fail_auto_instance;
 		}
@@ -160,7 +168,7 @@ int cuddlk_device_manage(struct cuddlk_device *dev)
 	if (ret)
 		goto fail_register;
 
-	ret = cuddlk_manager_add_device(dev);
+	ret = cuddlk_manager_add_device(manager, dev);
 	if (ret)
 		goto fail_manager_add_device;
 
@@ -178,8 +186,10 @@ fail_null_group:
 int cuddlk_device_release(struct cuddlk_device *dev)
 {
 	int ret;
+	struct cuddlk_manager *manager;
 
-	ret = cuddlk_manager_remove_device(dev);
+	manager = cuddlk_manager_get();
+	ret = cuddlk_manager_remove_device(manager, dev);
 	ret = cuddlk_device_unregister(dev);
 	return ret;
 }

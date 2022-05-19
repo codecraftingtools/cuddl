@@ -33,10 +33,6 @@
  * .. c:macro:: CUDDLK_MAX_MANAGED_DEVICES
  *
  *    Maximum number of Cuddl devices that can be managed.
- *
- * .. c:var:: extern struct cuddlk_manager *cuddlk_global_manager_ptr;
- *
- *    Global device manager instance pointer.
  */
 
 #define CUDDLK_MAX_MANAGED_DEVICES 100
@@ -72,6 +68,8 @@ enum cuddlk_resource {
  * device manager to retrieve the information required to access a particular
  * memory region or event source.  Typically, there is only a single, global
  * ``cuddlk_manager`` instance that is managed by the Cuddl implementation.
+ * A pointer to this manager instance may be retrieved by called
+ * ``cuddlk_manager_get()``.
  *
  * Unused members of this data structure must be set to zero.  This is
  * typically done by allocating this structure via ``kzalloc()`` or using
@@ -83,35 +81,47 @@ struct cuddlk_manager {
 };
 
 /**
+ * cuddlk_manager_get() - Retrieve a pointer to the global device manager.
+ *
+ * Return: Pointer to the global device manager instance, or ``NULL``.
+ */
+struct cuddlk_manager *cuddlk_manager_get(void);
+
+/**
  * cuddlk_manager_add_device() - Start managing a Cuddl device.
  *
+ * @manager: Cuddl manager instance.
  * @dev: Cuddl device to manage.
  *
- * Add the specified device to the global device manager's ``devices`` array.
- * This routine is automatically called from ``cuddlk_device_manage()``, so
- * Cuddl drivers do not typically need to call this routine directly.
+ * Add the specified device to the device manager's ``devices`` array.  This
+ * routine is automatically called from ``cuddlk_device_manage()``, so Cuddl
+ * drivers do not typically need to call this routine directly.
  *
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddlk_manager_add_device(struct cuddlk_device *dev);
+int cuddlk_manager_add_device(
+	struct cuddlk_manager * manager, struct cuddlk_device *dev);
 
 /**
  * cuddlk_manager_remove_device() - Stop managing a Cuddl device.
  *
+ * @manager: Cuddl manager instance.
  * @dev: Cuddl device to stop managing.
  *
- * Remove the specified device from the global device manager's ``devices``
- * array.  This routine is automatically called from
- * ``cuddlk_device_release()``, so Cuddl drivers do not typically need to
- * call this routine directly.
+ * Remove the specified device from the device manager's ``devices`` array.
+ * This routine is automatically called from ``cuddlk_device_release()``, so
+ * Cuddl drivers do not typically need to call this routine directly.
  *
  * Return: ``0`` on success, or a negative error code.
  */
-int cuddlk_manager_remove_device(struct cuddlk_device *dev);
+int cuddlk_manager_remove_device(
+	struct cuddlk_manager * manager, struct cuddlk_device *dev);
 
 /**
  * cuddlk_manager_find_device_matching() - Search for a device by name.
+ *
+ * @manager: Cuddl manager instance.
  *
  * @group: Name of group to search for or ``NULL``.
  *
@@ -125,59 +135,61 @@ int cuddlk_manager_remove_device(struct cuddlk_device *dev);
  *
  * @start_index: Index in device array to start the search.
  *
- * Search the global device manager's ``devices`` array for an entry matching
- * the specified (non-``NULL``) parameters.
+ * Search the device manager's ``devices`` array for an entry matching the
+ * specified (non-``NULL``) parameters.
  *
  * Return: Index of a matching device in the ``devices`` array on success, or
  * a negative error code.
  */
 int cuddlk_manager_find_device_matching(
+	struct cuddlk_manager *manager,
 	const char *group, const char *name, const char *resource,
 	int instance, enum cuddlk_resource type, int start_index);
 
 /**
  * cuddlk_manager_find_device() - Search for a device by reference.
  *
+ * @manager: Cuddl manager instance.
  * @dev: Cuddl device to search for.
  *
- * Search the global device manager's ``devices`` array for the specified
- * device.
+ * Search the device manager's ``devices`` array for the specified device.
  *
  * Return: Index of matching device in the ``devices`` array on success, or a
  * negative error code.
  */
-int cuddlk_manager_find_device(struct cuddlk_device *dev);
+int cuddlk_manager_find_device(
+	struct cuddlk_manager *manager, struct cuddlk_device *dev);
 
 /**
  * cuddlk_manager_find_empty_slot() - Search for an empty device slot.
  *
- * Search the global device manager's ``devices`` array for an empty device
- * slot.  This routine is not typically called directly by Cuddl kernel
- * drivers.
+ * @manager: Cuddl manager instance.
+ *
+ * Search the device manager's ``devices`` array for an empty device slot.
+ * This routine is not typically called directly by Cuddl kernel drivers.
  *
  * Return: Index of first empty slot in the ``devices`` array on success, or
  * a negative error code.
  */
-int cuddlk_manager_find_empty_slot(void);
+int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
 
 /**
  * cuddlk_next_available_instance_id_for() - Find next available instance id.
  *
- * Search the global device manager's ``devices`` array for devices with a
- * ``group`` and ``name`` combination matching the specified device.  The
- * next available instance identifier that is not used by one of the found
- * devices will be returned.  This routine is not typically called directly
- * by Cuddl kernel drivers.
+ * Search the device manager's ``devices`` array for devices with a ``group``
+ * and ``name`` combination matching the specified device.  The next
+ * available instance identifier that is not used by one of the found devices
+ * will be returned.  This routine is not typically called directly by Cuddl
+ * kernel drivers.
  *
+ * @manager: Cuddl manager instance.
  * @dev: Cuddl device supplying the ``group`` and ``name`` fields to search
  *       for.
  *
  * Return: Next available unique instance identifier on success, or a
  * negative error code.
  */
-int cuddlk_next_available_instance_id_for(struct cuddlk_device *dev);
-
-/* Global device manager instance. (kerneldoc comment at top of file) */
-extern struct cuddlk_manager *cuddlk_global_manager_ptr;
+int cuddlk_next_available_instance_id_for(
+	struct cuddlk_manager *manager, struct cuddlk_device *dev);
 
 #endif /* !_CUDDL_KERNEL_MANAGER_H */

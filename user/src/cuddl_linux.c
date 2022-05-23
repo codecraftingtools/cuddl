@@ -411,10 +411,6 @@ int cuddl_manager_get_max_devices(void)
 		return -errno;
 
 	ret = ioctl(fd, CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL, NULL);
-	if (ret) {
-		close(fd);
-		return -errno;
-	}
 
 	close(fd);
 	return ret;
@@ -430,10 +426,6 @@ int cuddl_device_get_max_mem_regions(void)
 		return -errno;
 
 	ret = ioctl(fd, CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL, NULL);
-	if (ret) {
-		close(fd);
-		return -errno;
-	}
 
 	close(fd);
 	return ret;
@@ -449,10 +441,6 @@ int cuddl_device_get_max_events(void)
 		return -errno;
 
 	ret = ioctl(fd, CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL, NULL);
-	if (ret) {
-		close(fd);
-		return -errno;
-	}
 
 	close(fd);
 	return ret;

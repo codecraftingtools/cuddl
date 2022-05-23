@@ -357,24 +357,24 @@ static long cuddlk_manager_ioctl(
 			     slot, mslot);
 
 		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
-			cuddlk_print("device slot out of range\n");
+			cuddlk_debug("device slot out of range\n");
 			ret = -2;
 			break;
 		}
-		if ((mslot < 0) || (slot >= CUDDLK_MAX_DEV_MEM_REGIONS)) {
-			cuddlk_print("mem region slot out of range\n");
+		if ((mslot < 0) || (mslot >= CUDDLK_MAX_DEV_MEM_REGIONS)) {
+			cuddlk_debug("mem region slot out of range\n");
 			ret = -3;
 			break;
 		}
 
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		if (!dev) {
-			cuddlk_print("empty device slot\n");
+			cuddlk_debug("empty device slot\n");
 			ret = -4;
 			break;
 		}
 		if(dev->mem[mslot].type == CUDDLK_MEMT_NONE) {
-			cuddlk_print("empty mem region slot\n");
+			cuddlk_debug("empty mem region slot\n");
 			ret = -5;
 			break;
 		}
@@ -408,24 +408,24 @@ static long cuddlk_manager_ioctl(
 			     slot, eslot);
 
 		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
-			cuddlk_print("device slot out of range\n");
+			cuddlk_debug("device slot out of range\n");
 			ret = -2;
 			break;
 		}
-		if ((eslot < 0) || (slot >= CUDDLK_MAX_DEV_EVENTS)) {
-			cuddlk_print("event slot out of range\n");
+		if ((eslot < 0) || (eslot >= CUDDLK_MAX_DEV_EVENTS)) {
+			cuddlk_debug("event slot out of range\n");
 			ret = -3;
 			break;
 		}
 
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		if (!dev) {
-			cuddlk_print("empty device slot\n");
+			cuddlk_debug("empty device slot\n");
 			ret = -4;
 			break;
 		}
 		if(dev->events[eslot].intr.irq == CUDDLK_IRQ_NONE) {
-			cuddlk_print("empty event slot\n");
+			cuddlk_debug("empty event slot\n");
 			ret = -5;
 			break;
 		}

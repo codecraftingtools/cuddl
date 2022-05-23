@@ -400,3 +400,112 @@ int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc)
 
 	return 0;
 }
+
+int cuddl_manager_get_max_devices(void)
+{
+	int fd;
+	int ret;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL, NULL);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	close(fd);
+	return ret;
+}
+
+int cuddl_device_get_max_mem_regions(void)
+{
+	int fd;
+	int ret;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL, NULL);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	close(fd);
+	return ret;
+}
+
+int cuddl_device_get_max_events(void)
+{
+	int fd;
+	int ret;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL, NULL);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	close(fd);
+	return ret;
+}
+
+int cuddl_device_get_mem_region_id(
+	struct cuddl_resource_id *id, int device_slot, int mem_slot)
+{
+	int fd;
+	int ret;
+	struct cuddl_device_get_id_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.device_slot = device_slot;
+	s.resource_slot = mem_slot;
+
+	ret = ioctl(fd, CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL, &s);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	memcpy(id, &s.id, sizeof(*id));
+
+	close(fd);
+	return 0;
+}
+
+int cuddl_device_get_event_id(
+	struct cuddl_resource_id *id, int device_slot, int event_slot)
+{
+	int fd;
+	int ret;
+	struct cuddl_device_get_id_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.device_slot = device_slot;
+	s.resource_slot = event_slot;
+
+	ret = ioctl(fd, CUDDL_DEVICE_GET_EVENT_ID_IOCTL, &s);
+	if (ret) {
+		close(fd);
+		return -errno;
+	}
+
+	memcpy(id, &s.id, sizeof(*id));
+
+	close(fd);
+	return 0;
+}

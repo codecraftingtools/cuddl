@@ -56,6 +56,26 @@
  * .. c:macro:: CUDDL_EVENTSRC_RELEASE_UDD_IOCTL
  *
  *    IOCTL associated with ``cuddl_eventsrc_release()`` for Xenomai UDD.
+ *
+ * .. c:macro:: CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_manager_get_max_devices()``.
+ *
+ * .. c:macro:: CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_device_get_max_mem_regions()``.
+ *
+ * .. c:macro:: CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_device_get_max_events()``.
+ *
+ * .. c:macro:: CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_device_get_mem_region_id()``.
+ *
+ * .. c:macro:: CUDDL_DEVICE_GET_EVENT_ID_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_device_get_event_id()``.
  */
 
 /**
@@ -98,6 +118,22 @@ struct cuddl_eventsrc_release_ioctl_data {
 	struct cuddl_impl_token token;
 };
 
+/**
+ * struct cuddl_device_get_id_ioctl_data - Get event id IOCTL data.
+ *
+ * Used for both ``cuddl_device_get_mem_region_id()`` and
+ * ``cuddl_device_get_event_id()`` implementations.
+ *
+ * @device_slot: Manager device slot number to query (input).
+ * @resource_slot: Device memregion or eventsrc slot number to query (input).
+ * @id: Resource identifier returned from user space (output).
+ */
+struct cuddl_device_get_id_ioctl_data {
+	int device_slot;
+	int resource_slot;
+	struct cuddl_resource_id id;
+};
+
 #define CUDDL_IOCTL_TYPE 'A'
 
 #define CUDDL_MEMREGION_CLAIM_UIO_IOCTL \
@@ -117,5 +153,13 @@ struct cuddl_eventsrc_release_ioctl_data {
   _IOWR(CUDDL_IOCTL_TYPE, 8, struct cuddl_eventsrc_release_ioctl_data)
 #define CUDDL_EVENTSRC_RELEASE_UDD_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 9, struct cuddl_eventsrc_release_ioctl_data)
+
+#define CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL _IO(CUDDL_IOCTL_TYPE, 10)
+#define CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL _IO(CUDDL_IOCTL_TYPE, 11)
+#define CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL _IO(CUDDL_IOCTL_TYPE, 12)
+#define CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 13, struct cuddl_device_get_id_ioctl_data)
+#define CUDDL_DEVICE_GET_EVENT_ID_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 14, struct cuddl_device_get_id_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

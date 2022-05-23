@@ -68,6 +68,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddl_eventsrc_claim_ioctl_data *edata;
 	struct cuddl_memregion_release_ioctl_data *mrdata;
 	struct cuddl_eventsrc_release_ioctl_data *erdata;
+	struct cuddl_device_get_id_ioctl_data *get_id_data;
 
 	cuddlk_debug("cuddlk_manager_ioctl\n");
 	cuddlk_debug("  cmd:  %u\n", cmd);
@@ -108,6 +109,18 @@ static long cuddlk_manager_ioctl(
 		sizeof(struct cuddl_eventsrc_release_ioctl_data),
 		GFP_KERNEL);
 	if (!erdata) {
+		kfree(mrdata);
+		kfree(edata);
+		kfree(mdata);
+		cuddlk_print("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
+	get_id_data = kzalloc(
+		sizeof(struct cuddl_device_get_id_ioctl_data),
+		GFP_KERNEL);
+	if (!get_id_data) {
+		kfree(erdata);
 		kfree(mrdata);
 		kfree(edata);
 		kfree(mdata);
@@ -233,7 +246,6 @@ static long cuddlk_manager_ioctl(
 			ret = -1;
 			break;
 		}
-		cuddlk_debug("  success\n");
 		dev->events[eslot].kernel.ref_count += 1;
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->events[eslot].kernel.ref_count);
@@ -311,11 +323,133 @@ static long cuddlk_manager_ioctl(
 		       dev->events[eslot].kernel.ref_count);
 		break;
 
+	case CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL:
+		cuddlk_debug("CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL called\n");
+		ret = CUDDLK_MAX_MANAGED_DEVICES;
+		cuddlk_debug("  success\n");
+		break;
+
+	case CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL:
+		cuddlk_debug(
+			"CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL called\n");
+		ret = CUDDLK_MAX_DEV_MEM_REGIONS;
+		cuddlk_debug("  success\n");
+		break;
+
+	case CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL:
+		cuddlk_debug("CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL called\n");
+		ret = CUDDLK_MAX_DEV_EVENTS;
+		cuddlk_debug("  success\n");
+		break;
+
+	case CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL:
+		cuddlk_debug("CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL called\n");
+		if (copy_from_user(
+			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -1;
+			break;
+		}
+
+		slot = get_id_data->device_slot;
+		mslot = get_id_data->resource_slot;
+		cuddlk_debug("  device_slot: %d, resource_slot: %d\n",
+			     slot, mslot);
+
+		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
+			cuddlk_print("device slot out of range\n");
+			ret = -2;
+			break;
+		}
+		if ((mslot < 0) || (slot >= CUDDLK_MAX_DEV_MEM_REGIONS)) {
+			cuddlk_print("mem region slot out of range\n");
+			ret = -3;
+			break;
+		}
+
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			cuddlk_print("empty device slot\n");
+			ret = -4;
+			break;
+		}
+		if(dev->mem[mslot].type == CUDDLK_MEMT_NONE) {
+			cuddlk_print("empty mem region slot\n");
+			ret = -5;
+			break;
+		}
+
+		memcpy(get_id_data->id.group, dev->group, CUDDL_MAX_STR_LEN);
+		memcpy(get_id_data->id.device, dev->name, CUDDL_MAX_STR_LEN);
+		memcpy(get_id_data->id.resource, dev->mem[mslot].name,
+		       CUDDL_MAX_STR_LEN);
+		get_id_data->id.instance = dev->instance;
+		if (copy_to_user(
+			    (void*)arg, get_id_data, sizeof(*get_id_data))) {
+			cuddlk_print("copy_to_user failed\n");
+			ret = -6;
+			break;
+		}
+		cuddlk_debug("  success\n");
+		break;
+
+	case CUDDL_DEVICE_GET_EVENT_ID_IOCTL:
+		cuddlk_debug("CUDDL_DEVICE_GET_EVENT_ID_IOCTL called\n");
+		if (copy_from_user(
+			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -1;
+			break;
+		}
+
+		slot = get_id_data->device_slot;
+		eslot = get_id_data->resource_slot;
+		cuddlk_debug("  device_slot: %d, resource_slot: %d\n",
+			     slot, eslot);
+
+		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
+			cuddlk_print("device slot out of range\n");
+			ret = -2;
+			break;
+		}
+		if ((eslot < 0) || (slot >= CUDDLK_MAX_DEV_EVENTS)) {
+			cuddlk_print("event slot out of range\n");
+			ret = -3;
+			break;
+		}
+
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			cuddlk_print("empty device slot\n");
+			ret = -4;
+			break;
+		}
+		if(dev->events[eslot].intr.irq == CUDDLK_IRQ_NONE) {
+			cuddlk_print("empty event slot\n");
+			ret = -5;
+			break;
+		}
+
+		memcpy(get_id_data->id.group, dev->group, CUDDL_MAX_STR_LEN);
+		memcpy(get_id_data->id.device, dev->name, CUDDL_MAX_STR_LEN);
+		memcpy(get_id_data->id.resource, dev->events[eslot].name,
+		       CUDDL_MAX_STR_LEN);
+		get_id_data->id.instance = dev->instance;
+		if (copy_to_user(
+			    (void*)arg, get_id_data, sizeof(*get_id_data))) {
+			cuddlk_print("copy_to_user failed\n");
+			ret = -6;
+			break;
+		}
+		cuddlk_debug("  success\n");
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl IOCTL\n");
 		ret = -1;
 	}
 
+	kfree(get_id_data);
 	kfree(erdata);
 	kfree(mrdata);
 	kfree(edata);

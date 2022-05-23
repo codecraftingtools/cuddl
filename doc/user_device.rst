@@ -13,18 +13,8 @@
    
 .. highlight:: C
 
-================
-User-Space C API
-================
+======
+Device
+======
 
-The C API described in the following sections is available to user-space
-applications.
-
-.. toctree::
-   :maxdepth: 1
-
-   user_general
-   user_iomem
-   user_memregion
-   user_eventsrc
-   user_device
+.. kernel-doc:: user/include/cuddl/device.h

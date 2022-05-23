@@ -13,8 +13,8 @@
    
 .. highlight:: C
 
-======
-Device
-======
+=======
+Manager
+=======
 
-.. kernel-doc:: user/include/cuddl/device.h
+.. kernel-doc:: user/include/cuddl/manager.h

@@ -27,4 +27,4 @@ applications.
    user_iomem
    user_memregion
    user_eventsrc
-   user_device
+   user_manager

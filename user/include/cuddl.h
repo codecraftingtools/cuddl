@@ -18,7 +18,7 @@
 
 #include <cuddl/memregion.h>
 #include <cuddl/eventsrc.h>
-#include <cuddl/device.h>
+#include <cuddl/manager.h>
 
 /*
  * User-space declarations.

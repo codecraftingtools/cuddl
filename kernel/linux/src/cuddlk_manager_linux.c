@@ -68,7 +68,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddl_eventsrc_claim_ioctl_data *edata;
 	struct cuddl_memregion_release_ioctl_data *mrdata;
 	struct cuddl_eventsrc_release_ioctl_data *erdata;
-	struct cuddl_device_get_id_ioctl_data *get_id_data;
+	struct cuddl_get_resource_id_ioctl_data *get_id_data;
 
 	cuddlk_debug("cuddlk_manager_ioctl\n");
 	cuddlk_debug("  cmd:  %u\n", cmd);
@@ -117,7 +117,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	get_id_data = kzalloc(
-		sizeof(struct cuddl_device_get_id_ioctl_data),
+		sizeof(struct cuddl_get_resource_id_ioctl_data),
 		GFP_KERNEL);
 	if (!get_id_data) {
 		kfree(erdata);
@@ -323,27 +323,27 @@ static long cuddlk_manager_ioctl(
 		       dev->events[eslot].kernel.ref_count);
 		break;
 
-	case CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL:
-		cuddlk_debug("CUDDL_MANAGER_GET_MAX_DEVICES_IOCTL called\n");
+	case CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL:
+		cuddlk_debug("CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL called\n");
 		ret = CUDDLK_MAX_MANAGED_DEVICES;
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL:
+	case CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL:
 		cuddlk_debug(
-			"CUDDL_DEVICE_GET_MAX_MEM_REGIONS_IOCTL called\n");
+			"CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL called\n");
 		ret = CUDDLK_MAX_DEV_MEM_REGIONS;
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL:
-		cuddlk_debug("CUDDL_DEVICE_GET_MAX_EVENTS_IOCTL called\n");
+	case CUDDL_GET_MAX_DEV_EVENTS_IOCTL:
+		cuddlk_debug("CUDDL_GET_MAX_DEV_EVENTS_IOCTL called\n");
 		ret = CUDDLK_MAX_DEV_EVENTS;
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL:
-		cuddlk_debug("CUDDL_DEVICE_GET_MEM_REGION_ID_IOCTL called\n");
+	case CUDDL_GET_MEMREGION_ID_IOCTL:
+		cuddlk_debug("CUDDL_GET_MEMREGION_ID_IOCTL called\n");
 		if (copy_from_user(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -393,8 +393,8 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_DEVICE_GET_EVENT_ID_IOCTL:
-		cuddlk_debug("CUDDL_DEVICE_GET_EVENT_ID_IOCTL called\n");
+	case CUDDL_GET_EVENTSRC_ID_IOCTL:
+		cuddlk_debug("CUDDL_GET_EVENTSRC_ID_IOCTL called\n");
 		if (copy_from_user(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");

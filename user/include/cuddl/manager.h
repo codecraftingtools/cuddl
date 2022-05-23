@@ -135,4 +135,42 @@ int cuddl_get_memregion_id(
 int cuddl_get_eventsrc_id(
 	struct cuddl_resource_id *id, int device_slot, int event_slot);
 
+/**
+ * cuddl_get_memregion_ref_count_for_id() - Return the memregion ref count.
+ *
+ * @memregion_id: Resource identifier input identifying the memory region to
+ *                be queried.
+ *
+ * Return the reference count associated with the specified memory region.
+ *
+ * Return: Positive (or zero) reference count or negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
+ *       manager device.
+ */
+int cuddl_get_memregion_ref_count_for_id(
+	const struct cuddl_resource_id *memregion_id);
+
+/**
+ * cuddl_get_eventsrc_ref_count_for_id() - Return the eventsrc ref count.
+ *
+ * @eventsrc_id: Resource identifier input identifying the event source to be
+ *               queried.
+ *
+ * Return the reference count associated with the specified event source.
+ *
+ * Return: Positive (or zero) reference count or negative error code.
+ *
+ *   Error codes:
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
+ *       manager device.
+ */
+int cuddl_get_eventsrc_ref_count_for_id(
+	const struct cuddl_resource_id *eventsrc_id);
+
 #endif /* !_CUDDL_DEVICE_H */

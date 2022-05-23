@@ -497,3 +497,35 @@ int cuddl_get_eventsrc_id(
 	close(fd);
 	return 0;
 }
+
+int cuddl_get_memregion_ref_count_for_id(
+	const struct cuddl_resource_id *memregion_id)
+{
+	int fd;
+	int ret;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_GET_MEMREGION_REF_COUNT_IOCTL, memregion_id);
+
+	close(fd);
+	return ret;
+}
+
+int cuddl_get_eventsrc_ref_count_for_id(
+	const struct cuddl_resource_id *eventsrc_id)
+{
+	int fd;
+	int ret;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL, eventsrc_id);
+
+	close(fd);
+	return ret;
+}

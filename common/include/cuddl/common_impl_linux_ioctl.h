@@ -76,6 +76,14 @@
  * .. c:macro:: CUDDL_GET_EVENTSRC_ID_IOCTL
  *
  *    IOCTL associated with ``cuddl_get_eventsrc_id()``.
+ *
+ * .. c:macro:: CUDDL_GET_MEMREGION_REF_COUNT_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_get_memregion_ref_count()``.
+ *
+ * .. c:macro:: CUDDL_GET_EVENTSERC_REF_COUNT_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_get_eventsrc_ref_count()``.
  */
 
 /**
@@ -157,9 +165,15 @@ struct cuddl_get_resource_id_ioctl_data {
 #define CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL _IO(CUDDL_IOCTL_TYPE, 10)
 #define CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL _IO(CUDDL_IOCTL_TYPE, 11)
 #define CUDDL_GET_MAX_DEV_EVENTS_IOCTL _IO(CUDDL_IOCTL_TYPE, 12)
+
 #define CUDDL_GET_MEMREGION_ID_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 13, struct cuddl_get_resource_id_ioctl_data)
 #define CUDDL_GET_EVENTSRC_ID_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 14, struct cuddl_get_resource_id_ioctl_data)
+
+#define CUDDL_GET_MEMREGION_REF_COUNT_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 15, struct cuddl_resource_id)
+#define CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 16, struct cuddl_resource_id)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

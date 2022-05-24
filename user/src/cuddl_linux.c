@@ -42,6 +42,30 @@
 #define CUDDL_EVENTSRC_RELEASE_IOCTL  CUDDL_EVENTSRC_RELEASE_UIO_IOCTL
 #endif
 
+#include <stdio.h>
+
+static void populate_id_from_args(
+	struct cuddl_resource_id *id,
+	const char *group,
+	const char *device,
+	const char *resource,
+	int instance)
+{
+	if (group)
+		strncpy(id->group, group, CUDDL_MAX_STR_LEN);
+	else
+		id->group[0] = '\0';
+	if (device)
+		strncpy(id->device, device, CUDDL_MAX_STR_LEN);
+	else
+		id->device[0] = '\0';
+	if (resource)
+		strncpy(id->resource, resource, CUDDL_MAX_STR_LEN);
+	else
+		id->resource[0] = '\0';
+	id->instance = instance;
+}
+
 int cuddl_memregion_claim(
 	struct cuddl_memregion_info *meminfo,
 	const char *group,
@@ -58,19 +82,7 @@ int cuddl_memregion_claim(
 	if (fd == -1)
 		return -errno;
 
-	if (group)
-		strncpy(s.id.group, group, CUDDL_MAX_STR_LEN);
-	else
-		s.id.group[0] = '\0';
-	if (device)
-		strncpy(s.id.device, device, CUDDL_MAX_STR_LEN);
-	else
-		s.id.device[0] = '\0';
-	if (memregion)
-		strncpy(s.id.resource, memregion, CUDDL_MAX_STR_LEN);
-	else
-		s.id.resource[0] = '\0';
-	s.id.instance = instance;
+	populate_id_from_args(&s.id, group, device, memregion, instance);
 
 	ret = ioctl(fd, CUDDL_MEMREGION_CLAIM_IOCTL, &s);
 	if (ret) {
@@ -214,19 +226,7 @@ int cuddl_eventsrc_claim(
 	if (fd == -1)
 		return -errno;
 
-	if (group)
-		strncpy(s.id.group, group, CUDDL_MAX_STR_LEN);
-	else
-		s.id.group[0] = '\0';
-	if (device)
-		strncpy(s.id.device, device, CUDDL_MAX_STR_LEN);
-	else
-		s.id.device[0] = '\0';
-	if (eventsrc)
-		strncpy(s.id.resource, eventsrc, CUDDL_MAX_STR_LEN);
-	else
-		s.id.resource[0] = '\0';
-	s.id.instance = instance;
+	populate_id_from_args(&s.id, group, device, eventsrc, instance);
 
 	ret = ioctl(fd, CUDDL_EVENTSRC_CLAIM_IOCTL, &s);
 	if (ret) {

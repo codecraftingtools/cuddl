@@ -150,7 +150,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("CUDDL_MEMREGION_CLAIM_*_IOCTL called\n");
 		if (copy_from_user(mdata, (void*)arg, sizeof(*mdata))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 
@@ -200,7 +200,7 @@ static long cuddlk_manager_ioctl(
 		}
 		if (copy_to_user((void*)arg, mdata, sizeof(*mdata))) {
 			cuddlk_print("copy_to_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 		dev->mem[mslot].kernel.ref_count += 1;
@@ -215,7 +215,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("CUDDL_EVENTSRC_CLAIM_*_IOCTL called\n");
 		if (copy_from_user(edata, (void*)arg, sizeof(*edata))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 
@@ -257,7 +257,7 @@ static long cuddlk_manager_ioctl(
 		}
 		if (copy_to_user((void*)arg, edata, sizeof(*edata))) {
 			cuddlk_print("copy_to_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 		dev->events[eslot].kernel.ref_count += 1;
@@ -272,7 +272,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("CUDDL_MEMREGION_RELEASE_*_IOCTL called\n");
 		if (copy_from_user(mrdata, (void*)arg, sizeof(*mrdata))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 		slot = mrdata->token.device_index;
@@ -280,18 +280,18 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  token: %d %d\n", slot, mslot);
 
 		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
-			ret = -1;
+			ret = -EBADSLT;
 			break;
 		}
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		if (!dev) {
-			ret = -1;
+			ret = -ENODEV;
 			break;
 		}
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
 		if ((mslot >= CUDDLK_MAX_DEV_MEM_REGIONS) || (mslot < 0)) {
-			ret = -1;
+			ret = -EBADSLT;
 			break;
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
@@ -308,7 +308,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("CUDDL_EVENTSRC_RELEASE_*_IOCTL called\n");
 		if (copy_from_user(erdata, (void*)arg, sizeof(*erdata))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 		slot = erdata->token.device_index;
@@ -316,18 +316,18 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  token: %d %d\n", slot, eslot);
 
 		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
-			ret = -1;
+			ret = -EBADSLT;
 			break;
 		}
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		if (!dev) {
-			ret = -1;
+			ret = -ENODEV;
 			break;
 		}
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
 		if ((eslot >= CUDDLK_MAX_DEV_EVENTS) || (eslot < 0)) {
-			ret = -1;
+			ret = -EBADSLT;
 			break;
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
@@ -361,7 +361,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_from_user(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 
@@ -372,24 +372,24 @@ static long cuddlk_manager_ioctl(
 
 		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
 			cuddlk_debug("device slot out of range\n");
-			ret = -2;
+			ret = -EBADSLT;
 			break;
 		}
 		if ((mslot < 0) || (mslot >= CUDDLK_MAX_DEV_MEM_REGIONS)) {
 			cuddlk_debug("mem region slot out of range\n");
-			ret = -3;
+			ret = -EBADSLT;
 			break;
 		}
 
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		if (!dev) {
 			cuddlk_debug("empty device slot\n");
-			ret = -4;
+			ret = -ENODEV;
 			break;
 		}
 		if(dev->mem[mslot].type == CUDDLK_MEMT_NONE) {
 			cuddlk_debug("empty mem region slot\n");
-			ret = -5;
+			ret = -EINVAL;
 			break;
 		}
 
@@ -401,7 +401,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_to_user(
 			    (void*)arg, get_id_data, sizeof(*get_id_data))) {
 			cuddlk_print("copy_to_user failed\n");
-			ret = -6;
+			ret = -EOVERFLOW;
 			break;
 		}
 		cuddlk_debug("  success\n");
@@ -412,7 +412,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_from_user(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 
@@ -423,24 +423,24 @@ static long cuddlk_manager_ioctl(
 
 		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
 			cuddlk_debug("device slot out of range\n");
-			ret = -2;
+			ret = -EBADSLT;
 			break;
 		}
 		if ((eslot < 0) || (eslot >= CUDDLK_MAX_DEV_EVENTS)) {
 			cuddlk_debug("event slot out of range\n");
-			ret = -3;
+			ret = -EBADSLT;
 			break;
 		}
 
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		if (!dev) {
 			cuddlk_debug("empty device slot\n");
-			ret = -4;
+			ret = -ENODEV;
 			break;
 		}
 		if(dev->events[eslot].intr.irq == CUDDLK_IRQ_NONE) {
 			cuddlk_debug("empty event slot\n");
-			ret = -5;
+			ret = -EINVAL;
 			break;
 		}
 
@@ -452,7 +452,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_to_user(
 			    (void*)arg, get_id_data, sizeof(*get_id_data))) {
 			cuddlk_print("copy_to_user failed\n");
-			ret = -6;
+			ret = -EOVERFLOW;
 			break;
 		}
 		cuddlk_debug("  success\n");
@@ -463,7 +463,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_from_user(
 			    id_data, (void*)arg, sizeof(*id_data))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 
@@ -497,7 +497,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_from_user(
 			    id_data, (void*)arg, sizeof(*id_data))) {
 			cuddlk_print("copy_from_user failed\n");
-			ret = -1;
+			ret = -EOVERFLOW;
 			break;
 		}
 
@@ -528,7 +528,7 @@ static long cuddlk_manager_ioctl(
 
 	default:
 		cuddlk_print("Unknown Cuddl IOCTL\n");
-		ret = -1;
+		ret = -ENOSYS;
 	}
 
 	kfree(id_data);

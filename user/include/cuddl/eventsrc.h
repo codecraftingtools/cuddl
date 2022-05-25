@@ -106,9 +106,14 @@ struct cuddl_eventsrc {
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-ENXIO``: The specified event source was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
 int cuddl_eventsrc_claim(
@@ -194,7 +199,8 @@ int cuddl_eventsrc_open(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: None.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       UIO or UDD event source file descriptor.
  */
 int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc);
 

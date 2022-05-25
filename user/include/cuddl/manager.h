@@ -40,10 +40,13 @@
  * Return: Positive count of device slots or negative error code.
  *
  *   Error codes:
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
- *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
- *       manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_get_max_managed_devices(void);
 
@@ -57,10 +60,13 @@ int cuddl_get_max_managed_devices(void);
  * Return: Positive count of memory region slots or negative error code.
  *
  *   Error codes:
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
- *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
- *       manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_get_max_dev_mem_regions(void);
 
@@ -74,10 +80,13 @@ int cuddl_get_max_dev_mem_regions(void);
  * Return: Positive count of event source slots or negative error code.
  *
  *   Error codes:
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
- *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
- *       manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_get_max_dev_events(void);
 
@@ -100,9 +109,16 @@ int cuddl_get_max_dev_events(void);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EINVAL``: The specified memory slot is empty.
+ *     - ``-EBADSLT``: The specified device or mem slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
 int cuddl_get_memregion_id(
@@ -127,9 +143,16 @@ int cuddl_get_memregion_id(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EINVAL``: The specified event slot is empty.
+ *     - ``-EBADSLT``: The specified device or event slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
 int cuddl_get_eventsrc_id(
@@ -146,10 +169,15 @@ int cuddl_get_eventsrc_id(
  * Return: Positive (or zero) reference count or negative error code.
  *
  *   Error codes:
+ *     - ``-ENXIO``: The specified memory region was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
- *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
- *       manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_get_memregion_ref_count_for_id(
 	const struct cuddl_resource_id *memregion_id);
@@ -165,10 +193,15 @@ int cuddl_get_memregion_ref_count_for_id(
  * Return: Positive (or zero) reference count or negative error code.
  *
  *   Error codes:
+ *     - ``-ENXIO``: The specified event source was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
- *     - Linux: Negative value returned from ``ioctl()`` call on Cuddl
- *       manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_get_eventsrc_ref_count_for_id(
 	const struct cuddl_resource_id *eventsrc_id);

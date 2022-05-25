@@ -92,9 +92,14 @@ struct cuddl_memregion {
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-ENXIO``: The specified memory region was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
 int cuddl_memregion_claim(

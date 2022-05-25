@@ -41,9 +41,15 @@
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-ENODEV``: The token is invalid.
+ *     - ``-EBADSLT``: The token is invalid (Linux).
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
 int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
@@ -65,9 +71,15 @@ int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-ENODEV``: The token is invalid.
+ *     - ``-EBADSLT``: The token is invalid (Linux).
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
 int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token);

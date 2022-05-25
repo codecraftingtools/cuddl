@@ -62,6 +62,7 @@ static long cuddlk_manager_ioctl(
 	int mslot;
 	int eslot;
 	int rt = 0;
+	int claim = 0;
 	int ret = 0;
 	struct cuddlk_device *dev;
 	struct cuddl_memregion_claim_ioctl_data *mdata;
@@ -147,7 +148,10 @@ static long cuddlk_manager_ioctl(
 		rt = 1;
 		/* FALLTHROUGH */
 	case CUDDL_MEMREGION_CLAIM_UIO_IOCTL:
-		cuddlk_debug("CUDDL_MEMREGION_CLAIM_*_IOCTL called\n");
+		claim = 1;
+		/* FALLTHROUGH */
+	case CUDDL_GET_MEMREGION_INFO_IOCTL:
+		cuddlk_debug("CUDDL_MEMREGION_CLAIM_*/INFO_IOCTL called\n");
 		if (copy_from_user(mdata, (void*)arg, sizeof(*mdata))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
@@ -203,7 +207,9 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
-		dev->mem[mslot].kernel.ref_count += 1;
+		if (claim) {
+			dev->mem[mslot].kernel.ref_count += 1;
+		}
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->mem[mslot].kernel.ref_count);
 		break;
@@ -212,7 +218,10 @@ static long cuddlk_manager_ioctl(
 		rt = 1;
 		/* FALLTHROUGH */
 	case CUDDL_EVENTSRC_CLAIM_UIO_IOCTL:
-		cuddlk_debug("CUDDL_EVENTSRC_CLAIM_*_IOCTL called\n");
+		claim = 1;
+		/* FALLTHROUGH */
+	case CUDDL_GET_EVENTSRC_INFO_IOCTL:
+		cuddlk_debug("CUDDL_EVENTSRC_CLAIM_*/INFO_IOCTL called\n");
 		if (copy_from_user(edata, (void*)arg, sizeof(*edata))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
@@ -244,6 +253,11 @@ static long cuddlk_manager_ioctl(
 		edata->info.priv.token.resource_index = eslot;
 		edata->info.flags = 0;
 		edata->info.flags |= CUDDL_EVENTSRCF_WAITABLE;
+		if (dev->events[eslot].intr.enable)
+			edata->info.flags |= CUDDL_EVENTSRCF_HAS_ENABLE;
+		if (dev->events[eslot].intr.disable)
+			edata->info.flags |= CUDDL_EVENTSRCF_HAS_DISABLE;
+
 		if (rt) {
 			snprintf(edata->info.priv.device_name,
 				 CUDDL_MAX_STR_LEN,
@@ -260,7 +274,9 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
-		dev->events[eslot].kernel.ref_count += 1;
+		if (claim) {
+			dev->events[eslot].kernel.ref_count += 1;
+		}
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->events[eslot].kernel.ref_count);
 		break;

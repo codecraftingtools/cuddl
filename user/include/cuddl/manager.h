@@ -159,6 +159,66 @@ int cuddl_get_eventsrc_id(
 	struct cuddl_resource_id *id, int device_slot, int event_slot);
 
 /**
+ * cuddl_get_memregion_info_for_id() - Retrieve memory region information.
+ *
+ * @meminfo: Pointer to a data structure that will receive the memory region
+ *           information.  If the call is successful, the required
+ *           information will be copied into the data structure specified by
+ *           this parameter.
+ *
+ * @memregion_id: Resource identifier input identifying the memory region to
+ *                be queried.
+ *
+ * Retrieve the properties of the specified memory region.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: The specified memory region was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_get_memregion_info_for_id(
+	struct cuddl_memregion_info *meminfo,
+	const struct cuddl_resource_id *memregion_id);
+
+/**
+ * cuddl_get_eventsrc_info_for_id() - Retrieve event source information.
+ *
+ * @eventinfo: Pointer to a data structure that will receive the event source
+ *             information.  If the call is successful, the required
+ *             information will be copied into the data structure specified
+ *             by this parameter.
+ *
+ * @eventsrc_id: Resource identifier input identifying the event source to be
+ *               queried.
+ *
+ * Retrieve the properties of the specified event source.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: The specified event source was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_get_eventsrc_info_for_id(
+	struct cuddl_eventsrc_info *meminfo,
+	const struct cuddl_resource_id *eventsrc_id);
+
+/**
  * cuddl_get_memregion_ref_count_for_id() - Return the memregion ref count.
  *
  * @memregion_id: Resource identifier input identifying the memory region to

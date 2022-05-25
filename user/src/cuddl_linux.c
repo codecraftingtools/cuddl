@@ -550,6 +550,68 @@ int cuddl_get_eventsrc_id(
 	return 0;
 }
 
+int cuddl_get_memregion_info_for_id(
+	struct cuddl_memregion_info *meminfo,
+	const struct cuddl_resource_id *memregion_id)
+{
+	int fd;
+	int ret;
+	struct cuddl_memregion_claim_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	memcpy(&s.id, memregion_id, sizeof(s.id));
+
+	ret = ioctl(fd, CUDDL_GET_MEMREGION_INFO_IOCTL, &s);
+	if (ret) {
+		if ((ret == -1) && errno)
+			ret = -errno;
+		close(fd);
+		return ret;
+	}
+
+	memcpy(meminfo, &s.info, sizeof(*meminfo));
+
+	ret = close(fd);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
+}
+
+int cuddl_get_eventsrc_info_for_id(
+	struct cuddl_eventsrc_info *eventinfo,
+	const struct cuddl_resource_id *eventsrc_id)
+{
+	int fd;
+	int ret;
+	struct cuddl_eventsrc_claim_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	memcpy(&s.id, eventsrc_id, sizeof(s.id));
+
+	ret = ioctl(fd, CUDDL_GET_EVENTSRC_INFO_IOCTL, &s);
+	if (ret) {
+		if ((ret == -1) && errno)
+			ret = -errno;
+		close(fd);
+		return ret;
+	}
+
+	memcpy(eventinfo, &s.info, sizeof(*eventinfo));
+
+	ret = close(fd);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
+}
+
 int cuddl_get_memregion_ref_count_for_id(
 	const struct cuddl_resource_id *memregion_id)
 {

@@ -77,6 +77,14 @@
  *
  *    IOCTL associated with ``cuddl_get_eventsrc_id()``.
  *
+ * .. c:macro:: CUDDL_GET_MEMREGION_INFO_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_get_memregion_info_for_id()``.
+ *
+ * .. c:macro:: CUDDL_GET_EVENTSRC_INFO_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_get_eventsrc_info_for_id()``.
+ *
  * .. c:macro:: CUDDL_GET_MEMREGION_REF_COUNT_IOCTL
  *
  *    IOCTL associated with ``cuddl_get_memregion_ref_count()``.
@@ -85,13 +93,13 @@
  *
  *    IOCTL associated with ``cuddl_get_eventsrc_ref_count()``.
  *
- * .. c:macro:: CUDDL_GET_MEMREGION_INFO_IOCTL
+ * .. c:macro:: CUDDL_DECREMENT_MEMREGION_REF_COUNT_IOCTL
  *
- *    IOCTL associated with ``cuddl_get_memregion_info_for_id()``.
+ *    IOCTL associated with ``cuddl_decrement_memregion_info_for_id()``.
  *
- * .. c:macro:: CUDDL_GET_EVENTSRC_INFO_IOCTL
+ * .. c:macro:: CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL
  *
- *    IOCTL associated with ``cuddl_get_eventsrc_info_for_id()``.
+ *    IOCTL associated with ``cuddl_decrement_eventsrc_info_for_id()``.
  */
 
 /**
@@ -179,14 +187,19 @@ struct cuddl_get_resource_id_ioctl_data {
 #define CUDDL_GET_EVENTSRC_ID_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 14, struct cuddl_get_resource_id_ioctl_data)
 
-#define CUDDL_GET_MEMREGION_REF_COUNT_IOCTL \
-  _IOW(CUDDL_IOCTL_TYPE, 15, struct cuddl_resource_id)
-#define CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL \
-  _IOW(CUDDL_IOCTL_TYPE, 16, struct cuddl_resource_id)
-
 #define CUDDL_GET_MEMREGION_INFO_IOCTL \
-  _IOWR(CUDDL_IOCTL_TYPE, 17, struct cuddl_memregion_claim_ioctl_data)
+  _IOWR(CUDDL_IOCTL_TYPE, 15, struct cuddl_memregion_claim_ioctl_data)
 #define CUDDL_GET_EVENTSRC_INFO_IOCTL \
-  _IOWR(CUDDL_IOCTL_TYPE, 18, struct cuddl_eventsrc_claim_ioctl_data)
+  _IOWR(CUDDL_IOCTL_TYPE, 16, struct cuddl_eventsrc_claim_ioctl_data)
+
+#define CUDDL_GET_MEMREGION_REF_COUNT_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 17, struct cuddl_resource_id)
+#define CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 18, struct cuddl_resource_id)
+
+#define CUDDL_DECREMENT_MEMREGION_REF_COUNT_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 19, struct cuddl_memregion_claim_ioctl_data)
+#define CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 20, struct cuddl_eventsrc_claim_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

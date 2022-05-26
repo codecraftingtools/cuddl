@@ -266,4 +266,56 @@ int cuddl_get_memregion_ref_count_for_id(
 int cuddl_get_eventsrc_ref_count_for_id(
 	const struct cuddl_resource_id *eventsrc_id);
 
+/**
+ * cuddl_decrement_memregion_ref_count_for_id() - Decrement mem ref count.
+ *
+ * @memregion_id: Resource identifier input identifying the memory region to
+ *                be queried.
+ *
+ * Decrement the reference count associated with the specified memory region.
+ * This functionality should only used to free resources when the standard
+ * mechanism has failed for some reason.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: The specified memory region was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_decrement_memregion_ref_count_for_id(
+	const struct cuddl_resource_id *memregion_id);
+
+/**
+ * cuddl_decrement_eventsrc_ref_count_for_id() - Decrement event ref count.
+ *
+ * @eventsrc_id: Resource identifier input identifying the event source to be
+ *               queried.
+ *
+ * Decrement the reference count associated with the specified event source.
+ * This functionality should only used to free resources when the standard
+ * mechanism has failed for some reason.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENXIO``: The specified event source was not found.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_decrement_eventsrc_ref_count_for_id(
+	const struct cuddl_resource_id *eventsrc_id);
+
 #endif /* !_CUDDL_DEVICE_H */

@@ -653,3 +653,47 @@ int cuddl_get_eventsrc_ref_count_for_id(
 
 	return ret;
 }
+
+int cuddl_decrement_memregion_ref_count_for_id(
+	const struct cuddl_resource_id *memregion_id)
+{
+	int fd;
+	int ret, ret2;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(
+		fd, CUDDL_DECREMENT_MEMREGION_REF_COUNT_IOCTL, memregion_id);
+	if ((ret == -1) && errno)
+		ret = -errno;
+
+	ret2 = close(fd);
+	if ((ret2 == -1) && (ret >= 0))
+		return -errno;
+
+	return ret;
+}
+
+int cuddl_decrement_eventsrc_ref_count_for_id(
+	const struct cuddl_resource_id *eventsrc_id)
+{
+	int fd;
+	int ret, ret2;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(
+		fd, CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL, eventsrc_id);
+	if ((ret == -1) && errno)
+		ret = -errno;
+
+	ret2 = close(fd);
+	if ((ret2 == -1) && (ret >= 0))
+		return -errno;
+
+	return ret;
+}

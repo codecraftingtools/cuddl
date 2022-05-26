@@ -63,6 +63,7 @@ static long cuddlk_manager_ioctl(
 	int eslot;
 	int rt = 0;
 	int claim = 0;
+	int decrement = 0;
 	int ret = 0;
 	struct cuddlk_device *dev;
 	struct cuddl_memregion_claim_ioctl_data *mdata;
@@ -312,7 +313,10 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
-		dev->mem[mslot].kernel.ref_count -= 1;
+		if (dev->mem[mslot].kernel.ref_count == 0)
+			cuddlk_debug("warning: mem ref count already 0\n");
+		else
+			dev->mem[mslot].kernel.ref_count -= 1;
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->mem[mslot].kernel.ref_count);
 		break;
@@ -348,7 +352,10 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
-		dev->events[eslot].kernel.ref_count -= 1;
+		if (dev->events[eslot].kernel.ref_count == 0)
+			cuddlk_debug("warning: event ref count already 0\n");
+		else
+			dev->events[eslot].kernel.ref_count -= 1;
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->events[eslot].kernel.ref_count);
 		break;
@@ -474,6 +481,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDL_DECREMENT_MEMREGION_REF_COUNT_IOCTL:
+		decrement = 1;
+		/* FALLTHROUGH */
 	case CUDDL_GET_MEMREGION_REF_COUNT_IOCTL:
 		cuddlk_debug("CUDDL_GET_MEMREGION_REF_COUNT_IOCTL called\n");
 		if (copy_from_user(
@@ -504,10 +514,23 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
-		ret = dev->mem[mslot].kernel.ref_count;
+		if (decrement) {
+			if (dev->mem[mslot].kernel.ref_count == 0) {
+				cuddlk_print("mem ref count already 0\n");
+				ret = -ENOSPC;
+				break;
+			} else {
+				dev->mem[mslot].kernel.ref_count -= 1;
+			}
+		} else {
+			ret = dev->mem[mslot].kernel.ref_count;
+		}
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL:
+		decrement = 1;
+		/* FALLTHROUGH */
 	case CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL:
 		cuddlk_debug("CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL called\n");
 		if (copy_from_user(
@@ -538,7 +561,17 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
-		ret = dev->events[eslot].kernel.ref_count;
+		if (decrement) {
+			if (dev->events[eslot].kernel.ref_count == 0) {
+				cuddlk_print("event ref count already 0\n");
+				ret = -ENOSPC;
+				break;
+			} else {
+				dev->events[eslot].kernel.ref_count -= 1;
+			}
+		} else {
+			ret = dev->events[eslot].kernel.ref_count;
+		}
 		cuddlk_debug("  success\n");
 		break;
 

@@ -82,4 +82,33 @@ struct cuddl_eventsrc_priv {
 	struct cuddl_impl_token token;
 };
 
+/**
+ * cuddl_open_janitor() - Register a process for cleanup on application crash.
+ *
+ * When the process ends, all resources associated with the process will be
+ * freed.
+ *
+ * Return: Positive file desciptor on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       janitor device.
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       janitor device.
+ */
+int cuddl_open_janitor(void);
+
+/**
+ * cuddl_close_janitor() - Clean up resources associate with current process.
+ *
+ * @fd: Janitor device file descriptor to close.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Value of ``-errno`` resulting from from ``close()`` call on the
+ *       specified file descriptor.
+ */
+int cuddl_close_janitor(int fd);
+
 #endif /* !_CUDDL_IMPL_LINUX_H */

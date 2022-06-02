@@ -706,42 +706,65 @@ int cuddl_decrement_eventsrc_ref_count_for_id(
 	return ret;
 }
 
-__attribute__((constructor)) void cuddl_startup(void)
+int cuddl_open_janitor(void)
 {
 	const char *janitor_dev_name = "/dev/cuddl_janitor";
-	pid_t cuddl_janitor_pid;
+	pid_t pid;
+	int fd;
+	int ret;
 
 #ifdef __XENO__
-	cuddl_janitor_fd = __real_open(janitor_dev_name, O_RDWR);
+	fd = __real_open(janitor_dev_name, O_RDWR);
 #else
-	cuddl_janitor_fd = open(janitor_dev_name, O_RDWR);
+	fd = open(janitor_dev_name, O_RDWR);
 #endif
-	if (cuddl_janitor_fd == -1) {
+	if (fd == -1) {
 		printf("warning: could not open janitor device: %s\n",
 		       janitor_dev_name);
-		return;
+		return -errno;
 	}
 
-	cuddl_janitor_pid = getpid();
+	pid = getpid();
 
 #ifdef __XENO__
-	__real_ioctl(cuddl_janitor_fd, CUDDL_JANITOR_REGISTER_PID_IOCTL,
-	      &cuddl_janitor_pid);
+	ret = __real_ioctl(fd, CUDDL_JANITOR_REGISTER_PID_IOCTL, &pid);
 #else
-	ioctl(cuddl_janitor_fd, CUDDL_JANITOR_REGISTER_PID_IOCTL,
-	      &cuddl_janitor_pid);
+	ret = ioctl(fd, CUDDL_JANITOR_REGISTER_PID_IOCTL, &pid);
 #endif
+	if (ret == -1) {
+		printf("warning: IOCTL error on janitor device\n");
+		return -errno;
+	}
 
 	// Leave the janitor file descriptor open
+	return fd;
+}
+
+int cuddl_close_janitor(int fd)
+{
+	int ret = 0;
+
+	if (fd > 0) {
+#ifdef __XENO__
+		ret = __real_close(fd);
+#else
+		ret = close(fd);
+#endif
+	}
+
+	return ret;
+}
+
+__attribute__((constructor)) void cuddl_startup(void)
+{
+	cuddl_janitor_fd = cuddl_open_janitor();
+	if (cuddl_janitor_fd == -1) {
+		printf("warning: could not close janitor device\n");
+		return;
+	}
 }
 
 __attribute__((destructor)) void cuddl_cleanup(void)
 {
-	if(cuddl_janitor_fd) {
-#ifdef __XENO__
-		__real_close(cuddl_janitor_fd);
-#else
-		close(cuddl_janitor_fd);
-#endif
-	}
+	cuddl_close_janitor(cuddl_janitor_fd);
 }

@@ -44,6 +44,8 @@
 
 #include <stdio.h>
 
+static int cuddl_janitor_fd;
+
 static void populate_id_from_args(
 	struct cuddl_resource_id *id,
 	const char *group,
@@ -83,6 +85,7 @@ int cuddl_memregion_claim(
 		return -errno;
 
 	populate_id_from_args(&s.id, group, device, memregion, instance);
+	s.pid = getpid();
 
 	ret = ioctl(fd, CUDDL_MEMREGION_CLAIM_IOCTL, &s);
 	if (ret) {
@@ -206,6 +209,7 @@ int cuddl_memregion_release_by_token(struct cuddl_impl_token token)
 		return -errno;
 
 	s.token = token;
+	s.pid = getpid();
 
 	ret = ioctl(fd, CUDDL_MEMREGION_RELEASE_IOCTL, &s);
 	if (ret) {
@@ -239,6 +243,7 @@ int cuddl_eventsrc_claim(
 		return -errno;
 
 	populate_id_from_args(&s.id, group, device, eventsrc, instance);
+	s.pid = getpid();
 
 	ret = ioctl(fd, CUDDL_EVENTSRC_CLAIM_IOCTL, &s);
 	if (ret) {
@@ -336,6 +341,7 @@ int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token)
 		return -errno;
 
 	s.token = token;
+	s.pid = getpid();
 
 	ret = ioctl(fd, CUDDL_EVENTSRC_RELEASE_IOCTL, &s);
 	if (ret) {
@@ -563,6 +569,7 @@ int cuddl_get_memregion_info_for_id(
 		return -errno;
 
 	memcpy(&s.id, memregion_id, sizeof(s.id));
+	s.pid = getpid();
 
 	ret = ioctl(fd, CUDDL_GET_MEMREGION_INFO_IOCTL, &s);
 	if (ret) {
@@ -594,6 +601,7 @@ int cuddl_get_eventsrc_info_for_id(
 		return -errno;
 
 	memcpy(&s.id, eventsrc_id, sizeof(s.id));
+	s.pid = getpid();
 
 	ret = ioctl(fd, CUDDL_GET_EVENTSRC_INFO_IOCTL, &s);
 	if (ret) {
@@ -696,4 +704,44 @@ int cuddl_decrement_eventsrc_ref_count_for_id(
 		return -errno;
 
 	return ret;
+}
+
+__attribute__((constructor)) void cuddl_startup(void)
+{
+	const char *janitor_dev_name = "/dev/cuddl_janitor";
+	pid_t cuddl_janitor_pid;
+
+#ifdef __XENO__
+	cuddl_janitor_fd = __real_open(janitor_dev_name, O_RDWR);
+#else
+	cuddl_janitor_fd = open(janitor_dev_name, O_RDWR);
+#endif
+	if (cuddl_janitor_fd == -1) {
+		printf("warning: could not open janitor device: %s\n",
+		       janitor_dev_name);
+		return;
+	}
+
+	cuddl_janitor_pid = getpid();
+
+#ifdef __XENO__
+	__real_ioctl(cuddl_janitor_fd, CUDDL_JANITOR_REGISTER_PID_IOCTL,
+	      &cuddl_janitor_pid);
+#else
+	ioctl(cuddl_janitor_fd, CUDDL_JANITOR_REGISTER_PID_IOCTL,
+	      &cuddl_janitor_pid);
+#endif
+
+	// Leave the janitor file descriptor open
+}
+
+__attribute__((destructor)) void cuddl_cleanup(void)
+{
+	if(cuddl_janitor_fd) {
+#ifdef __XENO__
+		__real_close(cuddl_janitor_fd);
+#else
+		close(cuddl_janitor_fd);
+#endif
+	}
 }

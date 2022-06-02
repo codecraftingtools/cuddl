@@ -33,6 +33,22 @@
 #include <cuddl/kernel.h>
 #include <cuddl/common_impl_linux_ioctl.h>
 
+/*
+ * struct cuddlk_resource_ref_list - List of references to resources.
+ *
+ * @list: Linux kernel list implementation.
+ * @token: Identifies the resource being referenced.
+ * @pid: Process id holding the reference (for clean up).
+ * 
+ * This data structure is reserved for internal use by the Cuddl
+ * implementation.
+ */
+struct cuddlk_resource_ref_list {
+	struct list_head list;
+	struct cuddl_impl_token token;
+	pid_t pid;
+};
+
 /* Export symbols from cuddlk_manager_common.c */
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_matching);
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_device);
@@ -49,11 +65,61 @@ static struct class *cuddlk_manager_class;
 static struct device *cuddlk_manager_device;
 static struct cuddlk_manager *cuddlk_global_manager_ptr;
 
+/* These are just for emergency clean-up */
+struct cuddlk_resource_ref_list cuddlk_mem_refs;
+struct cuddlk_resource_ref_list cuddlk_event_refs;
+
 struct cuddlk_manager *cuddlk_manager_get(void)
 {
 	return cuddlk_global_manager_ptr;
 }
 EXPORT_SYMBOL_GPL(cuddlk_manager_get);
+
+void cuddlk_manager_free_refs_for_pid(pid_t pid)
+{
+	struct cuddlk_resource_ref_list *pos;
+	struct cuddlk_resource_ref_list *tmp;
+	struct cuddlk_resource_ref_list *ref_to_free;
+	struct cuddlk_device *dev;
+	int slot, mslot, eslot;
+
+	list_for_each_entry_safe(
+		pos, tmp, &cuddlk_mem_refs.list, list) {
+		if (pos->pid == pid) {
+			slot = pos->token.device_index;
+			mslot = pos->token.resource_index;
+			cuddlk_print("emergency clean up for pid %d, "
+				     "mem slot: %d %d\n", pid, slot, mslot);
+			dev = cuddlk_global_manager_ptr->devices[slot];
+			if (dev->mem[mslot].kernel.ref_count == 0)
+				cuddlk_print("mem refcount already zero\n");
+			else
+				dev->mem[mslot].kernel.ref_count -= 1;
+			ref_to_free = pos;
+			list_del(&pos->list);
+			kfree(ref_to_free);
+		}
+	}
+
+	list_for_each_entry_safe(
+		pos, tmp, &cuddlk_event_refs.list, list) {
+		if (pos->pid == pid) {
+			slot = pos->token.device_index;
+			eslot = pos->token.resource_index;
+			cuddlk_print("emergency clean up for pid %d, "
+				     "event slot: %d %d\n", pid, slot, eslot);
+			dev = cuddlk_global_manager_ptr->devices[slot];
+			if (dev->events[eslot].kernel.ref_count == 0)
+				cuddlk_print("event refcount already zero\n");
+			else
+				dev->events[eslot].kernel.ref_count -= 1;
+			ref_to_free = pos;
+			list_del(&pos->list);
+			kfree(ref_to_free);
+		}
+	}
+}
+EXPORT_SYMBOL_GPL(cuddlk_manager_free_refs_for_pid);
 
 static long cuddlk_manager_ioctl(
 	struct file *file, unsigned int cmd, unsigned long arg)
@@ -65,6 +131,7 @@ static long cuddlk_manager_ioctl(
 	int claim = 0;
 	int decrement = 0;
 	int ret = 0;
+	int freed_ref = 0;
 	struct cuddlk_device *dev;
 	struct cuddl_memregion_claim_ioctl_data *mdata;
 	struct cuddl_eventsrc_claim_ioctl_data *edata;
@@ -72,6 +139,10 @@ static long cuddlk_manager_ioctl(
 	struct cuddl_eventsrc_release_ioctl_data *erdata;
 	struct cuddl_get_resource_id_ioctl_data *get_id_data;
 	struct cuddl_resource_id *id_data;
+	struct cuddlk_resource_ref_list *tmp_ref;
+	struct cuddlk_resource_ref_list *pos;
+	struct cuddlk_resource_ref_list *tmp;
+	struct cuddlk_resource_ref_list *ref_to_free;
 
 	cuddlk_debug("cuddlk_manager_ioctl\n");
 	cuddlk_debug("  cmd:  %u\n", cmd);
@@ -159,9 +230,10 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
-		cuddlk_debug("  %s %s %s %d\n",
+		cuddlk_debug("  %s %s %s %d (pid: %d)\n",
 			     mdata->id.group, mdata->id.device,
-			     mdata->id.resource, mdata->id.instance);
+			     mdata->id.resource, mdata->id.instance,
+			     mdata->pid);
 		slot = cuddlk_manager_find_device_matching(
 			cuddlk_global_manager_ptr,
 			mdata->id.group, mdata->id.device, mdata->id.resource,
@@ -209,6 +281,20 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 		if (claim) {
+			tmp_ref = kzalloc(
+				sizeof(struct cuddlk_resource_ref_list),
+				GFP_KERNEL);
+			if (!tmp_ref) {
+				cuddlk_print("kzalloc failed for ref\n");
+				ret = -ENOMEM;
+				break;
+			}
+			tmp_ref->token.device_index =
+				mdata->info.priv.token.device_index;
+			tmp_ref->token.resource_index =
+				mdata->info.priv.token.resource_index;
+			tmp_ref->pid = mdata->pid;
+			list_add(&tmp_ref->list, &cuddlk_mem_refs.list);
 			dev->mem[mslot].kernel.ref_count += 1;
 		}
 		cuddlk_debug("  success: ref_count: %d\n",
@@ -229,9 +315,10 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
-		cuddlk_debug("  %s %s %s %d\n",
+		cuddlk_debug("  %s %s %s %d (pid: %d)\n",
 			     edata->id.group, edata->id.device,
-			     edata->id.resource, edata->id.instance);
+			     edata->id.resource, edata->id.instance,
+			     edata->pid);
 		slot = cuddlk_manager_find_device_matching(
 			cuddlk_global_manager_ptr,
 			edata->id.group, edata->id.device, edata->id.resource,
@@ -276,6 +363,20 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 		if (claim) {
+			tmp_ref = kzalloc(
+				sizeof(struct cuddlk_resource_ref_list),
+				GFP_KERNEL);
+			if (!tmp_ref) {
+				cuddlk_print("kzalloc failed for ref\n");
+				ret = -ENOMEM;
+				break;
+			}
+			tmp_ref->token.device_index =
+				edata->info.priv.token.device_index;
+			tmp_ref->token.resource_index =
+				edata->info.priv.token.resource_index;
+			tmp_ref->pid = edata->pid;
+			list_add(&tmp_ref->list, &cuddlk_event_refs.list);
 			dev->events[eslot].kernel.ref_count += 1;
 		}
 		cuddlk_debug("  success: ref_count: %d\n",
@@ -294,7 +395,8 @@ static long cuddlk_manager_ioctl(
 		}
 		slot = mrdata->token.device_index;
 		mslot = mrdata->token.resource_index;
-		cuddlk_debug("  token: %d %d\n", slot, mslot);
+		cuddlk_debug("  token: %d %d (pid: %d)\n", slot, mslot,
+			     mrdata->pid);
 
 		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
 			ret = -EBADSLT;
@@ -317,6 +419,24 @@ static long cuddlk_manager_ioctl(
 			cuddlk_debug("warning: mem ref count already 0\n");
 		else
 			dev->mem[mslot].kernel.ref_count -= 1;
+		freed_ref = 0;
+		list_for_each_entry_safe(
+			pos, tmp, &cuddlk_mem_refs.list, list) {
+			if ((slot        == pos->token.device_index) &&
+			    (mslot       == pos->token.resource_index) &&
+			    (mrdata->pid == pos->pid)) {
+				cuddlk_debug("clean up ref for pid %d, "
+					     "mem slot: %d %d\n",
+					     pos->pid, slot, mslot);
+				ref_to_free = pos;
+				list_del(&pos->list);
+				kfree(ref_to_free);
+				freed_ref = 1;
+				break;
+			}
+		}
+		if (!freed_ref)
+			cuddlk_print("could not clean up mem ref\n");
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->mem[mslot].kernel.ref_count);
 		break;
@@ -333,7 +453,8 @@ static long cuddlk_manager_ioctl(
 		}
 		slot = erdata->token.device_index;
 		eslot = erdata->token.resource_index;
-		cuddlk_debug("  token: %d %d\n", slot, eslot);
+		cuddlk_debug("  token: %d %d (pid: %d)\n", slot, eslot,
+			     erdata->pid);
 
 		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
 			ret = -EBADSLT;
@@ -356,6 +477,24 @@ static long cuddlk_manager_ioctl(
 			cuddlk_debug("warning: event ref count already 0\n");
 		else
 			dev->events[eslot].kernel.ref_count -= 1;
+		freed_ref = 0;
+		list_for_each_entry_safe(
+			pos, tmp, &cuddlk_event_refs.list, list) {
+			if ((slot        == pos->token.device_index) &&
+			    (eslot       == pos->token.resource_index) &&
+			    (erdata->pid == pos->pid)) {
+				cuddlk_debug("clean up ref for pid %d, "
+					     "event slot: %d %d\n",
+					     pos->pid, slot, eslot);
+				ref_to_free = pos;
+				list_del(&pos->list);
+				kfree(ref_to_free);
+				freed_ref = 1;
+				break;
+			}
+		}
+		if (!freed_ref)
+			cuddlk_print("could not clean up event ref\n");
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->events[eslot].kernel.ref_count);
 		break;
@@ -575,8 +714,15 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDL_JANITOR_REGISTER_PID_IOCTL:
+		cuddlk_print("error: CUDDL_JANITOR_REGISTER_PID_IOCTL "
+			     "received on manager device instead of "
+			     "janitor device\n");
+		ret = -ENOSYS;
+		break;
+
 	default:
-		cuddlk_print("Unknown Cuddl IOCTL\n");
+		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;
 	}
 
@@ -639,6 +785,9 @@ static int __init cuddlk_manager_init(void)
 	int ret;
 	enum cuddlk_manager_init_failure failure;
 	
+	INIT_LIST_HEAD(&cuddlk_mem_refs.list);
+	INIT_LIST_HEAD(&cuddlk_event_refs.list);
+
 	cuddlk_global_manager_ptr = kzalloc(
 		sizeof(struct cuddlk_manager), GFP_KERNEL);
 	if (!cuddlk_global_manager_ptr) {
@@ -688,6 +837,30 @@ handle_failure:
 
 static void __exit cuddlk_manager_exit(void)
 {
+	struct cuddlk_resource_ref_list *pos;
+	struct cuddlk_resource_ref_list *tmp;
+	struct cuddlk_resource_ref_list *ref_to_free;
+
+	list_for_each_entry_safe(
+		pos, tmp, &cuddlk_mem_refs.list, list) {
+		cuddlk_print("fallback clean up for mem slot: %d %d\n",
+			     pos->token.device_index,
+			     pos->token.resource_index);
+		ref_to_free = pos;
+		list_del(&pos->list);
+		kfree(ref_to_free);
+	}
+
+	list_for_each_entry_safe(
+		pos, tmp, &cuddlk_event_refs.list, list) {
+		cuddlk_print("fallback clean up for event slot: %d %d\n",
+			     pos->token.device_index,
+			     pos->token.resource_index);
+		ref_to_free = pos;
+		list_del(&pos->list);
+		kfree(ref_to_free);
+	}
+
 	cuddlk_manager_cleanup(CUDDLK_MGR_NO_FAILURE);
 }
 

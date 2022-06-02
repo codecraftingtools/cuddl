@@ -8,6 +8,9 @@ cuddl-y := src/cuddlk_linux.o ../src/cuddlk_common.o
 obj-m += cuddl_manager.o
 cuddl_manager-y := src/cuddlk_manager_linux.o ../src/cuddlk_manager_common.o
 
+obj-m += cuddl_janitor.o
+cuddl_janitor-y := src/cuddlk_janitor_linux.o
+
 ccflags-y := -I$(src)/include \
              -I$(src)/../include \
              -I$(src)/../../common/include

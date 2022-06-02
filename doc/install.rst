@@ -31,7 +31,7 @@ rules file.  This can be accomplished by creating a new file named (e.g.)
 content::
 
   KERNEL=="uio*", MODE="0660", GROUP="sudo"
-  SUBSYSTEM=="cuddl", MODE="0660", GROUP="sudo"
+  SUBSYSTEM=="cuddl*", MODE="0660", GROUP="sudo"
 
 The ``GROUP`` may be changed to something more suitable, if desired.
 
@@ -71,6 +71,7 @@ Now insert the kernel modules that were built in the previous step::
 
   sudo insmod cuddl.ko
   sudo insmod cuddl_manager.ko
+  sudo insmod cuddl_janitor.ko
 
 Building a User-Space Application
 ---------------------------------

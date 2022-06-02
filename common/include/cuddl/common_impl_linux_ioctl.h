@@ -100,6 +100,10 @@
  * .. c:macro:: CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL
  *
  *    IOCTL associated with ``cuddl_decrement_eventsrc_info_for_id()``.
+ *
+ * .. c:macro:: CUDDL_JANITOR_REGISTER_PID_IOCTL
+ *
+ *    IOCTL associated with implicit ``cuddl_startup()`` call.
  */
 
 /**
@@ -111,6 +115,7 @@
 struct cuddl_memregion_claim_ioctl_data {
 	struct cuddl_resource_id id;
 	struct cuddl_memregion_info info;
+	pid_t pid;
 };
 
 /**
@@ -122,6 +127,7 @@ struct cuddl_memregion_claim_ioctl_data {
 struct cuddl_eventsrc_claim_ioctl_data {
 	struct cuddl_resource_id id;
 	struct cuddl_eventsrc_info info;
+	pid_t pid;
 };
 
 /**
@@ -131,6 +137,7 @@ struct cuddl_eventsrc_claim_ioctl_data {
  */
 struct cuddl_memregion_release_ioctl_data {
 	struct cuddl_impl_token token;
+	pid_t pid;
 };
 
 /**
@@ -140,6 +147,7 @@ struct cuddl_memregion_release_ioctl_data {
  */
 struct cuddl_eventsrc_release_ioctl_data {
 	struct cuddl_impl_token token;
+	pid_t pid;
 };
 
 /**
@@ -201,5 +209,7 @@ struct cuddl_get_resource_id_ioctl_data {
   _IOWR(CUDDL_IOCTL_TYPE, 19, struct cuddl_memregion_claim_ioctl_data)
 #define CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 20, struct cuddl_eventsrc_claim_ioctl_data)
+
+#define CUDDL_JANITOR_REGISTER_PID_IOCTL _IOWR(CUDDL_IOCTL_TYPE, 21, pid_t)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

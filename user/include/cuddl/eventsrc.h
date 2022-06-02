@@ -311,7 +311,7 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - ``ETIMEDOUT``: A timeout occurred.
+ *     - ``-ETIMEDOUT``: A timeout occurred.
  *     - Linux: Value of ``-errno`` resulting from from ``select()`` call on
  *       event source file descriptor.
  *     - Linux: Value of ``-errno`` resulting from from ``read()`` call on

@@ -24,10 +24,6 @@ drivers that works under `Linux`_, `Xenomai`_, and `RTEMS`_.
 `Cuddl`_ is part of the `Code Craftsmen`_ project.  The `documentation`_ is
 hosted on `Read the Docs`_ and the `source code`_ can be found on `GitHub`_.
 
-For those unfamiliar with the concept of user-space device drivers, reading
-this `introduction`_ as well as the `Linux UIO`_ and `Xenomai UDD`_
-documentation may be helpful.
-
 .. _Cuddl: https://www.codecraftsmen.org/software.html#cuddl
 .. _Linux: https://www.kernel.org
 .. _Xenomai: https://www.xenomai.org
@@ -37,9 +33,5 @@ documentation may be helpful.
 .. _Read the Docs: https://www.codecraftsmen.org/foundation.html#read-the-docs
 .. _source code: https://github.com/codecraftingtools/cuddl
 .. _GitHub: https://www.codecraftsmen.org/foundation.html#github
-.. _introduction: https://www.embedded.com/device-drivers-in-user-space
-.. _Linux UIO:
-    https://www.kernel.org/doc/html/latest/driver-api/uio-howto.html
-.. _Xenomai UDD: https://xenomai.org/documentation/xenomai-3/html/xeno3prm/group__rtdm__udd.html
 
 ..  sphinx-include-summary-end

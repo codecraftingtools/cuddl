@@ -18,6 +18,7 @@
 
 #include <cuddl/kernel_manager.h>
 #include <cuddl/kernel_print.h>
+#include <cuddl/kernel_version.h>
 
 /*
  * Kernel-space declarations.

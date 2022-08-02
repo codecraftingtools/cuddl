@@ -31,6 +31,7 @@
 #include <cuddl/kernel.h>
 
 /* Export symbols from cuddlk_common.c */
+EXPORT_SYMBOL_GPL(cuddlk_get_commit_id);
 EXPORT_SYMBOL_GPL(cuddlk_device_find_eventsrc);
 EXPORT_SYMBOL_GPL(cuddlk_device_find_memregion);
 

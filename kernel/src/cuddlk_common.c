@@ -19,6 +19,23 @@
 
 #include <cuddl/kernel.h>
 
+int cuddlk_get_commit_id(char *id_str, cuddl_size_t id_len)
+{
+	int remaining_space;
+
+	if (CUDDLK_IMPL_REPO_IS_DIRTY) {
+		strncpy(id_str, "M", id_len);
+	} else {
+		strncpy(id_str, "", id_len);
+	}
+	remaining_space = id_len - strnlen(id_str, id_len);
+	if (remaining_space > 0) {
+		remaining_space -= 1;
+		strncat(id_str, CUDDLK_IMPL_COMMIT_HASH, remaining_space);
+	}
+	return 0;
+}
+
 int cuddlk_device_find_memregion(
 	struct cuddlk_device *dev, const char *name)
 {

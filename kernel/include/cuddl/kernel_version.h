@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: (MIT OR GPL-2.0-or-later) */
 /*
- * Cross-platform user-space device driver layer kernel printing decls.
+ * Cross-platform user-space device driver layer kernel version decls.
  *
  * Copyright (C) 2022 Jeff Webb <jeff.webb@codecraftsmen.org>
  *

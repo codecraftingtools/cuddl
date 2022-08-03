@@ -98,6 +98,14 @@ application::
 For Xenomai applications, the Cuddl source files need to be compiled and
 linked with the appropriate flags (as supplied by ``xeno-config``).
 
+In order to get a valid result from ``cuddl_get_userspace_commit_id()``, the
+following c-preprocessor flags need to be added::
+
+  -DCUDDL_IMPL_COMMIT_HASH=\"`git -C $(cuddl_DIR) rev-parse HEAD`\"
+  -DCUDDL_IMPL_REPO_IS_DIRTY=`git -C $(cuddl_DIR) diff --quiet HEAD && echo 0 || echo 1`
+
+Otherwise, the result will yield ``"UNKNOWN"``.
+
 RTEMS
 =====
 

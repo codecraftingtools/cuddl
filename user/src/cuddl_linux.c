@@ -42,9 +42,38 @@
 #define CUDDL_EVENTSRC_RELEASE_IOCTL  CUDDL_EVENTSRC_RELEASE_UIO_IOCTL
 #endif
 
+#ifndef CUDDL_IMPL_REPO_IS_DIRTY
+#define CUDDL_IMPL_REPO_IS_DIRTY 0
+#endif
+#ifndef CUDDL_IMPL_COMMIT_HASH
+#define CUDDL_IMPL_COMMIT_HASH "UNKNOWN"
+#endif
+
 #include <stdio.h>
 
 static int cuddl_janitor_fd;
+
+int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len)
+{
+	return -1;
+}
+
+int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len)
+{
+	int remaining_space;
+
+	if (CUDDL_IMPL_REPO_IS_DIRTY) {
+		strncpy(id_str, "M", id_len);
+	} else {
+		strncpy(id_str, "", id_len);
+	}
+	remaining_space = id_len - strnlen(id_str, id_len);
+	if (remaining_space > 0) {
+		remaining_space -= 1;
+		strncat(id_str, CUDDL_IMPL_COMMIT_HASH, remaining_space);
+	}
+	return 0;
+}
 
 static void populate_id_from_args(
 	struct cuddl_resource_id *id,

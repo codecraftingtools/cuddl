@@ -44,7 +44,17 @@
  * @id_len: Input parameter specifying the size of the buffer used for
  *          returning the commit id string.
  *
- * Return: ``0`` (Always succeeds, but result may be truncated.)
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
  */
 int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len);
 

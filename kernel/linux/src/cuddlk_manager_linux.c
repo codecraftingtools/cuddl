@@ -138,6 +138,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddl_memregion_release_ioctl_data *mrdata;
 	struct cuddl_eventsrc_release_ioctl_data *erdata;
 	struct cuddl_get_resource_id_ioctl_data *get_id_data;
+	struct cuddl_get_kernel_commit_id_ioctl_data *commit_data;
 	struct cuddl_resource_id *id_data;
 	struct cuddlk_resource_ref_list *tmp_ref;
 	struct cuddlk_resource_ref_list *pos;
@@ -202,10 +203,24 @@ static long cuddlk_manager_ioctl(
 		return -ENOMEM;
 	}
 
+	commit_data = kzalloc(
+		sizeof(struct cuddl_get_kernel_commit_id_ioctl_data),
+		GFP_KERNEL);
+	if (!commit_data) {
+		kfree(get_id_data);
+		kfree(erdata);
+		kfree(mrdata);
+		kfree(edata);
+		kfree(mdata);
+		cuddlk_print("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
 	id_data = kzalloc(
 		sizeof(struct cuddl_resource_id),
 		GFP_KERNEL);
 	if (!id_data) {
+		kfree(commit_data);
 		kfree(get_id_data);
 		kfree(erdata);
 		kfree(mrdata);
@@ -721,12 +736,26 @@ static long cuddlk_manager_ioctl(
 		ret = -ENOSYS;
 		break;
 
+	case CUDDL_GET_KERNEL_COMMIT_ID_IOCTL:
+		cuddlk_debug("CUDDL_GET_KERNEL_COMMIT_ID_IOCTL called\n");
+		cuddlk_get_commit_id(commit_data->id_str, CUDDL_MAX_STR_LEN);
+		if (copy_to_user(
+		    (void*)arg, commit_data, sizeof(*commit_data)))
+		{
+			cuddlk_print("copy_to_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+		cuddlk_debug("  success\n");
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;
 	}
 
 	kfree(id_data);
+	kfree(commit_data);
 	kfree(get_id_data);
 	kfree(erdata);
 	kfree(mrdata);

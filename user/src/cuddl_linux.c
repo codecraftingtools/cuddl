@@ -55,7 +55,36 @@ static int cuddl_janitor_fd;
 
 int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len)
 {
-	return -1;
+	int fd;
+	int ret;
+	int len;
+	struct cuddl_get_kernel_commit_id_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_GET_KERNEL_COMMIT_ID_IOCTL, &s);
+	if (ret) {
+		if ((ret == -1) && errno)
+			ret = -errno;
+		close(fd);
+		return ret;
+	}
+
+	if (id_len > CUDDL_MAX_STR_LEN) {
+		id_str[CUDDL_MAX_STR_LEN] = '\0';
+		len = CUDDL_MAX_STR_LEN;
+	} else {
+		len = id_len;
+	}
+	strncpy(id_str, s.id_str, len);
+
+	ret = close(fd);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
 }
 
 int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len)

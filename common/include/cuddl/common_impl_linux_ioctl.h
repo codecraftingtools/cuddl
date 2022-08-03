@@ -104,6 +104,10 @@
  * .. c:macro:: CUDDL_JANITOR_REGISTER_PID_IOCTL
  *
  *    IOCTL associated with implicit ``cuddl_startup()`` call.
+ *
+ * .. c:macro:: CUDDL_GET_KERNEL_COMMIT_ID_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_get_kernel_commit_id()``.
  */
 
 /**
@@ -170,6 +174,15 @@ struct cuddl_get_resource_id_ioctl_data {
 	struct cuddl_resource_id id;
 };
 
+/**
+ * struct cuddl_get_kernel_commit_id_ioctl_data - Get kern commit IOCTL data.
+ *
+ * @id_str: Kernel commit id string returned from kernel space.
+ */
+struct cuddl_get_kernel_commit_id_ioctl_data {
+	char id_str[CUDDL_MAX_STR_LEN];
+};
+
 #define CUDDL_IOCTL_TYPE 'A'
 
 #define CUDDL_MEMREGION_CLAIM_UIO_IOCTL \
@@ -215,5 +228,9 @@ struct cuddl_get_resource_id_ioctl_data {
   _IOWR(CUDDL_IOCTL_TYPE, 20, struct cuddl_eventsrc_claim_ioctl_data)
 
 #define CUDDL_JANITOR_REGISTER_PID_IOCTL _IOWR(CUDDL_IOCTL_TYPE, 21, pid_t)
+
+#define CUDDL_GET_KERNEL_COMMIT_ID_IOCTL \
+  _IOR(CUDDL_IOCTL_TYPE, 22, struct cuddl_get_kernel_commit_id_ioctl_data)
+
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

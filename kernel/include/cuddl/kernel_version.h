@@ -42,7 +42,7 @@
  * @id_len: Input parameter specifying the size of the buffer used for
  *          returning the commit id string.
  *
- * Return: ``0`` (Always succeeds, but may be truncated.)
+ * Return: ``0`` (Always succeeds, but result may be truncated.)
  */
 int cuddlk_get_commit_id(char *id_str, cuddlk_size_t id_len);
 

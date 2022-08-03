@@ -215,7 +215,7 @@ int cuddl_get_memregion_info_for_id(
  *       Cuddl manager device.
  */
 int cuddl_get_eventsrc_info_for_id(
-	struct cuddl_eventsrc_info *meminfo,
+	struct cuddl_eventsrc_info *eventinfo,
 	const struct cuddl_resource_id *eventsrc_id);
 
 /**

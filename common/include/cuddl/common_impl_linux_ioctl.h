@@ -111,6 +111,7 @@
  *
  * @id: Resource identifier passed in from user space.
  * @info: Memory region information returned from kernel space.
+ * @pid: Process id passed in from user space.
  */
 struct cuddl_memregion_claim_ioctl_data {
 	struct cuddl_resource_id id;
@@ -123,6 +124,7 @@ struct cuddl_memregion_claim_ioctl_data {
  *
  * @id: Resource identifier passed in from user space.
  * @info: Event source information returned from kernel space.
+ * @pid: Process id passed in from user space.
  */
 struct cuddl_eventsrc_claim_ioctl_data {
 	struct cuddl_resource_id id;
@@ -134,6 +136,7 @@ struct cuddl_eventsrc_claim_ioctl_data {
  * struct cuddl_memregion_release_ioctl_data - Memregion release IOCTL data.
  *
  * @token: Token for resource to be released (passed in from user space).
+ * @pid: Process id passed in from user space.
  */
 struct cuddl_memregion_release_ioctl_data {
 	struct cuddl_impl_token token;
@@ -144,6 +147,7 @@ struct cuddl_memregion_release_ioctl_data {
  * struct cuddl_eventsrc_release_ioctl_data - Eventsrc release IOCTL data.
  *
  * @token: Token for resource to be released (passed in from user space).
+ * @pid: Process id passed in from user space.
  */
 struct cuddl_eventsrc_release_ioctl_data {
 	struct cuddl_impl_token token;

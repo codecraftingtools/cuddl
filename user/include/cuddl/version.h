@@ -44,7 +44,7 @@
  * @id_len: Input parameter specifying the size of the buffer used for
  *          returning the commit id string.
  *
- * Return: ``0`` (Always succeeds, but may be truncated.)
+ * Return: ``0`` (Always succeeds, but result may be truncated.)
  */
 int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len);
 
@@ -63,7 +63,7 @@ int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len);
  * @id_len: Input parameter specifying the size of the buffer used for
  *          returning the commit id string.
  *
- * Return: ``0`` (Always succeeds, but may be truncated.)
+ * Return: ``0`` (Always succeeds, but result may be truncated.)
  */
 int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len);
 

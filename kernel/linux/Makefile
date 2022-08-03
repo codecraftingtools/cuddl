@@ -1,6 +1,8 @@
 # Cross-platform user-space device driver layer Linux kernel makefile
 #
 # See https://www.kernel.org/doc/html/latest/kbuild/modules.html
+#
+# Note that 'make V=1' shows verbose build output.
 
 KDIR ?= /lib/modules/`uname -r`/build
 CUDDL_TOP = ../..

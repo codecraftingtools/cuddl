@@ -56,6 +56,9 @@ follows::
   cd kernel/linux
   make
 
+Note that verbose build output may be shown by running ``make V=1`` instead
+of ``make``.
+
 Inserting the Kernel Modules
 ----------------------------
 

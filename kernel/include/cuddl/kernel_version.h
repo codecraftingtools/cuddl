@@ -16,6 +16,8 @@
 #ifndef _CUDDL_KERNEL_VERSION_H
 #define _CUDDL_KERNEL_VERSION_H
 
+#include <cuddl/kernel_general.h>
+
 /**
  * DOC: Kernel-space version information declarations.
  *
@@ -42,6 +44,6 @@
  *
  * Return: ``0`` (Always succeeds, but may be truncated.)
  */
-int cuddlk_get_commit_id(char *id_str, cuddl_size_t id_len);
+int cuddlk_get_commit_id(char *id_str, cuddlk_size_t id_len);
 
 #endif /* !_CUDDL_KERNEL_VERSION_H */

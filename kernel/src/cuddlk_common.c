@@ -19,7 +19,7 @@
 
 #include <cuddl/kernel.h>
 
-int cuddlk_get_commit_id(char *id_str, cuddl_size_t id_len)
+int cuddlk_get_commit_id(char *id_str, cuddlk_size_t id_len)
 {
 	int remaining_space;
 

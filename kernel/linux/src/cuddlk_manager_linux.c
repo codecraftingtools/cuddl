@@ -139,6 +139,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddl_eventsrc_release_ioctl_data *erdata;
 	struct cuddl_get_resource_id_ioctl_data *get_id_data;
 	struct cuddl_get_kernel_commit_id_ioctl_data *commit_data;
+	struct cuddl_get_driver_info_ioctl_data *driver_info_data;
 	struct cuddl_resource_id *id_data;
 	struct cuddlk_resource_ref_list *tmp_ref;
 	struct cuddlk_resource_ref_list *pos;
@@ -216,10 +217,25 @@ static long cuddlk_manager_ioctl(
 		return -ENOMEM;
 	}
 
+	driver_info_data = kzalloc(
+		sizeof(struct cuddl_get_driver_info_ioctl_data),
+		GFP_KERNEL);
+	if (!driver_info_data) {
+		kfree(commit_data);
+		kfree(get_id_data);
+		kfree(erdata);
+		kfree(mrdata);
+		kfree(edata);
+		kfree(mdata);
+		cuddlk_print("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
 	id_data = kzalloc(
 		sizeof(struct cuddl_resource_id),
 		GFP_KERNEL);
 	if (!id_data) {
+		kfree(driver_info_data);
 		kfree(commit_data);
 		kfree(get_id_data);
 		kfree(erdata);
@@ -749,12 +765,57 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDL_GET_DRIVER_INFO_IOCTL:
+		cuddlk_debug(
+			"CUDDL_GET_DRIVER_INFO_IOCTL called\n");
+		if (copy_from_user(
+			    driver_info_data, (void*)arg,
+			    sizeof(*driver_info_data)))
+		{
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+
+		slot = driver_info_data->device_slot;
+		cuddlk_debug("  device_slot: %d\n", slot);
+
+		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
+			cuddlk_debug("device slot out of range\n");
+			ret = -EBADSLT;
+			break;
+		}
+
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			cuddlk_debug("empty device slot\n");
+			ret = -ENODEV;
+			break;
+		}
+
+		if (dev->driver_info)
+			strncpy(driver_info_data->info_str, dev->driver_info,
+				CUDDL_MAX_STR_LEN);
+		else
+			strncpy(driver_info_data->info_str, "UNKNOWN",
+				CUDDL_MAX_STR_LEN);
+		if (copy_to_user(
+		    (void*)arg, driver_info_data, sizeof(*driver_info_data)))
+		{
+			cuddlk_print("copy_to_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+		cuddlk_debug("  success\n");
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;
 	}
 
 	kfree(id_data);
+	kfree(driver_info_data);
 	kfree(commit_data);
 	kfree(get_id_data);
 	kfree(erdata);

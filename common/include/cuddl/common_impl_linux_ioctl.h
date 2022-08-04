@@ -108,6 +108,11 @@
  * .. c:macro:: CUDDL_GET_KERNEL_COMMIT_ID_IOCTL
  *
  *    IOCTL associated with ``cuddl_get_kernel_commit_id()``.
+ *
+ * .. c:macro:: CUDDL_GET__DRIVER_INFO_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_memregion_get_driver_info()`` and
+ *    ``cuddl_eventsrc_get_driver_info()``.
  */
 
 /**
@@ -166,7 +171,7 @@ struct cuddl_eventsrc_release_ioctl_data {
  *
  * @device_slot: Manager device slot number to query (input).
  * @resource_slot: Device memregion or eventsrc slot number to query (input).
- * @id: Resource identifier returned from user space (output).
+ * @id: Resource identifier returned from kernel space (output).
  */
 struct cuddl_get_resource_id_ioctl_data {
 	int device_slot;
@@ -181,6 +186,17 @@ struct cuddl_get_resource_id_ioctl_data {
  */
 struct cuddl_get_kernel_commit_id_ioctl_data {
 	char id_str[CUDDL_MAX_STR_LEN];
+};
+
+/**
+ * struct cuddl_get_driver_info_ioctl_data - Get driver info string.
+ *
+ * @device_slot: Manager device slot number to query (input).
+ * @info_str: Driver info string returned from kernel space.
+ */
+struct cuddl_get_driver_info_ioctl_data {
+	int device_slot;
+	char info_str[CUDDL_MAX_STR_LEN];
 };
 
 #define CUDDL_IOCTL_TYPE 'A'
@@ -232,5 +248,7 @@ struct cuddl_get_kernel_commit_id_ioctl_data {
 #define CUDDL_GET_KERNEL_COMMIT_ID_IOCTL \
   _IOR(CUDDL_IOCTL_TYPE, 22, struct cuddl_get_kernel_commit_id_ioctl_data)
 
+#define CUDDL_GET_DRIVER_INFO_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 23, struct cuddl_get_driver_info_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

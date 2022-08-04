@@ -88,6 +88,8 @@ struct cuddlk_device_kernel {
  *
  * @name: Name used to identify the device.
  *
+ * @driver_info: String used to identify the device driver and its revision.
+ *
  * @instance: Integer identifier to ensure uniqueness.
  *
  *            This field must be positive and unique when passed to
@@ -158,6 +160,7 @@ struct cuddlk_device_kernel {
 struct cuddlk_device {
 	const char *group;
 	const char *name;
+	const char *driver_info;
 	int instance;
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];

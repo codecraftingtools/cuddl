@@ -628,7 +628,7 @@ int cuddl_get_max_dev_events(void)
 	return ret;
 }
 
-int cuddl_get_memregion_id(
+int cuddl_get_memregion_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int mem_slot)
 {
 	int fd;
@@ -659,7 +659,7 @@ int cuddl_get_memregion_id(
 	return 0;
 }
 
-int cuddl_get_eventsrc_id(
+int cuddl_get_eventsrc_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int event_slot)
 {
 	int fd;

@@ -71,11 +71,11 @@
  *
  * .. c:macro:: CUDDL_GET_MEMREGION_ID_IOCTL
  *
- *    IOCTL associated with ``cuddl_get_memregion_id()``.
+ *    IOCTL associated with ``cuddl_get_memregion_id_for_slot()``.
  *
  * .. c:macro:: CUDDL_GET_EVENTSRC_ID_IOCTL
  *
- *    IOCTL associated with ``cuddl_get_eventsrc_id()``.
+ *    IOCTL associated with ``cuddl_get_eventsrc_id_for_slot()``.
  *
  * .. c:macro:: CUDDL_GET_MEMREGION_INFO_IOCTL
  *
@@ -87,11 +87,11 @@
  *
  * .. c:macro:: CUDDL_GET_MEMREGION_REF_COUNT_IOCTL
  *
- *    IOCTL associated with ``cuddl_get_memregion_ref_count()``.
+ *    IOCTL associated with ``cuddl_get_memregion_ref_count_for_id()``.
  *
  * .. c:macro:: CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL
  *
- *    IOCTL associated with ``cuddl_get_eventsrc_ref_count()``.
+ *    IOCTL associated with ``cuddl_get_eventsrc_ref_count_for_id()``.
  *
  * .. c:macro:: CUDDL_DECREMENT_MEMREGION_REF_COUNT_IOCTL
  *
@@ -166,8 +166,8 @@ struct cuddl_eventsrc_release_ioctl_data {
 /**
  * struct cuddl_get_resource_id_ioctl_data - Get event id IOCTL data.
  *
- * Used for both ``cuddl_get_memregion_id()`` and ``cuddl_get_eventsrc_id()``
- * implementations.
+ * Used for both ``cuddl_get_memregion_id_for_slot()`` and
+ * ``cuddl_get_eventsrc_id_for_slot()`` implementations.
  *
  * @device_slot: Manager device slot number to query (input).
  * @resource_slot: Device memregion or eventsrc slot number to query (input).

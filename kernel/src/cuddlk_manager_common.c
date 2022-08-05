@@ -19,7 +19,7 @@
 
 #include <cuddl/kernel.h>
 
-int cuddlk_manager_find_device_matching(
+int cuddlk_manager_find_device_slot_matching(
 	struct cuddlk_manager *manager,
 	const char *group, const char *name, const char *resource,
 	int instance, enum cuddlk_resource type, int start_index)
@@ -43,11 +43,11 @@ int cuddlk_manager_find_device_matching(
 			    != 0) continue;
 		if (resource && (strnlen(resource, CUDDLK_MAX_STR_LEN) > 0)) {
 			if (type == CUDDLK_RESOURCE_MEMREGION) {
-				if (cuddlk_device_find_memregion(
+				if (cuddlk_device_find_memregion_slot(
 					    dev, resource) < 0)
 					continue;
 			} else if (type == CUDDLK_RESOURCE_EVENTSRC) {
-				if (cuddlk_device_find_eventsrc(
+				if (cuddlk_device_find_eventsrc_slot(
 					    dev, resource) < 0)
 					continue;
 			} else {
@@ -64,7 +64,7 @@ int cuddlk_manager_find_device_matching(
 	return i;
 }
 
-int cuddlk_manager_find_device(
+int cuddlk_manager_find_device_slot(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev)
 {
 	int i;
@@ -84,10 +84,10 @@ int cuddlk_manager_find_device(
 
 int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager)
 {
-	return cuddlk_manager_find_device(manager, NULL);
+	return cuddlk_manager_find_device_slot(manager, NULL);
 }
 
-int cuddlk_next_available_instance_id_for(
+int  cuddlk_manager_next_available_instance_id(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev)
 {
 	int instance;
@@ -96,7 +96,7 @@ int cuddlk_next_available_instance_id_for(
 	instance = 1;
 	slot = 0;
 	while (1) {
-		slot = cuddlk_manager_find_device_matching(
+		slot = cuddlk_manager_find_device_slot_matching(
 			manager, dev->group, dev->name,  NULL, instance, 0,
 			slot);
 		if (slot < 0)
@@ -132,7 +132,7 @@ int cuddlk_manager_remove_device(
 {
 	int slot;
 
-	slot = cuddlk_manager_find_device(manager, dev);
+	slot = cuddlk_manager_find_device_slot(manager, dev);
 	if (slot < 0)
 		return slot;
 	
@@ -157,7 +157,8 @@ int cuddlk_device_manage(struct cuddlk_device *dev)
 		goto fail_null_name;
 	}
 	if (!dev->instance) {
-		ret = cuddlk_next_available_instance_id_for(manager, dev);
+		ret = cuddlk_manager_next_available_instance_id(
+		      manager, dev);
 		if (ret < 0) {
 			goto fail_auto_instance;
 		}

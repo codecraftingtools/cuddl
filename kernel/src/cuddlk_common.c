@@ -36,7 +36,7 @@ int cuddlk_get_commit_id(char *id_str, cuddlk_size_t id_len)
 	return 0;
 }
 
-int cuddlk_device_find_memregion(
+int cuddlk_device_find_memregion_slot(
 	struct cuddlk_device *dev, const char *name)
 {
 	int i;
@@ -58,7 +58,7 @@ int cuddlk_device_find_memregion(
 	return i;
 }
 
-int cuddlk_device_find_eventsrc(
+int cuddlk_device_find_eventsrc_slot(
 	struct cuddlk_device *dev, const char *name)
 {
 	int i;

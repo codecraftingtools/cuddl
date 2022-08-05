@@ -119,13 +119,13 @@ int cuddlk_manager_add_device(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Error code returned from ``cuddlk_manager_find_device()``.
+ *     - Error code returned from ``cuddlk_manager_find_device_slot()``.
  */
 int cuddlk_manager_remove_device(
 	struct cuddlk_manager * manager, struct cuddlk_device *dev);
 
 /**
- * cuddlk_manager_find_device_matching() - Search for a device by name.
+ * cuddlk_manager_find_device_slot_matching() - Search for a device by name.
  *
  * @manager: Cuddl manager instance.
  *
@@ -150,13 +150,13 @@ int cuddlk_manager_remove_device(
  *   Error codes:
  *     - ``-ENXIO``: No match was found.
  */
-int cuddlk_manager_find_device_matching(
+int cuddlk_manager_find_device_slot_matching(
 	struct cuddlk_manager *manager,
 	const char *group, const char *name, const char *resource,
 	int instance, enum cuddlk_resource type, int start_index);
 
 /**
- * cuddlk_manager_find_device() - Search for a device by reference.
+ * cuddlk_manager_find_device_slot() - Search for a device by reference.
  *
  * @manager: Cuddl manager instance.
  * @dev: Cuddl device to search for.
@@ -169,7 +169,7 @@ int cuddlk_manager_find_device_matching(
  *   Error codes:
  *     - ``-ENXIO``: No match was found.
  */
-int cuddlk_manager_find_device(
+int cuddlk_manager_find_device_slot(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev);
 
 /**
@@ -184,12 +184,12 @@ int cuddlk_manager_find_device(
  * a negative error code.
  *
  *   Error codes:
- *     - Error code returned from ``cuddlk_manager_find_device()``.
+ *     - Error code returned from ``cuddlk_manager_find_device_slot()``.
  */
 int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
 
 /**
- * cuddlk_next_available_instance_id_for() - Find next available instance id.
+ * cuddlk_manager_next_available_instance_id() - Find next unique instance id.
  *
  * Search the device manager's ``devices`` array for devices with a ``group``
  * and ``name`` combination matching the specified device.  The next
@@ -207,7 +207,7 @@ int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
  *   Error codes:
  *     - ``-ENOMEM``: No empty managed device slots are available.
  */
-int cuddlk_next_available_instance_id_for(
+int  cuddlk_manager_next_available_instance_id(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev);
 
 #endif /* !_CUDDL_KERNEL_MANAGER_H */

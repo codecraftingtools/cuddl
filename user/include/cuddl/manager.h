@@ -91,7 +91,7 @@ int cuddl_get_max_dev_mem_regions(void);
 int cuddl_get_max_dev_events(void);
 
 /**
- * cuddl_get_memregion_id() - Get ID describing a mem region by slot.
+ * cuddl_get_memregion_id_for_slot() - Get ID describing a mem region by slot.
  *
  * Retrieve a resource identifier describing the memory region associated
  * with the specified device and memory region slots.
@@ -121,11 +121,11 @@ int cuddl_get_max_dev_events(void);
  *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
-int cuddl_get_memregion_id(
+int cuddl_get_memregion_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int mem_slot);
 
 /**
- * cuddl_get_eventsrc_id() - Get ID describing an event source by slot.
+ * cuddl_get_eventsrc_id_for_slot() - Get ID describing an event src by slot.
  *
  * Retrieve a resource identifier describing the event source associated with
  * the specified device and event source slots.
@@ -155,7 +155,7 @@ int cuddl_get_memregion_id(
  *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
-int cuddl_get_eventsrc_id(
+int cuddl_get_eventsrc_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int event_slot);
 
 /**

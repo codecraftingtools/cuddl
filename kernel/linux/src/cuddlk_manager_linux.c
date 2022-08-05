@@ -50,10 +50,10 @@ struct cuddlk_resource_ref_list {
 };
 
 /* Export symbols from cuddlk_manager_common.c */
-EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_matching);
-EXPORT_SYMBOL_GPL(cuddlk_manager_find_device);
+EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_slot_matching);
+EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_slot);
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_empty_slot);
-EXPORT_SYMBOL_GPL(cuddlk_next_available_instance_id_for);
+EXPORT_SYMBOL_GPL( cuddlk_manager_next_available_instance_id);
 EXPORT_SYMBOL_GPL(cuddlk_manager_add_device);
 EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
 EXPORT_SYMBOL_GPL(cuddlk_device_manage);
@@ -265,7 +265,7 @@ static long cuddlk_manager_ioctl(
 			     mdata->id.group, mdata->id.device,
 			     mdata->id.resource, mdata->id.instance,
 			     mdata->pid);
-		slot = cuddlk_manager_find_device_matching(
+		slot = cuddlk_manager_find_device_slot_matching(
 			cuddlk_global_manager_ptr,
 			mdata->id.group, mdata->id.device, mdata->id.resource,
 			mdata->id.instance, CUDDLK_RESOURCE_MEMREGION, 0);
@@ -276,7 +276,8 @@ static long cuddlk_manager_ioctl(
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
-		mslot = cuddlk_device_find_memregion(dev, mdata->id.resource);
+		mslot = cuddlk_device_find_memregion_slot(
+			dev, mdata->id.resource);
 		if (mslot < 0) {
 			ret = mslot;
 			break;
@@ -350,7 +351,7 @@ static long cuddlk_manager_ioctl(
 			     edata->id.group, edata->id.device,
 			     edata->id.resource, edata->id.instance,
 			     edata->pid);
-		slot = cuddlk_manager_find_device_matching(
+		slot = cuddlk_manager_find_device_slot_matching(
 			cuddlk_global_manager_ptr,
 			edata->id.group, edata->id.device, edata->id.resource,
 			edata->id.instance, CUDDLK_RESOURCE_EVENTSRC, 0);
@@ -361,7 +362,8 @@ static long cuddlk_manager_ioctl(
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
-		eslot = cuddlk_device_find_eventsrc(dev, edata->id.resource);
+		eslot = cuddlk_device_find_eventsrc_slot(
+			dev, edata->id.resource);
 		if (eslot < 0) {
 			ret = eslot;
 			break;
@@ -666,7 +668,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  %s %s %s %d\n",
 			     id_data->group, id_data->device,
 			     id_data->resource, id_data->instance);
-		slot = cuddlk_manager_find_device_matching(
+		slot = cuddlk_manager_find_device_slot_matching(
 			cuddlk_global_manager_ptr,
 			id_data->group, id_data->device, id_data->resource,
 			id_data->instance, CUDDLK_RESOURCE_MEMREGION, 0);
@@ -677,7 +679,8 @@ static long cuddlk_manager_ioctl(
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
-		mslot = cuddlk_device_find_memregion(dev, id_data->resource);
+		mslot = cuddlk_device_find_memregion_slot(
+			dev, id_data->resource);
 		if (mslot < 0) {
 			ret = mslot;
 			break;
@@ -713,7 +716,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  %s %s %s %d\n",
 			     id_data->group, id_data->device,
 			     id_data->resource, id_data->instance);
-		slot = cuddlk_manager_find_device_matching(
+		slot = cuddlk_manager_find_device_slot_matching(
 			cuddlk_global_manager_ptr,
 			id_data->group, id_data->device, id_data->resource,
 			id_data->instance, CUDDLK_RESOURCE_EVENTSRC, 0);
@@ -724,7 +727,8 @@ static long cuddlk_manager_ioctl(
 		dev = cuddlk_global_manager_ptr->devices[slot];
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
-		eslot = cuddlk_device_find_eventsrc(dev, id_data->resource);
+		eslot = cuddlk_device_find_eventsrc_slot(
+			dev, id_data->resource);
 		if (eslot < 0) {
 			ret = eslot;
 			break;

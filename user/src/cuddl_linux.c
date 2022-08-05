@@ -628,6 +628,43 @@ int cuddl_get_max_dev_events(void)
 	return ret;
 }
 
+int cuddl_get_driver_info_for_slot(
+	char *info_str, cuddl_size_t info_len, int device_slot)
+{
+	int fd;
+	int ret;
+	int len;
+	struct cuddl_get_driver_info_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.device_slot = device_slot;
+
+	ret = ioctl(fd, CUDDL_GET_DRIVER_INFO_IOCTL, &s);
+	if (ret) {
+		if ((ret == -1) && errno)
+			ret = -errno;
+		close(fd);
+		return ret;
+	}
+
+	if (info_len > CUDDL_MAX_STR_LEN) {
+		info_str[CUDDL_MAX_STR_LEN] = '\0';
+		len = CUDDL_MAX_STR_LEN;
+	} else {
+		len = info_len;
+	}
+	strncpy(info_str, s.info_str, len);
+
+	ret = close(fd);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
+}
+
 int cuddl_get_memregion_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int mem_slot)
 {

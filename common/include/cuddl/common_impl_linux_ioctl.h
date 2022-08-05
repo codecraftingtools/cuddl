@@ -109,10 +109,17 @@
  *
  *    IOCTL associated with ``cuddl_get_kernel_commit_id()``.
  *
- * .. c:macro:: CUDDL_GET__DRIVER_INFO_IOCTL
+ * .. c:macro:: CUDDL_GET_DRIVER_INFO_IOCTL
  *
- *    IOCTL associated with ``cuddl_memregion_get_driver_info()`` and
- *    ``cuddl_eventsrc_get_driver_info()``.
+ *    IOCTL associated with ``cuddl_memregion_get_driver_info()``,
+ *    ``cuddl_eventsrc_get_driver_info()``, and
+ *    ``cuddl_get_driver_info_for_slot()``.
+ *
+ * .. c:macro:: CUDDL_GET_HW_INFO_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_memregion_get_hw_info()``,
+ *    ``cuddl_eventsrc_get_hw_info()`` and
+ *    ``cuddl_get_hw_info_for_slot()``.
  */
 
 /**
@@ -250,5 +257,8 @@ struct cuddl_get_driver_info_ioctl_data {
 
 #define CUDDL_GET_DRIVER_INFO_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 23, struct cuddl_get_driver_info_ioctl_data)
+
+#define CUDDL_GET_HW_INFO_IOCTL \
+  _IOWR(CUDDL_IOCTL_TYPE, 24, struct cuddl_get_driver_info_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

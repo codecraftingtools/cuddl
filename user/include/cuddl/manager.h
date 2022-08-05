@@ -122,6 +122,37 @@ int cuddl_get_driver_info_for_slot(
 	char *info_str, cuddl_size_t info_len, int device_slot);
 
 /**
+ * cuddl_get_hw_info_for_slot() - Get the associated hardware info string.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * @device_slot: Device slot number (non-negative integer).
+ *
+ * Retrieve the hardware information string associated with the device in
+ * specified device slot.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_get_hw_info_for_slot(
+	char *info_str, cuddl_size_t info_len, int device_slot);
+
+/**
  * cuddl_get_memregion_id_for_slot() - Get ID describing a mem region by slot.
  *
  * Retrieve a resource identifier describing the memory region associated

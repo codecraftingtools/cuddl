@@ -281,4 +281,40 @@ int cuddl_memregion_get_driver_info(
 	struct cuddl_memregion *memregion, char *info_str,
 	cuddl_size_t info_len);
 
+/**
+ * cuddl_memregion_get_hw_info() - Get the associated hardware info string.
+ *
+ * @memregion: Input identifying the memory region to be queried.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * Retrieve the hardware information string associated with the specified
+ * memory region's parent device.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_memregion_get_hw_info(
+	struct cuddl_memregion *memregion, char *info_str,
+	cuddl_size_t info_len);
+
 #endif /* !_CUDDL_MEMREGION_H */

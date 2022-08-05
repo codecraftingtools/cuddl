@@ -395,4 +395,40 @@ int cuddl_eventsrc_get_driver_info(
 	struct cuddl_eventsrc *eventsrc, char *info_str,
 	cuddl_size_t info_len);
 
+/**
+ * cuddl_eventsrc_get_hw_info() - Get the associated hardware info string.
+ *
+ * @eventsrc: Input identifying the event source to be queried.  The data
+ *            structure pointed to by this parameter should contain the
+ *            information returned by a successful call to
+ *            ``cuddl_eventsrc_open()`` or
+ *            ``cuddl_eventsrc_claim_and_open()``.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * Retrieve the hardware information string associated with the specified
+ * event source's parent device.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_eventsrc_get_hw_info(
+	struct cuddl_eventsrc *eventsrc, char *info_str,
+	cuddl_size_t info_len);
+
 #endif /* !_CUDDL_EVENTSRC_H */

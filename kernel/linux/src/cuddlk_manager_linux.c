@@ -813,6 +813,50 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDL_GET_HW_INFO_IOCTL:
+		cuddlk_debug(
+			"CUDDL_GET_HW_INFO_IOCTL called\n");
+		if (copy_from_user(
+			    driver_info_data, (void*)arg,
+			    sizeof(*driver_info_data)))
+		{
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+
+		slot = driver_info_data->device_slot;
+		cuddlk_debug("  device_slot: %d\n", slot);
+
+		if ((slot < 0) || (slot >= CUDDLK_MAX_MANAGED_DEVICES)) {
+			cuddlk_debug("device slot out of range\n");
+			ret = -EBADSLT;
+			break;
+		}
+
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			cuddlk_debug("empty device slot\n");
+			ret = -ENODEV;
+			break;
+		}
+
+		if (dev->hw_info)
+			strncpy(driver_info_data->info_str, dev->hw_info,
+				CUDDL_MAX_STR_LEN);
+		else
+			strncpy(driver_info_data->info_str, "UNKNOWN",
+				CUDDL_MAX_STR_LEN);
+		if (copy_to_user(
+		    (void*)arg, driver_info_data, sizeof(*driver_info_data)))
+		{
+			cuddlk_print("copy_to_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+		cuddlk_debug("  success\n");
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;

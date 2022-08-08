@@ -265,7 +265,9 @@ int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
  *
  * Performs a blocking wait for events from ``eventsrc``.
  *
- * Return: ``0`` on success, or a negative error code.
+ * Return:
+ *   Cumulative event source interrupt count on success (i.e. an event has
+ *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
  *     - Linux: Value of ``-errno`` resulting from from ``read()`` call on
@@ -285,8 +287,8 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
  * Performs a non-blocking check for events from ``eventsrc``.
  *
  * Return:
- *   ``0`` on success (i.e. an event has occurred since the last check), or a
- *   negative error code.
+ *   Cumulative event source interrupt count on success (i.e. an event has
+ *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
  *     - Linux: Error code returned by `cuddl_eventsrc_timedwait()``.
@@ -308,7 +310,9 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
  * Performs a blocking wait for events from ``eventsrc`` with a
  * timeout.
  *
- * Return: ``0`` on success, or a negative error code.
+ * Return:
+ *   Cumulative event source interrupt count on success (i.e. an event has
+ *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
  *     - ``-ETIMEDOUT``: A timeout occurred.

@@ -501,7 +501,7 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc)
 	if (n_bytes_read == -1)
 		return -errno;
 
-	return 0;
+	return n_bytes_read;
 }
 
 int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
@@ -541,7 +541,7 @@ int cuddl_eventsrc_timedwait(
 	if (n_bytes_read == -1)
 		return -errno;
 
-	return 0;
+	return n_bytes_read;
 }
 
 int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc)

@@ -32,6 +32,10 @@
 /** 
  * enum cuddl_eventsrc_flags - Event source flags for user space.
  *
+ * @CUDDL_EVENTSRCF_SHARED: Indicates that the associated event source may be
+ *                          claimed by more than one user-space application
+ *                          simultaneously.
+ *
  * @CUDDL_EVENTSRCF_WAITABLE:
  *     Indicates that the event source can wake up a waiting user-space task.
  *
@@ -68,9 +72,10 @@
  * Flags that describe the properties of an event source to user-space code.
  */
 enum cuddl_eventsrc_flags {
-	CUDDL_EVENTSRCF_WAITABLE    = (1 << 0),
-	CUDDL_EVENTSRCF_HAS_DISABLE = (1 << 1),
-	CUDDL_EVENTSRCF_HAS_ENABLE  = (1 << 2),
+	CUDDL_EVENTSRCF_SHARED      = (1 << 0),
+	CUDDL_EVENTSRCF_WAITABLE    = (1 << 1),
+	CUDDL_EVENTSRCF_HAS_DISABLE = (1 << 2),
+	CUDDL_EVENTSRCF_HAS_ENABLE  = (1 << 3),
 };
 
 /**

@@ -374,6 +374,8 @@ static long cuddlk_manager_ioctl(
 		edata->info.priv.token.resource_index = eslot;
 		edata->info.flags = 0;
 		edata->info.flags |= CUDDL_EVENTSRCF_WAITABLE;
+		if (dev->events[eslot].flags && CUDDLK_EVENTSRCF_SHARED)
+			edata->info.flags |= CUDDL_EVENTSRCF_SHARED;
 		if (dev->events[eslot].intr.enable)
 			edata->info.flags |= CUDDL_EVENTSRCF_HAS_ENABLE;
 		if (dev->events[eslot].intr.disable)

@@ -32,10 +32,25 @@
  */
 
 /**
+ * enum cuddlk_eventsrc_flags - Event source flags for kernel space.
+ *
+ * @CUDDLK_EVENTSRCF_SHARED: Indicates that the associated event source may
+ *                           be claimed by more than one user-space
+ *                           application simultaneously.
+ *
+ * Flags that describe the properties of an event source.  These may be used
+ * in the ``flags`` member of the ``cuddlk_eventsrc`` struct.
+ */
+enum cuddlk_eventsrc_flags {
+	CUDDLK_EVENTSRCF_SHARED = (1 << 0),
+};
+
+/**
  * struct cuddlk_eventsrc_kernel - Kernel-managed event source data members.
  *
  * @ref_count: Number of user-space applications that have claimed this event
- *             source.  This should be either ``0`` or ``1``.
+ *             source.  This should be either ``0`` or ``1`` unless the event
+ *             source has the ``CUDDLK_EVENTSRCF_SHARED`` flag set.
  *
  * Kernel-managed ``cuddlk_eventsrc`` data members that are available for use
  * by Cuddl drivers.
@@ -48,6 +63,9 @@ struct cuddlk_eventsrc_kernel {
  * struct cuddlk_eventsrc - Event source information (kernel-space).
  *
  * @name: Name used to identify the event source.
+ *
+ * @flags: Flags that describe the properties of the event source.  This
+ *         field may be a set of ``cuddlk_eventsrc_flags`` ORed together.
  *
  * @intr: Data structure for managing the interrupt handler and
  *        enable/disable functions.
@@ -67,6 +85,7 @@ struct cuddlk_eventsrc_kernel {
  */
 struct cuddlk_eventsrc {
 	char *name;
+	int flags;
 	struct cuddlk_interrupt intr;
 	struct cuddlk_eventsrc_kernel kernel;
 	struct cuddlk_eventsrc_priv priv;

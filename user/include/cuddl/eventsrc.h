@@ -49,6 +49,22 @@ struct cuddl_timespec {
 };
 
 /**
+ * enum cuddl_eventsrc_claim_flags - Flags used when claiming event sources.
+ *
+ * @CUDDL_EVENTSRC_CLAIMF_HOSTILE: Allows the claim operation to succeed,
+ *                                 even if the event source has already been
+ *                                 claimed by another application and the
+ *                                 ``CUDDL_EVENTSRCF_SHARED`` flag has not
+ *                                 been set.  Specifying this flag is usually
+ *                                 not the right thing to do.
+ *
+ * Flags that are applicable to the event source claim operation.
+ */
+enum cuddl_eventsrc_claim_flags {
+	CUDDL_EVENTSRC_CLAIMF_HOSTILE = (1 << 0),
+};
+
+/**
  * struct cuddl_eventsrc - User-space event source interface.
  *
  * @flags: Flags that describe the properties of the event source.  This
@@ -86,10 +102,9 @@ struct cuddl_eventsrc {
  *            with identical ``group``, ``device``, and ``resource``
  *            (i.e. ``eventsrc``) fields.
  *
- * @options: Input parameter consisting of a set of flags (ORed together)
- *           that are applicable to the event source claim operation.  No
- *           claim flags are currently defined for event sources, so this
- *           parameter should be set to ``0``.
+ * @options: Input parameter specifying the set of flags to apply to this
+ *           event source claim operation.  This field may be a set of
+ *           ``cuddl_eventsrc_claim_flags`` ORed together.
  *
  * Request ownership of a specific event source for the purpose of receiving
  * events in user space.  The particular event source is identified by the

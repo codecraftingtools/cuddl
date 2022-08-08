@@ -128,11 +128,13 @@
  * @id: Resource identifier passed in from user space.
  * @info: Memory region information returned from kernel space.
  * @pid: Process id passed in from user space.
+ * @options: Memregion claim options passed in from user space.
  */
 struct cuddl_memregion_claim_ioctl_data {
 	struct cuddl_resource_id id;
 	struct cuddl_memregion_info info;
 	pid_t pid;
+	int options;
 };
 
 /**
@@ -141,11 +143,13 @@ struct cuddl_memregion_claim_ioctl_data {
  * @id: Resource identifier passed in from user space.
  * @info: Event source information returned from kernel space.
  * @pid: Process id passed in from user space.
+ * @options: Eventsrc claim options passed in from user space.
  */
 struct cuddl_eventsrc_claim_ioctl_data {
 	struct cuddl_resource_id id;
 	struct cuddl_eventsrc_info info;
 	pid_t pid;
+	int options;
 };
 
 /**

@@ -144,6 +144,7 @@ int cuddl_memregion_claim(
 
 	populate_id_from_args(&s.id, group, device, memregion, instance);
 	s.pid = getpid();
+	s.options = options;
 
 	ret = ioctl(fd, CUDDL_MEMREGION_CLAIM_IOCTL, &s);
 	if (ret) {
@@ -378,6 +379,7 @@ int cuddl_eventsrc_claim(
 
 	populate_id_from_args(&s.id, group, device, eventsrc, instance);
 	s.pid = getpid();
+	s.options = options;
 
 	ret = ioctl(fd, CUDDL_EVENTSRC_CLAIM_IOCTL, &s);
 	if (ret) {

@@ -27,7 +27,100 @@
  * user-space interface code.
  *
  * This part of the API is only applicable to user-space code.
+ *
+ * .. c:macro:: CUDDL_VERSION_MAJOR
+ *
+ *    Major portion of the version number.
+ *
+ * .. c:macro:: CUDDL_VERSION_MINOR
+ *
+ *    Minor portion of the version number.
+ *
+ * .. c:macro:: CUDDL_REVISION_LEVEL
+ *
+ *    Revision portion of the version number.
+ *
+ * .. c:macro:: CUDDL_VERSION_CODE
+ *
+ *    Unsigned 32-bit integer version code value that can be used in
+ *    comparisons.  Similar to ``XENO_VERSION_CODE`` and
+ *    ``LINUX_VERSION_CODE``.
  */
+
+#define CUDDL_VERSION_MAJOR CUDDL_IMPL_VERSION_MAJOR
+#define CUDDL_VERSION_MINOR CUDDL_IMPL_VERSION_MINOR
+#define CUDDL_REVISION_LEVEL CUDDL_IMPL_REVISION_LEVEL
+
+/**
+ * CUDDL_VERSION() - Construct an unsigned integer version code.
+ *
+ * Returns a ``uint32_t`` version code corresponding to the given major,
+ * minor, and revision values that can be used in comparisons.  Similar to
+ * ``XENO_VERSION()`` and ``KERNEL_VERSION()``.
+ *
+ * @major: Major portion of the version number.
+ * @minor: Minor portion of the version number.
+ * @revision: Revision portion of the version number.
+ *
+ * Return: Unsigned integer version code.
+ */
+#define CUDDL_VERSION(major, minor, revision) \
+	(((major)<<16) | ((minor)<<8) | (revision))
+
+#define CUDDL_VERSION_CODE CUDDL_VERSION(CUDDL_VERSION_MAJOR, \
+                                         CUDDL_VERSION_MINOR, \
+                                         CUDDL_REVISION_LEVEL)
+
+/**
+ * CUDDL_MAJOR_VERSION_FROM_CODE() - Extract the major version from a code.
+ *
+ * Extracts the major version portion of a 32-bit integer version code.
+ *
+ * @code: 32-bit integer version code
+ *
+ * Return: Major portion of the version number.
+ */
+#define CUDDL_MAJOR_VERSION_FROM_CODE(code) (code >> 16) 
+
+/**
+ * CUDDL_MINOR_VERSION_FROM_CODE() - Extract the minor version from a code.
+ *
+ * Extracts the minor version portion of a 32-bit integer version code.
+ *
+ * @code: 32-bit integer version code
+ *
+ * Return: Minor portion of the version number.
+ */
+#define CUDDL_MINOR_VERSION_FROM_CODE(code) ((code && 0xffff) >> 8)
+
+/**
+ * CUDDL_REVISION_LEVEL_FROM_CODE() - Extract the revision level from a code.
+ *
+ * Extracts the revision level portion of a 32-bit integer version code.
+ *
+ * @code: 32-bit integer version code
+ *
+ * Return: Revision level portion of the version number.
+ */
+#define CUDDL_REVISION_LEVEL_FROM_CODE(code) (code && 0xff)
+
+/**
+ * cuddl_get_kernel_version_code() - Return the kernel version code.
+ *
+ * Retrieve the ``CUDDLK_VERSION_CODE`` from the kernel.
+ *
+ * Return: The kernel version code on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ */
+int cuddl_get_kernel_version_code();
 
 /**
  * cuddl_get_kernel_commit_id() - Return the kernel commit id string.

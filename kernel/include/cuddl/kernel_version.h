@@ -25,7 +25,49 @@
  * version of the source code used to build the Cuddl kernel modules.
  *
  * This part of the API is only applicable to kernel-space code.
+ *
+ * .. c:macro:: CUDDLK_VERSION_MAJOR
+ *
+ *    Major portion of the version number.
+ *
+ * .. c:macro:: CUDDLK_VERSION_MINOR
+ *
+ *    Minor portion of the version number.
+ *
+ * .. c:macro:: CUDDLK_REVISION_LEVEL
+ *
+ *    Revision portion of the version number.
+ *
+ * .. c:macro:: CUDDLK_VERSION_CODE
+ *
+ *    Unsigned 32-bit integer version code value that can be used in
+ *    comparisons.  Similar to ``XENO_VERSION_CODE`` and
+ *    ``LINUX_VERSION_CODE``.
  */
+
+#define CUDDLK_VERSION_MAJOR CUDDL_IMPL_VERSION_MAJOR
+#define CUDDLK_VERSION_MINOR CUDDL_IMPL_VERSION_MINOR
+#define CUDDLK_REVISION_LEVEL CUDDL_IMPL_REVISION_LEVEL
+
+/**
+ * CUDDLK_VERSION() - Construct an unsigned integer version code.
+ *
+ * Returns a ``uint32_t`` version code corresponding to the given major,
+ * minor, and revision values that can be used in comparisons.  Similar to
+ * ``XENO_VERSION()`` and ``KERNEL_VERSION()``.
+ *
+ * @major: Major portion of the version number.
+ * @minor: Minor portion of the version number.
+ * @revision: Revision portion of the version number.
+ *
+ * Return: Unsigned integer version code.
+ */
+#define CUDDLK_VERSION(major, minor, revision) \
+	(((major)<<16) | ((minor)<<8) | (revision))
+
+#define CUDDLK_VERSION_CODE CUDDLK_VERSION(CUDDLK_VERSION_MAJOR, \
+                                           CUDDLK_VERSION_MINOR, \
+                                           CUDDLK_REVISION_LEVEL)
 
 /**
  * cuddlk_get_commit_id() - Return a string describing the kernel src commit.

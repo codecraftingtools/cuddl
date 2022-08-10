@@ -53,6 +53,26 @@
 
 static int cuddl_janitor_fd;
 
+int cuddl_get_kernel_version_code(void)
+{
+	int fd;
+	int ret, ret2;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	ret = ioctl(fd, CUDDL_GET_KERNEL_VERSION_CODE_IOCTL, NULL);
+	if ((ret == -1) && errno)
+		ret = -errno;
+
+	ret2 = close(fd);
+	if ((ret2 == -1) && (ret >= 0))
+		return -errno;
+
+	return ret;
+}
+
 int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len)
 {
 	int fd;

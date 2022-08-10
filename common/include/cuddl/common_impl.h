@@ -27,10 +27,27 @@
  *
  *    Maximum allowed length for Cuddl string variables.  (Equivalent to
  *    ``CUDDL_MAX_STR_LEN`` / ``CUDDLK_MAX_STR_LEN``.)
+ *
+ * .. c:macro:: CUDDL_IMPL_VERSION_MAJOR
+ *
+ *    Major portion of the version number.
+ *
+ * .. c:macro:: CUDDL_IMPL_VERSION_MINOR
+ *
+ *    Minor portion of the version number.
+ *
+ * .. c:macro:: CUDDL_IMPL_REVISION_LEVEL
+ *
+ *    Revision portion of the version number.
  */
 
 /* Maximum allowed length for Cuddl strings. */
 #define CUDDL_IMPL_MAX_STR_LEN 128
+
+/* Version information declarations */
+#define CUDDL_IMPL_VERSION_MAJOR 0
+#define CUDDL_IMPL_VERSION_MINOR 1
+#define CUDDL_IMPL_REVISION_LEVEL 0
 
 /**
  * struct cuddl_impl_token - User-space handle to a memregion or eventsrc.

@@ -859,6 +859,12 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDL_GET_KERNEL_VERSION_CODE_IOCTL:
+		cuddlk_debug("CUDDL_GET_KERNEL_VERSION_CODE_IOCTL called\n");
+		cuddlk_debug("  success\n");
+		ret = CUDDLK_VERSION_CODE;
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;

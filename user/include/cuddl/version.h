@@ -91,7 +91,7 @@
  *
  * Return: Minor portion of the version number.
  */
-#define CUDDL_MINOR_VERSION_FROM_CODE(code) ((code && 0xffff) >> 8)
+#define CUDDL_MINOR_VERSION_FROM_CODE(code) ((code & 0xffff) >> 8)
 
 /**
  * CUDDL_REVISION_LEVEL_FROM_CODE() - Extract the revision level from a code.
@@ -102,7 +102,7 @@
  *
  * Return: Revision level portion of the version number.
  */
-#define CUDDL_REVISION_LEVEL_FROM_CODE(code) (code && 0xff)
+#define CUDDL_REVISION_LEVEL_FROM_CODE(code) (code & 0xff)
 
 /**
  * cuddl_get_kernel_version_code() - Return the kernel version code.

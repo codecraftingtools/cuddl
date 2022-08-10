@@ -42,9 +42,8 @@
  *
  * .. c:macro:: CUDDL_VERSION_CODE
  *
- *    Unsigned 32-bit integer version code value that can be used in
- *    comparisons.  Similar to ``XENO_VERSION_CODE`` and
- *    ``LINUX_VERSION_CODE``.
+ *    32-bit integer version code value that can be used in comparisons.
+ *    Similar to ``XENO_VERSION_CODE`` and ``LINUX_VERSION_CODE``.
  */
 
 #define CUDDL_VERSION_MAJOR CUDDL_IMPL_VERSION_MAJOR
@@ -52,9 +51,9 @@
 #define CUDDL_REVISION_LEVEL CUDDL_IMPL_REVISION_LEVEL
 
 /**
- * CUDDL_VERSION() - Construct an unsigned integer version code.
+ * CUDDL_VERSION() - Construct an integer version code.
  *
- * Returns a ``uint32_t`` version code corresponding to the given major,
+ * Returns a 32-bit integer version code corresponding to the given major,
  * minor, and revision values that can be used in comparisons.  Similar to
  * ``XENO_VERSION()`` and ``KERNEL_VERSION()``.
  *
@@ -62,7 +61,7 @@
  * @minor: Minor portion of the version number.
  * @revision: Revision portion of the version number.
  *
- * Return: Unsigned integer version code.
+ * Return: Integer version code.
  */
 #define CUDDL_VERSION(major, minor, revision) \
 	(((major)<<16) | ((minor)<<8) | (revision))
@@ -113,6 +112,7 @@
  *
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on

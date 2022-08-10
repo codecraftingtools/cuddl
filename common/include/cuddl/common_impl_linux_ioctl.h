@@ -127,14 +127,25 @@
  */
 
 /**
+ * struct cuddl_void_ioctl_data - IOCTL data for calls that require no struct.
+ *
+ * @version_code: Cuddl version code passed in from user space.
+ */
+struct cuddl_void_ioctl_data {
+	int version_code;
+};
+
+/**
  * struct cuddl_memregion_claim_ioctl_data - Memory region claim IOCTL data.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @id: Resource identifier passed in from user space.
  * @info: Memory region information returned from kernel space.
  * @pid: Process id passed in from user space.
  * @options: Memregion claim options passed in from user space.
  */
 struct cuddl_memregion_claim_ioctl_data {
+	int version_code;
 	struct cuddl_resource_id id;
 	struct cuddl_memregion_info info;
 	pid_t pid;
@@ -144,12 +155,14 @@ struct cuddl_memregion_claim_ioctl_data {
 /**
  * struct cuddl_eventsrc_claim_ioctl_data - Event source claim IOCTL data.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @id: Resource identifier passed in from user space.
  * @info: Event source information returned from kernel space.
  * @pid: Process id passed in from user space.
  * @options: Eventsrc claim options passed in from user space.
  */
 struct cuddl_eventsrc_claim_ioctl_data {
+	int version_code;
 	struct cuddl_resource_id id;
 	struct cuddl_eventsrc_info info;
 	pid_t pid;
@@ -159,10 +172,12 @@ struct cuddl_eventsrc_claim_ioctl_data {
 /**
  * struct cuddl_memregion_release_ioctl_data - Memregion release IOCTL data.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @token: Token for resource to be released (passed in from user space).
  * @pid: Process id passed in from user space.
  */
 struct cuddl_memregion_release_ioctl_data {
+	int version_code;
 	struct cuddl_impl_token token;
 	pid_t pid;
 };
@@ -170,10 +185,12 @@ struct cuddl_memregion_release_ioctl_data {
 /**
  * struct cuddl_eventsrc_release_ioctl_data - Eventsrc release IOCTL data.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @token: Token for resource to be released (passed in from user space).
  * @pid: Process id passed in from user space.
  */
 struct cuddl_eventsrc_release_ioctl_data {
+	int version_code;
 	struct cuddl_impl_token token;
 	pid_t pid;
 };
@@ -184,11 +201,13 @@ struct cuddl_eventsrc_release_ioctl_data {
  * Used for both ``cuddl_get_memregion_id_for_slot()`` and
  * ``cuddl_get_eventsrc_id_for_slot()`` implementations.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @device_slot: Manager device slot number to query (input).
  * @resource_slot: Device memregion or eventsrc slot number to query (input).
  * @id: Resource identifier returned from kernel space (output).
  */
 struct cuddl_get_resource_id_ioctl_data {
+	int version_code;
 	int device_slot;
 	int resource_slot;
 	struct cuddl_resource_id id;
@@ -197,19 +216,23 @@ struct cuddl_get_resource_id_ioctl_data {
 /**
  * struct cuddl_get_kernel_commit_id_ioctl_data - Get kern commit IOCTL data.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @id_str: Kernel commit id string returned from kernel space.
  */
 struct cuddl_get_kernel_commit_id_ioctl_data {
+	int version_code;
 	char id_str[CUDDL_MAX_STR_LEN];
 };
 
 /**
  * struct cuddl_get_driver_info_ioctl_data - Get driver info string.
  *
+ * @version_code: Cuddl version code passed in from user space.
  * @device_slot: Manager device slot number to query (input).
  * @info_str: Driver info string returned from kernel space.
  */
 struct cuddl_get_driver_info_ioctl_data {
+	int version_code;
 	int device_slot;
 	char info_str[CUDDL_MAX_STR_LEN];
 };
@@ -234,9 +257,12 @@ struct cuddl_get_driver_info_ioctl_data {
 #define CUDDL_EVENTSRC_RELEASE_UDD_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 9, struct cuddl_eventsrc_release_ioctl_data)
 
-#define CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL _IO(CUDDL_IOCTL_TYPE, 10)
-#define CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL _IO(CUDDL_IOCTL_TYPE, 11)
-#define CUDDL_GET_MAX_DEV_EVENTS_IOCTL _IO(CUDDL_IOCTL_TYPE, 12)
+#define CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 10, struct cuddl_void_ioctl_data)
+#define CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 11, struct cuddl_void_ioctl_data)
+#define CUDDL_GET_MAX_DEV_EVENTS_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 12, struct cuddl_void_ioctl_data)
 
 #define CUDDL_GET_MEMREGION_ID_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 13, struct cuddl_get_resource_id_ioctl_data)
@@ -261,7 +287,7 @@ struct cuddl_get_driver_info_ioctl_data {
 #define CUDDL_JANITOR_REGISTER_PID_IOCTL _IOWR(CUDDL_IOCTL_TYPE, 21, pid_t)
 
 #define CUDDL_GET_KERNEL_COMMIT_ID_IOCTL \
-  _IOR(CUDDL_IOCTL_TYPE, 22, struct cuddl_get_kernel_commit_id_ioctl_data)
+  _IOWR(CUDDL_IOCTL_TYPE, 22, struct cuddl_get_kernel_commit_id_ioctl_data)
 
 #define CUDDL_GET_DRIVER_INFO_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 23, struct cuddl_get_driver_info_ioctl_data)
@@ -269,6 +295,7 @@ struct cuddl_get_driver_info_ioctl_data {
 #define CUDDL_GET_HW_INFO_IOCTL \
   _IOWR(CUDDL_IOCTL_TYPE, 24, struct cuddl_get_driver_info_ioctl_data)
 
-#define CUDDL_GET_KERNEL_VERSION_CODE_IOCTL _IO(CUDDL_IOCTL_TYPE, 25)
+#define CUDDL_GET_KERNEL_VERSION_CODE_IOCTL \
+  _IOW(CUDDL_IOCTL_TYPE, 25, struct cuddl_void_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

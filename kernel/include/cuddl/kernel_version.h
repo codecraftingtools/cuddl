@@ -40,9 +40,8 @@
  *
  * .. c:macro:: CUDDLK_VERSION_CODE
  *
- *    Unsigned 32-bit integer version code value that can be used in
- *    comparisons.  Similar to ``XENO_VERSION_CODE`` and
- *    ``LINUX_VERSION_CODE``.
+ *    32-bit integer version code value that can be used in comparisons.
+ *    Similar to ``XENO_VERSION_CODE`` and ``LINUX_VERSION_CODE``.
  */
 
 #define CUDDLK_VERSION_MAJOR CUDDL_IMPL_VERSION_MAJOR
@@ -50,9 +49,9 @@
 #define CUDDLK_REVISION_LEVEL CUDDL_IMPL_REVISION_LEVEL
 
 /**
- * CUDDLK_VERSION() - Construct an unsigned integer version code.
+ * CUDDLK_VERSION() - Construct a integer version code.
  *
- * Returns a ``uint32_t`` version code corresponding to the given major,
+ * Returns a 32-bit integer version code corresponding to the given major,
  * minor, and revision values that can be used in comparisons.  Similar to
  * ``XENO_VERSION()`` and ``KERNEL_VERSION()``.
  *
@@ -60,7 +59,7 @@
  * @minor: Minor portion of the version number.
  * @revision: Revision portion of the version number.
  *
- * Return: Unsigned integer version code.
+ * Return: Integer version code.
  */
 #define CUDDLK_VERSION(major, minor, revision) \
 	(((major)<<16) | ((minor)<<8) | (revision))

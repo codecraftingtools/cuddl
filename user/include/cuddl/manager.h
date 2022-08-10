@@ -41,6 +41,7 @@
  *
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -61,6 +62,7 @@ int cuddl_get_max_managed_devices(void);
  *
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -81,6 +83,7 @@ int cuddl_get_max_dev_mem_regions(void);
  *
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on

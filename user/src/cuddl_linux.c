@@ -57,12 +57,15 @@ int cuddl_get_kernel_version_code(void)
 {
 	int fd;
 	int ret, ret2;
+	struct cuddl_void_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(fd, CUDDL_GET_KERNEL_VERSION_CODE_IOCTL, NULL);
+	s.version_code = CUDDL_VERSION_CODE;
+
+	ret = ioctl(fd, CUDDL_GET_KERNEL_VERSION_CODE_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -83,6 +86,8 @@ int cuddl_get_kernel_commit_id(char *id_str, cuddl_size_t id_len)
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
+
+	s.version_code = CUDDL_VERSION_CODE;
 
 	ret = ioctl(fd, CUDDL_GET_KERNEL_COMMIT_ID_IOCTL, &s);
 	if (ret) {
@@ -162,6 +167,7 @@ int cuddl_memregion_claim(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	populate_id_from_args(&s.id, group, device, memregion, instance);
 	s.pid = getpid();
 	s.options = options;
@@ -287,6 +293,7 @@ int cuddl_memregion_release_by_token(struct cuddl_impl_token token)
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.token = token;
 	s.pid = getpid();
 
@@ -318,6 +325,7 @@ int cuddl_memregion_get_driver_info(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = memregion->priv.token.device_index;
 
 	ret = ioctl(fd, CUDDL_GET_DRIVER_INFO_IOCTL, &s);
@@ -356,6 +364,7 @@ int cuddl_memregion_get_hw_info(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = memregion->priv.token.device_index;
 
 	ret = ioctl(fd, CUDDL_GET_HW_INFO_IOCTL, &s);
@@ -397,6 +406,7 @@ int cuddl_eventsrc_claim(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	populate_id_from_args(&s.id, group, device, eventsrc, instance);
 	s.pid = getpid();
 	s.options = options;
@@ -496,6 +506,7 @@ int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token)
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.token = token;
 	s.pid = getpid();
 
@@ -603,6 +614,7 @@ int cuddl_eventsrc_get_driver_info(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = eventsrc->priv.token.device_index;
 
 	ret = ioctl(fd, CUDDL_GET_DRIVER_INFO_IOCTL, &s);
@@ -641,6 +653,7 @@ int cuddl_eventsrc_get_hw_info(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = eventsrc->priv.token.device_index;
 
 	ret = ioctl(fd, CUDDL_GET_HW_INFO_IOCTL, &s);
@@ -670,12 +683,15 @@ int cuddl_get_max_managed_devices(void)
 {
 	int fd;
 	int ret, ret2;
+	struct cuddl_void_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(fd, CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL, NULL);
+	s.version_code = CUDDL_VERSION_CODE;
+
+	ret = ioctl(fd, CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -690,12 +706,15 @@ int cuddl_get_max_dev_mem_regions(void)
 {
 	int fd;
 	int ret, ret2;
+	struct cuddl_void_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(fd, CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL, NULL);
+	s.version_code = CUDDL_VERSION_CODE;
+
+	ret = ioctl(fd, CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -710,12 +729,15 @@ int cuddl_get_max_dev_events(void)
 {
 	int fd;
 	int ret, ret2;
+	struct cuddl_void_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(fd, CUDDL_GET_MAX_DEV_EVENTS_IOCTL, NULL);
+	s.version_code = CUDDL_VERSION_CODE;
+
+	ret = ioctl(fd, CUDDL_GET_MAX_DEV_EVENTS_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -738,6 +760,7 @@ int cuddl_get_driver_info_for_slot(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = device_slot;
 
 	ret = ioctl(fd, CUDDL_GET_DRIVER_INFO_IOCTL, &s);
@@ -775,6 +798,7 @@ int cuddl_get_hw_info_for_slot(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = device_slot;
 
 	ret = ioctl(fd, CUDDL_GET_HW_INFO_IOCTL, &s);
@@ -811,6 +835,7 @@ int cuddl_get_memregion_id_for_slot(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = device_slot;
 	s.resource_slot = mem_slot;
 
@@ -842,6 +867,7 @@ int cuddl_get_eventsrc_id_for_slot(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	s.device_slot = device_slot;
 	s.resource_slot = event_slot;
 
@@ -874,6 +900,7 @@ int cuddl_get_memregion_info_for_id(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	memcpy(&s.id, memregion_id, sizeof(s.id));
 	s.pid = getpid();
 
@@ -906,6 +933,7 @@ int cuddl_get_eventsrc_info_for_id(
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
 	memcpy(&s.id, eventsrc_id, sizeof(s.id));
 	s.pid = getpid();
 

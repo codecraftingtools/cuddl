@@ -140,6 +140,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddl_get_resource_id_ioctl_data *get_id_data;
 	struct cuddl_get_kernel_commit_id_ioctl_data *commit_data;
 	struct cuddl_get_driver_info_ioctl_data *driver_info_data;
+	struct cuddl_void_ioctl_data *void_data;
 	struct cuddl_resource_id *id_data;
 	struct cuddlk_resource_ref_list *tmp_ref;
 	struct cuddlk_resource_ref_list *pos;
@@ -231,10 +232,26 @@ static long cuddlk_manager_ioctl(
 		return -ENOMEM;
 	}
 
+	void_data = kzalloc(
+		sizeof(struct cuddl_void_ioctl_data),
+		GFP_KERNEL);
+	if (!void_data) {
+		kfree(driver_info_data);
+		kfree(commit_data);
+		kfree(get_id_data);
+		kfree(erdata);
+		kfree(mrdata);
+		kfree(edata);
+		kfree(mdata);
+		cuddlk_print("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
 	id_data = kzalloc(
 		sizeof(struct cuddl_resource_id),
 		GFP_KERNEL);
 	if (!id_data) {
+		kfree(void_data);
 		kfree(driver_info_data);
 		kfree(commit_data);
 		kfree(get_id_data);
@@ -536,6 +553,12 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL:
 		cuddlk_debug("CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL called\n");
+		if (copy_from_user(
+			    void_data, (void*)arg, sizeof(*void_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
 		ret = CUDDLK_MAX_MANAGED_DEVICES;
 		cuddlk_debug("  success\n");
 		break;
@@ -543,12 +566,24 @@ static long cuddlk_manager_ioctl(
 	case CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL:
 		cuddlk_debug(
 			"CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL called\n");
+		if (copy_from_user(
+			    void_data, (void*)arg, sizeof(*void_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
 		ret = CUDDLK_MAX_DEV_MEM_REGIONS;
 		cuddlk_debug("  success\n");
 		break;
 
 	case CUDDL_GET_MAX_DEV_EVENTS_IOCTL:
 		cuddlk_debug("CUDDL_GET_MAX_DEV_EVENTS_IOCTL called\n");
+		if (copy_from_user(
+			    void_data, (void*)arg, sizeof(*void_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
 		ret = CUDDLK_MAX_DEV_EVENTS;
 		cuddlk_debug("  success\n");
 		break;
@@ -760,6 +795,12 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDL_GET_KERNEL_COMMIT_ID_IOCTL:
 		cuddlk_debug("CUDDL_GET_KERNEL_COMMIT_ID_IOCTL called\n");
+		if (copy_from_user(
+			    commit_data, (void*)arg, sizeof(*commit_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
 		cuddlk_get_commit_id(commit_data->id_str, CUDDL_MAX_STR_LEN);
 		if (copy_to_user(
 		    (void*)arg, commit_data, sizeof(*commit_data)))
@@ -861,6 +902,12 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDL_GET_KERNEL_VERSION_CODE_IOCTL:
 		cuddlk_debug("CUDDL_GET_KERNEL_VERSION_CODE_IOCTL called\n");
+		if (copy_from_user(
+			    void_data, (void*)arg, sizeof(*void_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
 		cuddlk_debug("  success\n");
 		ret = CUDDLK_VERSION_CODE;
 		break;
@@ -871,6 +918,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	kfree(id_data);
+	kfree(void_data);
 	kfree(driver_info_data);
 	kfree(commit_data);
 	kfree(get_id_data);

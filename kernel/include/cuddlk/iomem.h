@@ -13,10 +13,10 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_IOMEM_H
-#define _CUDDL_KERNEL_IOMEM_H
+#ifndef _CUDDLK_IOMEM_H
+#define _CUDDLK_IOMEM_H
 
-#include <cuddl/kernel_general.h>
+#include <cuddlk/general.h>
 
 /**
  * DOC: Kernel-space I/O memory access declarations.
@@ -114,4 +114,4 @@ inline void cuddlk_iowrite32(uint32_t value, cuddlk_iomem_t *addr)
 
 #endif /* CUDDLK_LINUX */
 
-#endif /* !_CUDDL_KERNEL_IOMEM_H */
+#endif /* !_CUDDLK_IOMEM_H */

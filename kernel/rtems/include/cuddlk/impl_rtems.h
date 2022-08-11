@@ -13,8 +13,8 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_IMPL_RTEMS_H
-#define _CUDDL_KERNEL_IMPL_RTEMS_H
+#ifndef _CUDDLK_IMPL_RTEMS_H
+#define _CUDDLK_IMPL_RTEMS_H
 /**
  * DOC: Kernel-space declarations for the RTEMS implementation.
  *
@@ -87,4 +87,4 @@ struct cuddlk_device_priv {
 struct cuddlk_manager_priv {
 };
 
-#endif /* !_CUDDL_KERNEL_IMPL_RTEMS_H */
+#endif /* !_CUDDLK_IMPL_RTEMS_H */

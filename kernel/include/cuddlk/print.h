@@ -13,8 +13,8 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_PRINT_H
-#define _CUDDL_KERNEL_PRINT_H
+#ifndef _CUDDLK_PRINT_H
+#define _CUDDLK_PRINT_H
 
 /**
  * DOC: Kernel-space printing declarations.
@@ -62,4 +62,4 @@
   #define cuddlk_idebug(...)
 #endif
 
-#endif /* !_CUDDL_KERNEL_PRINT_H */
+#endif /* !_CUDDLK_PRINT_H */

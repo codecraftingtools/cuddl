@@ -17,4 +17,4 @@
 Linux/Xenomai Kernel Space
 ==========================
 
-.. kernel-doc:: kernel/linux/include/cuddl/kernel_impl_linux.h
+.. kernel-doc:: kernel/linux/include/cuddlk/impl_linux.h

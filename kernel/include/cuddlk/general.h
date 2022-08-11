@@ -13,11 +13,11 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_GENERAL_H
-#define _CUDDL_KERNEL_GENERAL_H
+#ifndef _CUDDLK_GENERAL_H
+#define _CUDDLK_GENERAL_H
 
 #include <cuddl/common_general.h>
-#include <cuddl/kernel_impl.h>
+#include <cuddlk/impl.h>
 
 /**
  * DOC: General-purpose kernel-space declarations.
@@ -52,4 +52,4 @@
  */
 typedef cuddl_impl_size_t cuddlk_size_t;
 
-#endif /* !_CUDDL_KERNEL_GENERAL_H */
+#endif /* !_CUDDLK_GENERAL_H */

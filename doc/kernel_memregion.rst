@@ -17,4 +17,4 @@
 Memory Region
 =============
 
-.. kernel-doc:: kernel/include/cuddl/kernel_memregion.h
+.. kernel-doc:: kernel/include/cuddlk/memregion.h

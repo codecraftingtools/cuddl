@@ -17,4 +17,4 @@
 Interrupt Handler
 =================
 
-.. kernel-doc:: kernel/include/cuddl/kernel_interrupt.h
+.. kernel-doc:: kernel/include/cuddlk/interrupt.h

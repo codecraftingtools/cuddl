@@ -17,4 +17,4 @@
 I/O Memory Access
 =================
 
-.. kernel-doc:: kernel/include/cuddl/kernel_iomem.h
+.. kernel-doc:: kernel/include/cuddlk/iomem.h

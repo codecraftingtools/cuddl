@@ -25,5 +25,5 @@ Common Kernel/User-Space Build Options
 Kernel Build Options
 ====================
 
-.. kernel-doc:: kernel/include/cuddl/kernel_compilation_opts.h
+.. kernel-doc:: kernel/include/cuddlk/compilation_opts.h
 

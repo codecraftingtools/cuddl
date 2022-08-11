@@ -13,11 +13,11 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_IMPL_H
-#define _CUDDL_KERNEL_IMPL_H
+#ifndef _CUDDLK_IMPL_H
+#define _CUDDLK_IMPL_H
 
 #include <cuddl/common_impl.h>
-#include <cuddl/kernel_compilation_opts.h>
+#include <cuddlk/compilation_opts.h>
 
 /**
  * DOC: Kernel implementation declarations for all targets.
@@ -32,14 +32,14 @@
 
 #if defined(__rtems__)
 #define CUDDLK_RTEMS
-#include <cuddl/kernel_impl_rtems.h>
+#include <cuddlk/impl_rtems.h>
 
 #elif defined(__KERNEL__) /* Linux UIO and Xenomai UDD */
 #define CUDDLK_LINUX
-#include <cuddl/kernel_impl_linux.h>
+#include <cuddlk/impl_linux.h>
 
 #else
 #error Kernel variant unsupported
 #endif /* defined(__rtems__) */
 
-#endif /* !_CUDDL_KERNEL_IMPL_H */
+#endif /* !_CUDDLK_IMPL_H */

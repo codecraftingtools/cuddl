@@ -17,4 +17,4 @@
 Version
 =======
 
-.. kernel-doc:: kernel/include/cuddl/kernel_version.h
+.. kernel-doc:: kernel/include/cuddlk/version.h

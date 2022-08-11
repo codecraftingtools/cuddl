@@ -17,4 +17,4 @@
 RTEMS Kernel Space
 ==================
 
-.. kernel-doc:: kernel/rtems/include/cuddl/kernel_impl_rtems.h
+.. kernel-doc:: kernel/rtems/include/cuddlk/impl_rtems.h

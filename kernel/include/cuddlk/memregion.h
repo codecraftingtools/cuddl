@@ -13,10 +13,10 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_MEMREGION_H
-#define _CUDDL_KERNEL_MEMREGION_H
+#ifndef _CUDDLK_MEMREGION_H
+#define _CUDDLK_MEMREGION_H
 
-#include <cuddl/kernel_general.h>
+#include <cuddlk/general.h>
 
 /**
  * DOC: Kernel-space memory region declarations.
@@ -196,4 +196,4 @@ struct cuddlk_memregion {
 	struct cuddlk_memregion_priv priv;
 };
 
-#endif /* !_CUDDL_KERNEL_MEMREGION_H */
+#endif /* !_CUDDLK_MEMREGION_H */

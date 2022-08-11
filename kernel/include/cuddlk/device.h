@@ -13,11 +13,11 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_DEVICE_H
-#define _CUDDL_KERNEL_DEVICE_H
+#ifndef _CUDDLK_DEVICE_H
+#define _CUDDLK_DEVICE_H
 
-#include <cuddl/kernel_memregion.h>
-#include <cuddl/kernel_eventsrc.h>
+#include <cuddlk/memregion.h>
+#include <cuddlk/eventsrc.h>
 
 /**
  * DOC: Kernel-space device declarations.
@@ -284,4 +284,4 @@ int cuddlk_device_manage(struct cuddlk_device *dev);
  */
 int cuddlk_device_release(struct cuddlk_device *dev);
 
-#endif /* !_CUDDL_KERNEL_DEVICE_H */
+#endif /* !_CUDDLK_DEVICE_H */

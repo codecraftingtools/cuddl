@@ -13,10 +13,10 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_MANAGER_H
-#define _CUDDL_KERNEL_MANAGER_H
+#ifndef _CUDDLK_MANAGER_H
+#define _CUDDLK_MANAGER_H
 
-#include <cuddl/kernel_device.h>
+#include <cuddlk/device.h>
 
 /**
  * DOC: Kernel-space device manager declarations.
@@ -210,4 +210,4 @@ int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
 int  cuddlk_manager_next_available_instance_id(
 	struct cuddlk_manager *manager, struct cuddlk_device *dev);
 
-#endif /* !_CUDDL_KERNEL_MANAGER_H */
+#endif /* !_CUDDLK_MANAGER_H */

@@ -17,7 +17,7 @@
  * Code common to all kernel implementations.
  */
 
-#include <cuddl/kernel.h>
+#include <cuddlk.h>
 
 int cuddlk_get_commit_id(char *id_str, cuddlk_size_t id_len)
 {

@@ -13,10 +13,10 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_INTERRUPT_H
-#define _CUDDL_KERNEL_INTERRUPT_H
+#ifndef _CUDDLK_INTERRUPT_H
+#define _CUDDLK_INTERRUPT_H
 
-#include <cuddl/kernel_iomem.h>
+#include <cuddlk/iomem.h>
 
 /**
  * DOC: Kernel-space interrupt handler declarations.
@@ -265,4 +265,4 @@ int cuddlk_interrupt_register(
  */
 int cuddlk_interrupt_unregister(struct cuddlk_interrupt *intr);
 
-#endif /* !_CUDDL_KERNEL_INTERRUPT_H */
+#endif /* !_CUDDLK_INTERRUPT_H */

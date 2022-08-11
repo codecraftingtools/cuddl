@@ -17,4 +17,4 @@
 Printing
 ========
 
-.. kernel-doc:: kernel/include/cuddl/kernel_print.h
+.. kernel-doc:: kernel/include/cuddlk/print.h

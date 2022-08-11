@@ -30,7 +30,7 @@
 #include <linux/slab.h>
 #include <linux/cdev.h>
 #include <linux/uaccess.h>
-#include <cuddl/kernel.h>
+#include <cuddlk.h>
 #include <cuddl/common_impl_linux_ioctl.h>
 
 /*

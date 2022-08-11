@@ -13,13 +13,13 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_COMPILATION_OPTS_H
-#define _CUDDL_KERNEL_COMPILATION_OPTS_H
+#ifndef _CUDDLK_COMPILATION_OPTS_H
+#define _CUDDLK_COMPILATION_OPTS_H
 
 /**
  * DOC: Compile-time options applicable to kernel-space code.
  *
- * These flags may be set by editing *cuddl/kernel_compilation_opts.h*, or by
+ * These flags may be set by editing *cuddlk/compilation_opts.h*, or by
  * adding flags to define the required symbols when invoking the C compiler.
  * Take care to ensure that all kernel modules (including any Cuddl drivers)
  * are compiled with the same options or some disaster may possibly occur.
@@ -43,4 +43,4 @@
 //#define CUDDLK_ENABLE_DEBUG_PRINT
 //#define CUDDLK_ENABLE_INTRUSIVE_DEBUG_PRINT
 
-#endif /* !_CUDDL_KERNEL_COMPILATION_OPTS_H */
+#endif /* !_CUDDLK_COMPILATION_OPTS_H */

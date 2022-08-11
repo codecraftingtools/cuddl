@@ -17,7 +17,7 @@
  * Manager code common to all kernel implementations.
  */
 
-#include <cuddl/kernel.h>
+#include <cuddlk.h>
 
 int cuddlk_manager_find_device_slot_matching(
 	struct cuddlk_manager *manager,

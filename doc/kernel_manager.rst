@@ -17,4 +17,4 @@
 Manager
 =======
 
-.. kernel-doc:: kernel/include/cuddl/kernel_manager.h
+.. kernel-doc:: kernel/include/cuddlk/manager.h

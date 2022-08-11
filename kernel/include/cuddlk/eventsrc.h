@@ -13,10 +13,10 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_EVENTSRC_H
-#define _CUDDL_KERNEL_EVENTSRC_H
+#ifndef _CUDDLK_EVENTSRC_H
+#define _CUDDLK_EVENTSRC_H
 
-#include <cuddl/kernel_interrupt.h>
+#include <cuddlk/interrupt.h>
 
 /**
  * DOC: Kernel-space event source declarations.
@@ -113,4 +113,4 @@ struct cuddlk_eventsrc {
  */
 void cuddlk_eventsrc_notify(struct cuddlk_eventsrc *eventsrc);
 
-#endif /* !_CUDDL_KERNEL_EVENTSRC_H */
+#endif /* !_CUDDLK_EVENTSRC_H */

@@ -28,7 +28,7 @@
 
 #include <linux/module.h>
 #include <linux/slab.h>
-#include <cuddl/kernel.h>
+#include <cuddlk.h>
 
 /* Export symbols from cuddlk_common.c */
 EXPORT_SYMBOL_GPL(cuddlk_get_commit_id);

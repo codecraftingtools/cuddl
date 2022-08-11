@@ -17,4 +17,4 @@
 Device
 ======
 
-.. kernel-doc:: kernel/include/cuddl/kernel_device.h
+.. kernel-doc:: kernel/include/cuddlk/device.h

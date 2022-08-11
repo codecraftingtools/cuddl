@@ -30,7 +30,7 @@
 #include <linux/slab.h>
 #include <linux/cdev.h>
 #include <linux/uaccess.h>
-#include <cuddl/kernel.h>
+#include <cuddlk.h>
 #include <cuddl/common_impl_linux_ioctl.h>
 
 static dev_t cuddlk_janitor_dev;

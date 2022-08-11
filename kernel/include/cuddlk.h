@@ -13,12 +13,12 @@
  * copyright information and license terms.
  */
 
-#ifndef _CUDDL_KERNEL_H
-#define _CUDDL_KERNEL_H
+#ifndef _CUDDLK_H
+#define _CUDDLK_H
 
-#include <cuddl/kernel_manager.h>
-#include <cuddl/kernel_print.h>
-#include <cuddl/kernel_version.h>
+#include <cuddlk/manager.h>
+#include <cuddlk/print.h>
+#include <cuddlk/version.h>
 
 /*
  * Kernel-space declarations.
@@ -26,4 +26,4 @@
  * This part of the API is only applicable to kernel-space code.
  */
 
-#endif /* !_CUDDL_KERNEL_H */
+#endif /* !_CUDDLK_H */

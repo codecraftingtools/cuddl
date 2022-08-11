@@ -17,4 +17,4 @@
 General
 =======
 
-.. kernel-doc:: kernel/include/cuddl/kernel_general.h
+.. kernel-doc:: kernel/include/cuddlk/general.h

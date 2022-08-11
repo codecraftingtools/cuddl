@@ -17,4 +17,4 @@
 Event Source
 ============
 
-.. kernel-doc:: kernel/include/cuddl/kernel_eventsrc.h
+.. kernel-doc:: kernel/include/cuddlk/eventsrc.h

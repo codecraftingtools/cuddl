@@ -19,8 +19,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef _CUDDL_KERNEL_IMPL_LINUX_H
-#define _CUDDL_KERNEL_IMPL_LINUX_H
+#ifndef _CUDDLK_IMPL_LINUX_H
+#define _CUDDLK_IMPL_LINUX_H
 /**
  * DOC: Kernel-space declarations for the Linux implementation.
  *
@@ -157,4 +157,4 @@ struct cuddlk_device_priv {
 struct cuddlk_manager_priv {
 };
 
-#endif /* !_CUDDL_KERNEL_IMPL_LINUX_H */
+#endif /* !_CUDDLK_IMPL_LINUX_H */

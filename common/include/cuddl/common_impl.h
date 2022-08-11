@@ -23,34 +23,34 @@
  *
  * These declarations are available to both user-space and kernel-space code.
  *
- * .. c:macro:: CUDDL_IMPL_MAX_STR_LEN
+ * .. c:macro:: CUDDLCI_MAX_STR_LEN
  *
  *    Maximum allowed length for Cuddl string variables.  (Equivalent to
  *    ``CUDDL_MAX_STR_LEN`` / ``CUDDLK_MAX_STR_LEN``.)
  *
- * .. c:macro:: CUDDL_IMPL_VERSION_MAJOR
+ * .. c:macro:: CUDDLCI_VERSION_MAJOR
  *
  *    Major portion of the version number.
  *
- * .. c:macro:: CUDDL_IMPL_VERSION_MINOR
+ * .. c:macro:: CUDDLCI_VERSION_MINOR
  *
  *    Minor portion of the version number.
  *
- * .. c:macro:: CUDDL_IMPL_REVISION_LEVEL
+ * .. c:macro:: CUDDLCI_REVISION_LEVEL
  *
  *    Revision portion of the version number.
  */
 
 /* Maximum allowed length for Cuddl strings. */
-#define CUDDL_IMPL_MAX_STR_LEN 128
+#define CUDDLCI_MAX_STR_LEN 128
 
 /* Version information declarations */
-#define CUDDL_IMPL_VERSION_MAJOR 0
-#define CUDDL_IMPL_VERSION_MINOR 1
-#define CUDDL_IMPL_REVISION_LEVEL 0
+#define CUDDLCI_VERSION_MAJOR 0
+#define CUDDLCI_VERSION_MINOR 1
+#define CUDDLCI_REVISION_LEVEL 0
 
 /**
- * struct cuddl_impl_token - User-space handle to a memregion or eventsrc.
+ * struct cuddlci_token - User-space handle to a memregion or eventsrc.
  *
  * @device_index: Index of device in device manager array.
  * @resource_index: Index of memregion or eventsrc in device's array.
@@ -58,7 +58,7 @@
  * Opaque token used internally when claiming and releasing memory regions
  * and event sources.
  */
-struct cuddl_impl_token {
+struct cuddlci_token {
 	int device_index;
 	int resource_index;
 };

@@ -32,14 +32,14 @@
  *    Maximum allowed length for Cuddl string variables.
  */
 
-#define CUDDL_MAX_STR_LEN CUDDL_IMPL_MAX_STR_LEN
+#define CUDDL_MAX_STR_LEN CUDDLCI_MAX_STR_LEN
 
 /**
  * typedef cuddl_size_t - Data type used to represent a count of bytes.
  *
  * This will be equivalent to ``size_t`` on POSIX systems.
  */
-typedef cuddl_impl_size_t cuddl_size_t;
+typedef cuddlci_size_t cuddl_size_t;
 
 /**
  * struct cuddl_resource_id - Resource identifier.

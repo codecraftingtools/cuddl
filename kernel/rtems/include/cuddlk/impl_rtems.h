@@ -25,20 +25,20 @@
   #warning Compiling for RTEMS kernel
 #endif /* CUDDL_BUILD_WARN_TARGET */
 
-#define CUDDLK_IMPL_MEMT_NONE    0
-#define CUDDLK_IMPL_MEMT_PHYS    1
-#define CUDDLK_IMPL_MEMT_LOGICAL 2
-#define CUDDLK_IMPL_MEMT_VIRTUAL 3
+#define CUDDLKI_MEMT_NONE    0
+#define CUDDLKI_MEMT_PHYS    1
+#define CUDDLKI_MEMT_LOGICAL 2
+#define CUDDLKI_MEMT_VIRTUAL 3
 
-#define CUDDLK_IMPL_VARIANT_STR "RTEMS"
+#define CUDDLKI_VARIANT_STR "RTEMS"
 
-#define CUDDLK_IMPL_RET_INTR_NOT_HANDLED 0
-#define CUDDLK_IMPL_RET_INTR_HANDLED    (1 << 0)
+#define CUDDLKI_RET_INTR_NOT_HANDLED 0
+#define CUDDLKI_RET_INTR_HANDLED    (1 << 0)
 
-#define CUDDLK_IMPL_IRQ_NONE   0
-#define CUDDLK_IMPL_IRQ_CUSTOM (-1)
+#define CUDDLKI_IRQ_NONE   0
+#define CUDDLKI_IRQ_CUSTOM (-1)
 
-typedef void cuddlk_impl_iomem_t;
+typedef void cuddlki_iomem_t;
 
 typedef void cuddlk_parent_device_t;
 

@@ -42,11 +42,11 @@
 #define CUDDL_EVENTSRC_RELEASE_IOCTL  CUDDL_EVENTSRC_RELEASE_UIO_IOCTL
 #endif
 
-#ifndef CUDDL_IMPL_REPO_IS_DIRTY
-#define CUDDL_IMPL_REPO_IS_DIRTY 0
+#ifndef CUDDLI_REPO_IS_DIRTY
+#define CUDDLI_REPO_IS_DIRTY 0
 #endif
-#ifndef CUDDL_IMPL_COMMIT_HASH
-#define CUDDL_IMPL_COMMIT_HASH "UNKNOWN"
+#ifndef CUDDLI_COMMIT_HASH
+#define CUDDLI_COMMIT_HASH "UNKNOWN"
 #endif
 
 #include <stdio.h>
@@ -116,7 +116,7 @@ int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len)
 {
 	int remaining_space;
 
-	if (CUDDL_IMPL_REPO_IS_DIRTY) {
+	if (CUDDLI_REPO_IS_DIRTY) {
 		strncpy(id_str, "M", id_len);
 	} else {
 		strncpy(id_str, "", id_len);
@@ -124,7 +124,7 @@ int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len)
 	remaining_space = id_len - strnlen(id_str, id_len);
 	if (remaining_space > 0) {
 		remaining_space -= 1;
-		strncat(id_str, CUDDL_IMPL_COMMIT_HASH, remaining_space);
+		strncat(id_str, CUDDLI_COMMIT_HASH, remaining_space);
 	}
 	return 0;
 }
@@ -283,7 +283,7 @@ int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion)
 	return ret2;
 }
 
-int cuddl_memregion_release_by_token(struct cuddl_impl_token token)
+int cuddl_memregion_release_by_token(struct cuddlci_token token)
 {
 	int fd;
 	int ret;
@@ -496,7 +496,7 @@ int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc)
 	return ret2;
 }
 
-int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token)
+int cuddl_eventsrc_release_by_token(struct cuddlci_token token)
 {
 	int fd;
 	int ret;

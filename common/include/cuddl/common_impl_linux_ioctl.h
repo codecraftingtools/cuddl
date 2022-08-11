@@ -178,7 +178,7 @@ struct cuddl_eventsrc_claim_ioctl_data {
  */
 struct cuddl_memregion_release_ioctl_data {
 	int version_code;
-	struct cuddl_impl_token token;
+	struct cuddlci_token token;
 	pid_t pid;
 };
 
@@ -191,7 +191,7 @@ struct cuddl_memregion_release_ioctl_data {
  */
 struct cuddl_eventsrc_release_ioctl_data {
 	int version_code;
-	struct cuddl_impl_token token;
+	struct cuddlci_token token;
 	pid_t pid;
 };
 

@@ -32,7 +32,7 @@
 #endif
 
 /* System type used to represent a count of bytes. */
-typedef size_t cuddl_impl_size_t;
+typedef size_t cuddlci_size_t;
 
 /**
  * struct cuddl_memregion_info_priv - Private memory region information.

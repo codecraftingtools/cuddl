@@ -70,7 +70,7 @@
  *   
  * This type is not used on RTEMS, so it is defined as ``void``.
  */
-typedef cuddlk_impl_parent_device_t cuddlk_parent_device_t;
+typedef cuddlki_parent_device_t cuddlk_parent_device_t;
 
 /**
  * struct cuddlk_device_kernel - Kernel-managed device data members.

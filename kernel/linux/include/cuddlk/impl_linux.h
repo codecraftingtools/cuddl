@@ -49,39 +49,39 @@
 #define cuddlk_iowrite16 iowrite16
 #define cuddlk_iowrite32 iowrite32
 
-#define CUDDLK_IMPL_MEMT_NONE    UIO_MEM_NONE
-#define CUDDLK_IMPL_MEMT_PHYS    UIO_MEM_PHYS
-#define CUDDLK_IMPL_MEMT_LOGICAL UIO_MEM_LOGICAL
-#define CUDDLK_IMPL_MEMT_VIRTUAL UIO_MEM_VIRTUAL
+#define CUDDLKI_MEMT_NONE    UIO_MEM_NONE
+#define CUDDLKI_MEMT_PHYS    UIO_MEM_PHYS
+#define CUDDLKI_MEMT_LOGICAL UIO_MEM_LOGICAL
+#define CUDDLKI_MEMT_VIRTUAL UIO_MEM_VIRTUAL
 
 #if defined(CUDDLK_USE_UDD)
   #include <rtdm/udd.h>
 
-  #define CUDDLK_IMPL_VARIANT_STR "Xenomai UDD"
+  #define CUDDLKI_VARIANT_STR "Xenomai UDD"
 
-  #define cuddlk_impl_print(...) rtdm_printk(__VA_ARGS__)
+  #define cuddlki_print(...) rtdm_printk(__VA_ARGS__)
 
-  #define CUDDLK_IMPL_RET_INTR_NOT_HANDLED RTDM_IRQ_NONE
-  #define CUDDLK_IMPL_RET_INTR_HANDLED     RTDM_IRQ_HANDLED
+  #define CUDDLKI_RET_INTR_NOT_HANDLED RTDM_IRQ_NONE
+  #define CUDDLKI_RET_INTR_HANDLED     RTDM_IRQ_HANDLED
 
-  #define CUDDLK_IMPL_IRQ_NONE   UDD_IRQ_NONE
-  #define CUDDLK_IMPL_IRQ_CUSTOM UDD_IRQ_CUSTOM
+  #define CUDDLKI_IRQ_NONE   UDD_IRQ_NONE
+  #define CUDDLKI_IRQ_CUSTOM UDD_IRQ_CUSTOM
 
 #else /* Linux UIO */
-  #define CUDDLK_IMPL_VARIANT_STR "Linux UIO"
+  #define CUDDLKI_VARIANT_STR "Linux UIO"
 
-  #define cuddlk_impl_print(...) printk(__VA_ARGS__)
+  #define cuddlki_print(...) printk(__VA_ARGS__)
 
-  #define CUDDLK_IMPL_RET_INTR_NOT_HANDLED IRQ_NONE
-  #define CUDDLK_IMPL_RET_INTR_HANDLED     IRQ_HANDLED
+  #define CUDDLKI_RET_INTR_NOT_HANDLED IRQ_NONE
+  #define CUDDLKI_RET_INTR_HANDLED     IRQ_HANDLED
 
-  #define CUDDLK_IMPL_IRQ_NONE   UIO_IRQ_NONE
-  #define CUDDLK_IMPL_IRQ_CUSTOM UIO_IRQ_CUSTOM
+  #define CUDDLKI_IRQ_NONE   UIO_IRQ_NONE
+  #define CUDDLKI_IRQ_CUSTOM UIO_IRQ_CUSTOM
 #endif /* defined(CUDDLK_USE_UDD) */
 
-typedef void __iomem cuddlk_impl_iomem_t;
+typedef void __iomem cuddlki_iomem_t;
 
-typedef struct device cuddlk_impl_parent_device_t;
+typedef struct device cuddlki_parent_device_t;
 
 /**
  * struct cuddlk_memregion_priv - Private kernel memory region data.

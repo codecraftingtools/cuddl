@@ -37,7 +37,7 @@
 #endif
 
 /* System type used to represent a count of bytes. */
-typedef size_t cuddl_impl_size_t;
+typedef size_t cuddlci_size_t;
 
 /**
  * struct cuddl_memregion_info_priv - Private memory region information.
@@ -102,10 +102,10 @@ typedef size_t cuddl_impl_size_t;
  */
 struct cuddl_memregion_info_priv {
 	unsigned long pa_mmap_offset;
-	cuddl_impl_size_t pa_len;
-	cuddl_impl_size_t start_offset;
-	struct cuddl_impl_token token;
-	char device_name[CUDDL_IMPL_MAX_STR_LEN];
+	cuddlci_size_t pa_len;
+	cuddlci_size_t start_offset;
+	struct cuddlci_token token;
+	char device_name[CUDDLCI_MAX_STR_LEN];
 };
 
 /**
@@ -136,8 +136,8 @@ struct cuddl_memregion_info_priv {
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddl_eventsrc_info_priv {
-	struct cuddl_impl_token token;
-	char device_name[CUDDL_IMPL_MAX_STR_LEN];
+	struct cuddlci_token token;
+	char device_name[CUDDLCI_MAX_STR_LEN];
 };
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_H */

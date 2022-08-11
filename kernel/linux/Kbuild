@@ -14,5 +14,5 @@ cuddl_janitor-y := src/cuddlk_janitor_linux.o
 ccflags-y := -I$(src)/include \
              -I$(src)/../include \
              -I$(src)/../../common/include \
-             -DCUDDLK_IMPL_COMMIT_HASH=\"`git -C $(src) rev-parse HEAD`\" \
-             -DCUDDLK_IMPL_REPO_IS_DIRTY=`git -C $(src) diff --quiet HEAD && echo 0 || echo 1`
+             -DCUDDLKI_COMMIT_HASH=\"`git -C $(src) rev-parse HEAD`\" \
+             -DCUDDLKI_REPO_IS_DIRTY=`git -C $(src) diff --quiet HEAD && echo 0 || echo 1`

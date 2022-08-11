@@ -33,7 +33,7 @@
  *
  * This will be equivalent to ``time_t`` on POSIX systems.
  */
-typedef cuddl_impl_time_t cuddl_time_t;
+typedef cuddli_time_t cuddl_time_t;
 
 /**
  * struct cuddl_timespec - Represents time in seconds and nanoseconds.

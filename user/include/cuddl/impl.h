@@ -52,7 +52,7 @@
  *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
-int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
+int cuddl_memregion_release_by_token(struct cuddlci_token token);
 
 /**
  * cuddl_eventsrc_release_by_token() - Release event source using a token.
@@ -82,7 +82,7 @@ int cuddl_memregion_release_by_token(struct cuddl_impl_token token);
  *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
-int cuddl_eventsrc_release_by_token(struct cuddl_impl_token token);
+int cuddl_eventsrc_release_by_token(struct cuddlci_token token);
 
 #if defined(CUDDL_RTEMS)
 #include <cuddl/impl_rtems.h>

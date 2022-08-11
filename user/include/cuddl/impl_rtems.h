@@ -30,7 +30,7 @@
 #endif
 
 /* System type used to represent a time in seconds. */
-typedef time_t cuddl_impl_time_t;
+typedef time_t cuddli_time_t;
 
 /**
  * struct cuddl_memregion_priv - Private memory region data.

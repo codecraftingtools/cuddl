@@ -38,7 +38,7 @@
  * Pointers of type ``cuddlk_iomem_t *`` can be used with
  * ``cuddlk_ioread32()``, ``cuddlk_iowrite16()``, etc.
  */
-typedef cuddlk_impl_iomem_t cuddlk_iomem_t;
+typedef cuddlki_iomem_t cuddlk_iomem_t;
 
 /* Linux definitions are included by kernel_impl_linux.h */
 #ifndef CUDDLK_LINUX

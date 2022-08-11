@@ -30,7 +30,7 @@
 #endif
 
 /* System type used to represent a time in seconds. */
-typedef time_t cuddl_impl_time_t;
+typedef time_t cuddli_time_t;
 
 /**
  * struct cuddl_memregion_priv - Private memory region data.
@@ -60,7 +60,7 @@ struct cuddl_memregion_priv {
 	unsigned long pa_addr;
 	size_t pa_len;
 	int fd;
-	struct cuddl_impl_token token;
+	struct cuddlci_token token;
 };
 
 /**
@@ -79,7 +79,7 @@ struct cuddl_memregion_priv {
  */
 struct cuddl_eventsrc_priv {
 	int fd;
-	struct cuddl_impl_token token;
+	struct cuddlci_token token;
 };
 
 /**

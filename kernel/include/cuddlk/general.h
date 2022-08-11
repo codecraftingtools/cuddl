@@ -40,8 +40,8 @@
  *    (e.g. ``"Xenomai UDD"``, ``"Linux UIO"``, ``"RTEMS"``)
  */
 
-#define CUDDLK_MAX_STR_LEN CUDDL_IMPL_MAX_STR_LEN
-#define CUDDLK_VARIANT_STR CUDDLK_IMPL_VARIANT_STR
+#define CUDDLK_MAX_STR_LEN CUDDLCI_MAX_STR_LEN
+#define CUDDLK_VARIANT_STR CUDDLKI_VARIANT_STR
 
 /**
  * typedef cuddlk_size_t - Kernel type used to represent a count of bytes.
@@ -50,6 +50,6 @@
  * equivalent to ``cuddl_size_t``, but ``cuddlk_size_t`` is used in kernel
  * code to keep the notation consistent.
  */
-typedef cuddl_impl_size_t cuddlk_size_t;
+typedef cuddlci_size_t cuddlk_size_t;
 
 #endif /* !_CUDDLK_GENERAL_H */

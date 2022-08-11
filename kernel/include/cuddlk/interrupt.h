@@ -57,8 +57,8 @@
  * single interrupt system will be selected at compile time.
  */
 enum cuddlk_interrupt_handler_return_value {
-	CUDDLK_RET_INTR_NOT_HANDLED = CUDDLK_IMPL_RET_INTR_NOT_HANDLED,
-	CUDDLK_RET_INTR_HANDLED = CUDDLK_IMPL_RET_INTR_HANDLED,
+	CUDDLK_RET_INTR_NOT_HANDLED = CUDDLKI_RET_INTR_NOT_HANDLED,
+	CUDDLK_RET_INTR_HANDLED = CUDDLKI_RET_INTR_HANDLED,
 };
 
 /**
@@ -91,8 +91,8 @@ enum cuddlk_interrupt_handler_return_value {
  * compile-time assertion in *cuddlk_linux.c*.
  */
 enum cuddlk_special_irq_value {
-	CUDDLK_IRQ_NONE = CUDDLK_IMPL_IRQ_NONE,
-	CUDDLK_IRQ_CUSTOM = CUDDLK_IMPL_IRQ_CUSTOM,
+	CUDDLK_IRQ_NONE = CUDDLKI_IRQ_NONE,
+	CUDDLK_IRQ_CUSTOM = CUDDLKI_IRQ_CUSTOM,
 };
 
 /**

@@ -45,7 +45,7 @@
  */
 struct cuddlk_resource_ref_list {
 	struct list_head list;
-	struct cuddl_impl_token token;
+	struct cuddlci_token token;
 	pid_t pid;
 };
 

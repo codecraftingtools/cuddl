@@ -48,16 +48,16 @@
  *    enabled at compile time.
  */
 
-#define cuddlk_print(...) cuddlk_impl_print(__VA_ARGS__)
+#define cuddlk_print(...) cuddlki_print(__VA_ARGS__)
 
 #ifdef CUDDLK_ENABLE_DEBUG_PRINT
-  #define cuddlk_debug(...) cuddlk_impl_print(__VA_ARGS__)
+  #define cuddlk_debug(...) cuddlki_print(__VA_ARGS__)
 #else
   #define cuddlk_debug(...)
 #endif
 
 #ifdef CUDDLK_ENABLE_INTRUSIVE_DEBUG_PRINT
-  #define cuddlk_idebug(...) cuddlk_impl_print(__VA_ARGS__)
+  #define cuddlk_idebug(...) cuddlki_print(__VA_ARGS__)
 #else
   #define cuddlk_idebug(...)
 #endif

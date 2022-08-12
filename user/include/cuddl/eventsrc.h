@@ -228,7 +228,7 @@ int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc);
  * @resource: Name of the specific event source to be claimed.
  * @instance: See ``cuddl_eventsrc_claim()``.
  * @claim_options: See ``cuddl_eventsrc_claim()``.
- * @open_options1: See ``cuddl_eventsrc_open()``.
+ * @open_options: See ``cuddl_eventsrc_open()``.
  *
  * Request ownership of a specific event source and then open it for the
  * purpose of receiving events in user space.  See ``cuddl_eventsrc_claim()``
@@ -247,7 +247,7 @@ int cuddl_eventsrc_claim_and_open(
 	const char *resource,
 	int instance,
 	int claim_options,
-	int open_options1);
+	int open_options);
 
 /**
  * cuddl_eventsrc_close_and_release() - Close and release an event source.

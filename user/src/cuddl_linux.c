@@ -959,12 +959,16 @@ int cuddl_get_memregion_ref_count_for_id(
 {
 	int fd;
 	int ret, ret2;
+	struct cuddlci_ref_count_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(fd, CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL, memregion_id);
+	s.version_code = CUDDL_VERSION_CODE;
+	memcpy(&s.id, memregion_id, sizeof(s.id));
+
+	ret = ioctl(fd, CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -980,12 +984,16 @@ int cuddl_get_eventsrc_ref_count_for_id(
 {
 	int fd;
 	int ret, ret2;
+	struct cuddlci_ref_count_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(fd, CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL, eventsrc_id);
+	s.version_code = CUDDL_VERSION_CODE;
+	memcpy(&s.id, eventsrc_id, sizeof(s.id));
+
+	ret = ioctl(fd, CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -1001,13 +1009,17 @@ int cuddl_decrement_memregion_ref_count_for_id(
 {
 	int fd;
 	int ret, ret2;
+	struct cuddlci_ref_count_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
+	s.version_code = CUDDL_VERSION_CODE;
+	memcpy(&s.id, memregion_id, sizeof(s.id));
+
 	ret = ioctl(
-		fd, CUDDLCI_DECREMENT_MEMREGION_REF_COUNT_IOCTL, memregion_id);
+		fd, CUDDLCI_DECREMENT_MEMREGION_REF_COUNT_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -1023,13 +1035,16 @@ int cuddl_decrement_eventsrc_ref_count_for_id(
 {
 	int fd;
 	int ret, ret2;
+	struct cuddlci_ref_count_ioctl_data s;
 
 	fd = open("/dev/cuddl", O_RDWR);
 	if (fd == -1)
 		return -errno;
 
-	ret = ioctl(
-		fd, CUDDLCI_DECREMENT_EVENTSRC_REF_COUNT_IOCTL, eventsrc_id);
+	s.version_code = CUDDL_VERSION_CODE;
+	memcpy(&s.id, eventsrc_id, sizeof(s.id));
+
+	ret = ioctl(fd, CUDDLCI_DECREMENT_EVENTSRC_REF_COUNT_IOCTL, &s);
 	if ((ret == -1) && errno)
 		ret = -errno;
 
@@ -1043,9 +1058,9 @@ int cuddl_decrement_eventsrc_ref_count_for_id(
 int cuddli_open_janitor(void)
 {
 	const char *janitor_dev_name = "/dev/cuddl_janitor";
-	pid_t pid;
 	int fd;
 	int ret;
+	struct cuddlci_janitor_pid_ioctl_data s;
 
 #ifdef __XENO__
 	fd = __real_open(janitor_dev_name, O_RDWR);
@@ -1058,12 +1073,13 @@ int cuddli_open_janitor(void)
 		return -errno;
 	}
 
-	pid = getpid();
+	s.version_code = CUDDL_VERSION_CODE;
+	s.pid = getpid();
 
 #ifdef __XENO__
-	ret = __real_ioctl(fd, CUDDLCI_JANITOR_REGISTER_PID_IOCTL, &pid);
+	ret = __real_ioctl(fd, CUDDLCI_JANITOR_REGISTER_PID_IOCTL, &s);
 #else
-	ret = ioctl(fd, CUDDLCI_JANITOR_REGISTER_PID_IOCTL, &pid);
+	ret = ioctl(fd, CUDDLCI_JANITOR_REGISTER_PID_IOCTL, &s);
 #endif
 	if (ret == -1) {
 		printf("warning: IOCTL error on janitor device\n");

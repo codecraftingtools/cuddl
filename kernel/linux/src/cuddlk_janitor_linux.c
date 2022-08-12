@@ -51,8 +51,8 @@ static long cuddlk_janitor_ioctl(
 	struct file *file, unsigned int cmd, unsigned long arg)
 {
 	int ret = 0;
-	pid_t pid;
-
+	struct cuddlci_janitor_pid_ioctl_data s;
+	
 	cuddlk_debug("cuddlk_janitor_ioctl\n");
 	cuddlk_debug("  cmd:  %u\n", cmd);
 	cuddlk_debug("  dir:  %u\n", _IOC_DIR(cmd));
@@ -65,21 +65,21 @@ static long cuddlk_janitor_ioctl(
 	case CUDDLCI_JANITOR_REGISTER_PID_IOCTL:
 		cuddlk_debug("CUDDLCI_JANITOR_REGISTER_PID_IOCTL called\n");
 		if (copy_from_user(
-			    &pid, (void*)arg, sizeof(pid))) {
+			    &s, (void*)arg, sizeof(s))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
 			break;
 		}
 
-		cuddlk_debug("  pid: %d\n", pid);
+		cuddlk_debug("  pid: %d\n", s.pid);
 
-		file->private_data = kzalloc(sizeof(pid), GFP_KERNEL);
+		file->private_data = kzalloc(sizeof(s.pid), GFP_KERNEL);
 		if (!file->private_data) {
 			cuddlk_print("kzalloc for pid failed\n");
 			ret = -ENOMEM;
 			break;
 		}
-		*((pid_t*) file->private_data) = pid;
+		*((pid_t*) file->private_data) = s.pid;
 		cuddlk_debug("  success\n");
 		break;
 

@@ -141,7 +141,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddlci_get_kernel_commit_id_ioctl_data *commit_data;
 	struct cuddlci_get_driver_info_ioctl_data *driver_info_data;
 	struct cuddlci_void_ioctl_data *void_data;
-	struct cuddl_resource_id *id_data;
+	struct cuddlci_ref_count_ioctl_data *id_data;
 	struct cuddlk_resource_ref_list *tmp_ref;
 	struct cuddlk_resource_ref_list *pos;
 	struct cuddlk_resource_ref_list *tmp;
@@ -248,7 +248,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	id_data = kzalloc(
-		sizeof(struct cuddl_resource_id),
+		sizeof(struct cuddlci_ref_count_ioctl_data),
 		GFP_KERNEL);
 	if (!id_data) {
 		kfree(void_data);
@@ -704,12 +704,13 @@ static long cuddlk_manager_ioctl(
 		}
 
 		cuddlk_debug("  %s %s %s %d\n",
-			     id_data->group, id_data->device,
-			     id_data->resource, id_data->instance);
+			     id_data->id.group, id_data->id.device,
+			     id_data->id.resource, id_data->id.instance);
 		slot = cuddlk_manager_find_device_slot_matching(
 			cuddlk_global_manager_ptr,
-			id_data->group, id_data->device, id_data->resource,
-			id_data->instance, CUDDLK_RESOURCE_MEMREGION, 0);
+			id_data->id.group, id_data->id.device,
+			id_data->id.resource, id_data->id.instance,
+			CUDDLK_RESOURCE_MEMREGION, 0);
 		if (slot < 0) {
 			ret = slot;
 			break;
@@ -718,7 +719,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
 		mslot = cuddlk_device_find_memregion_slot(
-			dev, id_data->resource);
+			dev, id_data->id.resource);
 		if (mslot < 0) {
 			ret = mslot;
 			break;
@@ -752,12 +753,13 @@ static long cuddlk_manager_ioctl(
 		}
 
 		cuddlk_debug("  %s %s %s %d\n",
-			     id_data->group, id_data->device,
-			     id_data->resource, id_data->instance);
+			     id_data->id.group, id_data->id.device,
+			     id_data->id.resource, id_data->id.instance);
 		slot = cuddlk_manager_find_device_slot_matching(
 			cuddlk_global_manager_ptr,
-			id_data->group, id_data->device, id_data->resource,
-			id_data->instance, CUDDLK_RESOURCE_EVENTSRC, 0);
+			id_data->id.group, id_data->id.device,
+			id_data->id.resource, id_data->id.instance,
+			CUDDLK_RESOURCE_EVENTSRC, 0);
 		if (slot < 0) {
 			ret = slot;
 			break;
@@ -766,7 +768,7 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
 
 		eslot = cuddlk_device_find_eventsrc_slot(
-			dev, id_data->resource);
+			dev, id_data->id.resource);
 		if (eslot < 0) {
 			ret = eslot;
 			break;

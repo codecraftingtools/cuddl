@@ -214,6 +214,33 @@ struct cuddlci_get_resource_id_ioctl_data {
 };
 
 /**
+ * struct cuddlci_ref_count_ioctl_data - Get/decr ref count IOCTL data.
+ *
+ * Used for ``cuddl_get_memregion_ref_count_for_id()``,
+ * ``cuddl_get_eventsrc_ref_count_for_id()``,
+ * ``cuddl_decrement_memregion_ref_count_for_id()``, and
+ * ``cuddl_decrement_eventsrc_ref_count_for_id()``implementations.
+ *
+ * @version_code: Cuddl version code passed in from user space.
+ * @id: Resource identifier passed in from user space.
+ */
+struct cuddlci_ref_count_ioctl_data {
+	int version_code;
+	struct cuddl_resource_id id;
+};
+
+/**
+ * struct cuddlci_janitor_pid_ioctl_data - Janitor registration data.
+ *
+ * @version_code: Cuddl version code passed in from user space.
+ * @pid: Process id passed in from user space.
+ */
+struct cuddlci_janitor_pid_ioctl_data {
+	int version_code;
+	pid_t pid;
+};
+
+/**
  * struct cuddlci_get_kernel_commit_id_ioctl_data - Kernel commit IOCTL data.
  *
  * @version_code: Cuddl version code passed in from user space.
@@ -225,7 +252,7 @@ struct cuddlci_get_kernel_commit_id_ioctl_data {
 };
 
 /**
- * struct cuddlci_get_driver_info_ioctl_data - Get driver info string.
+ * struct cuddlci_get_driver_info_ioctl_data - Get driver info string data.
  *
  * @version_code: Cuddl version code passed in from user space.
  * @device_slot: Manager device slot number to query (input).
@@ -249,13 +276,13 @@ struct cuddlci_get_driver_info_ioctl_data {
   _IOWR(CUDDLCI_IOCTL_TYPE, 5, struct cuddlci_eventsrc_claim_ioctl_data)
 
 #define CUDDLCI_MEMREGION_RELEASE_UIO_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 6, struct cuddlci_memregion_release_ioctl_data)
+  _IOW(CUDDLCI_IOCTL_TYPE, 6, struct cuddlci_memregion_release_ioctl_data)
 #define CUDDLCI_MEMREGION_RELEASE_UDD_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 7, struct cuddlci_memregion_release_ioctl_data)
+  _IOW(CUDDLCI_IOCTL_TYPE, 7, struct cuddlci_memregion_release_ioctl_data)
 #define CUDDLCI_EVENTSRC_RELEASE_UIO_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 8, struct cuddlci_eventsrc_release_ioctl_data)
+  _IOW(CUDDLCI_IOCTL_TYPE, 8, struct cuddlci_eventsrc_release_ioctl_data)
 #define CUDDLCI_EVENTSRC_RELEASE_UDD_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 9, struct cuddlci_eventsrc_release_ioctl_data)
+  _IOW(CUDDLCI_IOCTL_TYPE, 9, struct cuddlci_eventsrc_release_ioctl_data)
 
 #define CUDDLCI_GET_MAX_MANAGED_DEVICES_IOCTL \
   _IOW(CUDDLCI_IOCTL_TYPE, 10, struct cuddlci_void_ioctl_data)
@@ -275,17 +302,17 @@ struct cuddlci_get_driver_info_ioctl_data {
   _IOWR(CUDDLCI_IOCTL_TYPE, 16, struct cuddlci_eventsrc_claim_ioctl_data)
 
 #define CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL \
-  _IOW(CUDDLCI_IOCTL_TYPE, 17, struct cuddl_resource_id)
+  _IOW(CUDDLCI_IOCTL_TYPE, 17, struct cuddlci_ref_count_ioctl_data)
 #define CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL \
-  _IOW(CUDDLCI_IOCTL_TYPE, 18, struct cuddl_resource_id)
+  _IOW(CUDDLCI_IOCTL_TYPE, 18, struct cuddlci_ref_count_ioctl_data)
 
 #define CUDDLCI_DECREMENT_MEMREGION_REF_COUNT_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 19, struct cuddlci_memregion_claim_ioctl_data)
+  _IOW(CUDDLCI_IOCTL_TYPE, 19, struct cuddlci_ref_count_ioctl_data)
 #define CUDDLCI_DECREMENT_EVENTSRC_REF_COUNT_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 20, struct cuddlci_eventsrc_claim_ioctl_data)
+  _IOW(CUDDLCI_IOCTL_TYPE, 20, struct cuddlci_ref_count_ioctl_data)
 
 #define CUDDLCI_JANITOR_REGISTER_PID_IOCTL \
-  _IOWR(CUDDLCI_IOCTL_TYPE, 21, pid_t)
+  _IOW(CUDDLCI_IOCTL_TYPE, 21, struct cuddlci_janitor_pid_ioctl_data)
 
 #define CUDDLCI_GET_KERNEL_COMMIT_ID_IOCTL \
   _IOWR(CUDDLCI_IOCTL_TYPE, 22, \

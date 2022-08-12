@@ -77,7 +77,7 @@ enum cuddl_eventsrc_claim_flags {
  */
 struct cuddl_eventsrc {
 	int flags;
-	struct cuddl_eventsrc_priv priv;
+	struct cuddli_eventsrc_priv priv;
 };
 
 /**
@@ -156,7 +156,7 @@ int cuddl_eventsrc_claim(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_eventsrc_release_by_token()``.
+ *     - Linux: Error code returned by ``cuddli_eventsrc_release_by_token()``.
  */
 int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
 
@@ -265,7 +265,7 @@ int cuddl_eventsrc_claim_and_open(
  *
  *   Error codes:
  *     - Linux: Error code returned by ``cuddl_eventsrc_close()``.
- *     - Linux: Error code returned by ``cuddl_eventsrc_release_by_token()``.
+ *     - Linux: Error code returned by ``cuddli_eventsrc_release_by_token()``.
  */
 int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
 

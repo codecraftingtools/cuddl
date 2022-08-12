@@ -65,7 +65,7 @@ struct cuddl_memregion {
 	cuddl_iomem_t *addr;
 	cuddl_size_t len;
 	int flags;
-	struct cuddl_memregion_priv priv;
+	struct cuddli_memregion_priv priv;
 };
 
 /**
@@ -142,7 +142,7 @@ int cuddl_memregion_claim(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_memregion_release_by_token()``.
+ *     - Linux: Error code returned by ``cuddli_memregion_release_by_token()``
  */
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
 
@@ -255,8 +255,8 @@ int cuddl_memregion_claim_and_map(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_memregion_unmap()``.
- *     - Linux: Error code returned by ``cuddl_memregion_release_by_token()``.
+ *     - Linux: Error code returned by ``cuddl_memregion_unmap()``
+ *     - Linux: Error code returned by ``cuddli_memregion_release_by_token()``
  */
 int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion);
 

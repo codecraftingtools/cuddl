@@ -25,7 +25,7 @@
  */
 
 /**
- * cuddl_memregion_release_by_token() - Release memory region using a token.
+ * cuddli_memregion_release_by_token() - Release memory region using a token.
  *
  * @token: Input parameter identifying the memory region to be released.
  *         Memory region tokens originate with a successful call to to
@@ -52,10 +52,10 @@
  *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
-int cuddl_memregion_release_by_token(struct cuddlci_token token);
+int cuddli_memregion_release_by_token(struct cuddlci_token token);
 
 /**
- * cuddl_eventsrc_release_by_token() - Release event source using a token.
+ * cuddli_eventsrc_release_by_token() - Release event source using a token.
  *
  * @token: Input parameter identifying the event source to be released.
  *         Event source tokens originate with a successful call to to
@@ -82,7 +82,7 @@ int cuddl_memregion_release_by_token(struct cuddlci_token token);
  *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
  *       Cuddl manager device.
  */
-int cuddl_eventsrc_release_by_token(struct cuddlci_token token);
+int cuddli_eventsrc_release_by_token(struct cuddlci_token token);
 
 #if defined(CUDDL_RTEMS)
 #include <cuddl/impl_rtems.h>

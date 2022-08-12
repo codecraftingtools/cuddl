@@ -193,7 +193,7 @@ struct cuddlk_memregion {
 	int type;
 	int flags;
 	struct cuddlk_memregion_kernel kernel;
-	struct cuddlk_memregion_priv priv;
+	struct cuddlki_memregion_priv priv;
 };
 
 #endif /* !_CUDDLK_MEMREGION_H */

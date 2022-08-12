@@ -77,7 +77,7 @@ enum cuddlk_resource {
  */
 struct cuddlk_manager {
 	struct cuddlk_device *devices[CUDDLK_MAX_MANAGED_DEVICES];
-	struct cuddlk_manager_priv priv;
+	struct cuddlki_manager_priv priv;
 };
 
 /**

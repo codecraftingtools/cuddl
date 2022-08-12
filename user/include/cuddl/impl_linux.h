@@ -25,7 +25,7 @@
  * available to user-space code.
  */
 
-#ifdef CUDDL_BUILD_WARN_TARGET
+#ifdef CUDDLC_BUILD_WARN_TARGET
 #warning Compiling for Linux user space
 #endif
 
@@ -33,7 +33,7 @@
 typedef time_t cuddli_time_t;
 
 /**
- * struct cuddl_memregion_priv - Private memory region data.
+ * struct cuddli_memregion_priv - Private memory region data.
  *
  * @pa_addr: Page-aligned starting address for the memory region mapping, as
  *           returned by ``mmap()``.  This value will be a multiple of
@@ -56,7 +56,7 @@ typedef time_t cuddli_time_t;
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_memregion_priv {
+struct cuddli_memregion_priv {
 	unsigned long pa_addr;
 	size_t pa_len;
 	int fd;
@@ -64,7 +64,7 @@ struct cuddl_memregion_priv {
 };
 
 /**
- * struct cuddl_eventsrc_priv - Private event source data.
+ * struct cuddli_eventsrc_priv - Private event source data.
  *
  * @fd: File descriptor used in the ``open()`` call when opening the event
  *      source.  This file descriptor will be to wait on events and to
@@ -77,13 +77,13 @@ struct cuddl_memregion_priv {
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_eventsrc_priv {
+struct cuddli_eventsrc_priv {
 	int fd;
 	struct cuddlci_token token;
 };
 
 /**
- * cuddl_open_janitor() - Register a process for cleanup on application crash.
+ * cuddli_open_janitor() - Register a process to cleanup on application crash.
  *
  * When the process ends, all resources associated with the process will be
  * freed.
@@ -96,10 +96,10 @@ struct cuddl_eventsrc_priv {
  *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
  *       janitor device.
  */
-int cuddl_open_janitor(void);
+int cuddli_open_janitor(void);
 
 /**
- * cuddl_close_janitor() - Clean up resources associate with current process.
+ * cuddli_close_janitor() - Clean up resources associate with current process.
  *
  * @fd: Janitor device file descriptor to close.
  *
@@ -109,6 +109,6 @@ int cuddl_open_janitor(void);
  *     - Value of ``-errno`` resulting from from ``close()`` call on the
  *       specified file descriptor.
  */
-int cuddl_close_janitor(int fd);
+int cuddli_close_janitor(int fd);
 
 #endif /* !_CUDDL_IMPL_LINUX_H */

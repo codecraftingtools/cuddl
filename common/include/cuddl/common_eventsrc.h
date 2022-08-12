@@ -95,7 +95,7 @@ enum cuddl_eventsrc_flags {
  */
 struct cuddl_eventsrc_info {
 	int flags;
-	struct cuddl_eventsrc_info_priv priv;
+	struct cuddlci_eventsrc_info_priv priv;
 };
 
 #endif /* !_CUDDL_COMMON_EVENTSRC_H */

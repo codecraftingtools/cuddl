@@ -88,7 +88,7 @@ struct cuddlk_eventsrc {
 	int flags;
 	struct cuddlk_interrupt intr;
 	struct cuddlk_eventsrc_kernel kernel;
-	struct cuddlk_eventsrc_priv priv;
+	struct cuddlki_eventsrc_priv priv;
 };
 
 /**

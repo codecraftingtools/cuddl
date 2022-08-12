@@ -25,7 +25,7 @@
  * These declarations are only available to user-space code.
  */
 
-#ifdef CUDDL_BUILD_WARN_TARGET
+#ifdef CUDDLC_BUILD_WARN_TARGET
 #warning Compiling for RTEMS user space
 #endif
 
@@ -33,25 +33,25 @@
 typedef time_t cuddli_time_t;
 
 /**
- * struct cuddl_memregion_priv - Private memory region data.
+ * struct cuddli_memregion_priv - Private memory region data.
  *
  * This data structure is for holding private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  *
  * No extra data members are required for the RTEMS implementation.
  */
-struct cuddl_memregion_priv {
+struct cuddli_memregion_priv {
 };
 
 /**
- * struct cuddl_eventsrc_priv - Private event source data.
+ * struct cuddli_eventsrc_priv - Private event source data.
  *
  * @sem: Semaphore used for waiting on events.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_eventsrc_priv {
+struct cuddli_eventsrc_priv {
 	sem_t sem;
 };
 

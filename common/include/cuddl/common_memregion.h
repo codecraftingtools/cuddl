@@ -63,7 +63,7 @@ enum cuddl_memregion_flags {
 struct cuddl_memregion_info {
 	cuddl_size_t len;
 	int flags;
-	struct cuddl_memregion_info_priv priv;
+	struct cuddlci_memregion_info_priv priv;
 };
 
 #endif /* !_CUDDL_COMMON_MEMREGION_H */

@@ -27,7 +27,7 @@
  * declarations is to convey information to user-space applications.
  */
 
-#ifdef CUDDL_BUILD_WARN_TARGET
+#ifdef CUDDLC_BUILD_WARN_TARGET
 #warning Compiling for RTEMS user/kernel space
 #endif
 
@@ -35,7 +35,7 @@
 typedef size_t cuddlci_size_t;
 
 /**
- * struct cuddl_memregion_info_priv - Private memory region information.
+ * struct cuddlci_memregion_info_priv - Private memory region information.
  *
  * @pa_addr: Page-aligned starting address for the memory region to be
  *           mapped.  This value will be a multiple of the system
@@ -44,19 +44,19 @@ typedef size_t cuddlci_size_t;
  * This data structure contains private, and likely platform-specific, data
  * members reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_memregion_info_priv {
+struct cuddlci_memregion_info_priv {
 	unsigned long pa_addr;
 };
 
 /**
- * struct cuddl_eventsrc_info_priv - Private event source information.
+ * struct cuddlci_eventsrc_info_priv - Private event source information.
  *
  * @sem: Semaphore used for waiting on events.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_eventsrc_info_priv {
+struct cuddlci_eventsrc_info_priv {
 	sem_t sem;
 };
 

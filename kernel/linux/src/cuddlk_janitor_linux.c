@@ -62,8 +62,8 @@ static long cuddlk_janitor_ioctl(
 	cuddlk_debug("  arg:  %lu\n", arg);
 
 	switch(cmd) {
-	case CUDDL_JANITOR_REGISTER_PID_IOCTL:
-		cuddlk_debug("CUDDL_JANITOR_REGISTER_PID_IOCTL called\n");
+	case CUDDLCI_JANITOR_REGISTER_PID_IOCTL:
+		cuddlk_debug("CUDDLCI_JANITOR_REGISTER_PID_IOCTL called\n");
 		if (copy_from_user(
 			    &pid, (void*)arg, sizeof(pid))) {
 			cuddlk_print("copy_from_user failed\n");

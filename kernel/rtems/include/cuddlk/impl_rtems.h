@@ -21,9 +21,9 @@
  * These declarations are only available to kernel-space code.
  */
 
-#ifdef CUDDL_BUILD_WARN_TARGET
+#ifdef CUDDLC_BUILD_WARN_TARGET
   #warning Compiling for RTEMS kernel
-#endif /* CUDDL_BUILD_WARN_TARGET */
+#endif /* CUDDLC_BUILD_WARN_TARGET */
 
 #define CUDDLKI_MEMT_NONE    0
 #define CUDDLKI_MEMT_PHYS    1
@@ -43,48 +43,48 @@ typedef void cuddlki_iomem_t;
 typedef void cuddlk_parent_device_t;
 
 /**
- * struct cuddlk_memregion_priv - Private kernel memory region data.
+ * struct cuddlki_memregion_priv - Private kernel memory region data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_memregion_priv {
+struct cuddlki_memregion_priv {
 };
 
 /**
- * struct cuddlk_interrupt_priv - Private kernel interrupt handler data.
+ * struct cuddlki_interrupt_priv - Private kernel interrupt handler data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_interrupt_priv {
+struct cuddlki_interrupt_priv {
 };
 
 /**
- * struct cuddlk_eventsrc_priv - Private kernel event source data.
+ * struct cuddlki_eventsrc_priv - Private kernel event source data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_eventsrc_priv {
+struct cuddlki_eventsrc_priv {
 };
 
 /**
- * struct cuddlk_device_priv - Private kernel device data.
+ * struct cuddlki_device_priv - Private kernel device data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_device_priv {
+struct cuddlki_device_priv {
 };
 
 /**
- * struct cuddlk_manager_priv - Private kernel device data.
+ * struct cuddlki_manager_priv - Private kernel device data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_manager_priv {
+struct cuddlki_manager_priv {
 };
 
 #endif /* !_CUDDLK_IMPL_RTEMS_H */

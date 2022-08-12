@@ -169,7 +169,7 @@ struct cuddlk_device {
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
 	cuddlk_parent_device_t *parent_device_ptr;
 	struct cuddlk_device_kernel kernel;
-	struct cuddlk_device_priv priv;
+	struct cuddlki_device_priv priv;
 };
 
 /**

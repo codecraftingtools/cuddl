@@ -21,15 +21,13 @@
  *
  * These flags may be set by editing *cuddl/common_compilation_opts.h*, or by
  * adding flags to define the required symbols when invoking the C compiler.
- * Take care to ensure that all kernel and user-space code is compiled with
- * the same options or some disaster may possibly occur.
  *
- * .. c:macro:: CUDDL_BUILD_WARN_TARGET
+ * .. c:macro:: CUDDLC_BUILD_WARN_TARGET
  *
  *    If this symbol is defined, pre-processor ``#warning`` output will be
  *    enabled to indicate the type of target system detected at build time.
  *    This may be useful for debugging purposes.
  */
-//#define CUDDL_BUILD_WARN_TARGET
+//#define CUDDLC_BUILD_WARN_TARGET
 
 #endif /* !_CUDDL_COMMON_COMPILATION_OPTS_H */

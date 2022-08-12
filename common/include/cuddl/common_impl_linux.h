@@ -32,7 +32,7 @@
  * declarations is to convey information to user-space applications.
  */
 
-#ifdef CUDDL_BUILD_WARN_TARGET
+#ifdef CUDDLC_BUILD_WARN_TARGET
 #warning Compiling for Linux user/kernel space
 #endif
 
@@ -40,7 +40,7 @@
 typedef size_t cuddlci_size_t;
 
 /**
- * struct cuddl_memregion_info_priv - Private memory region information.
+ * struct cuddlci_memregion_info_priv - Private memory region information.
  *
  * @pa_mmap_offset: Page-aligned mmap offset.
  *
@@ -100,7 +100,7 @@ typedef size_t cuddlci_size_t;
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_memregion_info_priv {
+struct cuddlci_memregion_info_priv {
 	unsigned long pa_mmap_offset;
 	cuddlci_size_t pa_len;
 	cuddlci_size_t start_offset;
@@ -109,7 +109,7 @@ struct cuddl_memregion_info_priv {
 };
 
 /**
- * struct cuddl_eventsrc_info_priv - Private event source information.
+ * struct cuddlci_eventsrc_info_priv - Private event source information.
  *
  * @token: Opaque token used (internally) when releasing ownership of the
  *         associated memory region.
@@ -135,7 +135,7 @@ struct cuddl_memregion_info_priv {
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddl_eventsrc_info_priv {
+struct cuddlci_eventsrc_info_priv {
 	struct cuddlci_token token;
 	char device_name[CUDDLCI_MAX_STR_LEN];
 };

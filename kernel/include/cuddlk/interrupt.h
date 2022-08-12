@@ -201,7 +201,7 @@ struct cuddlk_interrupt {
 	int irq;
 	int flags;
 	struct cuddlk_interrupt_kernel kernel;
-	struct cuddlk_interrupt_priv priv;
+	struct cuddlki_interrupt_priv priv;
 };
 
 /**

@@ -28,14 +28,14 @@
  * available to kernel-space code.
  */
 
-#ifdef CUDDL_BUILD_WARN_TARGET
+#ifdef CUDDLC_BUILD_WARN_TARGET
   #warning Compiling for Linux kernel
   #if defined(CUDDLK_USE_UDD)
     #warning Compiling for Xenomai UDD (kernel)
   #else /* UIO */
     #warning Compiling for Linux UIO (kernel)
   #endif
-#endif /* CUDDL_BUILD_WARN_TARGET */
+#endif /* CUDDLC_BUILD_WARN_TARGET */
 
 #include <linux/uio_driver.h>
 
@@ -84,30 +84,30 @@ typedef void __iomem cuddlki_iomem_t;
 typedef struct device cuddlki_parent_device_t;
 
 /**
- * struct cuddlk_memregion_priv - Private kernel memory region data.
+ * struct cuddlki_memregion_priv - Private kernel memory region data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_memregion_priv {
+struct cuddlki_memregion_priv {
 };
 
 /**
- * struct cuddlk_interrupt_priv - Private kernel interrupt handler data.
+ * struct cuddlki_interrupt_priv - Private kernel interrupt handler data.
  *
  * @irqh: Xenomai RTDM interrupt data structure.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_interrupt_priv {
+struct cuddlki_interrupt_priv {
 #if defined(CUDDLK_USE_UDD)
 	rtdm_irq_t irqh;
 #endif
 };
 
 /**
- * struct cuddlk_eventsrc_priv - Private kernel event source data.
+ * struct cuddlki_eventsrc_priv - Private kernel event source data.
  *
  * @uio_open_count: Count of open Linux UIO file descriptors.
  * @uio_ptr: Pointer to the associated Linux UIO device.
@@ -119,7 +119,7 @@ struct cuddlk_interrupt_priv {
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_eventsrc_priv {
+struct cuddlki_eventsrc_priv {
 	int uio_open_count;
 	struct uio_info *uio_ptr;
 #if defined(CUDDLK_USE_UDD)
@@ -131,7 +131,7 @@ struct cuddlk_eventsrc_priv {
 };
 
 /**
- * struct cuddlk_device_priv - Private kernel device data.
+ * struct cuddlki_device_priv - Private kernel device data.
  *
  * @unique_name: Unique base name for use when creating UDD/UIO device nodes.
  * @uio: The associate Linux UIO device.
@@ -140,7 +140,7 @@ struct cuddlk_eventsrc_priv {
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_device_priv {
+struct cuddlki_device_priv {
 	char *unique_name;
 	struct uio_info uio;
 #if defined(CUDDLK_USE_UDD)
@@ -149,12 +149,12 @@ struct cuddlk_device_priv {
 };
 
 /**
- * struct cuddlk_manager_priv - Private kernel device data.
+ * struct cuddlki_manager_priv - Private kernel device data.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
-struct cuddlk_manager_priv {
+struct cuddlki_manager_priv {
 };
 
 #endif /* !_CUDDLK_IMPL_LINUX_H */

@@ -133,14 +133,14 @@ static long cuddlk_manager_ioctl(
 	int ret = 0;
 	int freed_ref = 0;
 	struct cuddlk_device *dev;
-	struct cuddl_memregion_claim_ioctl_data *mdata;
-	struct cuddl_eventsrc_claim_ioctl_data *edata;
-	struct cuddl_memregion_release_ioctl_data *mrdata;
-	struct cuddl_eventsrc_release_ioctl_data *erdata;
-	struct cuddl_get_resource_id_ioctl_data *get_id_data;
-	struct cuddl_get_kernel_commit_id_ioctl_data *commit_data;
-	struct cuddl_get_driver_info_ioctl_data *driver_info_data;
-	struct cuddl_void_ioctl_data *void_data;
+	struct cuddlci_memregion_claim_ioctl_data *mdata;
+	struct cuddlci_eventsrc_claim_ioctl_data *edata;
+	struct cuddlci_memregion_release_ioctl_data *mrdata;
+	struct cuddlci_eventsrc_release_ioctl_data *erdata;
+	struct cuddlci_get_resource_id_ioctl_data *get_id_data;
+	struct cuddlci_get_kernel_commit_id_ioctl_data *commit_data;
+	struct cuddlci_get_driver_info_ioctl_data *driver_info_data;
+	struct cuddlci_void_ioctl_data *void_data;
 	struct cuddl_resource_id *id_data;
 	struct cuddlk_resource_ref_list *tmp_ref;
 	struct cuddlk_resource_ref_list *pos;
@@ -156,7 +156,7 @@ static long cuddlk_manager_ioctl(
 	cuddlk_debug("  arg:  %lu\n", arg);
 
 	mdata = kzalloc(
-		sizeof(struct cuddl_memregion_claim_ioctl_data),
+		sizeof(struct cuddlci_memregion_claim_ioctl_data),
 		GFP_KERNEL);
 	if (!mdata) {
 		cuddlk_print("kzalloc failed\n");
@@ -164,7 +164,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	edata = kzalloc(
-		sizeof(struct cuddl_eventsrc_claim_ioctl_data),
+		sizeof(struct cuddlci_eventsrc_claim_ioctl_data),
 		GFP_KERNEL);
 	if (!edata) {
 		kfree(mdata);
@@ -173,7 +173,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	mrdata = kzalloc(
-		sizeof(struct cuddl_memregion_release_ioctl_data),
+		sizeof(struct cuddlci_memregion_release_ioctl_data),
 		GFP_KERNEL);
 	if (!mrdata) {
 		kfree(edata);
@@ -183,7 +183,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	erdata = kzalloc(
-		sizeof(struct cuddl_eventsrc_release_ioctl_data),
+		sizeof(struct cuddlci_eventsrc_release_ioctl_data),
 		GFP_KERNEL);
 	if (!erdata) {
 		kfree(mrdata);
@@ -194,7 +194,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	get_id_data = kzalloc(
-		sizeof(struct cuddl_get_resource_id_ioctl_data),
+		sizeof(struct cuddlci_get_resource_id_ioctl_data),
 		GFP_KERNEL);
 	if (!get_id_data) {
 		kfree(erdata);
@@ -206,7 +206,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	commit_data = kzalloc(
-		sizeof(struct cuddl_get_kernel_commit_id_ioctl_data),
+		sizeof(struct cuddlci_get_kernel_commit_id_ioctl_data),
 		GFP_KERNEL);
 	if (!commit_data) {
 		kfree(get_id_data);
@@ -219,7 +219,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	driver_info_data = kzalloc(
-		sizeof(struct cuddl_get_driver_info_ioctl_data),
+		sizeof(struct cuddlci_get_driver_info_ioctl_data),
 		GFP_KERNEL);
 	if (!driver_info_data) {
 		kfree(commit_data);
@@ -233,7 +233,7 @@ static long cuddlk_manager_ioctl(
 	}
 
 	void_data = kzalloc(
-		sizeof(struct cuddl_void_ioctl_data),
+		sizeof(struct cuddlci_void_ioctl_data),
 		GFP_KERNEL);
 	if (!void_data) {
 		kfree(driver_info_data);
@@ -264,14 +264,14 @@ static long cuddlk_manager_ioctl(
 	}
 
 	switch(cmd) {
-	case CUDDL_MEMREGION_CLAIM_UDD_IOCTL:
+	case CUDDLCI_MEMREGION_CLAIM_UDD_IOCTL:
 		rt = 1;
 		/* FALLTHROUGH */
-	case CUDDL_MEMREGION_CLAIM_UIO_IOCTL:
+	case CUDDLCI_MEMREGION_CLAIM_UIO_IOCTL:
 		claim = 1;
 		/* FALLTHROUGH */
-	case CUDDL_GET_MEMREGION_INFO_IOCTL:
-		cuddlk_debug("CUDDL_MEMREGION_CLAIM_*/INFO_IOCTL called\n");
+	case CUDDLCI_GET_MEMREGION_INFO_IOCTL:
+		cuddlk_debug("CUDDLCI_MEMREGION_CLAIM_*/INFO_IOCTL called\n");
 		if (copy_from_user(mdata, (void*)arg, sizeof(*mdata))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
@@ -312,7 +312,7 @@ static long cuddlk_manager_ioctl(
 		if (rt) {
 			mdata->info.priv.pa_mmap_offset = 0;
 			snprintf(mdata->info.priv.device_name,
-				 CUDDL_MAX_STR_LEN,
+				 CUDDLCI_MAX_STR_LEN,
 				 "/dev/rtdm/%s,mapper%d",
 				 dev->priv.unique_name,
 				 mslot);
@@ -320,7 +320,7 @@ static long cuddlk_manager_ioctl(
 			mdata->info.priv.pa_mmap_offset = \
 				mslot * CUDDLK_PAGE_SIZE;
 			snprintf(mdata->info.priv.device_name,
-				 CUDDL_MAX_STR_LEN,
+				 CUDDLCI_MAX_STR_LEN,
 				 "/dev/uio%d",
 				 dev->priv.uio.uio_dev->minor);
 		}
@@ -350,14 +350,14 @@ static long cuddlk_manager_ioctl(
 		       dev->mem[mslot].kernel.ref_count);
 		break;
 
-	case CUDDL_EVENTSRC_CLAIM_UDD_IOCTL:
+	case CUDDLCI_EVENTSRC_CLAIM_UDD_IOCTL:
 		rt = 1;
 		/* FALLTHROUGH */
-	case CUDDL_EVENTSRC_CLAIM_UIO_IOCTL:
+	case CUDDLCI_EVENTSRC_CLAIM_UIO_IOCTL:
 		claim = 1;
 		/* FALLTHROUGH */
-	case CUDDL_GET_EVENTSRC_INFO_IOCTL:
-		cuddlk_debug("CUDDL_EVENTSRC_CLAIM_*/INFO_IOCTL called\n");
+	case CUDDLCI_GET_EVENTSRC_INFO_IOCTL:
+		cuddlk_debug("CUDDLCI_EVENTSRC_CLAIM_*/INFO_IOCTL called\n");
 		if (copy_from_user(edata, (void*)arg, sizeof(*edata))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
@@ -400,12 +400,12 @@ static long cuddlk_manager_ioctl(
 
 		if (rt) {
 			snprintf(edata->info.priv.device_name,
-				 CUDDL_MAX_STR_LEN,
+				 CUDDLCI_MAX_STR_LEN,
 				 "/dev/rtdm/%s",
 				 dev->priv.unique_name);
 		} else {
 			snprintf(edata->info.priv.device_name,
-				 CUDDL_MAX_STR_LEN,
+				 CUDDLCI_MAX_STR_LEN,
 				 "/dev/uio%d",
 				 dev->priv.uio.uio_dev->minor);
 		}
@@ -435,11 +435,11 @@ static long cuddlk_manager_ioctl(
 		       dev->events[eslot].kernel.ref_count);
 		break;
 
-	case CUDDL_MEMREGION_RELEASE_UDD_IOCTL:
+	case CUDDLCI_MEMREGION_RELEASE_UDD_IOCTL:
 		rt = 1;
 		/* FALLTHROUGH */
-	case CUDDL_MEMREGION_RELEASE_UIO_IOCTL:
-		cuddlk_debug("CUDDL_MEMREGION_RELEASE_*_IOCTL called\n");
+	case CUDDLCI_MEMREGION_RELEASE_UIO_IOCTL:
+		cuddlk_debug("CUDDLCI_MEMREGION_RELEASE_*_IOCTL called\n");
 		if (copy_from_user(mrdata, (void*)arg, sizeof(*mrdata))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
@@ -493,11 +493,11 @@ static long cuddlk_manager_ioctl(
 		       dev->mem[mslot].kernel.ref_count);
 		break;
 
-	case CUDDL_EVENTSRC_RELEASE_UDD_IOCTL:
+	case CUDDLCI_EVENTSRC_RELEASE_UDD_IOCTL:
 		rt = 1;
 		/* FALLTHROUGH */
-	case CUDDL_EVENTSRC_RELEASE_UIO_IOCTL:
-		cuddlk_debug("CUDDL_EVENTSRC_RELEASE_*_IOCTL called\n");
+	case CUDDLCI_EVENTSRC_RELEASE_UIO_IOCTL:
+		cuddlk_debug("CUDDLCI_EVENTSRC_RELEASE_*_IOCTL called\n");
 		if (copy_from_user(erdata, (void*)arg, sizeof(*erdata))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
@@ -551,8 +551,8 @@ static long cuddlk_manager_ioctl(
 		       dev->events[eslot].kernel.ref_count);
 		break;
 
-	case CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL:
-		cuddlk_debug("CUDDL_GET_MAX_MANAGED_DEVICES_IOCTL called\n");
+	case CUDDLCI_GET_MAX_MANAGED_DEVICES_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_MAX_MANAGED_DEVICES_IOCTL called\n");
 		if (copy_from_user(
 			    void_data, (void*)arg, sizeof(*void_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -563,9 +563,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL:
+	case CUDDLCI_GET_MAX_DEV_MEM_REGIONS_IOCTL:
 		cuddlk_debug(
-			"CUDDL_GET_MAX_DEV_MEM_REGIONS_IOCTL called\n");
+			"CUDDLCI_GET_MAX_DEV_MEM_REGIONS_IOCTL called\n");
 		if (copy_from_user(
 			    void_data, (void*)arg, sizeof(*void_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -576,8 +576,8 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_MAX_DEV_EVENTS_IOCTL:
-		cuddlk_debug("CUDDL_GET_MAX_DEV_EVENTS_IOCTL called\n");
+	case CUDDLCI_GET_MAX_DEV_EVENTS_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_MAX_DEV_EVENTS_IOCTL called\n");
 		if (copy_from_user(
 			    void_data, (void*)arg, sizeof(*void_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -588,8 +588,8 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_MEMREGION_ID_IOCTL:
-		cuddlk_debug("CUDDL_GET_MEMREGION_ID_IOCTL called\n");
+	case CUDDLCI_GET_MEMREGION_ID_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_MEMREGION_ID_IOCTL called\n");
 		if (copy_from_user(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -639,8 +639,8 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_EVENTSRC_ID_IOCTL:
-		cuddlk_debug("CUDDL_GET_EVENTSRC_ID_IOCTL called\n");
+	case CUDDLCI_GET_EVENTSRC_ID_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_EVENTSRC_ID_IOCTL called\n");
 		if (copy_from_user(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -690,11 +690,12 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_DECREMENT_MEMREGION_REF_COUNT_IOCTL:
+	case CUDDLCI_DECREMENT_MEMREGION_REF_COUNT_IOCTL:
 		decrement = 1;
 		/* FALLTHROUGH */
-	case CUDDL_GET_MEMREGION_REF_COUNT_IOCTL:
-		cuddlk_debug("CUDDL_GET_MEMREGION_REF_COUNT_IOCTL called\n");
+	case CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL:
+		cuddlk_debug(
+			"CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL called\n");
 		if (copy_from_user(
 			    id_data, (void*)arg, sizeof(*id_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -738,11 +739,11 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_DECREMENT_EVENTSRC_REF_COUNT_IOCTL:
+	case CUDDLCI_DECREMENT_EVENTSRC_REF_COUNT_IOCTL:
 		decrement = 1;
 		/* FALLTHROUGH */
-	case CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL:
-		cuddlk_debug("CUDDL_GET_EVENTSRC_REF_COUNT_IOCTL called\n");
+	case CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL called\n");
 		if (copy_from_user(
 			    id_data, (void*)arg, sizeof(*id_data))) {
 			cuddlk_print("copy_from_user failed\n");
@@ -786,22 +787,23 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_JANITOR_REGISTER_PID_IOCTL:
-		cuddlk_print("error: CUDDL_JANITOR_REGISTER_PID_IOCTL "
+	case CUDDLCI_JANITOR_REGISTER_PID_IOCTL:
+		cuddlk_print("error: CUDDLCI_JANITOR_REGISTER_PID_IOCTL "
 			     "received on manager device instead of "
 			     "janitor device\n");
 		ret = -ENOSYS;
 		break;
 
-	case CUDDL_GET_KERNEL_COMMIT_ID_IOCTL:
-		cuddlk_debug("CUDDL_GET_KERNEL_COMMIT_ID_IOCTL called\n");
+	case CUDDLCI_GET_KERNEL_COMMIT_ID_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_KERNEL_COMMIT_ID_IOCTL called\n");
 		if (copy_from_user(
 			    commit_data, (void*)arg, sizeof(*commit_data))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
 			break;
 		}
-		cuddlk_get_commit_id(commit_data->id_str, CUDDL_MAX_STR_LEN);
+		cuddlk_get_commit_id(
+			commit_data->id_str, CUDDLCI_MAX_STR_LEN);
 		if (copy_to_user(
 		    (void*)arg, commit_data, sizeof(*commit_data)))
 		{
@@ -812,9 +814,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_DRIVER_INFO_IOCTL:
+	case CUDDLCI_GET_DRIVER_INFO_IOCTL:
 		cuddlk_debug(
-			"CUDDL_GET_DRIVER_INFO_IOCTL called\n");
+			"CUDDLCI_GET_DRIVER_INFO_IOCTL called\n");
 		if (copy_from_user(
 			    driver_info_data, (void*)arg,
 			    sizeof(*driver_info_data)))
@@ -842,10 +844,10 @@ static long cuddlk_manager_ioctl(
 
 		if (dev->driver_info)
 			strncpy(driver_info_data->info_str, dev->driver_info,
-				CUDDL_MAX_STR_LEN);
+				CUDDLCI_MAX_STR_LEN);
 		else
 			strncpy(driver_info_data->info_str, "UNKNOWN",
-				CUDDL_MAX_STR_LEN);
+				CUDDLCI_MAX_STR_LEN);
 		if (copy_to_user(
 		    (void*)arg, driver_info_data, sizeof(*driver_info_data)))
 		{
@@ -856,9 +858,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_HW_INFO_IOCTL:
+	case CUDDLCI_GET_HW_INFO_IOCTL:
 		cuddlk_debug(
-			"CUDDL_GET_HW_INFO_IOCTL called\n");
+			"CUDDLCI_GET_HW_INFO_IOCTL called\n");
 		if (copy_from_user(
 			    driver_info_data, (void*)arg,
 			    sizeof(*driver_info_data)))
@@ -886,10 +888,10 @@ static long cuddlk_manager_ioctl(
 
 		if (dev->hw_info)
 			strncpy(driver_info_data->info_str, dev->hw_info,
-				CUDDL_MAX_STR_LEN);
+				CUDDLCI_MAX_STR_LEN);
 		else
 			strncpy(driver_info_data->info_str, "UNKNOWN",
-				CUDDL_MAX_STR_LEN);
+				CUDDLCI_MAX_STR_LEN);
 		if (copy_to_user(
 		    (void*)arg, driver_info_data, sizeof(*driver_info_data)))
 		{
@@ -900,8 +902,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
-	case CUDDL_GET_KERNEL_VERSION_CODE_IOCTL:
-		cuddlk_debug("CUDDL_GET_KERNEL_VERSION_CODE_IOCTL called\n");
+	case CUDDLCI_GET_KERNEL_VERSION_CODE_IOCTL:
+		cuddlk_debug(
+			"CUDDLCI_GET_KERNEL_VERSION_CODE_IOCTL called\n");
 		if (copy_from_user(
 			    void_data, (void*)arg, sizeof(*void_data))) {
 			cuddlk_print("copy_from_user failed\n");

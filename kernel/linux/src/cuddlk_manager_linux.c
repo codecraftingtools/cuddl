@@ -316,7 +316,8 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
-		if((dev->mem[mslot].kernel.ref_count > 0) &&
+		if(claim &&
+		   (dev->mem[mslot].kernel.ref_count > 0) &&
 		   !(dev->mem[mslot].flags & CUDDLK_MEMF_SHARED) &&
 		   !(mdata->options & CUDDL_MEM_CLAIMF_HOSTILE)) {
 			cuddlk_print("memregion claim failed (busy)\n");
@@ -417,7 +418,8 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
-		if((dev->events[eslot].kernel.ref_count > 0) &&
+		if(claim &&
+		   (dev->events[eslot].kernel.ref_count > 0) &&
 		   !(dev->events[eslot].flags & CUDDLK_EVENTSRCF_SHARED) &&
 		   !(edata->options & CUDDL_EVENTSRC_CLAIMF_HOSTILE)) {
 			cuddlk_print("eventsrc claim failed (busy)\n");

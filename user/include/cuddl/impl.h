@@ -45,6 +45,7 @@
  *     - ``-EBADSLT``: The token is invalid (Linux).
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -75,6 +76,7 @@ int cuddli_memregion_release_by_token(struct cuddlci_token token);
  *     - ``-EBADSLT``: The token is invalid (Linux).
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on

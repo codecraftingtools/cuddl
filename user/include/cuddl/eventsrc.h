@@ -124,6 +124,7 @@ struct cuddl_eventsrc {
  *     - ``-ENXIO``: The specified event source was not found.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -403,6 +404,7 @@ int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc);
  *     - ``-EBADSLT``: The specified device slot is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -439,6 +441,7 @@ int cuddl_eventsrc_get_driver_info(
  *     - ``-EBADSLT``: The specified device slot is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on

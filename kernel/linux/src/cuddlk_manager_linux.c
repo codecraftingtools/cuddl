@@ -121,6 +121,14 @@ void cuddlk_manager_free_refs_for_pid(pid_t pid)
 }
 EXPORT_SYMBOL_GPL(cuddlk_manager_free_refs_for_pid);
 
+static int _version_code_is_compat(int user_version_code) {
+	if (CUDDLK_MAJOR_VERSION_FROM_CODE(user_version_code) ==
+	    CUDDLK_MAJOR_VERSION_FROM_CODE(CUDDLK_VERSION_CODE))
+		return 1;
+	else
+		return 0;
+}
+
 static long cuddlk_manager_ioctl(
 	struct file *file, unsigned int cmd, unsigned long arg)
 {
@@ -278,6 +286,13 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
+		if (!_version_code_is_compat(mdata->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+
 		cuddlk_debug("  %s %s %s %d (pid: %d)\n",
 			     mdata->id.group, mdata->id.device,
 			     mdata->id.resource, mdata->id.instance,
@@ -364,6 +379,13 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
+		if (!_version_code_is_compat(edata->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+
 		cuddlk_debug("  %s %s %s %d (pid: %d)\n",
 			     edata->id.group, edata->id.device,
 			     edata->id.resource, edata->id.instance,
@@ -445,6 +467,14 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
+
+		if (!_version_code_is_compat(mrdata->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+
 		slot = mrdata->token.device_index;
 		mslot = mrdata->token.resource_index;
 		cuddlk_debug("  token: %d %d (pid: %d)\n", slot, mslot,
@@ -503,6 +533,14 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
+
+		if (!_version_code_is_compat(erdata->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+
 		slot = erdata->token.device_index;
 		eslot = erdata->token.resource_index;
 		cuddlk_debug("  token: %d %d (pid: %d)\n", slot, eslot,
@@ -559,6 +597,12 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
+		if (!_version_code_is_compat(void_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
 		ret = CUDDLK_MAX_MANAGED_DEVICES;
 		cuddlk_debug("  success\n");
 		break;
@@ -570,6 +614,12 @@ static long cuddlk_manager_ioctl(
 			    void_data, (void*)arg, sizeof(*void_data))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
+			break;
+		}
+		if (!_version_code_is_compat(void_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
 			break;
 		}
 		ret = CUDDLK_MAX_DEV_MEM_REGIONS;
@@ -584,6 +634,12 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
+		if (!_version_code_is_compat(void_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
 		ret = CUDDLK_MAX_DEV_EVENTS;
 		cuddlk_debug("  success\n");
 		break;
@@ -594,6 +650,13 @@ static long cuddlk_manager_ioctl(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
+			break;
+		}
+
+		if (!_version_code_is_compat(get_id_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
 			break;
 		}
 
@@ -645,6 +708,13 @@ static long cuddlk_manager_ioctl(
 			    get_id_data, (void*)arg, sizeof(*get_id_data))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
+			break;
+		}
+
+		if (!_version_code_is_compat(get_id_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
 			break;
 		}
 
@@ -703,6 +773,13 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
+		if (!_version_code_is_compat(id_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+
 		cuddlk_debug("  %s %s %s %d\n",
 			     id_data->id.group, id_data->id.device,
 			     id_data->id.resource, id_data->id.instance);
@@ -749,6 +826,13 @@ static long cuddlk_manager_ioctl(
 			    id_data, (void*)arg, sizeof(*id_data))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
+			break;
+		}
+
+		if (!_version_code_is_compat(id_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
 			break;
 		}
 
@@ -804,6 +888,12 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
+		if (!_version_code_is_compat(commit_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
 		cuddlk_get_commit_id(
 			commit_data->id_str, CUDDLCI_MAX_STR_LEN);
 		if (copy_to_user(
@@ -825,6 +915,14 @@ static long cuddlk_manager_ioctl(
 		{
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
+			break;
+		}
+
+		if (!_version_code_is_compat(
+			    driver_info_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
 			break;
 		}
 
@@ -872,6 +970,14 @@ static long cuddlk_manager_ioctl(
 			break;
 		}
 
+		if (!_version_code_is_compat(
+			    driver_info_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+
 		slot = driver_info_data->device_slot;
 		cuddlk_debug("  device_slot: %d\n", slot);
 
@@ -913,6 +1019,12 @@ static long cuddlk_manager_ioctl(
 			ret = -EOVERFLOW;
 			break;
 		}
+		if (!_version_code_is_compat(void_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
 		cuddlk_debug("  success\n");
 		ret = CUDDLK_VERSION_CODE;
 		break;
@@ -923,6 +1035,12 @@ static long cuddlk_manager_ioctl(
 			    commit_data, (void*)arg, sizeof(*commit_data))) {
 			cuddlk_print("copy_from_user failed\n");
 			ret = -EOVERFLOW;
+			break;
+		}
+		if (!_version_code_is_compat(commit_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
 			break;
 		}
 		strncpy(commit_data->id_str, CUDDLK_VARIANT,

@@ -110,6 +110,7 @@ struct cuddl_memregion {
  *     - ``-ENXIO``: The specified memory region was not found.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -285,6 +286,7 @@ int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion);
  *     - ``-EBADSLT``: The specified device slot is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -321,6 +323,7 @@ int cuddl_memregion_get_driver_info(
  *     - ``-EBADSLT``: The specified device slot is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on

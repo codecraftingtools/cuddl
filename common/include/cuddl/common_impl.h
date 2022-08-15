@@ -49,6 +49,13 @@
 #define CUDDLCI_VERSION_MINOR 1
 #define CUDDLCI_REVISION_LEVEL 0
 
+/* The following macros are used both in kernel and user space.*/
+#define CUDDLCI_VERSION(major, minor, revision)		\
+	(((major)<<16) | ((minor)<<8) | (revision))
+#define CUDDLCI_MAJOR_VERSION_FROM_CODE(code) (code >> 16)
+#define CUDDLCI_MINOR_VERSION_FROM_CODE(code) ((code & 0xffff) >> 8)
+#define CUDDLCI_REVISION_LEVEL_FROM_CODE(code) (code & 0xff)
+
 /**
  * struct cuddlci_token - User-space handle to a memregion or eventsrc.
  *

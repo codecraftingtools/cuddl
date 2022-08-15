@@ -70,11 +70,47 @@
  * Return: Integer version code.
  */
 #define CUDDLK_VERSION(major, minor, revision) \
-	(((major)<<16) | ((minor)<<8) | (revision))
+	CUDDLCI_VERSION(major, minor, revision)
 
 #define CUDDLK_VERSION_CODE CUDDLK_VERSION(CUDDLK_VERSION_MAJOR, \
                                            CUDDLK_VERSION_MINOR, \
                                            CUDDLK_REVISION_LEVEL)
+
+/**
+ * CUDDLK_MAJOR_VERSION_FROM_CODE() - Extract the major version from a code.
+ *
+ * Extracts the major version portion of a 32-bit integer version code.
+ *
+ * @code: 32-bit integer version code
+ *
+ * Return: Major portion of the version number.
+ */
+#define CUDDLK_MAJOR_VERSION_FROM_CODE(code) \
+	CUDDLCI_MAJOR_VERSION_FROM_CODE(code)
+
+/**
+ * CUDDLK_MINOR_VERSION_FROM_CODE() - Extract the minor version from a code.
+ *
+ * Extracts the minor version portion of a 32-bit integer version code.
+ *
+ * @code: 32-bit integer version code
+ *
+ * Return: Minor portion of the version number.
+ */
+#define CUDDLK_MINOR_VERSION_FROM_CODE(code) \
+	CUDDLCI_MINOR_VERSION_FROM_CODE(code)
+
+/**
+ * CUDDLK_REVISION_LEVEL_FROM_CODE() - Extract the revision level from a code.
+ *
+ * Extracts the revision level portion of a 32-bit integer version code.
+ *
+ * @code: 32-bit integer version code
+ *
+ * Return: Revision level portion of the version number.
+ */
+#define CUDDLK_REVISION_LEVEL_FROM_CODE(code) \
+	CUDDLCI_REVISION_LEVEL_FROM_CODE(code)
 
 /**
  * cuddlk_get_commit_id() - Return a string describing the kernel src commit.

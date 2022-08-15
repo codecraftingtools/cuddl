@@ -64,7 +64,7 @@
  * Return: Integer version code.
  */
 #define CUDDL_VERSION(major, minor, revision) \
-	(((major)<<16) | ((minor)<<8) | (revision))
+	CUDDLCI_VERSION(major, minor, revision)
 
 #define CUDDL_VERSION_CODE CUDDL_VERSION(CUDDL_VERSION_MAJOR, \
                                          CUDDL_VERSION_MINOR, \
@@ -79,7 +79,8 @@
  *
  * Return: Major portion of the version number.
  */
-#define CUDDL_MAJOR_VERSION_FROM_CODE(code) (code >> 16) 
+#define CUDDL_MAJOR_VERSION_FROM_CODE(code) \
+	CUDDLCI_MAJOR_VERSION_FROM_CODE(code)
 
 /**
  * CUDDL_MINOR_VERSION_FROM_CODE() - Extract the minor version from a code.
@@ -90,7 +91,8 @@
  *
  * Return: Minor portion of the version number.
  */
-#define CUDDL_MINOR_VERSION_FROM_CODE(code) ((code & 0xffff) >> 8)
+#define CUDDL_MINOR_VERSION_FROM_CODE(code) \
+	CUDDLCI_MINOR_VERSION_FROM_CODE(code)
 
 /**
  * CUDDL_REVISION_LEVEL_FROM_CODE() - Extract the revision level from a code.
@@ -101,7 +103,8 @@
  *
  * Return: Revision level portion of the version number.
  */
-#define CUDDL_REVISION_LEVEL_FROM_CODE(code) (code & 0xff)
+#define CUDDL_REVISION_LEVEL_FROM_CODE(code) \
+	CUDDLCI_REVISION_LEVEL_FROM_CODE(code)
 
 /**
  * cuddl_get_kernel_version_code() - Return the kernel version code.
@@ -113,6 +116,7 @@
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -142,6 +146,7 @@ int cuddl_get_kernel_version_code();
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
@@ -187,6 +192,7 @@ int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len);
  *   Error codes:
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
  *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
  *       Cuddl manager device.
  *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on

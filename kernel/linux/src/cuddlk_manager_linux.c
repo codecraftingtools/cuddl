@@ -917,6 +917,26 @@ static long cuddlk_manager_ioctl(
 		ret = CUDDLK_VERSION_CODE;
 		break;
 
+	case CUDDLCI_GET_KERNEL_VARIANT_IOCTL:
+		cuddlk_debug("CUDDLCI_GET_KERNEL_VARIANT_IOCTL called\n");
+		if (copy_from_user(
+			    commit_data, (void*)arg, sizeof(*commit_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+		strncpy(commit_data->id_str, CUDDLK_VARIANT,
+			CUDDLCI_MAX_STR_LEN);
+		if (copy_to_user(
+		    (void*)arg, commit_data, sizeof(*commit_data)))
+		{
+			cuddlk_print("copy_to_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+		cuddlk_debug("  success\n");
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;

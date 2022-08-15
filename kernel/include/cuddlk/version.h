@@ -26,6 +26,12 @@
  *
  * This part of the API is only applicable to kernel-space code.
  *
+ * .. c:macro:: CUDDLK_VARIANT
+ *
+ *    String identifying the kernel implementation.
+ *
+ *    (e.g. ``"Xenomai UDD"``, ``"Linux UIO"``, ``"RTEMS"``)
+ *
  * .. c:macro:: CUDDLK_VERSION_MAJOR
  *
  *    Major portion of the version number.
@@ -43,6 +49,8 @@
  *    32-bit integer version code value that can be used in comparisons.
  *    Similar to ``XENO_VERSION_CODE`` and ``LINUX_VERSION_CODE``.
  */
+
+#define CUDDLK_VARIANT CUDDLKI_VARIANT
 
 #define CUDDLK_VERSION_MAJOR CUDDLCI_VERSION_MAJOR
 #define CUDDLK_VERSION_MINOR CUDDLCI_VERSION_MINOR

@@ -57,7 +57,7 @@
 #if defined(CUDDLK_USE_UDD)
   #include <rtdm/udd.h>
 
-  #define CUDDLKI_VARIANT_STR "Xenomai UDD"
+  #define CUDDLKI_VARIANT "Xenomai UDD"
 
   #define cuddlki_print(...) rtdm_printk(__VA_ARGS__)
 
@@ -68,7 +68,7 @@
   #define CUDDLKI_IRQ_CUSTOM UDD_IRQ_CUSTOM
 
 #else /* Linux UIO */
-  #define CUDDLKI_VARIANT_STR "Linux UIO"
+  #define CUDDLKI_VARIANT "Linux UIO"
 
   #define cuddlki_print(...) printk(__VA_ARGS__)
 

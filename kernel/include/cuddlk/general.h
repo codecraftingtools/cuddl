@@ -32,16 +32,9 @@
  *
  *    This is equivalent to ``CUDDL_MAX_STR_LEN``, but ``CUDDLK_MAX_STR_LEN``
  *    is used in kernel code to keep the notation consistent.
- *
- * .. c:macro:: CUDDLK_VARIANT_STR
- *
- *    String identifying the kernel implementation.
- *
- *    (e.g. ``"Xenomai UDD"``, ``"Linux UIO"``, ``"RTEMS"``)
  */
 
 #define CUDDLK_MAX_STR_LEN CUDDLCI_MAX_STR_LEN
-#define CUDDLK_VARIANT_STR CUDDLKI_VARIANT_STR
 
 /**
  * typedef cuddlk_size_t - Kernel type used to represent a count of bytes.

@@ -124,6 +124,10 @@
  * .. c:macro:: CUDDLCI_GET_KERNEL_VERSION_CODE_IOCTL
  *
  *    IOCTL associated with ``cuddl_get_kernel_version_code()``.
+ *
+ * .. c:macro:: CUDDLCI_GET_KERNEL_VARIANT_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_get_kernel_variant()``.
  */
 
 /**
@@ -326,5 +330,9 @@ struct cuddlci_get_driver_info_ioctl_data {
 
 #define CUDDLCI_GET_KERNEL_VERSION_CODE_IOCTL \
   _IOW(CUDDLCI_IOCTL_TYPE, 25, struct cuddlci_void_ioctl_data)
+
+#define CUDDLCI_GET_KERNEL_VARIANT_IOCTL \
+  _IOWR(CUDDLCI_IOCTL_TYPE, 26, \
+        struct cuddlci_get_kernel_commit_id_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

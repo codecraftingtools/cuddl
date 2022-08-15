@@ -129,6 +129,42 @@ int cuddl_get_userspace_commit_id(char *id_str, cuddl_size_t id_len)
 	return 0;
 }
 
+int cuddl_get_kernel_variant(char *str, cuddl_size_t id_len)
+{
+	int fd;
+	int ret;
+	int len;
+	struct cuddlci_get_kernel_commit_id_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.version_code = CUDDL_VERSION_CODE;
+
+	ret = ioctl(fd, CUDDLCI_GET_KERNEL_VARIANT_IOCTL, &s);
+	if (ret) {
+		if ((ret == -1) && errno)
+			ret = -errno;
+		close(fd);
+		return ret;
+	}
+
+	if (id_len > CUDDLCI_MAX_STR_LEN) {
+		str[CUDDLCI_MAX_STR_LEN] = '\0';
+		len = CUDDLCI_MAX_STR_LEN;
+	} else {
+		len = id_len;
+	}
+	strncpy(str, s.id_str, len);
+
+	ret = close(fd);
+	if (ret == -1)
+		return -errno;
+
+	return 0;
+}
+
 static void populate_id_from_args(
 	struct cuddl_resource_id *id,
 	const char *group,

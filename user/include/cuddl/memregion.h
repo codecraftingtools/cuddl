@@ -29,22 +29,6 @@
  */
 
 /**
- * enum cuddl_memregion_claim_flags - Flags used when claiming mem regions.
- *
- * @CUDDL_MEM_CLAIMF_HOSTILE: Allows the claim operation to succeed, even if
- *                            the memory region has already been claimed by
- *                            another application and the
- *                            ``CUDDL_MEMF_SHARED`` flag has not been set.
- *                            Specifying this flag is usually not the right
- *                            thing to do.
- *
- * Flags that are applicable to the memory region claim operation.
- */
-enum cuddl_memregion_claim_flags {
-	CUDDL_MEM_CLAIMF_HOSTILE = (1 << 0),
-};
-
-/**
  * struct cuddl_memregion - User-space memory-mapped I/O region accessor.
  *
  * @addr: Pointer to the starting address of the memory-mapped I/O region.
@@ -107,6 +91,7 @@ struct cuddl_memregion {
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
+ *     - ``-EBUSY``: The specified memory region is already in use.
  *     - ``-ENXIO``: The specified memory region was not found.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).

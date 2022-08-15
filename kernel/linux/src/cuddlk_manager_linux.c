@@ -316,13 +316,21 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
+		if((dev->mem[mslot].kernel.ref_count > 0) &&
+		   !(dev->mem[mslot].flags & CUDDLK_MEMF_SHARED) &&
+		   !(mdata->options & CUDDL_MEM_CLAIMF_HOSTILE)) {
+			cuddlk_print("memregion claim failed (busy)\n");
+			ret = -EBUSY;
+			break;
+		}
+
 		mdata->info.priv.token.device_index = slot;
 		mdata->info.priv.token.resource_index = mslot;
 		mdata->info.priv.pa_len = dev->mem[mslot].pa_len;
 		mdata->info.priv.start_offset = dev->mem[mslot].start_offset;
 		mdata->info.len = dev->mem[mslot].len;
 		mdata->info.flags = 0;
-		if (dev->mem[mslot].flags && CUDDLK_MEMF_SHARED)
+		if (dev->mem[mslot].flags & CUDDLK_MEMF_SHARED)
 			mdata->info.flags |= CUDDL_MEMF_SHARED;
 		if (rt) {
 			mdata->info.priv.pa_mmap_offset = 0;
@@ -409,11 +417,19 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
+		if((dev->events[eslot].kernel.ref_count > 0) &&
+		   !(dev->events[eslot].flags & CUDDLK_EVENTSRCF_SHARED) &&
+		   !(edata->options & CUDDL_EVENTSRC_CLAIMF_HOSTILE)) {
+			cuddlk_print("eventsrc claim failed (busy)\n");
+			ret = -EBUSY;
+			break;
+		}
+
 		edata->info.priv.token.device_index = slot;
 		edata->info.priv.token.resource_index = eslot;
 		edata->info.flags = 0;
 		edata->info.flags |= CUDDL_EVENTSRCF_WAITABLE;
-		if (dev->events[eslot].flags && CUDDLK_EVENTSRCF_SHARED)
+		if (dev->events[eslot].flags & CUDDLK_EVENTSRCF_SHARED)
 			edata->info.flags |= CUDDL_EVENTSRCF_SHARED;
 		if (dev->events[eslot].intr.enable)
 			edata->info.flags |= CUDDL_EVENTSRCF_HAS_ENABLE;

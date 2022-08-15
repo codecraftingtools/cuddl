@@ -79,6 +79,22 @@ enum cuddl_eventsrc_flags {
 };
 
 /**
+ * enum cuddl_eventsrc_claim_flags - Flags used when claiming event sources.
+ *
+ * @CUDDL_EVENTSRC_CLAIMF_HOSTILE: Allows the claim operation to succeed,
+ *                                 even if the event source has already been
+ *                                 claimed by another application and the
+ *                                 ``CUDDL_EVENTSRCF_SHARED`` flag has not
+ *                                 been set.  Specifying this flag is usually
+ *                                 not the right thing to do.
+ *
+ * Flags that are applicable to the event source claim operation.
+ */
+enum cuddl_eventsrc_claim_flags {
+	CUDDL_EVENTSRC_CLAIMF_HOSTILE = (1 << 0),
+};
+
+/**
  * struct cuddl_eventsrc_info - Event source information for user space.
  *
  * @flags: Flags that describe the properties of the event source.  This

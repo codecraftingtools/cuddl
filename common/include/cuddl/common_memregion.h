@@ -43,6 +43,22 @@ enum cuddl_memregion_flags {
 };
 
 /**
+ * enum cuddl_memregion_claim_flags - Flags used when claiming mem regions.
+ *
+ * @CUDDL_MEM_CLAIMF_HOSTILE: Allows the claim operation to succeed, even if
+ *                            the memory region has already been claimed by
+ *                            another application and the
+ *                            ``CUDDL_MEMF_SHARED`` flag has not been set.
+ *                            Specifying this flag is usually not the right
+ *                            thing to do.
+ *
+ * Flags that are applicable to the memory region claim operation.
+ */
+enum cuddl_memregion_claim_flags {
+	CUDDL_MEM_CLAIMF_HOSTILE = (1 << 0),
+};
+
+/**
  * struct cuddl_memregion_info - Memory region information for user space.
  *
  * @len: The exact size of the memory region to be mapped, in bytes.  This is

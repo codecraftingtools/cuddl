@@ -436,6 +436,30 @@ public:
 		}
 	}
 
+	uint8_t ioread8(cuddl::size_t offset) {
+		return cuddl_memregion_ioread8(&mem, offset);
+	}
+
+	uint16_t ioread16(cuddl::size_t offset) {
+		return cuddl_memregion_ioread16(&mem, offset);
+	}
+
+	uint32_t ioread32(cuddl::size_t offset) {
+		return cuddl_memregion_ioread32(&mem, offset);
+	}
+
+	void iowrite8(uint8_t value, cuddl::size_t offset) {
+		cuddl_memregion_iowrite8(&mem, value, offset);
+	}
+
+	void iowrite16(uint16_t value, cuddl::size_t offset) {
+		cuddl_memregion_iowrite16(&mem, value, offset);
+	}
+
+	void iowrite32(uint32_t value, cuddl::size_t offset) {
+		cuddl_memregion_iowrite32(&mem, value, offset);
+	}
+
 	std::string get_driver_info() {
 		char s[MAX_STR_LEN];
 		int ret = cuddl_memregion_get_driver_info(

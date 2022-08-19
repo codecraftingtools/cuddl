@@ -247,6 +247,125 @@ int cuddl_memregion_claim_and_map(
 int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion);
 
 /**
+ * cuddl_memregion_ioread8() - Read an 8-bit value from a memregion.
+ *
+ * @memregion: Input identifying the memory region to be read from.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @offset: I/O memory address offset for reading.
+ *
+ * Return: Value that results from reading the specified memory address.
+ */
+inline uint8_t cuddl_memregion_ioread8(
+	struct cuddl_memregion *memregion, cuddl_size_t offset)
+{
+	return cuddl_ioread8(
+		(uint8_t*)(memregion->addr)+offset);
+}
+
+/**
+ * cuddl_memregion_ioread16() - Read a 16-bit value from a memregion.
+ *
+ * @memregion: Input identifying the memory region to be read from.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @offset: I/O memory address offset for reading.
+ *
+ * Return: Value that results from reading the specified memory address.
+ */
+inline uint16_t cuddl_memregion_ioread16(
+	struct cuddl_memregion *memregion, cuddl_size_t offset)
+{
+	return cuddl_ioread16(
+		(uint8_t*)(memregion->addr)+offset);
+}
+
+/**
+ * cuddl_memregion_ioread32() - Read a 32-bit value from a memregion.
+ *
+ * @memregion: Input identifying the memory region to be read from.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @offset: I/O memory address offset for reading.
+ *
+ * Return: Value that results from reading the specified memory address.
+ */
+inline uint32_t cuddl_memregion_ioread32(
+	struct cuddl_memregion *memregion, cuddl_size_t offset)
+{
+	return cuddl_ioread32(
+		(uint8_t*)(memregion->addr)+offset);
+}
+
+/**
+ * cuddl_memregion_iowrite8() - Write an 8-bit value to a memregion.
+ *
+ * @memregion: Input identifying the memory region to be read from.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @value: Value to be written.
+ *
+ * @addr: I/O memory address for writing.
+ */
+inline void cuddl_memregion_iowrite8(
+	struct cuddl_memregion *memregion, uint8_t value, cuddl_size_t offset)
+{
+	cuddl_iowrite8(value, (uint8_t*)(memregion->addr)+offset);
+}
+
+/**
+ * cuddl_memregion_iowrite16() - Write a 16-bit value to a memregion.
+ *
+ * @memregion: Input identifying the memory region to be read from.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @value: Value to be written.
+ *
+ * @addr: I/O memory address for writing.
+ */
+inline void cuddl_memregion_iowrite16(
+	struct cuddl_memregion *memregion, uint16_t value,
+	cuddl_size_t offset)
+{
+	cuddl_iowrite16(value, (uint8_t*)(memregion->addr)+offset);
+}
+
+/**
+ * cuddl_memregion_iowrite32() - Write a 32-bit value to a memregion.
+ *
+ * @memregion: Input identifying the memory region to be read from.  The data
+ *             structure pointed to by this parameter should contain the
+ *             information returned by a successful call to
+ *             ``cuddl_memregion_map()`` or
+ *             ``cuddl_memregion_claim_and_map()``.
+ *
+ * @value: Value to be written.
+ *
+ * @addr: I/O memory address for writing.
+ */
+inline void cuddl_memregion_iowrite32(
+	struct cuddl_memregion *memregion, uint32_t value,
+	cuddl_size_t offset)
+{
+	cuddl_iowrite32(value, (uint8_t*)(memregion->addr)+offset);
+}
+
+/**
  * cuddl_memregion_get_driver_info() - Get the associated driver info string.
  *
  * @memregion: Input identifying the memory region to be queried.  The data

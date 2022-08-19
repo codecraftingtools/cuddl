@@ -580,10 +580,10 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
 	timeout.tv_sec = 0;
 	timeout.tv_nsec = 0;
 
-	return cuddl_eventsrc_timedwait(eventsrc, &timeout);
+	return cuddl_eventsrc_timed_wait(eventsrc, &timeout);
 }
 
-int cuddl_eventsrc_timedwait(
+int cuddl_eventsrc_timed_wait(
 	struct cuddl_eventsrc *eventsrc,
 	const struct cuddl_timespec *timeout)
 {

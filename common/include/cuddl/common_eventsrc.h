@@ -40,7 +40,7 @@
  *     Indicates that the event source can wake up a waiting user-space task.
  *
  *     If this flag is set, ``cuddl_eventsrc_wait()`` and
- *     ``cuddl_eventsrc_timedwait()`` are supported.
+ *     ``cuddl_eventsrc_timed_wait()`` are supported.
  *
  *     On Linux and Xenomai, this feature is implemented via a 4-byte
  *     blocking ``read()`` operation on the file descriptor associated with

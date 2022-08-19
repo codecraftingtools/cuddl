@@ -292,12 +292,12 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
  *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by `cuddl_eventsrc_timedwait()``.
+ *     - Linux: Error code returned by `cuddl_eventsrc_timed_wait()``.
  */
 int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
 
 /**
- * cuddl_eventsrc_timedwait() - Timed wait for an event in user space.
+ * cuddl_eventsrc_timed_wait() - Timed wait for an event in user space.
  *
  * @eventsrc: Input parameter identifying the source of the event to be
  *            waited on.  The data structure pointed to by this parameter
@@ -322,7 +322,7 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
  *     - Linux: Value of ``-errno`` resulting from from ``read()`` call on
  *       event source file descriptor.
  */
-int cuddl_eventsrc_timedwait(
+int cuddl_eventsrc_timed_wait(
 	struct cuddl_eventsrc *eventsrc,
 	const struct cuddl_timespec *timeout);
 

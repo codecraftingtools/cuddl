@@ -654,18 +654,18 @@ public:
 
 	int wait() {return cuddl_eventsrc_wait(&eventsrc);}
 
-	int timedwait(const cuddl_timespec &timeout) {
-		return cuddl_eventsrc_timedwait(&eventsrc, &timeout);
+	int timed_wait(const cuddl_timespec &timeout) {
+		return cuddl_eventsrc_timed_wait(&eventsrc, &timeout);
 	}
 
-	int timedwait(const std::chrono::nanoseconds &timeout) {
+	int timed_wait(const std::chrono::nanoseconds &timeout) {
 		auto s = std::chrono::duration_cast<std::chrono::seconds>(
 			timeout);
 		auto ns = timeout - s;
 		cuddl_timespec ts;
 		ts.tv_sec = s.count();
 		ts.tv_nsec = ns.count();
-		return cuddl_eventsrc_timedwait(&eventsrc, &ts);
+		return cuddl_eventsrc_timed_wait(&eventsrc, &ts);
 	}
 
 	int enable() {return cuddl_eventsrc_enable(&eventsrc);}

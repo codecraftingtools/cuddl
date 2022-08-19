@@ -301,18 +301,7 @@ inline std::ostream &operator <<(std::ostream &os, const MemRegionFlag &f)
 	return os;
 }
 
-typedef Flags<MemRegionFlag> MemRegionFlags;
-
-/* jeff
-inline MemRegionFlags operator |(
-	const MemRegionFlag &l, const MemRegionFlag &r)
-{
-	MemRegionFlags e;
-	e |= r;
-	e |= l;
-	return e;
-}
-*/
+using MemRegionFlags = Flags<MemRegionFlag>;
 
 inline std::ostream &operator <<(std::ostream &os, const MemRegionFlags &f)
 {
@@ -337,7 +326,7 @@ inline std::ostream &operator <<(
 	return os;
 }
 
-typedef Flags<MemRegionClaimFlag> MemRegionClaimFlags;
+using MemRegionClaimFlags = Flags<MemRegionClaimFlag>;
 
 inline std::ostream &operator <<(
 	std::ostream &os, const MemRegionClaimFlags &f)
@@ -360,7 +349,7 @@ inline std::ostream &operator <<(
 	return os;
 }
 
-typedef Flags<MemRegionMapFlag> MemRegionMapFlags;
+using MemRegionMapFlags = Flags<MemRegionMapFlag>;
 
 inline std::ostream &operator <<(
 	std::ostream &os, const MemRegionMapFlags &f)
@@ -497,7 +486,7 @@ inline std::ostream &operator <<(std::ostream &os, const EventSrcFlag &f)
 	return os;
 }
 
-typedef Flags<EventSrcFlag> EventSrcFlags;
+using EventSrcFlags = Flags<EventSrcFlag>;
 
 inline std::ostream &operator <<(std::ostream &os, const EventSrcFlags &f)
 {
@@ -534,7 +523,7 @@ inline std::ostream &operator <<(
 	return os;
 }
 
-typedef Flags<EventSrcClaimFlag> EventSrcClaimFlags;
+using EventSrcClaimFlags = Flags<EventSrcClaimFlag>;
 
 inline std::ostream &operator <<(
 	std::ostream &os, const EventSrcClaimFlags &f)
@@ -557,7 +546,7 @@ inline std::ostream &operator <<(
 	return os;
 }
 
-typedef Flags<EventSrcOpenFlag> EventSrcOpenFlags;
+using EventSrcOpenFlags = Flags<EventSrcOpenFlag>;
 
 inline std::ostream &operator <<(
 	std::ostream &os, const EventSrcOpenFlags &f)

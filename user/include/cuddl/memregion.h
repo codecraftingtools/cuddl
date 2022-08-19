@@ -317,7 +317,7 @@ inline uint32_t cuddl_memregion_ioread32(
  *
  * @value: Value to be written.
  *
- * @addr: I/O memory address for writing.
+ * @offset: I/O memory address for writing.
  */
 inline void cuddl_memregion_iowrite8(
 	struct cuddl_memregion *memregion, uint8_t value, cuddl_size_t offset)
@@ -336,7 +336,7 @@ inline void cuddl_memregion_iowrite8(
  *
  * @value: Value to be written.
  *
- * @addr: I/O memory address for writing.
+ * @offset: I/O memory address for writing.
  */
 inline void cuddl_memregion_iowrite16(
 	struct cuddl_memregion *memregion, uint16_t value,
@@ -356,7 +356,7 @@ inline void cuddl_memregion_iowrite16(
  *
  * @value: Value to be written.
  *
- * @addr: I/O memory address for writing.
+ * @offset: I/O memory address for writing.
  */
 inline void cuddl_memregion_iowrite32(
 	struct cuddl_memregion *memregion, uint32_t value,

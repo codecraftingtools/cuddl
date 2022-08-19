@@ -46,6 +46,9 @@ extern "C" {
 #  define PTHREAD_WARNSW 0
 #endif
 
+///
+/// Provides the Cuddl C++ API.
+///
 namespace cuddl {
 
 //----------------------------------------------------------------------------
@@ -141,13 +144,30 @@ inline Flags<F> operator |(const F &l, const Flags<F> &r)
 // General
 //----------------------------------------------------------------------------
 
+/// \verbatim embed:rst:leading-slashes
+///
+/// Alias for :c:macro:`CUDDL_MAX_STR_LEN`.
+///
+/// \endverbatim
 const int MAX_STR_LEN = CUDDL_MAX_STR_LEN;
 
+/// \verbatim embed:rst:leading-slashes
+///
+/// Alias for :c:type:`cuddl_size_t`.
+///
+/// \endverbatim
 using size_t = cuddl_size_t;
 
+/// \verbatim embed:rst:leading-slashes
+///
+/// C++ wrapper class for :c:type:`cuddl_resource_id`.
+///
+/// \endverbatim
 class ResourceID
 {
 public:
+	/// @name Constructors
+	/// @{
 	ResourceID() {
 		memset(&id, 0, sizeof(id));
 	}
@@ -161,18 +181,27 @@ public:
 		this->resource(resource);
 		this->instance(instance);
 	}
+        ///  @}
 
+	/// Cast operator for converting instances to the equivalent C
+	/// structure.
 	operator cuddl_resource_id() const {return id;}
 
+	/// @name Getter Functions
+	/// @{
 	std::string group()    const {return id.group;}
 	std::string device()   const {return id.device;}
 	std::string resource() const {return id.resource;}
 	int         instance() const {return id.instance;}
+        ///  @}
 
+	/// @name Setter Functions
+	/// @{
 	void group   (const char *s) {strncpy(id.group,    s, MAX_STR_LEN);}
 	void device  (const char *s) {strncpy(id.device,   s, MAX_STR_LEN);}
 	void resource(const char *s) {strncpy(id.resource, s, MAX_STR_LEN);}
 	void instance(int i)         {id.instance = i;}
+        ///  @}
 
 private:
 	cuddl_resource_id id;

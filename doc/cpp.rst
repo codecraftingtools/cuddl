@@ -11,19 +11,19 @@
    directory of this distribution for copyright information and license
    terms.
    
-.. include:: ../README.rst
-  :start-after: sphinx-include-summary-start
-  :end-before: sphinx-include-summary-end
+.. highlight:: C++
+
+==================
+User-Space C++ API
+==================
+
+The C++ API described in the following sections is available to user-space
+applications.
+
+.. doxygennamespace:: cuddl
+   :desc-only:
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Topics:
+   :maxdepth: 1
 
-   overview
-   install
-   user
-   cpp
-   kernel
-   impl
-   build_options
-   external
+   cpp_general

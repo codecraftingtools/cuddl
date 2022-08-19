@@ -11,19 +11,21 @@
    directory of this distribution for copyright information and license
    terms.
    
-.. include:: ../README.rst
-  :start-after: sphinx-include-summary-start
-  :end-before: sphinx-include-summary-end
+.. highlight:: C++
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Topics:
+=======
+General
+=======
 
-   overview
-   install
-   user
-   cpp
-   kernel
-   impl
-   build_options
-   external
+**General-purpose C++ declarations.**
+
+These basic declarations are provided for use in user-space C++ applications.
+All of these entities are defined in the ``cuddl`` namespace.
+
+.. doxygenvariable:: cuddl::MAX_STR_LEN
+
+.. doxygentypedef:: cuddl::size_t
+
+.. doxygenclass:: cuddl::ResourceID
+   :undoc-members:
+   :members:

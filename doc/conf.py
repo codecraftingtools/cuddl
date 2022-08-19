@@ -15,6 +15,10 @@ import sys
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('./kerneldoc'))
 
+# Run Doxygen to generate C++ API xml files
+from subprocess import call
+call('doxygen')
+
 # -- Project information -----------------------------------------------------
 
 project = 'Cuddl'
@@ -31,7 +35,12 @@ extensions = [
     'sphinx.ext.githubpages',
     'sphinx.ext.intersphinx',
     'sphinx.ext.extlinks',
+    'breathe', # For C++ API
 ]
+
+# Breathe configuration (C++ API)
+breathe_projects = {"Cuddl": "doxyxml/"}
+breathe_default_project = "Cuddl"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

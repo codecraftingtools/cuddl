@@ -23,5 +23,5 @@ help:
 clean: local-cleanup
 .PHONY: local-cleanup
 local-cleanup:
-	@$(RM) -r kerneldoc/__pycache__ *~
+	@$(RM) -r kerneldoc/__pycache__ *~ doxyxml
 	/usr/bin/find .. -name '*~' | xargs $(RM)

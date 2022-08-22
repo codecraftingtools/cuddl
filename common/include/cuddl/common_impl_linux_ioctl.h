@@ -223,7 +223,7 @@ struct cuddlci_get_resource_id_ioctl_data {
  * Used for ``cuddl_get_memregion_ref_count_for_id()``,
  * ``cuddl_get_eventsrc_ref_count_for_id()``,
  * ``cuddl_decrement_memregion_ref_count_for_id()``, and
- * ``cuddl_decrement_eventsrc_ref_count_for_id()``implementations.
+ * ``cuddl_decrement_eventsrc_ref_count_for_id()`` implementations.
  *
  * @version_code: Cuddl version code passed in from user space.
  * @id: Resource identifier passed in from user space.

@@ -13,23 +13,15 @@
    
 .. highlight:: C++
 
-==================
-User-Space C++ API
-==================
+============
+Utility Code
+============
 
-The C++ API described in the following sections is available to user-space
-applications.
+**C++ utilty declarations.**
 
-.. doxygennamespace:: cuddl
-   :desc-only:
+Utility code used to implement the Cuddl C++ API.  The following entities are
+defined in the ``cuddl`` namespace.
 
-.. toctree::
-   :maxdepth: 1
-
-   cpp_general
-   cpp_version
-   cpp_iomem
-   cpp_memregion
-   cpp_eventsrc
-   cpp_manager
-   cpp_utility
+.. doxygenclass:: cuddl::Flags
+   :undoc-members:
+   :members:

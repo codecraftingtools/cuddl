@@ -13,23 +13,27 @@
    
 .. highlight:: C++
 
-==================
-User-Space C++ API
-==================
+=======
+Version
+=======
 
-The C++ API described in the following sections is available to user-space
-applications.
+**C++ declarations related to version information.**
 
-.. doxygennamespace:: cuddl
-   :desc-only:
+User-space C++ applications may use this API to retrieve information about
+the version of the source code used to build the Cuddl kernel modules and
+user-space interface code.  The following entities are defined in the
+``cuddl`` namespace.
 
-.. toctree::
-   :maxdepth: 1
+.. doxygenclass:: cuddl::Version
+   :undoc-members:
+   :members:
 
-   cpp_general
-   cpp_version
-   cpp_iomem
-   cpp_memregion
-   cpp_eventsrc
-   cpp_manager
-   cpp_utility
+.. doxygenvariable:: cuddl::version
+
+.. doxygenfunction:: cuddl::get_kernel_version
+
+.. doxygenfunction:: cuddl::get_kernel_commit_id
+
+.. doxygenfunction:: cuddl::get_userspace_commit_id
+
+.. doxygenfunction:: cuddl::get_kernel_variant

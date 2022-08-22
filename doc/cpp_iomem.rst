@@ -13,23 +13,26 @@
    
 .. highlight:: C++
 
-==================
-User-Space C++ API
-==================
+=================
+I/O Memory Access
+=================
 
-The C++ API described in the following sections is available to user-space
-applications.
+**C++ declarations for I/O memory access.**
 
-.. doxygennamespace:: cuddl
-   :desc-only:
+User-space C++ applications may use this API to read from (or write to) a
+peripheral’s hardware registers in a platform-independent manner.  The
+following entities are defined in the ``cuddl`` namespace.
 
-.. toctree::
-   :maxdepth: 1
+.. doxygentypedef:: cuddl::iomem_t
 
-   cpp_general
-   cpp_version
-   cpp_iomem
-   cpp_memregion
-   cpp_eventsrc
-   cpp_manager
-   cpp_utility
+.. doxygenvariable:: cuddl::ioread8
+
+.. doxygenvariable:: cuddl::ioread16
+
+.. doxygenvariable:: cuddl::ioread32
+
+.. doxygenvariable:: cuddl::iowrite8
+
+.. doxygenvariable:: cuddl::iowrite16
+
+.. doxygenvariable:: cuddl::iowrite32

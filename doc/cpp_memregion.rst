@@ -13,23 +13,32 @@
    
 .. highlight:: C++
 
-==================
-User-Space C++ API
-==================
+=============
+Memory Region
+=============
 
-The C++ API described in the following sections is available to user-space
-applications.
+**C++ memory region declarations.**
 
-.. doxygennamespace:: cuddl
-   :desc-only:
+Memory regions are commonly used to expose device registers to user-space
+applications for reading and writing.  The following entities are defined in
+the ``cuddl`` namespace.
 
-.. toctree::
-   :maxdepth: 1
+.. doxygenenum:: cuddl::MemRegionFlag
 
-   cpp_general
-   cpp_version
-   cpp_iomem
-   cpp_memregion
-   cpp_eventsrc
-   cpp_manager
-   cpp_utility
+.. doxygentypedef:: cuddl::MemRegionFlags
+
+.. doxygenenum:: cuddl::MemRegionClaimFlag
+
+.. doxygentypedef:: cuddl::MemRegionClaimFlags
+
+.. doxygenenum:: cuddl::MemRegionMapFlag
+
+.. doxygentypedef:: cuddl::MemRegionMapFlags
+
+.. doxygenclass:: cuddl::MemRegionInfo
+   :undoc-members:
+   :members:
+
+.. doxygenclass:: cuddl::MemRegion
+   :undoc-members:
+   :members:

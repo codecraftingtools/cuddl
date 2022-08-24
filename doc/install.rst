@@ -37,7 +37,7 @@ The ``GROUP`` may be changed to something more suitable, if desired.
 
 On Xenomai systems, the UDD / RTDM devices should already be set up for
 access by users in the ``xenomai`` group, but the above step must still be
-performed to allow access to the Cuddl manager device node.
+performed to allow access to the Cuddl manager and janitor device nodes.
 
 Getting the Source Code
 -----------------------
@@ -49,8 +49,8 @@ The Cuddl source code can be checked out from GitHub like this::
 Building the Kernel Modules
 ---------------------------
 
-The ``cuddl.ko`` and ``cuddl_manager.ko`` kernel modules can be built as
-follows::
+The ``cuddl.ko``, ``cuddl_manager.ko``, and ``cuddl_janitor.ko`` kernel
+modules can be built as follows::
 
   cd cuddl
   cd kernel/linux
@@ -70,7 +70,8 @@ If running a Xenomai kernel and UDD is configured as a module::
 
   sudo modprobe xeno_udd
 
-Now insert the kernel modules that were built in the previous step::
+Now insert the kernel modules that were built in the previous step in the
+following order::
 
   sudo insmod cuddl.ko
   sudo insmod cuddl_manager.ko
@@ -105,6 +106,9 @@ following c-preprocessor flags need to be added::
   -DCUDDLI_REPO_IS_DIRTY=`git -C $(cuddl_DIR) diff --quiet HEAD && echo 0 || echo 1`
 
 Otherwise, the result will yield ``"UNKNOWN"``.
+
+
+.. include:: DOC_README.rst
 
 RTEMS
 =====

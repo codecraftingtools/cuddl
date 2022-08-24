@@ -17,9 +17,8 @@
 Cuddl
 =====
 
-This project provides a cross-platform user-space device driver layer.  The
-intent is to provide a cross-platform API for writing user-space device
-drivers that works under `Linux`_, `Xenomai`_, and `RTEMS`_.
+This project provides a cross-platform user-space device driver layer for
+`Linux`_, `Xenomai`_, and `RTEMS`_.
 
 `Cuddl`_ is part of the `Code Craftsmen`_ project.  The `documentation`_ is
 hosted on `Read the Docs`_ and the `source code`_ can be found on `GitHub`_.

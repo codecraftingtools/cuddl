@@ -16,7 +16,7 @@
   :end-before: sphinx-include-summary-end
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Topics:
 
    overview

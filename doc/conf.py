@@ -38,10 +38,6 @@ extensions = [
     'breathe', # For C++ API
 ]
 
-# Breathe configuration (C++ API)
-breathe_projects = {"Cuddl": "doxyxml/"}
-breathe_default_project = "Cuddl"
-
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -77,3 +73,6 @@ extlinks = {
 
 kerneldoc_bin = ['perl', './kerneldoc/kernel-doc']
 kerneldoc_srctree = '..'
+
+breathe_projects = {"Cuddl": "doxyxml/"}
+breathe_default_project = "Cuddl"

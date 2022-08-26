@@ -11,71 +11,53 @@
    directory of this distribution for copyright information and license
    terms.
    
-============
-Installation
-============
+===============
+Getting Started
+===============
 
-Linux
-=====
+Downloading the Source Code
+===========================
+
+The Cuddl source code can be checked out from GitHub using this command::
+
+  git clone https://github.com/codecraftingtools/cuddl.git
+
+Linux Installation
+==================
 
 This section applies to all Linux-based systems, including those using
 Xenomai.
 
-Device Permissions
-------------------
+..  sphinx-include-device-permissions-start
+
+Setting Up Device Permissions
+-----------------------------
 
 In order for Linux UIO devices and Cuddl devices to be accessible to non-root
 users, the desired permissions must be established by providing a ``udev``
 rules file.  This can be accomplished by creating a new file named (e.g.)
-*99-cuddl.rules* in the */etc/udev/rules.d/* directory with the following
+``99-cuddl.rules`` in the ``/etc/udev/rules.d/`` directory with the following
 content::
 
   KERNEL=="uio*", MODE="0660", GROUP="sudo"
   SUBSYSTEM=="cuddl*", MODE="0660", GROUP="sudo"
 
-The ``GROUP`` may be changed to something more suitable, if desired.
+The ``GROUP`` may be changed to something more suitable, if desired.  On
+Xenomai systems, for example, the following rules are probably more
+appropriate::
+
+  KERNEL=="uio*", MODE="0660", GROUP="xenomai"
+  SUBSYSTEM=="cuddl*", MODE="0660", GROUP="xenomai"
 
 On Xenomai systems, the UDD / RTDM devices should already be set up for
 access by users in the ``xenomai`` group, but the above step must still be
 performed to allow access to the Cuddl manager and janitor device nodes.
 
-Getting the Source Code
------------------------
+..  sphinx-include-device-permissions-end
 
-The Cuddl source code can be checked out from GitHub like this::
 
-  git clone https://github.com/codecraftingtools/cuddl.git
+.. include:: ../kernel/linux/README_KBUILD.rst
 
-Building the Kernel Modules
----------------------------
-
-The ``cuddl.ko``, ``cuddl_manager.ko``, and ``cuddl_janitor.ko`` kernel
-modules can be built as follows::
-
-  cd cuddl
-  cd kernel/linux
-  make
-
-Note that verbose build output may be shown by running ``make V=1`` instead
-of ``make``.
-
-Inserting the Kernel Modules
-----------------------------
-
-If the built-in Linux UIO code has been configured as a module::
-
-  sudo modprobe uio
-
-If running a Xenomai kernel and UDD is configured as a module::
-
-  sudo modprobe xeno_udd
-
-Now insert the kernel modules that were built in the previous step in the
-following order::
-
-  sudo insmod cuddl.ko
-  sudo insmod cuddl_manager.ko
-  sudo insmod cuddl_janitor.ko
 
 Building a User-Space Application
 ---------------------------------
@@ -99,18 +81,18 @@ application::
 For Xenomai applications, the Cuddl source files need to be compiled and
 linked with the appropriate flags (as supplied by ``xeno-config``).
 
-In order to get a valid result from ``cuddl_get_userspace_commit_id()``, the
-following c-preprocessor flags need to be added::
+In order to get a meaningful result from ``cuddl_get_userspace_commit_id()``,
+the following c-preprocessor flags need to be added::
 
   -DCUDDLI_COMMIT_HASH=\"`git -C $(cuddl_DIR) rev-parse HEAD`\"
   -DCUDDLI_REPO_IS_DIRTY=`git -C $(cuddl_DIR) diff --quiet HEAD && echo 0 || echo 1`
 
 Otherwise, the result will yield ``"UNKNOWN"``.
 
-
-.. include:: DOC_README.rst
-
-RTEMS
-=====
+RTEMS Installation
+==================
 
 RTEMS support has not yet been implemented.
+
+
+.. include:: README_DOCS.rst

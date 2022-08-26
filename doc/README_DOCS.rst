@@ -1,5 +1,5 @@
 Building the Documentation
---------------------------
+==========================
 
 HTML documentation for the Cuddl project may be generated from the
 reStructuredText source files in the project's ``doc`` subdirectory using the
@@ -11,7 +11,8 @@ These instructions describe how to set up a working Sphinx installation:
 
 Once you have activated the virtual Python environment and installed the
 required Sphinx extensions and system packages, the Cuddl documentation can
-be built by typing the following command in the ``doc`` directory::
+be built by executing the following command in the ``doc`` subdirectory of
+the ``cuddl`` source tree::
 
   make html
 

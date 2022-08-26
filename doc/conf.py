@@ -47,7 +47,7 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+pygments_style = 'sphinx'
 
 default_role = 'any'
 
@@ -67,7 +67,7 @@ html_static_path = ['_static']
 intersphinx_mapping = {'cc': ('https://www.codecraftsmen.org', None)}
 
 extlinks = {
-    'github-repo': ('https://github.com/codecraftingtools/tydl/%s',''),
+    'github-repo': ('https://github.com/codecraftingtools/cuddl/%s',''),
     'repo': ('https://github.com/codecraftingtools/cuddl/blob/master/%s','')
 }
 

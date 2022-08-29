@@ -23,5 +23,6 @@
  */
 
 #include <cuddl/manager.hpp>
+#include <cuddl/version.hpp>
 
 #endif /* !_CUDDL_HPP */

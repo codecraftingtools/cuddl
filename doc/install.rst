@@ -28,10 +28,10 @@ Linux Installation
 This section applies to all Linux-based systems, including those using
 Xenomai.
 
-..  sphinx-include-device-permissions-start
-
 Setting Up Device Permissions
 -----------------------------
+
+..  sphinx-include-device-permissions-start
 
 In order for Linux UIO devices and Cuddl devices to be accessible to non-root
 users, the desired permissions must be established by providing a ``udev``
@@ -49,7 +49,7 @@ appropriate::
   KERNEL=="uio*", MODE="0660", GROUP="xenomai"
   SUBSYSTEM=="cuddl*", MODE="0660", GROUP="xenomai"
 
-On Xenomai systems, the UDD / RTDM devices should already be set up for
+On Xenomai systems, the UDD / RTDM device nodes should already be set up for
 access by users in the ``xenomai`` group, but the above step must still be
 performed to allow access to the Cuddl manager and janitor device nodes.
 

@@ -1,5 +1,5 @@
-Building the Cuddl Kernel Modules
----------------------------------
+Building the Kernel Modules
+---------------------------
 
 ..  sphinx-include-build-modules-start
 
@@ -14,8 +14,9 @@ Note that verbose build output may be shown by running ``make V=1`` instead
 of ``make``.  For more details on building out-of-tree kernel modules, you
 can refer to the `official kernel.org documentation`_.
 
-If you want to clean up the generated files and recompile everything from
-scratch, you can run this command::
+If you want to clean up the generated files so that you can recompile
+everything from scratch, you can run this command in the ``kernel/linux``
+subdirectory ::
 
   make clean
 
@@ -24,8 +25,8 @@ scratch, you can run this command::
 
 ..  sphinx-include-build-modules-end
 
-Inserting the Cuddl Kernel Modules
-----------------------------------
+Inserting the Kernel Modules
+----------------------------
 
 ..  sphinx-include-insert-modules-start
 

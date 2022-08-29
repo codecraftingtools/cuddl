@@ -1,7 +1,9 @@
 Building the Documentation
 ==========================
 
-HTML documentation for the Cuddl project may be generated from the
+..  sphinx-include-build-documentation-start
+
+HTML documentation for this project may be generated from the
 reStructuredText source files in the project's ``doc`` subdirectory using the
 `Sphinx <sphinx>` documentation tool.
 
@@ -19,3 +21,9 @@ the ``cuddl`` source tree::
 You may then open the resulting top-level HTML file in a web browser::
 
   _build/html/index.html
+
+The generated documentation files may be removed by running::
+
+  make clean
+
+..  sphinx-include-build-documentation-end

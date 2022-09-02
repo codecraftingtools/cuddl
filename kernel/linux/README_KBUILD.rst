@@ -41,9 +41,9 @@ module, you will need to insert it as well::
 
   sudo modprobe xeno_udd
 
-Now you can insert the kernel modules that were built in a previous step by
-executing the following commands from the ``kernel/linux`` subdirectory in
-this order::
+Now you can insert the Cuddl kernel modules that were built in a previous
+step by executing the following commands from the ``kernel/linux``
+subdirectory in this order::
 
   sudo insmod cuddl.ko
   sudo insmod cuddl_manager.ko

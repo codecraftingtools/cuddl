@@ -35,6 +35,10 @@ EXPORT_SYMBOL_GPL(cuddlk_get_commit_id);
 EXPORT_SYMBOL_GPL(cuddlk_device_find_eventsrc_slot);
 EXPORT_SYMBOL_GPL(cuddlk_device_find_memregion_slot);
 
+struct device *cuddlk_manager_device = NULL;
+
+EXPORT_SYMBOL_GPL(cuddlk_manager_device);
+
 static cuddlk_size_t page_size_aligned(cuddlk_size_t i)
 {
 	int lower;
@@ -415,7 +419,10 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 		udd->ops.ioctl = cuddlk_udd_eventsrc_ioctl;
 #endif
 	}
-	
+
+	if (!dev->parent_device_ptr)
+		dev->parent_device_ptr = cuddlk_manager_device;
+
 	ret = uio_register_device(dev->parent_device_ptr, uio);
 	if (ret) {
 		failure = CUDDLK_FAIL_UIO_REGISTER;

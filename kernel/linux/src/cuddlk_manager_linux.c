@@ -62,7 +62,6 @@ EXPORT_SYMBOL_GPL(cuddlk_device_release);
 static dev_t cuddlk_manager_dev;
 static struct cdev cuddlk_manager_cdev;
 static struct class *cuddlk_manager_class;
-static struct device *cuddlk_manager_device;
 static struct cuddlk_manager *cuddlk_global_manager_ptr;
 
 /* These are just for emergency clean-up */
@@ -1131,7 +1130,8 @@ static int cuddlk_manager_cleanup(enum cuddlk_manager_init_failure failure)
 	}
 
 	cuddlk_global_manager_ptr = NULL;
-	
+	cuddlk_manager_device = NULL;
+
 	return ret;
 }
 

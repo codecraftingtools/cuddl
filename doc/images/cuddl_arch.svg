@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 201.6637 174.28561"
+   height="174.28564mm"
+   width="201.66368mm">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(256.60396,-286.45853)"
+     id="layer1">
+    <rect
+       y="386.95856"
+       x="-251.35393"
+       height="63.5"
+       width="103.1875"
+       id="rect817-6-5-3-6-3-2"
+       style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="413.4169"
+       x="-248.7081"
+       height="29.104094"
+       width="97.895767"
+       id="rect817-6-5-3-6-3-5-8-8-0-6"
+       style="opacity:1;fill:#3594d3;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="326.10437"
+       x="-142.87476"
+       height="6.404603"
+       width="6.6146641"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-5"
+       style="opacity:1;vector-effect:none;fill:#c99fd5;fill-opacity:1;stroke:#000000;stroke-width:0.49199948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-21-4-15-9-1-5"
+       y="336.61423"
+       x="-131.47641"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26034972"
+         y="336.61423"
+         x="-131.47641"
+         id="tspan819-4-7-0-6-9-1-2-4">Application-Specific Code</tspan></text>
+    <rect
+       y="315.52106"
+       x="-142.87476"
+       height="6.404603"
+       width="6.6146641"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0"
+       style="opacity:1;vector-effect:none;fill:#808080;fill-opacity:1;stroke:#000000;stroke-width:0.49199948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-21-4-15-9-1-62-3"
+       y="325.8588"
+       x="-131.47632"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26034972"
+         y="325.8588"
+         x="-131.47632"
+         id="tspan819-4-7-0-6-9-1-2-1-4">OS-Provided Constructs</tspan></text>
+    <text
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-4-8-2-2"
+       y="397.54193"
+       x="-201.08302"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         id="tspan3908-8-8"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332"
+         y="397.54193"
+         x="-201.08302">Kernel Space</tspan></text>
+    <rect
+       y="447.81265"
+       x="-246.06233"
+       height="7.6855226"
+       width="92.604156"
+       id="rect817-6-8-2-1-7-7-3-4-8-4-4"
+       style="opacity:1;fill:#d38d5f;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <a
+       transform="matrix(0.99999993,0,0,0.96825398,-156.10408,176.89308)"
+       target="_top"
+       xlink:href="https://www.codecraftsmen.org/software.html#tydl"
+       id="a6608-8-6-7-7-3-3-3">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="-44.979061"
+         y="285.09381"
+         id="text821-0-8-8-2-4-56-4-4-7-1-5"><tspan
+           id="tspan6797-7"
+           x="-44.979061"
+           y="285.09381"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Hardware Registers / Interrupts</tspan></text>
+    </a>
+    <rect
+       y="336.68771"
+       x="-142.87476"
+       height="6.404603"
+       width="6.6146641"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-5-1"
+       style="opacity:1;vector-effect:none;fill:#8cc2e6;fill-opacity:1;stroke:#000000;stroke-width:0.49199948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-21-4-15-9-1-5-6"
+       y="347.36966"
+       x="-131.47641"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26034972"
+         y="347.36966"
+         x="-131.47641"
+         id="tspan819-4-7-0-6-9-1-2-4-3">Hardware-Interface Code</tspan></text>
+    <rect
+       y="431.93765"
+       x="-246.06233"
+       height="7.6855035"
+       width="92.604156"
+       id="rect817-6-5-3-6-8"
+       style="opacity:1;fill:#8cc2e6;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.983999)"
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-9"
+       y="444.1684"
+       x="-197.86569"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         id="tspan6312-2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26034972"
+         y="444.1684"
+         x="-197.86569">Interrupt Handler Top Half</tspan></text>
+    <rect
+       y="421.35434"
+       x="-246.06233"
+       height="7.6855235"
+       width="92.604156"
+       id="rect817-6-5-3-6-3-5-8-8-0"
+       style="opacity:1;fill:#8cc2e6;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.983999)"
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-8-5"
+       y="433.58383"
+       x="-203.07256"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         id="tspan6310-1-8-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26034972"
+         y="433.58383"
+         x="-203.07256">Export Mem Regions and Interrupts</tspan></text>
+    <text
+       transform="scale(1.0162612,0.983999)"
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-4-8-2-2-8"
+       y="425.34656"
+       x="-197.86557"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         id="tspan3908-8-8-7"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26034972"
+         y="425.34656"
+         x="-197.86557">Kernel Device Driver Stub</tspan></text>
+    <rect
+       y="291.70853"
+       x="-251.35396"
+       height="82.020721"
+       width="103.18742"
+       id="rect817-6-5-3-6-3"
+       style="opacity:1;fill:#cccccc;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       id="text5270"
+       y="217.625"
+       x="-3.9687495"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332"
+         y="221.37051"
+         x="-3.9687495"
+         id="tspan5268" /></text>
+    <text
+       id="text11423"
+       y="122.37498"
+       x="35.718803"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332"
+         y="126.12048"
+         x="35.718803"
+         id="tspan11421" /></text>
+    <text
+       id="text5249"
+       y="28.447899"
+       x="3.968812"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332"
+         y="32.193405"
+         x="3.968812"
+         id="tspan5247" /></text>
+    <text
+       id="text2572"
+       y="-49.604183"
+       x="-21.16659"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332"
+         y="-45.858677"
+         x="-21.16659"
+         id="tspan2570" /></text>
+    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-100.4999,199.14587)"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot6276"
+       xml:space="preserve"><flowRegion
+         id="flowRegion6278"><rect
+           y="529.84259"
+           x="-580.15747"
+           height="400"
+           width="580"
+           id="rect6280" /></flowRegion><flowPara
+         id="flowPara6282" /></flowRoot>    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-100.4999,199.14587)"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       id="flowRoot6284"
+       xml:space="preserve"><flowRegion
+         id="flowRegion6286"><rect
+           y="539.84259"
+           x="-560.15747"
+           height="390"
+           width="550"
+           id="rect6288" /></flowRegion><flowPara
+         id="flowPara6290" /></flowRoot>    <text
+       id="text616"
+       y="572.16675"
+       x="-177.27071"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="stroke-width:0.26458332"
+         y="581.53052"
+         x="-177.27071"
+         id="tspan614" /></text>
+    <rect
+       y="315.52103"
+       x="-248.70813"
+       height="39.687531"
+       width="97.895866"
+       id="rect817-6-5-3-6-3-5-8"
+       style="opacity:1;fill:#3594d3;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9"
+       y="320.81277"
+       x="-201.08307"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         id="tspan6310-1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332"
+         y="320.81277"
+         x="-201.08307">Device Driver Library</tspan></text>
+    <text
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-4-8-2"
+       y="299.89798"
+       x="-201.08313"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         id="tspan3908-8"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332"
+         y="299.89798"
+         x="-201.08313">User Space</tspan></text>
+    <rect
+       y="305.18967"
+       x="-248.70813"
+       height="7.9374986"
+       width="97.895828"
+       id="rect817-6-5-3-6-3-5-8-0"
+       style="opacity:1;fill:#c99fd5;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-5"
+       y="310.48132"
+       x="-201.08313"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         id="tspan6310-1-0"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332"
+         y="310.48132"
+         x="-201.08313">Application</tspan></text>
+    <rect
+       y="344.62518"
+       x="-246.06229"
+       height="7.685514"
+       width="92.604156"
+       id="rect817-6-5-3-6-3-5-8-8-7"
+       style="opacity:1;fill:#8cc2e6;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-8-0"
+       y="356.03363"
+       x="-197.86563"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         id="tspan6310-1-8-7"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26034972"
+         y="356.03363"
+         x="-197.86563">Interrupt Handler Bottom Half</tspan></text>
+    <rect
+       y="323.71051"
+       x="-246.06229"
+       height="7.6855235"
+       width="92.604156"
+       id="rect817-6-5-3-6-3-5-8-8-0-8"
+       style="opacity:1;fill:#8cc2e6;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-8-5-9"
+       y="334.35214"
+       x="-197.86559"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         id="tspan6310-1-8-0-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26034972"
+         y="334.35214"
+         x="-197.86559">End-User Interface</tspan></text>
+    <rect
+       y="334.04187"
+       x="-246.06229"
+       height="7.6855235"
+       width="92.604156"
+       id="rect817-6-5-3-6-3-5-8-8-0-8-3"
+       style="opacity:1;fill:#8cc2e6;fill-opacity:1;stroke:#00000b;stroke-width:0.49199948;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-2-64-0-4-48-5-3-6-3-7-9-8-5-9-9"
+       y="344.8515"
+       x="-197.86557"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         id="tspan6310-1-8-0-9-4"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26034972"
+         y="344.8515"
+         x="-197.86557">Device Configuration &amp; Control</tspan></text>
+    <rect
+       y="357.8544"
+       x="-248.7081"
+       height="7.9375086"
+       width="97.895836"
+       id="rect817-6-8-2-1-7-1-3"
+       style="opacity:1;fill:#feff9f;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <a
+       transform="translate(-128.32274,96.573042)"
+       target="_top"
+       xlink:href="https://www.codecraftsmen.org/software.html#tydl"
+       id="a6608-8-5-1-3-4">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="-75.406143"
+         y="266.57303"
+         id="text821-0-8-8-2-4-5-7-42-5"><tspan
+           id="tspan6150-2-1"
+           x="-75.406143"
+           y="266.57303"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Cuddl Library</tspan></text>
+    </a>
+    <rect
+       y="359.17731"
+       x="-166.68726"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-6-3"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="359.17731"
+       x="-160.07266"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-3"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="371.08356"
+       x="-187.85391"
+       height="18.520832"
+       width="31.749998"
+       id="rect817-6-8-2-1-7-7-3-4-8-7"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <a
+       transform="translate(-93.926931,93.927282)"
+       target="_top"
+       xlink:href="https://www.codecraftsmen.org/software.html#tydl"
+       id="a6608-8-6-7-7-3-8">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="-80.697838"
+         y="282.44794"
+         id="text821-0-8-8-2-4-56-4-4-7-7"><tspan
+           id="tspan5911-9"
+           x="-80.697838"
+           y="282.44794"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Interrupt</tspan><tspan
+           id="tspan5948"
+           x="-80.697838"
+           y="287.73959"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Event</tspan><tspan
+           id="tspan5950"
+           x="-80.697838"
+           y="293.03128"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Notification</tspan></text>
+    </a>
+    <rect
+       y="371.08356"
+       x="-246.06226"
+       height="18.520832"
+       width="26.458326"
+       id="rect817-6-8-2-1-7-7-3-4-8-4-0"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <a
+       transform="translate(-156.104,93.927282)"
+       target="_top"
+       xlink:href="https://www.codecraftsmen.org/software.html#tydl"
+       id="a6608-8-6-7-7-3-3-32">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="-80.697838"
+         y="282.44794"
+         id="text821-0-8-8-2-4-56-4-4-7-1-8"><tspan
+           id="tspan6785"
+           x="-80.697838"
+           y="282.44794"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">User to</tspan><tspan
+           id="tspan6793"
+           x="-80.697838"
+           y="287.73959"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Kernel</tspan><tspan
+           id="tspan6797-0"
+           x="-80.697838"
+           y="293.03128"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Calls</tspan></text>
+    </a>
+    <rect
+       y="377.69815"
+       x="-164.04143"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-6-3-3"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="377.69815"
+       x="-227.54143"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-6-3-3-7"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="371.08356"
+       x="-216.95807"
+       height="18.520832"
+       width="26.458326"
+       id="rect817-6-8-2-1-7-7-3-4-8-4-9"
+       style="opacity:1;fill:#808080;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <a
+       transform="translate(-126.99984,93.927282)"
+       target="_top"
+       xlink:href="https://www.codecraftsmen.org/software.html#tydl"
+       id="a6608-8-6-7-7-3">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="-80.697838"
+         y="282.44794"
+         id="text821-0-8-8-2-4-56-4-4-7"><tspan
+           id="tspan4504-5-0-3"
+           x="-80.697838"
+           y="282.44794"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Mem</tspan><tspan
+           id="tspan5909"
+           x="-80.697838"
+           y="287.73959"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Region</tspan><tspan
+           id="tspan5911"
+           x="-80.697838"
+           y="293.03128"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Access</tspan></text>
+    </a>
+    <rect
+       y="377.69815"
+       x="-198.43726"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-6-3-3-7-8"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="347.27106"
+       x="-142.87476"
+       height="6.6145897"
+       width="6.6146646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-1-2"
+       style="opacity:1;vector-effect:none;fill:#feff9f;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       id="text821-0-7-21-4-15-9-1-7-2"
+       y="352.56274"
+       x="-133.61432"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26458332"
+         y="352.56274"
+         x="-133.61432"
+         id="tspan819-4-7-0-6-9-1-2-5-7">Cross-Platform Compatibility Layer</tspan></text>
+    <rect
+       y="402.83356"
+       x="-248.7081"
+       height="7.9375086"
+       width="97.895836"
+       id="rect817-6-8-2-1-7-1-3-2"
+       style="opacity:1;fill:#feff9f;fill-opacity:1;stroke:#00000b;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <a
+       transform="translate(-125.67692,141.55224)"
+       target="_top"
+       xlink:href="https://www.codecraftsmen.org/software.html#tydl"
+       id="a6608-8-5-1-6">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+         x="-75.406143"
+         y="266.57303"
+         id="text821-0-8-8-2-4-5-7-4"><tspan
+           id="tspan6150-1"
+           x="-75.406143"
+           y="266.57303"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.26458332">Cuddl Kernel Support</tspan></text>
+    </a>
+    <rect
+       y="404.15646"
+       x="-166.68726"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-6"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="404.15646"
+       x="-160.07266"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="345.94815"
+       x="-160.07268"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-3-3"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="335.36481"
+       x="-160.07268"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-3-7"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="324.78146"
+       x="-160.07268"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-3-0"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="306.26065"
+       x="-160.07268"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-3-03"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="433.26065"
+       x="-160.07268"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-4"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="422.67731"
+       x="-166.68729"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-6-9"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="422.67731"
+       x="-160.07268"
+       height="5.2916651"
+       width="5.2916646"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-7-5-9-2"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <rect
+       y="429.29187"
+       x="-142.87476"
+       height="6.404603"
+       width="6.6146641"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-5-7"
+       style="opacity:1;vector-effect:none;fill:#ff0000;fill-opacity:1;stroke:#000000;stroke-width:0.49199948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-21-4-15-9-1-5-4"
+       y="441.47971"
+       x="-131.47639"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26034972"
+         y="441.47971"
+         x="-131.47639"
+         id="tspan819-4-7-0-6-9-1-2-4-2">OS-Dependent Code</tspan></text>
+    <rect
+       y="418.70856"
+       x="-142.87476"
+       height="6.404603"
+       width="6.6146641"
+       id="rect817-6-8-2-3-1-9-3-4-0-0-36-9-0-5"
+       style="opacity:1;vector-effect:none;fill:#008000;fill-opacity:1;stroke:#000000;stroke-width:0.49199948;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    <text
+       transform="scale(1.0162612,0.98399899)"
+       id="text821-0-7-21-4-15-9-1-62-3-2"
+       y="430.72427"
+       x="-131.4763"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26034972"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.16559553px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:0.26034972"
+         y="430.72427"
+         x="-131.4763"
+         id="tspan819-4-7-0-6-9-1-2-1-4-4">OS-Independent Code</tspan></text>
+  </g>
+</svg>

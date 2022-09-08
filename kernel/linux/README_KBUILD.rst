@@ -61,4 +61,15 @@ on-the-fly::
 
   sudo dmesg -w
 
+.. note::
+
+  Kernel modules can be removed from the running kernel using the ``rmmod``
+  command::
+   
+    sudo rmmod cuddl_janitor cuddl_manager cuddl
+   
+  Note that multiple kernel modules may be specified, and that the ``.ko``
+  file extension is omitted for each module.  Also note that this command can
+  be run from any directory (i.e. the ``.ko`` don't need to be present).
+
 ..  sphinx-include-insert-modules-end

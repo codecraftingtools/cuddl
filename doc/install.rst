@@ -55,9 +55,83 @@ performed to allow access to the Cuddl manager and janitor device nodes.
 
 ..  sphinx-include-device-permissions-end
 
-
 .. include:: ../kernel/linux/README_KBUILD.rst
 
+Setting up Modprobe
+-------------------
+
+..  sphinx-include-modprobe-start
+
+Manually loading the required kernel modules in the correct order (as
+demonstrated above) can be tedious and error prone.  Thankfully, the Linux
+kernel developers have provided a way to automatically load a module's
+dependencies automatically.  This does, however, require a little bit of
+setup.
+
+The first step is to determine the kernel release we are running::
+
+  uname -r
+
+The result should be something like ``5.4.0-117-generic``.
+
+The next step is to create a subdirectory to hold our new out-of-tree
+modules under the corresponding system ``/lib/modules`` directory::
+
+  sudo mkdir /lib/modules/5.4.0-117-generic/kernel/cuddl
+
+or, more elegantly::
+
+  sudo mkdir /lib/modules/`uname -r`/kernel/cuddl
+
+Next, copy the modules we built into this new directory::
+
+  sudo cp *.ko /lib/modules/`uname -r`/kernel/cuddl
+
+Now adjust the permissions::
+
+  sudo chmod -R o+rX /lib/modules/`uname -r`/kernel/cuddl
+
+Finally, run ``depmod`` to re-compute the module dependencies for the running
+kernel::
+
+  sudo /sbin/depmod -a
+
+Now you should be able to load our new out-of-tree kernel modules using
+modprobe::
+
+  sudo modprobe cuddl_janitor
+  
+Note that this command can be run from any directory, that the ``.ko``
+extension is not specified, and any prerequisite kernel modules are
+automatically loaded (i.e. ``cuddl_manager``, ``cuddl``, and ``uio`` in this
+case).
+
+The ``modprobe`` command can also be used to remove a module, along with any
+prerequisite kernel modules that are no longer being used::
+
+  sudo modprobe -r cuddl_janitor
+  
+..  sphinx-include-modprobe-end
+
+Loading Modules on Boot
+-----------------------
+
+..  sphinx-include-boot-start
+
+When deploying a set of user-space device drivers to an operational system,
+you probably want them to be automatically loaded when the system boots up.
+This can be achieved by creating a new file named (e.g.)  ``cuddl.conf`` in
+the ``/etc/modules-load.d/`` directory with content like this::
+
+  cuddl_janitor
+  other_module_1
+  other_module_2
+
+The format is simply the name of the modules to be loaded, one per line.
+Note that dependencies should be loaded automatically, like with
+``modprobe``.
+
+..  sphinx-include-boot-end
 
 Building a User-Space Application
 ---------------------------------

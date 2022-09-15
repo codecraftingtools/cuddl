@@ -31,10 +31,6 @@ defined in the ``cuddl`` namespace.
 
 .. doxygenfunction:: cuddl::get_max_dev_events
 
-.. doxygenfunction:: cuddl::get_driver_info_for_slot
-
-.. doxygenfunction:: cuddl::get_hw_info_for_slot
-
 .. doxygenfunction:: cuddl::get_memregion_id_for_slot
 
 .. doxygenfunction:: cuddl::get_eventsrc_id_for_slot
@@ -50,4 +46,12 @@ defined in the ``cuddl`` namespace.
 .. doxygenfunction:: cuddl::decrement_memregion_ref_count_for_id
 
 .. doxygenfunction:: cuddl::decrement_eventsrc_ref_count_for_id
+
+.. doxygenfunction:: cuddl::get_driver_info_for_memregion_id
+
+.. doxygenfunction:: cuddl::get_driver_info_for_eventsrc_id
+
+.. doxygenfunction:: cuddl::get_hw_info_for_memregion_id
+
+.. doxygenfunction:: cuddl::get_hw_info_for_eventsrc_id
 

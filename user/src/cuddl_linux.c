@@ -348,82 +348,13 @@ int cuddli_memregion_release_by_token(struct cuddlci_token token)
 	return 0;
 }
 
-int cuddl_memregion_get_driver_info(
-	struct cuddl_memregion *memregion, char *info_str,
-	cuddl_size_t info_len)
+int cuddl_memregion_get_resource_id(
+	struct cuddl_memregion *memregion, struct cuddl_resource_id *id)
 {
-	int fd;
-	int ret;
-	int len;
-	struct cuddlci_get_driver_info_ioctl_data s;
-
-	fd = open("/dev/cuddl", O_RDWR);
-	if (fd == -1)
-		return -errno;
-
-	s.version_code = CUDDL_VERSION_CODE;
-	s.device_slot = memregion->priv.token.device_index;
-
-	ret = ioctl(fd, CUDDLCI_GET_DRIVER_INFO_IOCTL, &s);
-	if (ret) {
-		if ((ret == -1) && errno)
-			ret = -errno;
-		close(fd);
-		return ret;
-	}
-
-	if (info_len > CUDDLCI_MAX_STR_LEN) {
-		info_str[CUDDLCI_MAX_STR_LEN] = '\0';
-		len = CUDDLCI_MAX_STR_LEN;
-	} else {
-		len = info_len;
-	}
-	strncpy(info_str, s.info_str, len);
-
-	ret = close(fd);
-	if (ret == -1)
-		return -errno;
-
-	return 0;
-}
-
-int cuddl_memregion_get_hw_info(
-	struct cuddl_memregion *memregion, char *info_str,
-	cuddl_size_t info_len)
-{
-	int fd;
-	int ret;
-	int len;
-	struct cuddlci_get_driver_info_ioctl_data s;
-
-	fd = open("/dev/cuddl", O_RDWR);
-	if (fd == -1)
-		return -errno;
-
-	s.version_code = CUDDL_VERSION_CODE;
-	s.device_slot = memregion->priv.token.device_index;
-
-	ret = ioctl(fd, CUDDLCI_GET_HW_INFO_IOCTL, &s);
-	if (ret) {
-		if ((ret == -1) && errno)
-			ret = -errno;
-		close(fd);
-		return ret;
-	}
-
-	if (info_len > CUDDLCI_MAX_STR_LEN) {
-		info_str[CUDDLCI_MAX_STR_LEN] = '\0';
-		len = CUDDLCI_MAX_STR_LEN;
-	} else {
-		len = info_len;
-	}
-	strncpy(info_str, s.info_str, len);
-
-	ret = close(fd);
-	if (ret == -1)
-		return -errno;
-
-	return 0;
+	return cuddl_get_memregion_id_for_slot(
+		id,
+		memregion->priv.token.device_index,
+		memregion->priv.token.resource_index);
 }
 
 int cuddl_eventsrc_claim(
@@ -637,82 +568,13 @@ int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc)
 	return 0;
 }
 
-int cuddl_eventsrc_get_driver_info(
-	struct cuddl_eventsrc *eventsrc, char *info_str,
-	cuddl_size_t info_len)
+int cuddl_eventsrc_get_resource_id(
+	struct cuddl_eventsrc *eventsrc, struct cuddl_resource_id *id)
 {
-	int fd;
-	int ret;
-	int len;
-	struct cuddlci_get_driver_info_ioctl_data s;
-
-	fd = open("/dev/cuddl", O_RDWR);
-	if (fd == -1)
-		return -errno;
-
-	s.version_code = CUDDL_VERSION_CODE;
-	s.device_slot = eventsrc->priv.token.device_index;
-
-	ret = ioctl(fd, CUDDLCI_GET_DRIVER_INFO_IOCTL, &s);
-	if (ret) {
-		if ((ret == -1) && errno)
-			ret = -errno;
-		close(fd);
-		return ret;
-	}
-
-	if (info_len > CUDDLCI_MAX_STR_LEN) {
-		info_str[CUDDLCI_MAX_STR_LEN] = '\0';
-		len = CUDDLCI_MAX_STR_LEN;
-	} else {
-		len = info_len;
-	}
-	strncpy(info_str, s.info_str, len);
-
-	ret = close(fd);
-	if (ret == -1)
-		return -errno;
-
-	return 0;
-}
-
-int cuddl_eventsrc_get_hw_info(
-	struct cuddl_eventsrc *eventsrc, char *info_str,
-	cuddl_size_t info_len)
-{
-	int fd;
-	int ret;
-	int len;
-	struct cuddlci_get_driver_info_ioctl_data s;
-
-	fd = open("/dev/cuddl", O_RDWR);
-	if (fd == -1)
-		return -errno;
-
-	s.version_code = CUDDL_VERSION_CODE;
-	s.device_slot = eventsrc->priv.token.device_index;
-
-	ret = ioctl(fd, CUDDLCI_GET_HW_INFO_IOCTL, &s);
-	if (ret) {
-		if ((ret == -1) && errno)
-			ret = -errno;
-		close(fd);
-		return ret;
-	}
-
-	if (info_len > CUDDLCI_MAX_STR_LEN) {
-		info_str[CUDDLCI_MAX_STR_LEN] = '\0';
-		len = CUDDLCI_MAX_STR_LEN;
-	} else {
-		len = info_len;
-	}
-	strncpy(info_str, s.info_str, len);
-
-	ret = close(fd);
-	if (ret == -1)
-		return -errno;
-
-	return 0;
+	return cuddl_get_eventsrc_id_for_slot(
+		id,
+		eventsrc->priv.token.device_index,
+		eventsrc->priv.token.resource_index);
 }
 
 int cuddl_get_max_managed_devices(void)
@@ -784,7 +646,8 @@ int cuddl_get_max_dev_events(void)
 	return ret;
 }
 
-int cuddl_get_driver_info_for_slot(
+/* Internal */
+static int _cuddl_get_driver_info_for_slot(
 	char *info_str, cuddl_size_t info_len, int device_slot)
 {
 	int fd;
@@ -822,7 +685,8 @@ int cuddl_get_driver_info_for_slot(
 	return 0;
 }
 
-int cuddl_get_hw_info_for_slot(
+/* Internal */
+static int _cuddl_get_hw_info_for_slot(
 	char *info_str, cuddl_size_t info_len, int device_slot)
 {
 	int fd;
@@ -1089,6 +953,66 @@ int cuddl_decrement_eventsrc_ref_count_for_id(
 		return -errno;
 
 	return ret;
+}
+
+int cuddl_get_driver_info_for_memregion_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *memregion_id)
+{
+	int ret;
+	struct cuddl_memregion_info meminfo;
+
+	ret = cuddl_get_memregion_info_for_id(&meminfo, memregion_id);
+	if (ret)
+		return ret;
+
+	return _cuddl_get_driver_info_for_slot(
+		info_str, info_len, meminfo.priv.token.device_index);
+}
+
+int cuddl_get_driver_info_for_eventsrc_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *eventsrc_id)
+{
+	int ret;
+	struct cuddl_eventsrc_info meminfo;
+
+	ret = cuddl_get_eventsrc_info_for_id(&meminfo, eventsrc_id);
+	if (ret)
+		return ret;
+
+	return _cuddl_get_driver_info_for_slot(
+		info_str, info_len, meminfo.priv.token.device_index);
+}
+
+int cuddl_get_hw_info_for_memregion_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *memregion_id)
+{
+	int ret;
+	struct cuddl_memregion_info meminfo;
+
+	ret = cuddl_get_memregion_info_for_id(&meminfo, memregion_id);
+	if (ret)
+		return ret;
+
+	return _cuddl_get_hw_info_for_slot(
+		info_str, info_len, meminfo.priv.token.device_index);
+}
+
+int cuddl_get_hw_info_for_eventsrc_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *eventsrc_id)
+{
+	int ret;
+	struct cuddl_eventsrc_info meminfo;
+
+	ret = cuddl_get_eventsrc_info_for_id(&meminfo, eventsrc_id);
+	if (ret)
+		return ret;
+
+	return _cuddl_get_hw_info_for_slot(
+		info_str, info_len, meminfo.priv.token.device_index);
 }
 
 int cuddli_open_janitor(void)

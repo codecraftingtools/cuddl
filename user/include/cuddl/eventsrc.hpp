@@ -390,30 +390,16 @@ public:
 
 	/// \verbatim embed:rst:leading-slashes
 	///
-	/// C++ wrapper for :c:func:`cuddl_eventsrc_get_driver_info`.
+	/// C++ wrapper for :c:func:`cuddl_eventsrc_get_resource_id`.
 	///
 	/// \endverbatim
 	/// @throws std::system_error Operation failed.
-	std::string get_driver_info() {
-		char s[MAX_STR_LEN];
-		int ret = cuddl_eventsrc_get_driver_info(
-			&eventsrc, s, MAX_STR_LEN);
-		if (ret < 0) { throw_err(ret, __func__); }
-		return s;
-	}
+	ResourceID get_resource_id() {
+		cuddl_resource_id id;
 
-	/// \verbatim embed:rst:leading-slashes
-	///
-	/// C++ wrapper for :c:func:`cuddl_eventsrc_get_hw_info`.
-	///
-	/// \endverbatim
-	/// @throws std::system_error Operation failed.
-	std::string get_hw_info() {
-		char s[MAX_STR_LEN];
-		int ret = cuddl_eventsrc_get_hw_info(
-			&eventsrc, s, MAX_STR_LEN);
+		int ret = cuddl_eventsrc_get_resource_id(&eventsrc, &id);
 		if (ret < 0) { throw_err(ret, __func__); }
-		return s;
+		return ResourceID(id);
 	}
 
 private:

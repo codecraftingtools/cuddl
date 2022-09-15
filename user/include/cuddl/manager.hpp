@@ -64,34 +64,6 @@ inline int get_max_dev_events()
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ wrapper for :c:func:`cuddl_get_driver_info_for_slot`.
-///
-/// \endverbatim
-/// @throws std::system_error Operation failed.
-inline std::string get_driver_info_for_slot(int device_slot)
-{
-	char s[MAX_STR_LEN];
-	int ret = cuddl_get_driver_info_for_slot(s, MAX_STR_LEN, device_slot);
-	if (ret < 0) { throw_err(ret, __func__); }
-	return s;
-}
-
-/// \verbatim embed:rst:leading-slashes
-///
-/// C++ wrapper for :c:func:`cuddl_get_hw_info_for_slot`.
-///
-/// \endverbatim
-/// @throws std::system_error Operation failed.
-inline std::string get_hw_info_for_slot(int device_slot)
-{
-	char s[MAX_STR_LEN];
-	int ret = cuddl_get_hw_info_for_slot(s, MAX_STR_LEN, device_slot);
-	if (ret < 0) { throw_err(ret, __func__); }
-	return s;
-}
-
-/// \verbatim embed:rst:leading-slashes
-///
 /// C++ wrapper for :c:func:`cuddl_get_memregion_id_for_slot`.
 ///
 /// \endverbatim
@@ -201,6 +173,68 @@ inline int decrement_eventsrc_ref_count_for_id(const cuddl_resource_id &id)
 	int ret = cuddl_decrement_eventsrc_ref_count_for_id(&id);
 	if (ret < 0) { throw_err(ret, __func__); }
 	return ret;
+}
+
+/// \verbatim embed:rst:leading-slashes
+///
+/// C++ wrapper for :c:func:`cuddl_get_driver_info_for_memregion_id`.
+///
+/// \endverbatim
+/// @throws std::system_error Operation failed.
+inline std::string get_driver_info_for_memregion_id(
+	const cuddl_resource_id &id)
+{
+	char s[MAX_STR_LEN];
+	int ret = cuddl_get_driver_info_for_memregion_id(
+		s, MAX_STR_LEN, &id);
+	if (ret < 0) { throw_err(ret, __func__); }
+	return s;
+}
+
+/// \verbatim embed:rst:leading-slashes
+///
+/// C++ wrapper for :c:func:`cuddl_get_driver_info_for_eventsrc_id`.
+///
+/// \endverbatim
+/// @throws std::system_error Operation failed.
+inline std::string get_driver_info_for_eventsrc_id(
+	const cuddl_resource_id &id)
+{
+	char s[MAX_STR_LEN];
+	int ret = cuddl_get_driver_info_for_eventsrc_id(
+		s, MAX_STR_LEN, &id);
+	if (ret < 0) { throw_err(ret, __func__); }
+	return s;
+}
+
+/// \verbatim embed:rst:leading-slashes
+///
+/// C++ wrapper for :c:func:`cuddl_get_hw_info_for_memregion_id`.
+///
+/// \endverbatim
+/// @throws std::system_error Operation failed.
+inline std::string get_hw_info_for_memregion_id(const cuddl_resource_id &id)
+{
+	char s[MAX_STR_LEN];
+	int ret = cuddl_get_hw_info_for_memregion_id(
+		s, MAX_STR_LEN, &id);
+	if (ret < 0) { throw_err(ret, __func__); }
+	return s;
+}
+
+/// \verbatim embed:rst:leading-slashes
+///
+/// C++ wrapper for :c:func:`cuddl_get_hw_info_for_eventsrc_id`.
+///
+/// \endverbatim
+/// @throws std::system_error Operation failed.
+inline std::string get_hw_info_for_eventsrc_id(const cuddl_resource_id &id)
+{
+	char s[MAX_STR_LEN];
+	int ret = cuddl_get_hw_info_for_eventsrc_id(
+		s, MAX_STR_LEN, &id);
+	if (ret < 0) { throw_err(ret, __func__); }
+	return s;
 }
 
 } // namespace cuddl

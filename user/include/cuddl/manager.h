@@ -97,70 +97,6 @@ int cuddl_get_max_dev_mem_regions(void);
 int cuddl_get_max_dev_events(void);
 
 /**
- * cuddl_get_driver_info_for_slot() - Get the associated driver info string.
- *
- * @info_str: Pointer to the buffer to be used for returning the info
- *            string.
- *
- * @info_len: Input parameter specifying the size of the buffer used for
- *            returning the info string.
- *
- * @device_slot: Device slot number (non-negative integer).
- *
- * Retrieve the driver information string associated with the device in
- * specified device slot.
- *
- * Return: ``0`` on success, or a negative error code.
- *
- *   Error codes:
- *     - ``-ENODEV``: The specified device slot is empty.
- *     - ``-EBADSLT``: The specified device slot is out of range.
- *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
- *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
- *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
- */
-int cuddl_get_driver_info_for_slot(
-	char *info_str, cuddl_size_t info_len, int device_slot);
-
-/**
- * cuddl_get_hw_info_for_slot() - Get the associated hardware info string.
- *
- * @info_str: Pointer to the buffer to be used for returning the info
- *            string.
- *
- * @info_len: Input parameter specifying the size of the buffer used for
- *            returning the info string.
- *
- * @device_slot: Device slot number (non-negative integer).
- *
- * Retrieve the hardware information string associated with the device in
- * specified device slot.
- *
- * Return: ``0`` on success, or a negative error code.
- *
- *   Error codes:
- *     - ``-ENODEV``: The specified device slot is empty.
- *     - ``-EBADSLT``: The specified device slot is out of range.
- *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
- *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
- *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
- */
-int cuddl_get_hw_info_for_slot(
-	char *info_str, cuddl_size_t info_len, int device_slot);
-
-/**
  * cuddl_get_memregion_id_for_slot() - Get ID describing a mem region by slot.
  *
  * Retrieve a resource identifier describing the memory region associated
@@ -394,6 +330,150 @@ int cuddl_decrement_memregion_ref_count_for_id(
  *       Cuddl manager device.
  */
 int cuddl_decrement_eventsrc_ref_count_for_id(
+	const struct cuddl_resource_id *eventsrc_id);
+
+/**
+ * cuddl_get_driver_info_for_memregion_id() - Get the driver info string
+ *                                            associated with the mem region.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * @memregion_id: Resource identifier input identifying the memory region to
+ *                be queried.
+ *
+ * Retrieve the driver information string associated with the specified
+ * memory region.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ *     - Error code from ``cuddl_get_memregion_info_for_id`` (Linux).
+ */
+int cuddl_get_driver_info_for_memregion_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *memregion_id);
+
+/**
+ * cuddl_get_driver_info_for_eventsrc_id() - Get the driver info string
+ *                                           associated with the event source.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * @eventsrc_id: Resource identifier input identifying the event source to be
+ *               queried.
+ *
+ * Retrieve the driver information string associated with the specified
+ * event source.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ *     - Error code from ``cuddl_get_eventsrc_info_for_id`` (Linux).
+ */
+int cuddl_get_driver_info_for_eventsrc_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *eventsrc_id);
+
+/**
+ * cuddl_get_hw_info_for_memregion_id() - Get the hardware info string
+ *                                        associated with the mem region.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * @memregion_id: Resource identifier input identifying the memory region to
+ *                be queried.
+ *
+ * Retrieve the hardware information string associated with the specified
+ * memory region.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ *     - Error code from ``cuddl_get_memregion_info_for_id`` (Linux).
+ */
+int cuddl_get_hw_info_for_memregion_id(
+	char *info_str, cuddl_size_t info_len,
+	const struct cuddl_resource_id *memregion_id);
+
+/**
+ * cuddl_get_hw_info_for_eventsrc_id() - Get the hardware info string
+ *                                       associated with the event source.
+ *
+ * @info_str: Pointer to the buffer to be used for returning the info
+ *            string.
+ *
+ * @info_len: Input parameter specifying the size of the buffer used for
+ *            returning the info string.
+ *
+ * @eventsrc_id: Resource identifier input identifying the event source to be
+ *               queried.
+ *
+ * Retrieve the hardware information string associated with the specified
+ * event source.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ENODEV``: The specified device slot is empty.
+ *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
+ *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
+ *       Cuddl manager device.
+ *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
+ *       Cuddl manager device.
+ *     - Error code from ``cuddl_get_eventsrc_info_for_id`` (Linux).
+ */
+int cuddl_get_hw_info_for_eventsrc_id(
+	char *info_str, cuddl_size_t info_len,
 	const struct cuddl_resource_id *eventsrc_id);
 
 #endif /* !_CUDDL_DEVICE_H */

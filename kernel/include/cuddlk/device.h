@@ -38,8 +38,10 @@
  *
  *    Maximum number of memory regions allowed for a single Cuddl device.
  *     
- *    Similar to::
- *     
+ *    Similar to:
+ *
+ *    .. code-block:: none
+ *
  *      MAX_UIO_MAPS (#define) in linux/uio_driver.h for Linux   UIO
  *      UDD_NR_MAPS  (#define) in rtdm/udd.h         for Xenomai UDD
  *     

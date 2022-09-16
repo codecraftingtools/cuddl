@@ -48,7 +48,9 @@
  * user-space code.  These are the possible values for the ``type`` member of
  * the ``cuddlk_memregion`` struct.
  *
- * Similar to::
+ * Similar to:
+ *
+ * .. code-block:: none
  *
  *   UIO_MEM_* (#define) in linux/uio_driver.h for Linux   UIO
  *   UDD_MEM_* (#define) in rtdm/udd.h         for Xenomai UDD

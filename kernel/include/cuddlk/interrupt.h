@@ -47,7 +47,9 @@
  *
  * Possible return values for interrupt handlers.
  *
- * Similar to::
+ * Similar to:
+ *
+ * .. code-block:: none
  *
  *   IRQ_*      (type irqreturn_t) in linux/irqreturn.h    for Linux   UIO
  *   RTDM_IRQ_* (#define)          in rtdm/driver.h        for Xenomai UDD
@@ -78,7 +80,9 @@ enum cuddlk_interrupt_handler_return_value {
  * Special-purpose values for the ``irq`` member of the ``cuddlk_interrupt``
  * struct.
  *
- * Similar to::
+ * Similar to:
+ *
+ * .. code-block:: none
  *
  *   UIO_IRQ_* (#define) in linux/uio_driver.h for Linux   UIO
  *   UDD_IRQ_* (#define) in rtdm/udd.h         for Xenomai UDD
@@ -105,7 +109,9 @@ enum cuddlk_special_irq_value {
  * Flags that describe the properties of an interrupt.  These may be used in
  * the ``flags`` member of the ``cuddlk_interrupt`` struct.
  *
- * Similar to::
+ * Similar to:
+ *
+ * .. code-block:: none
  *
  *   IRQF_SHARED         (#define) in linux/interrupt.h for Linux   UIO
  *   RTDM_IRQTYPE_SHARED (#define) in rtdm/driver.h     for Xenomai UDD

@@ -99,7 +99,8 @@ struct cuddli_eventsrc_priv {
 int cuddli_open_janitor(void);
 
 /**
- * cuddli_close_janitor() - Clean up resources associate with current process.
+ * cuddli_close_janitor() - Clean up resources associated with the current
+ *                          process.
  *
  * @fd: Janitor device file descriptor to close.
  *

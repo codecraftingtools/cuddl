@@ -71,7 +71,7 @@ extlinks = {
     'repo': ('https://github.com/codecraftingtools/cuddl/blob/master/%s','')
 }
 
-kerneldoc_bin = ['perl', './kerneldoc/kernel-doc']
+kerneldoc_bin = './kerneldoc/kernel-doc'
 kerneldoc_srctree = '..'
 
 breathe_projects = {"Cuddl": "doxyxml/"}

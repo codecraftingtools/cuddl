@@ -119,7 +119,7 @@ int cuddlk_manager_add_device(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Error code returned from ``cuddlk_manager_find_device_slot()``.
+ *     - Error code returned by ``cuddlk_manager_find_device_slot()``.
  */
 int cuddlk_manager_remove_device(
 	struct cuddlk_manager * manager, struct cuddlk_device *dev);
@@ -184,7 +184,7 @@ int cuddlk_manager_find_device_slot(
  * a negative error code.
  *
  *   Error codes:
- *     - Error code returned from ``cuddlk_manager_find_device_slot()``.
+ *     - Error code returned by ``cuddlk_manager_find_device_slot()``.
  */
 int cuddlk_manager_find_empty_slot(struct cuddlk_manager *manager);
 

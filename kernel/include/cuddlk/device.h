@@ -225,8 +225,8 @@ int cuddlk_device_find_eventsrc_slot(
  *   Error codes:
  *     - ``-EINVAL``: Invalid ``group`` or ``name`` argument.
  *     - ``-ENOMEM``: Memory allocation error.
- *     - Linux: Error code returned from ``uio_device_register()``.
- *     - Xenomai UDD: Error code returned from ``udd_register_device()``.
+ *     - Error code returned by ``uio_device_register()`` (Linux).
+ *     - Error code returned by ``udd_register_device()`` (Xenomai UDD).
  */
 int cuddlk_device_register(struct cuddlk_device *dev);
 
@@ -249,8 +249,8 @@ int cuddlk_device_register(struct cuddlk_device *dev);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux UIO: None.
- *     - Xenomai UDD: Error code returned from ``udd_unregister_device()``.
+ *     - None (Linux UIO).
+ *     - Error code returned by ``udd_unregister_device()`` (Xenomai UDD).
  */
 int cuddlk_device_unregister(struct cuddlk_device *dev);
 
@@ -264,10 +264,10 @@ int cuddlk_device_unregister(struct cuddlk_device *dev);
  *   Error codes:
  *     - ``-EINVAL``: Invalid ``group`` or ``name`` argument
  *     - ``-ENOMEM``: Memory allocation error.
- *     - Error code returned from
- *       `` cuddlk_manager_next_available_instance_id()``.
- *     - Error code returned from ``cuddlk_device_register()``.
- *     - Error code returned from ``cuddlk_manager_add_device()``.
+ *     - Error code returned by
+ *       ``cuddlk_manager_next_available_instance_id()``.
+ *     - Error code returned by ``cuddlk_device_register()``.
+ *     - Error code returned by ``cuddlk_manager_add_device()``.
  */
 int cuddlk_device_manage(struct cuddlk_device *dev);
 
@@ -279,8 +279,8 @@ int cuddlk_device_manage(struct cuddlk_device *dev);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Error code returned from ``cuddlk_manager_remove_device()``.
- *     - Error code returned from ``cuddlk_device_unregister()``.
+ *     - Error code returned by ``cuddlk_manager_remove_device()``.
+ *     - Error code returned by ``cuddlk_device_unregister()``.
  */
 int cuddlk_device_release(struct cuddlk_device *dev);
 

@@ -234,8 +234,8 @@ struct cuddlk_interrupt {
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux UIO: The result of ``request_irq()`` is returned.
- *     - Xenomai UDD: The result of ``rtdm_irq_request()`` is returned.
+ *     - Error code returned by ``request_irq()`` (Linux UIO).
+ *     - Error code returned by ``rtdm_irq_request()`` (Xenomai UDD).
  */
 int cuddlk_interrupt_register(
 	struct cuddlk_interrupt *intr, const char *name);
@@ -260,8 +260,8 @@ int cuddlk_interrupt_register(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux UIO: None.
- *     - Xenomai UDD: The result of ``rtdm_irq_free()`` is returned.
+ *     - None (Linux UIO).
+ *     - Error code returned by ``rtdm_irq_free()`` (Xenomai UDD).
  */
 int cuddlk_interrupt_unregister(struct cuddlk_interrupt *intr);
 

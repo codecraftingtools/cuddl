@@ -96,12 +96,12 @@ struct cuddl_memregion {
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_memregion_claim(
 	struct cuddl_memregion_info *meminfo,
@@ -128,7 +128,8 @@ int cuddl_memregion_claim(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddli_memregion_release_by_token()``
+ *     - Error code returned by ``cuddli_memregion_release_by_token()``
+ *       (Linux).
  */
 int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
 
@@ -160,10 +161,10 @@ int cuddl_memregion_release(struct cuddl_memregion_info *meminfo);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       UIO or UDD memory region device.
- *     - Linux: Value of ``-errno`` resulting from from ``mmap()`` call on
- *       UIO or UDD memory region file descriptior.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on UIO or
+ *       UDD memory region device (Linux).
+ *     - Value of ``-errno`` resulting from from ``mmap()`` call on UIO or
+ *       UDD memory region file descriptor (Linux).
  */
 int cuddl_memregion_map(
 	struct cuddl_memregion *memregion,
@@ -188,10 +189,10 @@ int cuddl_memregion_map(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``munmap()`` call on
- *       UIO or UDD memory region file descriptor.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       UIO or UDD memory region file descriptor.
+ *     - Value of ``-errno`` resulting from from ``munmap()`` call on UIO or
+ *       UDD memory region file descriptor (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on UIO or
+ *       UDD memory region device (Linux).
  */
 int cuddl_memregion_unmap(struct cuddl_memregion *memregion);
 
@@ -213,8 +214,8 @@ int cuddl_memregion_unmap(struct cuddl_memregion *memregion);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_memregion_claim()``.
- *     - Linux: Error code returned by ``cuddl_memregion_map()``.
+ *     - Error code returned by ``cuddl_memregion_claim()`` (Linux).
+ *     - Error code returned by ``cuddl_memregion_map()`` (Linux).
  */
 int cuddl_memregion_claim_and_map(
 	struct cuddl_memregion *memregion,
@@ -241,8 +242,10 @@ int cuddl_memregion_claim_and_map(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_memregion_unmap()``
- *     - Linux: Error code returned by ``cuddli_memregion_release_by_token()``
+ *     - Error code returned by ``cuddl_memregion_unmap()``
+ *       (Linux).
+ *     - Error code returned by ``cuddli_memregion_release_by_token()``
+ *       (Linux).
  */
 int cuddl_memregion_unmap_and_release(struct cuddl_memregion *memregion);
 
@@ -384,7 +387,7 @@ inline void cuddl_memregion_iowrite32(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - See error codes for ``cuddl_get_memregion_id_for_slot`` (Linux).
+ *     - Error code returned by ``cuddl_get_memregion_id_for_slot()`` (Linux).
  */
 int cuddl_memregion_get_resource_id(
 	struct cuddl_memregion *memregion, struct cuddl_resource_id *id);

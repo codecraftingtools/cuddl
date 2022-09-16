@@ -65,7 +65,7 @@ struct cuddl_eventsrc {
 };
 
 /**
- * cuddl_event_claim() - Claim an event source from user space.
+ * cuddl_eventsrc_claim() - Claim an event source from user space.
  *
  * @eventinfo: Pointer to a data structure that will receive the information
  *             required to open the specified event source from user space.
@@ -110,12 +110,12 @@ struct cuddl_eventsrc {
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_eventsrc_claim(
 	struct cuddl_eventsrc_info *eventinfo,
@@ -142,7 +142,8 @@ int cuddl_eventsrc_claim(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddli_eventsrc_release_by_token()``.
+ *     - Error code returned by ``cuddli_eventsrc_release_by_token()``
+ *       (Linux).
  */
 int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
 
@@ -174,8 +175,8 @@ int cuddl_eventsrc_release(struct cuddl_eventsrc_info *eventinfo);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       UIO or UDD event source device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on UIO or
+ *       UDD event source device (Linux).
  */
 int cuddl_eventsrc_open(
 	struct cuddl_eventsrc *eventsrc,
@@ -200,8 +201,8 @@ int cuddl_eventsrc_open(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       UIO or UDD event source file descriptor.
+ *     - Value of ``-errno`` resulting from from ``close()`` call on UIO or
+ *       UDD event source file descriptor (Linux).
  */
 int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc);
 
@@ -223,8 +224,8 @@ int cuddl_eventsrc_close(struct cuddl_eventsrc *eventsrc);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_eventsrc_claim()``.
- *     - Linux: Error code returned by ``cuddl_eventsrc_open()``.
+ *     - Error code returned by ``cuddl_eventsrc_claim()`` (Linux).
+ *     - Error code returned by ``cuddl_eventsrc_open()`` (Linux).
  */
 int cuddl_eventsrc_claim_and_open(
 	struct cuddl_eventsrc *eventsrc,
@@ -250,8 +251,9 @@ int cuddl_eventsrc_claim_and_open(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by ``cuddl_eventsrc_close()``.
- *     - Linux: Error code returned by ``cuddli_eventsrc_release_by_token()``.
+ *     - Error code returned by ``cuddl_eventsrc_close()`` (Linux).
+ *     - Error code returned by ``cuddli_eventsrc_release_by_token()``
+ *       (Linux).
  */
 int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
 
@@ -271,8 +273,8 @@ int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
  *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``read()`` call on
- *       event source file descriptor.
+ *     - Value of ``-errno`` resulting from from ``read()`` call on event
+ *       source file descriptor (Linux).
  */
 int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
 
@@ -292,7 +294,7 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
  *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
- *     - Linux: Error code returned by `cuddl_eventsrc_timed_wait()``.
+ *     - Error code returned by `cuddl_eventsrc_timed_wait()`` (Linux).
  */
 int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
 
@@ -317,10 +319,10 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
  *
  *   Error codes:
  *     - ``-ETIMEDOUT``: A timeout occurred.
- *     - Linux: Value of ``-errno`` resulting from from ``select()`` call on
- *       event source file descriptor.
- *     - Linux: Value of ``-errno`` resulting from from ``read()`` call on
- *       event source file descriptor.
+ *     - Value of ``-errno`` resulting from from ``select()`` call on event
+ *       source file descriptor (Linux).
+ *     - Value of ``-errno`` resulting from from ``read()`` call on event
+ *       source file descriptor (Linux).
  */
 int cuddl_eventsrc_timed_wait(
 	struct cuddl_eventsrc *eventsrc,
@@ -340,8 +342,8 @@ int cuddl_eventsrc_timed_wait(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``write()`` call on
- *       event source file descriptor.
+ *     - Value of ``-errno`` resulting from from ``write()`` call on event
+ *       source file descriptor (Linux).
  */
 int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc);
 
@@ -359,8 +361,8 @@ int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - Linux: Value of ``-errno`` resulting from from ``write()`` call on
- *       event source file descriptor.
+ *     - Value of ``-errno`` resulting from from ``write()`` call on event
+ *       source file descriptor (Linux).
  */
 int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc);
 
@@ -383,7 +385,7 @@ int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc);
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - See error codes for ``cuddl_get_eventsrc_id_for_slot`` (Linux).
+ *     - Error code returned by ``cuddl_get_eventsrc_id_for_slot()`` (Linux).
  */
 int cuddl_eventsrc_get_resource_id(
 	struct cuddl_eventsrc *eventsrc, struct cuddl_resource_id *id);

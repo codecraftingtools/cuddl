@@ -43,12 +43,12 @@
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_max_managed_devices(void);
 
@@ -65,12 +65,12 @@ int cuddl_get_max_managed_devices(void);
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_max_dev_mem_regions(void);
 
@@ -87,12 +87,12 @@ int cuddl_get_max_dev_mem_regions(void);
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_max_dev_events(void);
 
@@ -121,12 +121,12 @@ int cuddl_get_max_dev_events(void);
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_memregion_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int mem_slot);
@@ -156,12 +156,12 @@ int cuddl_get_memregion_id_for_slot(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_eventsrc_id_for_slot(
 	struct cuddl_resource_id *id, int device_slot, int event_slot);
@@ -186,12 +186,12 @@ int cuddl_get_eventsrc_id_for_slot(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_memregion_info_for_id(
 	struct cuddl_memregion_info *meminfo,
@@ -217,12 +217,12 @@ int cuddl_get_memregion_info_for_id(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_eventsrc_info_for_id(
 	struct cuddl_eventsrc_info *eventinfo,
@@ -243,12 +243,12 @@ int cuddl_get_eventsrc_info_for_id(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_memregion_ref_count_for_id(
 	const struct cuddl_resource_id *memregion_id);
@@ -268,12 +268,12 @@ int cuddl_get_memregion_ref_count_for_id(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_eventsrc_ref_count_for_id(
 	const struct cuddl_resource_id *eventsrc_id);
@@ -295,12 +295,12 @@ int cuddl_get_eventsrc_ref_count_for_id(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_decrement_memregion_ref_count_for_id(
 	const struct cuddl_resource_id *memregion_id);
@@ -322,12 +322,12 @@ int cuddl_decrement_memregion_ref_count_for_id(
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_decrement_eventsrc_ref_count_for_id(
 	const struct cuddl_resource_id *eventsrc_id);
@@ -351,18 +351,21 @@ int cuddl_decrement_eventsrc_ref_count_for_id(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - ``-ENODEV``: The specified device slot is empty.
- *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - Error code returned by ``cuddl_get_memregion_info_for_id()``
+ *       (Linux).
+ *     - ``-ENODEV``: The device slot associated with the specified resource
+ *       id is empty.
+ *     - ``-EBADSLT``: The device slot associated with the specified resource
+ *       id is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
- *     - Error code from ``cuddl_get_memregion_info_for_id`` (Linux).
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_driver_info_for_memregion_id(
 	char *info_str, cuddl_size_t info_len,
@@ -387,18 +390,20 @@ int cuddl_get_driver_info_for_memregion_id(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - ``-ENODEV``: The specified device slot is empty.
- *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - Error code returned by ``cuddl_get_eventsrc_info_for_id()`` (Linux).
+ *     - ``-ENODEV``: The device slot associated with the specified resource
+ *       id is empty.
+ *     - ``-EBADSLT``: The device slot associated with the specified resource
+ *       id is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
- *     - Error code from ``cuddl_get_eventsrc_info_for_id`` (Linux).
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_driver_info_for_eventsrc_id(
 	char *info_str, cuddl_size_t info_len,
@@ -423,18 +428,21 @@ int cuddl_get_driver_info_for_eventsrc_id(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - ``-ENODEV``: The specified device slot is empty.
- *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - Error code returned by ``cuddl_get_memregion_info_for_id()``
+ *       (Linux).
+ *     - ``-ENODEV``: The device slot associated with the specified resource
+ *       id is empty.
+ *     - ``-EBADSLT``: The device slot associated with the specified resource
+ *       id is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
- *     - Error code from ``cuddl_get_memregion_info_for_id`` (Linux).
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_hw_info_for_memregion_id(
 	char *info_str, cuddl_size_t info_len,
@@ -459,18 +467,20 @@ int cuddl_get_hw_info_for_memregion_id(
  * Return: ``0`` on success, or a negative error code.
  *
  *   Error codes:
- *     - ``-ENODEV``: The specified device slot is empty.
- *     - ``-EBADSLT``: The specified device slot is out of range.
+ *     - Error code returned by ``cuddl_get_eventsrc_info_for_id()`` (Linux).
+ *     - ``-ENODEV``: The device slot associated with the specified resource
+ *       id is empty.
+ *     - ``-EBADSLT``: The device slot associated with the specified resource
+ *       id is out of range.
  *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
  *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
  *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
- *     - Linux: Value of ``-errno`` resulting from from ``open()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``ioctl()`` call on
- *       Cuddl manager device.
- *     - Linux: Value of ``-errno`` resulting from from ``close()`` call on
- *       Cuddl manager device.
- *     - Error code from ``cuddl_get_eventsrc_info_for_id`` (Linux).
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
  */
 int cuddl_get_hw_info_for_eventsrc_id(
 	char *info_str, cuddl_size_t info_len,

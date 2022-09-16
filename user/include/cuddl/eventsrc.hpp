@@ -27,8 +27,8 @@ namespace cuddl {
 ///
 /// C++ wrapper for :c:enum:`cuddl_eventsrc_flags`.
 ///
-/// The ``|`` operator is overloaded to return a `EventSrcFlags` instance.
-/// The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded to return an :cpp:type:`EventSrcFlags`
+/// instance.  The stream output operator is also overloaded.
 ///
 /// \endverbatim
 enum class EventSrcFlag {
@@ -50,13 +50,16 @@ inline std::ostream &operator <<(std::ostream &os, const EventSrcFlag &f)
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class representing a set of one or more `EventSrcFlag` elements.
+/// C++ class representing a set of one or more :cpp:enum:`EventSrcFlag`
+/// elements.
 ///
-/// See the `Flags` class template documentation for member functions.
+/// See the :cpp:type:`Flags` class template documentation for member
+/// functions.
 ///
-/// The ``|`` operator is overloaded for `EventSrcFlag` and `EventSrcFlags`
-/// arguments.  The ``|=`` operator is overloaded as an alias for
-/// `Flags::set`.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded for :cpp:enum:`EventSrcFlag` and
+/// :cpp:type:`EventSrcFlags` arguments.  The ``|=`` operator is overloaded
+/// as an alias for ``Flags::set``.  The stream output operator is also
+/// overloaded.
 ///
 /// \endverbatim
 using EventSrcFlags = Flags<EventSrcFlag>;
@@ -88,8 +91,9 @@ inline std::ostream &operator <<(std::ostream &os, const EventSrcFlags &f)
 ///
 /// C++ wrapper for :c:enum:`cuddl_eventsrc_claim_flags`.
 ///
-/// The ``|`` operator is overloaded to return a `EventSrcClaimFlags`
-/// instance.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded to return an
+/// :cpp:type:`EventSrcClaimFlags` instance.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 enum class EventSrcClaimFlag {
@@ -106,14 +110,16 @@ inline std::ostream &operator <<(
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class representing a set of one or more `EventSrcClaimFlag`
+/// C++ class representing a set of one or more :cpp:enum:`EventSrcClaimFlag`
 /// elements.
 ///
-/// See the `Flags` class template documentation for member functions.
+/// See the :cpp:type:`Flags` class template documentation for member
+/// functions.
 ///
-/// The ``|`` operator is overloaded for `EventSrcClaimFlag` and
-/// `EventSrcClaimFlags` arguments.  The ``|=`` operator is overloaded as an
-/// alias for `Flags::set`.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded for :cpp:enum:`EventSrcClaimFlag` and
+/// :cpp:type:`EventSrcClaimFlags` arguments.  The ``|=`` operator is
+/// overloaded as an alias for ``Flags::set``.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 using EventSrcClaimFlags = Flags<EventSrcClaimFlag>;
@@ -135,8 +141,9 @@ inline std::ostream &operator <<(
 /// Placeholder for event source open flags that may possibly be implemented
 /// in the future.
 ///
-/// The ``|`` operator is overloaded to return a `EventSrcOpenFlags`
-/// instance.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded to return an
+/// :cpp:type:`EventSrcOpenFlags` instance.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 enum class EventSrcOpenFlag {
@@ -150,13 +157,16 @@ inline std::ostream &operator <<(
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class representing a set of one or more `EventSrcOpenFlag` elements.
+/// C++ class representing a set of one or more :cpp:enum:`EventSrcOpenFlag`
+/// elements.
 ///
-/// See the `Flags` class template documentation for member functions.
+/// See the :cpp:type:`Flags` class template documentation for member
+/// functions.
 ///
-/// The ``|`` operator is overloaded for `EventSrcOpenFlag` and
-/// `EventSrcOpenFlags` arguments.  The ``|=`` operator is overloaded as an
-/// alias for `Flags::set`.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded for :cpp:enum:`EventSrcOpenFlag` and
+/// :cpp:type:`EventSrcOpenFlags` arguments.  The ``|=`` operator is
+/// overloaded as an alias for ``Flags::set``.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 using EventSrcOpenFlags = Flags<EventSrcOpenFlag>;

@@ -59,9 +59,10 @@ const std::string flag_sep{" | "};
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class template used to implement `MemRegionFlags`,
-/// `MemRegionClaimFlags`, `MemRegionMapFlags`, `EventSrcFlags`,
-/// `EventSrcClaimFlags`, and `EventSrcOpenFlags`.
+/// C++ class template used to implement :cpp:type:`MemRegionFlags`,
+/// :cpp:type:`MemRegionClaimFlags`, :cpp:type:`MemRegionMapFlags`,
+/// :cpp:type:`EventSrcFlags`, :cpp:type:`EventSrcClaimFlags`, and
+/// :cpp:type:`EventSrcOpenFlags`.
 ///
 /// \endverbatim
 template<class F>

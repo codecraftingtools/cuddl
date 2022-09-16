@@ -27,8 +27,8 @@ namespace cuddl {
 ///
 /// C++ wrapper for :c:enum:`cuddl_memregion_flags`.
 ///
-/// The ``|`` operator is overloaded to return a `MemRegionFlags` instance.
-/// The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded to return a :cpp:type:`MemRegionFlags`
+/// instance.  The stream output operator is also overloaded.
 ///
 /// \endverbatim
 enum class MemRegionFlag {
@@ -44,13 +44,16 @@ inline std::ostream &operator <<(std::ostream &os, const MemRegionFlag &f)
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class representing a set of one or more `MemRegionFlag` elements.
+/// C++ class representing a set of one or more :cpp:enum:`MemRegionFlag`
+/// elements.
 ///
-/// See the `Flags` class template documentation for member functions.
+/// See the :cpp:type:`Flags` class template documentation for member
+/// functions.
 ///
-/// The ``|`` operator is overloaded for `MemRegionFlag` and `MemRegionFlags`
-/// arguments.  The ``|=`` operator is overloaded as an alias for
-/// `Flags::set`.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded for :cpp:enum:`MemRegionFlag` and
+/// :cpp:type:`MemRegionFlags` arguments.  The ``|=`` operator is overloaded
+/// as an alias for ``Flags::set``.  The stream output operator is also
+/// overloaded.
 ///
 /// \endverbatim
 using MemRegionFlags = Flags<MemRegionFlag>;
@@ -70,8 +73,9 @@ inline std::ostream &operator <<(std::ostream &os, const MemRegionFlags &f)
 ///
 /// C++ wrapper for :c:enum:`cuddl_memregion_claim_flags`.
 ///
-/// The ``|`` operator is overloaded to return a `MemRegionClaimFlags`
-/// instance.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded to return a
+/// :cpp:type:`MemRegionClaimFlags` instance.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 enum class MemRegionClaimFlag {
@@ -88,14 +92,16 @@ inline std::ostream &operator <<(
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class representing a set of one or more `MemRegionClaimFlag`
-/// elements.
+/// C++ class representing a set of one or more
+/// :cpp:enum:`MemRegionClaimFlag` elements.
 ///
-/// See the `Flags` class template documentation for member functions.
+/// See the :cpp:type:`Flags` class template documentation for member
+/// functions.
 ///
-/// The ``|`` operator is overloaded for `MemRegionClaimFlag` and
-/// `MemRegionClaimFlags` arguments.  The ``|=`` operator is overloaded as an
-/// alias for `Flags::set`.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded for :cpp:enum:`MemRegionClaimFlag` and
+/// :cpp:type:`MemRegionClaimFlags` arguments.  The ``|=`` operator is
+/// overloaded as an alias for ``Flags::set``.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 using MemRegionClaimFlags = Flags<MemRegionClaimFlag>;
@@ -117,8 +123,9 @@ inline std::ostream &operator <<(
 /// Placeholder for memory region mapping flags that may possibly be
 /// implemented in the future.
 ///
-/// The ``|`` operator is overloaded to return a `MemRegionMapFlags`
-/// instance.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded to return a
+/// :cpp:type:`MemRegionMapFlags` instance.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 enum class MemRegionMapFlag {
@@ -132,13 +139,16 @@ inline std::ostream &operator <<(
 
 /// \verbatim embed:rst:leading-slashes
 ///
-/// C++ class representing a set of one or more `MemRegionMapFlag` elements.
+/// C++ class representing a set of one or more :cpp:enum:`MemRegionMapFlag`
+/// elements.
 ///
-/// See the `Flags` class template documentation for member functions.
+/// See the :cpp:type:`Flags` class template documentation for member
+/// functions.
 ///
-/// The ``|`` operator is overloaded for `MemRegionMapFlag` and
-/// `MemRegionMapFlags` arguments.  The ``|=`` operator is overloaded as an
-/// alias for `Flags::set`.  The stream output operator is also overloaded.
+/// The ``|`` operator is overloaded for :cpp:enum:`MemRegionMapFlag` and
+/// :cpp:type:`MemRegionMapFlags` arguments.  The ``|=`` operator is
+/// overloaded as an alias for ``Flags::set``.  The stream output operator is
+/// also overloaded.
 ///
 /// \endverbatim
 using MemRegionMapFlags = Flags<MemRegionMapFlag>;

@@ -1028,8 +1028,10 @@ int cuddli_open_janitor(void)
 	fd = open(janitor_dev_name, O_RDWR);
 #endif
 	if (fd == -1) {
+		/*
 		printf("warning: could not open janitor device: %s\n",
 		       janitor_dev_name);
+		*/
 		return -errno;
 	}
 
@@ -1069,7 +1071,9 @@ __attribute__((constructor)) void cuddl_startup(void)
 {
 	cuddli_janitor_fd = cuddli_open_janitor();
 	if (cuddli_janitor_fd == -1) {
-		printf("warning: could not close janitor device\n");
+		/*
+		printf("warning: could not open janitor device\n");
+		*/
 		return;
 	}
 }

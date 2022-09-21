@@ -35,7 +35,7 @@
  *    Maximum number of Cuddl devices that can be managed.
  */
 
-#define CUDDLK_MAX_MANAGED_DEVICES 100
+#define CUDDLK_MAX_MANAGED_DEVICES 256
 
 /**
  * enum cuddlk_resource - Types of device resources.

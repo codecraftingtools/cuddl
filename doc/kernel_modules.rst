@@ -25,20 +25,21 @@ for operational usage on Linux UIO / Xenomai UDD systems.
 cuddl
   Provides core Cuddl functionality.  This excludes the device manager API.
 
-  Requires: ``uio``
+  Requires: ``uio``, ``xeno_udd`` (Xenomai UDD only)
 
 cuddl_manager
   Provides Cuddl device manager functionality.  This module implements the
   device manager API, which allows user-space applications to query and claim
   memory regions and event sources of managed devices.
 
-  Requires: ``cuddl``, ``uio``
+  Requires: ``cuddl``, ``uio``, ``xeno_udd`` (Xenomai UDD only)
 
 cuddl_janitor
   Provides Cuddl janitor functionality.  This module attempts to catch and
   clean up after user-space programs that do not properly release all of
   their Cuddl resources when they terminate.
 
-  Requires: ``cuddl_manager``, ``cuddl``, ``uio``
+  Requires: ``cuddl_manager``, ``cuddl``, ``uio``, ``xeno_udd`` (Xenomai UDD
+  only)
 
 ..  sphinx-include-modules-doc-end

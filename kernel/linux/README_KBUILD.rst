@@ -59,7 +59,7 @@ messages::
 or you can run this command in a separate terminal to get updates
 on-the-fly::
 
-  sudo dmesg -w
+  dmesg -w
 
 .. note::
 

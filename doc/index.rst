@@ -21,6 +21,7 @@
 
    overview
    install
+   kernel_modules
    user
    cpp
    kernel

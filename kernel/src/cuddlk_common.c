@@ -47,8 +47,9 @@ int cuddlk_device_find_memregion_slot(
 		mem = &dev->mem[i];
 		if (!mem->name)
 			continue;
-		if (strncmp(mem->name, name, CUDDLK_MAX_STR_LEN) != 0)
-			continue;
+		if (name && (strnlen(name, CUDDLK_MAX_STR_LEN) > 0))
+			if (strncmp(mem->name, name, CUDDLK_MAX_STR_LEN) != 0)
+				continue;
 		found_match = 1;
 		break;
 	}
@@ -69,8 +70,10 @@ int cuddlk_device_find_eventsrc_slot(
 		eventsrc = &dev->events[i];
 		if (!eventsrc->name)
 			continue;
-		if (strncmp(eventsrc->name, name, CUDDLK_MAX_STR_LEN) != 0)
-			continue;
+		if (name && (strnlen(name, CUDDLK_MAX_STR_LEN) > 0))
+			if (strncmp(eventsrc->name, name,
+				    CUDDLK_MAX_STR_LEN) != 0)
+				continue;
 		found_match = 1;
 		break;
 	}

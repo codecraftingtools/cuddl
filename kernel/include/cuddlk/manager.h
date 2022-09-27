@@ -129,11 +129,11 @@ int cuddlk_manager_remove_device(
  *
  * @manager: Cuddl manager instance.
  *
- * @group: Name of group to search for or ``NULL``.
+ * @group: Name of group to search for or ``NULL`` / empty string.
  *
- * @name: Name of device to search for or ``NULL``.
+ * @name: Name of device to search for or ``NULL`` / empty string.
  *
- * @resource: Name of resource to search for or ``NULL``.
+ * @resource: Name of resource to search for or ``NULL`` / empty string.
  *
  * @instance: Instance number to search for or ``0``.
  *

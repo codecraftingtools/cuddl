@@ -179,7 +179,9 @@ struct cuddlk_device {
  *
  * @dev: Cuddl device to query.
  *
- * @name: Name of the memory region to search for.
+ * @name: Name of the memory region to search for, or ``NULL`` / empty string.
+ *
+ * A ``NULL`` or empty name matches any populated memory region slot.
  *
  * Return: Index of matching memory region in the ``mem`` array on success,
  * or a negative error code.
@@ -195,7 +197,9 @@ int cuddlk_device_find_memregion_slot(
  *
  * @dev: Cuddl device to query.
  *
- * @name: Name of the event source to search for.
+ * @name: Name of the event source to search for, or ``NULL`` / empty string.
+ *
+ * A ``NULL`` or empty name matches any populated event source slot.
  *
  * Return: Index of matching event source in the ``events`` array on success,
  * or a negative error code.

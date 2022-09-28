@@ -1015,6 +1015,38 @@ int cuddl_get_hw_info_for_eventsrc_id(
 		info_str, info_len, meminfo.priv.token.device_index);
 }
 
+int cuddl_get_memregion_id_for_match(
+	struct cuddl_resource_id *id, struct cuddl_resource_id *match)
+{
+	int ret;
+	struct cuddl_memregion_info info;
+
+	ret = cuddl_get_memregion_info_for_id(&info, match);
+	if (ret)
+		return ret;
+
+	return cuddl_get_memregion_id_for_slot(
+		id,
+		info.priv.token.device_index,
+		info.priv.token.resource_index);
+}
+
+int cuddl_get_eventsrc_id_for_match(
+	struct cuddl_resource_id *id, struct cuddl_resource_id *match)
+{
+	int ret;
+	struct cuddl_eventsrc_info info;
+
+	ret = cuddl_get_eventsrc_info_for_id(&info, match);
+	if (ret)
+		return ret;
+
+	return cuddl_get_eventsrc_id_for_slot(
+		id,
+		info.priv.token.device_index,
+		info.priv.token.resource_index);
+}
+
 int cuddli_open_janitor(void)
 {
 	const char *janitor_dev_name = "/dev/cuddl_janitor";

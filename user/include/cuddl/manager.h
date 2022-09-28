@@ -486,4 +486,54 @@ int cuddl_get_hw_info_for_eventsrc_id(
 	char *info_str, cuddl_size_t info_len,
 	const struct cuddl_resource_id *eventsrc_id);
 
+/**
+ * cuddl_get_memregion_id_for_match() - Get matching memregion ID.
+ *
+ * Retrieve a fully-specified resource identifier for the first memory region
+ * that matches the partially specified resource identifier (i.e. it may
+ * contain wildcard fields.).
+ *
+ * @id: Pointer to a data structure that will receive the resource identifier
+ *      information associated with the specified device / memory region.  If
+ *      a matching memory region is found, the required information will be
+ *      copied into the data structure specified by this parameter.
+ *
+ * @match: Resource identifier input with the fields to be matched.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Error code returned by ``cuddl_get_memregion_info_for_id()``
+ *       (Linux).
+ *     - Error code returned by ``cuddl_get_memregion_id_for_slot()``
+ *       (Linux).
+ */
+int cuddl_get_memregion_id_for_match(
+	struct cuddl_resource_id *id, struct cuddl_resource_id *match);
+
+/**
+ * cuddl_get_eventsrc_id_for_match() - Get matching eventsrc ID.
+ *
+ * Retrieve a fully-specified resource identifier for the first event source
+ * that matches the partially specified resource identifier (i.e. it may
+ * contain wildcard fields.).
+ *
+ * @id: Pointer to a data structure that will receive the resource identifier
+ *      information associated with the specified device / event source.  If
+ *      a matching event source is found, the required information will be
+ *      copied into the data structure specified by this parameter.
+ *
+ * @match: Resource identifier input with the fields to be matched.
+ *
+ * Return: ``0`` on success, or a negative error code.
+ *
+ *   Error codes:
+ *     - Error code returned by ``cuddl_get_eventsrc_info_for_id()``
+ *       (Linux).
+ *     - Error code returned by ``cuddl_get_eventsrc_id_for_slot()``
+ *       (Linux).
+ */
+int cuddl_get_eventsrc_id_for_match(
+	struct cuddl_resource_id *id, struct cuddl_resource_id *match);
+
 #endif /* !_CUDDL_DEVICE_H */

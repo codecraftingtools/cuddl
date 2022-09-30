@@ -40,7 +40,9 @@
 
 typedef void cuddlki_iomem_t;
 
-typedef void cuddlk_parent_device_t;
+typedef void cuddlki_parent_device_t;
+
+typedef void cuddlki_owner_t;
 
 /**
  * struct cuddlki_memregion_priv - Private kernel memory region data.

@@ -423,7 +423,11 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 	if (!dev->parent_device_ptr)
 		dev->parent_device_ptr = cuddlk_manager_device;
 
-	ret = uio_register_device(dev->parent_device_ptr, uio);
+	if (!dev->owner_ptr)
+		dev->owner_ptr = THIS_MODULE;
+
+	ret = __uio_register_device(
+		dev->owner_ptr, dev->parent_device_ptr, uio);
 	if (ret) {
 		failure = CUDDLK_FAIL_UIO_REGISTER;
 		goto handle_failure;

@@ -75,6 +75,18 @@
 typedef cuddlki_parent_device_t cuddlk_parent_device_t;
 
 /**
+ * typedef cuddlk_owner_t - Owner data type.
+ *
+ * OS-specific owner data type.
+ *
+ * On Linux, this type is a ``struct module``, which indicates the kernel
+ * module that registers the device.
+ *
+ * This type is not used on RTEMS, so it is defined as ``void``.
+ */
+typedef cuddlki_owner_t cuddlk_owner_t;
+
+/**
  * struct cuddlk_device_kernel - Kernel-managed device data members.
  *
  * Kernel-managed ``cuddlk_device`` data members that are available for use
@@ -120,9 +132,22 @@ struct cuddlk_device_kernel {
  *                    
  *                     On Linux, this field should be a pointer to a ``struct
  *                     device``, which is usually the ``dev`` member of a
- *                     ``struct pci_dev`` or ``struct platform_device``.
+ *                     ``struct pci_dev`` or ``struct platform_device``.  If
+ *                     this field is not set, the Cuddl manager device will
+ *                     be used as the parent device.
  *                    
  *                     This field is not used on RTEMS.
+ *
+ * @owner_ptr: Owner pointer.
+ *
+ *             OS-specific field that contains a pointer to the "owner"
+ *             of this device.
+ *
+ *             On Linux, this field should be a pointer to the ``struct
+ *             module`` that registers the device (e.g. ``THIS_MODULE``).  If
+ *             this field is not set, the ``cuddl`` module will be the owner.
+ *
+ *             This field is not used on RTEMS.
  *
  * @kernel: Kernel-managed memory region data that is available for use by
  *          Cuddl drivers.
@@ -170,6 +195,7 @@ struct cuddlk_device {
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
 	cuddlk_parent_device_t *parent_device_ptr;
+	cuddlk_owner_t *owner_ptr;
 	struct cuddlk_device_kernel kernel;
 	struct cuddlki_device_priv priv;
 };

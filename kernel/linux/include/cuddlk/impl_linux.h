@@ -83,6 +83,8 @@ typedef void __iomem cuddlki_iomem_t;
 
 typedef struct device cuddlki_parent_device_t;
 
+typedef struct module cuddlki_owner_t;
+
 extern struct device *cuddlk_manager_device;
 
 /**

@@ -364,6 +364,7 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 	for (i=0; i<CUDDLK_MAX_DEV_MEM_REGIONS; i++) {
 		mem_i = &dev->mem[i];
 
+		mem_i->priv.uio_ptr = &dev->priv.uio;
 		mutex_init(&mem_i->priv.ref_mutex);
 
 		if (mem_i->len == 0)

@@ -133,6 +133,10 @@ static int _memregion_claim(struct cuddlk_memregion *memregion, int hostile)
 		failed = -EBUSY;
 	} else {
 		memregion->kernel.ref_count += 1;
+		if (memregion->priv.uio_ptr->uio_dev->owner) {
+			try_module_get(
+				memregion->priv.uio_ptr->uio_dev->owner);
+		}
 	}
 
 	mutex_unlock(&memregion->priv.ref_mutex);
@@ -151,6 +155,10 @@ static int _memregion_decr_ref_count(struct cuddlk_memregion *memregion)
 		failed = -ENOSPC;
 	} else {
 		memregion->kernel.ref_count -= 1;
+		if (memregion->priv.uio_ptr->uio_dev->owner) {
+			module_put(
+				memregion->priv.uio_ptr->uio_dev->owner);
+		}
 	}
 
 	mutex_unlock(&memregion->priv.ref_mutex);

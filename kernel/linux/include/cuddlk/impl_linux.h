@@ -90,12 +90,14 @@ extern struct device *cuddlk_manager_device;
 /**
  * struct cuddlki_memregion_priv - Private kernel memory region data.
  *
+ * @uio_ptr: Pointer to the associated Linux UIO device.
  * @ref_mutex: Mutex protecting ref_count.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlki_memregion_priv {
+	struct uio_info *uio_ptr;
 	struct mutex ref_mutex;
 };
 

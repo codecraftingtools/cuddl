@@ -74,6 +74,82 @@ struct cuddlk_manager *cuddlk_manager_get(void)
 }
 EXPORT_SYMBOL_GPL(cuddlk_manager_get);
 
+static int _eventsrc_claim(struct cuddlk_eventsrc *eventsrc, int hostile)
+{
+	int failed = 0;
+
+	mutex_lock(&eventsrc->priv.ref_mutex);
+
+	if ((eventsrc->kernel.ref_count > 0) &&
+	    !(eventsrc->flags & CUDDLK_EVENTSRCF_SHARED) &&
+	    !hostile) {
+		cuddlk_print("eventsrc claim failed (busy)\n");
+		failed = -EBUSY;
+	} else {
+		eventsrc->kernel.ref_count += 1;
+	}
+
+	mutex_unlock(&eventsrc->priv.ref_mutex);
+
+	return failed;
+}
+
+static int _eventsrc_decr_ref_count(struct cuddlk_eventsrc *eventsrc)
+{
+	int failed = 0;
+
+	mutex_lock(&eventsrc->priv.ref_mutex);
+
+	if (eventsrc->kernel.ref_count == 0) {
+		cuddlk_print("eventsrc refcount already zero\n");
+		failed = -ENOSPC;
+	} else {
+		eventsrc->kernel.ref_count -= 1;
+	}
+
+	mutex_unlock(&eventsrc->priv.ref_mutex);
+
+	return failed;
+}
+
+static int _memregion_claim(struct cuddlk_memregion *memregion, int hostile)
+{
+	int failed = 0;
+
+	mutex_lock(&memregion->priv.ref_mutex);
+
+	if ((memregion->kernel.ref_count > 0) &&
+	    !(memregion->flags & CUDDLK_MEMF_SHARED) &&
+	    !hostile) {
+		cuddlk_print("memregion claim failed (busy)\n");
+		failed = -EBUSY;
+	} else {
+		memregion->kernel.ref_count += 1;
+	}
+
+	mutex_unlock(&memregion->priv.ref_mutex);
+
+	return failed;
+}
+
+static int _memregion_decr_ref_count(struct cuddlk_memregion *memregion)
+{
+	int failed = 0;
+
+	mutex_lock(&memregion->priv.ref_mutex);
+
+	if (memregion->kernel.ref_count == 0) {
+		cuddlk_print("memregion refcount already zero\n");
+		failed = -ENOSPC;
+	} else {
+		memregion->kernel.ref_count -= 1;
+	}
+
+	mutex_unlock(&memregion->priv.ref_mutex);
+
+	return failed;
+}
+
 void cuddlk_manager_free_refs_for_pid(pid_t pid)
 {
 	struct cuddlk_resource_ref_list *pos;
@@ -90,10 +166,7 @@ void cuddlk_manager_free_refs_for_pid(pid_t pid)
 			cuddlk_print("emergency clean up for pid %d, "
 				     "mem slot: %d %d\n", pid, slot, mslot);
 			dev = cuddlk_global_manager_ptr->devices[slot];
-			if (dev->mem[mslot].kernel.ref_count == 0)
-				cuddlk_print("mem refcount already zero\n");
-			else
-				dev->mem[mslot].kernel.ref_count -= 1;
+			_memregion_decr_ref_count(&dev->mem[mslot]);
 			ref_to_free = pos;
 			list_del(&pos->list);
 			kfree(ref_to_free);
@@ -108,10 +181,7 @@ void cuddlk_manager_free_refs_for_pid(pid_t pid)
 			cuddlk_print("emergency clean up for pid %d, "
 				     "event slot: %d %d\n", pid, slot, eslot);
 			dev = cuddlk_global_manager_ptr->devices[slot];
-			if (dev->events[eslot].kernel.ref_count == 0)
-				cuddlk_print("event refcount already zero\n");
-			else
-				dev->events[eslot].kernel.ref_count -= 1;
+			_eventsrc_decr_ref_count(&dev->events[eslot]);
 			ref_to_free = pos;
 			list_del(&pos->list);
 			kfree(ref_to_free);
@@ -315,13 +385,12 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
-		if(claim &&
-		   (dev->mem[mslot].kernel.ref_count > 0) &&
-		   !(dev->mem[mslot].flags & CUDDLK_MEMF_SHARED) &&
-		   !(mdata->options & CUDDL_MEM_CLAIMF_HOSTILE)) {
-			cuddlk_print("memregion claim failed (busy)\n");
-			ret = -EBUSY;
-			break;
+		if (claim) {
+			ret = _memregion_claim(
+				&dev->mem[mslot],
+				mdata->options & CUDDL_MEM_CLAIMF_HOSTILE);
+			if (ret)
+				break;
 		}
 
 		mdata->info.priv.token.device_index = slot;
@@ -350,6 +419,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_to_user((void*)arg, mdata, sizeof(*mdata))) {
 			cuddlk_print("copy_to_user failed\n");
 			ret = -EOVERFLOW;
+			_memregion_decr_ref_count(&dev->mem[mslot]);
 			break;
 		}
 		if (claim) {
@@ -359,6 +429,7 @@ static long cuddlk_manager_ioctl(
 			if (!tmp_ref) {
 				cuddlk_print("kzalloc failed for ref\n");
 				ret = -ENOMEM;
+				_memregion_decr_ref_count(&dev->mem[mslot]);
 				break;
 			}
 			tmp_ref->token.device_index =
@@ -367,7 +438,6 @@ static long cuddlk_manager_ioctl(
 				mdata->info.priv.token.resource_index;
 			tmp_ref->pid = mdata->pid;
 			list_add(&tmp_ref->list, &cuddlk_mem_refs.list);
-			dev->mem[mslot].kernel.ref_count += 1;
 		}
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->mem[mslot].kernel.ref_count);
@@ -417,13 +487,12 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
-		if(claim &&
-		   (dev->events[eslot].kernel.ref_count > 0) &&
-		   !(dev->events[eslot].flags & CUDDLK_EVENTSRCF_SHARED) &&
-		   !(edata->options & CUDDL_EVENTSRC_CLAIMF_HOSTILE)) {
-			cuddlk_print("eventsrc claim failed (busy)\n");
-			ret = -EBUSY;
-			break;
+		if (claim) {
+			ret = _eventsrc_claim(
+				&dev->events[eslot],
+				edata->options&CUDDL_EVENTSRC_CLAIMF_HOSTILE);
+			if (ret)
+				break;
 		}
 
 		edata->info.priv.token.device_index = slot;
@@ -451,6 +520,7 @@ static long cuddlk_manager_ioctl(
 		if (copy_to_user((void*)arg, edata, sizeof(*edata))) {
 			cuddlk_print("copy_to_user failed\n");
 			ret = -EOVERFLOW;
+			_eventsrc_decr_ref_count(&dev->events[eslot]);
 			break;
 		}
 		if (claim) {
@@ -460,6 +530,7 @@ static long cuddlk_manager_ioctl(
 			if (!tmp_ref) {
 				cuddlk_print("kzalloc failed for ref\n");
 				ret = -ENOMEM;
+				_eventsrc_decr_ref_count(&dev->events[eslot]);
 				break;
 			}
 			tmp_ref->token.device_index =
@@ -468,7 +539,6 @@ static long cuddlk_manager_ioctl(
 				edata->info.priv.token.resource_index;
 			tmp_ref->pid = edata->pid;
 			list_add(&tmp_ref->list, &cuddlk_event_refs.list);
-			dev->events[eslot].kernel.ref_count += 1;
 		}
 		cuddlk_debug("  success: ref_count: %d\n",
 		       dev->events[eslot].kernel.ref_count);
@@ -514,10 +584,7 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
-		if (dev->mem[mslot].kernel.ref_count == 0)
-			cuddlk_debug("warning: mem ref count already 0\n");
-		else
-			dev->mem[mslot].kernel.ref_count -= 1;
+		_memregion_decr_ref_count(&dev->mem[mslot]);
 		freed_ref = 0;
 		list_for_each_entry_safe(
 			pos, tmp, &cuddlk_mem_refs.list, list) {
@@ -580,10 +647,7 @@ static long cuddlk_manager_ioctl(
 		}
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
-		if (dev->events[eslot].kernel.ref_count == 0)
-			cuddlk_debug("warning: event ref count already 0\n");
-		else
-			dev->events[eslot].kernel.ref_count -= 1;
+		_eventsrc_decr_ref_count(&dev->events[eslot]);
 		freed_ref = 0;
 		list_for_each_entry_safe(
 			pos, tmp, &cuddlk_event_refs.list, list) {
@@ -821,13 +885,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  found mslot: %d\n", mslot);
 
 		if (decrement) {
-			if (dev->mem[mslot].kernel.ref_count == 0) {
-				cuddlk_print("mem ref count already 0\n");
-				ret = -ENOSPC;
+			ret = _memregion_decr_ref_count(&dev->mem[mslot]);
+			if (ret)
 				break;
-			} else {
-				dev->mem[mslot].kernel.ref_count -= 1;
-			}
 		} else {
 			ret = dev->mem[mslot].kernel.ref_count;
 		}
@@ -877,13 +937,9 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  found eslot: %d\n", eslot);
 
 		if (decrement) {
-			if (dev->events[eslot].kernel.ref_count == 0) {
-				cuddlk_print("event ref count already 0\n");
-				ret = -ENOSPC;
+			ret = _eventsrc_decr_ref_count(&dev->events[eslot]);
+			if (ret)
 				break;
-			} else {
-				dev->events[eslot].kernel.ref_count -= 1;
-			}
 		} else {
 			ret = dev->events[eslot].kernel.ref_count;
 		}

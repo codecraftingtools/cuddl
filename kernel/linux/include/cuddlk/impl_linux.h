@@ -90,10 +90,13 @@ extern struct device *cuddlk_manager_device;
 /**
  * struct cuddlki_memregion_priv - Private kernel memory region data.
  *
+ * @ref_mutex: Mutex protecting ref_count.
+ *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlki_memregion_priv {
+	struct mutex ref_mutex;
 };
 
 /**
@@ -118,6 +121,7 @@ struct cuddlki_interrupt_priv {
  * @udd_open_count: Count of open Xenomai UDD file descriptors.
  * @udd_ptr: Pointer to the associated Xenoami UDD device.
  * @nrt_sig: Xenomai real-time/non-real-time signaling mechanism.
+ * @ref_mutex: Mutex protecting ref_count.
  * @open_mutex: Mutex protecting the open counts.
  *
  * This data structure contains private, platform-specific data members
@@ -131,6 +135,7 @@ struct cuddlki_eventsrc_priv {
 	struct udd_device *udd_ptr;
 	rtdm_nrtsig_t nrt_sig;
 #endif
+	struct mutex ref_mutex;
 	struct mutex open_mutex;
 };
 

@@ -87,6 +87,10 @@ static int _eventsrc_claim(struct cuddlk_eventsrc *eventsrc, int hostile)
 		failed = -EBUSY;
 	} else {
 		eventsrc->kernel.ref_count += 1;
+		if (eventsrc->priv.uio_ptr->uio_dev->owner) {
+			try_module_get(
+				eventsrc->priv.uio_ptr->uio_dev->owner);
+		}
 	}
 
 	mutex_unlock(&eventsrc->priv.ref_mutex);
@@ -105,6 +109,10 @@ static int _eventsrc_decr_ref_count(struct cuddlk_eventsrc *eventsrc)
 		failed = -ENOSPC;
 	} else {
 		eventsrc->kernel.ref_count -= 1;
+		if (eventsrc->priv.uio_ptr->uio_dev->owner) {
+			module_put(
+				eventsrc->priv.uio_ptr->uio_dev->owner);
+		}
 	}
 
 	mutex_unlock(&eventsrc->priv.ref_mutex);

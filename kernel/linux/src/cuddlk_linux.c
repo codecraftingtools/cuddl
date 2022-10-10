@@ -145,9 +145,9 @@ static int cuddlk_udd_eventsrc_open(struct rtdm_fd *fd, int oflags)
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
 	eventsrc = &dev->events[0];
 
-	mutex_lock(&eventsrc->priv.mut);
+	mutex_lock(&eventsrc->priv.open_mutex);
 	eventsrc->priv.udd_open_count += 1;
-	mutex_unlock(&eventsrc->priv.mut);
+	mutex_unlock(&eventsrc->priv.open_mutex);
 
 	return 0;
 }
@@ -162,9 +162,9 @@ static int cuddlk_uio_eventsrc_or_mem_open(
 	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
 	eventsrc = &dev->events[0];
 
-	mutex_lock(&eventsrc->priv.mut);
+	mutex_lock(&eventsrc->priv.open_mutex);
 	eventsrc->priv.uio_open_count += 1;
-	mutex_unlock(&eventsrc->priv.mut);
+	mutex_unlock(&eventsrc->priv.open_mutex);
 
 	return 0;
 }
@@ -181,9 +181,9 @@ static void cuddlk_udd_eventsrc_close(struct rtdm_fd *fd)
 	dev = container_of(udd_dev, struct cuddlk_device, priv.udd);
 	eventsrc = &dev->events[0];
 
-	mutex_lock(&eventsrc->priv.mut);
+	mutex_lock(&eventsrc->priv.open_mutex);
 	eventsrc->priv.udd_open_count -= 1;
-	mutex_unlock(&eventsrc->priv.mut);
+	mutex_unlock(&eventsrc->priv.open_mutex);
 }
 #endif
 
@@ -196,9 +196,9 @@ static int cuddlk_uio_eventsrc_or_mem_close(
 	dev = container_of(uinfo, struct cuddlk_device, priv.uio);
 	eventsrc = &dev->events[0];
 
-	mutex_lock(&eventsrc->priv.mut);
+	mutex_lock(&eventsrc->priv.open_mutex);
 	eventsrc->priv.uio_open_count -= 1;
-	mutex_unlock(&eventsrc->priv.mut);
+	mutex_unlock(&eventsrc->priv.open_mutex);
 
 	return 0;
 }
@@ -347,7 +347,7 @@ int cuddlk_device_register(struct cuddlk_device *dev)
 	}
 	
 	eventsrc->priv.uio_ptr = &dev->priv.uio;
-	mutex_init(&eventsrc->priv.mut);
+	mutex_init(&eventsrc->priv.open_mutex);
 
 	uio = &dev->priv.uio;
 	uio->name = dev->priv.unique_name;

@@ -118,7 +118,7 @@ struct cuddlki_interrupt_priv {
  * @udd_open_count: Count of open Xenomai UDD file descriptors.
  * @udd_ptr: Pointer to the associated Xenoami UDD device.
  * @nrt_sig: Xenomai real-time/non-real-time signaling mechanism.
- * @mut: Mutex protecting the open counts.
+ * @open_mutex: Mutex protecting the open counts.
  *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
@@ -131,7 +131,7 @@ struct cuddlki_eventsrc_priv {
 	struct udd_device *udd_ptr;
 	rtdm_nrtsig_t nrt_sig;
 #endif
-	struct mutex mut;
+	struct mutex open_mutex;
 };
 
 /**

@@ -162,10 +162,13 @@ struct cuddlki_device_priv {
 /**
  * struct cuddlki_manager_priv - Private kernel device data.
  *
+ * @global_mutex: Mutex protecting the managed device list.
+ *
  * This data structure contains private, platform-specific data members
  * reserved for internal use by the Cuddl implementation.
  */
 struct cuddlki_manager_priv {
+	struct mutex global_mutex;
 };
 
 #endif /* !_CUDDLK_IMPL_LINUX_H */

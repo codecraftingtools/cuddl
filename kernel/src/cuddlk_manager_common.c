@@ -146,7 +146,7 @@ int cuddlk_device_manage(struct cuddlk_device *dev)
 	int ret;
 	struct cuddlk_manager *manager;
 
-	manager = cuddlk_manager_get();
+	manager = cuddlk_manager_lock();
 
 	if (!dev->group) {
 		ret = -EINVAL;
@@ -173,6 +173,8 @@ int cuddlk_device_manage(struct cuddlk_device *dev)
 	if (ret)
 		goto fail_manager_add_device;
 
+	cuddlk_manager_unlock();
+
 	return 0;
 
 fail_manager_add_device:
@@ -181,6 +183,7 @@ fail_register:
 fail_auto_instance:
 fail_null_name:
 fail_null_group:
+	cuddlk_manager_unlock();
 	return ret;
 }
 
@@ -189,9 +192,10 @@ int cuddlk_device_release(struct cuddlk_device *dev)
 	int ret1, ret2;
 	struct cuddlk_manager *manager;
 
-	manager = cuddlk_manager_get();
+	manager = cuddlk_manager_lock();
 	ret1 = cuddlk_manager_remove_device(manager, dev);
 	ret2 = cuddlk_device_unregister(dev);
+	cuddlk_manager_unlock();
 	if (ret1)
 		return ret1;
 	return ret2;

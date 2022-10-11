@@ -53,7 +53,7 @@ struct cuddlk_resource_ref_list {
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_slot_matching);
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_device_slot);
 EXPORT_SYMBOL_GPL(cuddlk_manager_find_empty_slot);
-EXPORT_SYMBOL_GPL( cuddlk_manager_next_available_instance_id);
+EXPORT_SYMBOL_GPL(cuddlk_manager_next_available_instance_id);
 EXPORT_SYMBOL_GPL(cuddlk_manager_add_device);
 EXPORT_SYMBOL_GPL(cuddlk_manager_remove_device);
 EXPORT_SYMBOL_GPL(cuddlk_device_manage);
@@ -68,11 +68,18 @@ static struct cuddlk_manager *cuddlk_global_manager_ptr;
 struct cuddlk_resource_ref_list cuddlk_mem_refs;
 struct cuddlk_resource_ref_list cuddlk_event_refs;
 
-struct cuddlk_manager *cuddlk_manager_get(void)
+struct cuddlk_manager *cuddlk_manager_lock(void)
 {
+	mutex_lock(&cuddlk_global_manager_ptr->priv.global_mutex);
 	return cuddlk_global_manager_ptr;
 }
-EXPORT_SYMBOL_GPL(cuddlk_manager_get);
+EXPORT_SYMBOL_GPL(cuddlk_manager_lock);
+
+void cuddlk_manager_unlock(void)
+{
+	mutex_unlock(&cuddlk_global_manager_ptr->priv.global_mutex);
+}
+EXPORT_SYMBOL_GPL(cuddlk_manager_unlock);
 
 static int _eventsrc_claim(struct cuddlk_eventsrc *eventsrc, int hostile)
 {
@@ -174,6 +181,8 @@ void cuddlk_manager_free_refs_for_pid(pid_t pid)
 	struct cuddlk_device *dev;
 	int slot, mslot, eslot;
 
+	cuddlk_manager_lock();
+
 	list_for_each_entry_safe(
 		pos, tmp, &cuddlk_mem_refs.list, list) {
 		if (pos->pid == pid) {
@@ -203,6 +212,8 @@ void cuddlk_manager_free_refs_for_pid(pid_t pid)
 			kfree(ref_to_free);
 		}
 	}
+
+	cuddlk_manager_unlock();
 }
 EXPORT_SYMBOL_GPL(cuddlk_manager_free_refs_for_pid);
 
@@ -355,6 +366,8 @@ static long cuddlk_manager_ioctl(
 		cuddlk_print("kzalloc failed\n");
 		return -ENOMEM;
 	}
+
+	cuddlk_manager_lock();
 
 	switch(cmd) {
 	case CUDDLCI_MEMREGION_CLAIM_UDD_IOCTL:
@@ -1149,6 +1162,8 @@ static long cuddlk_manager_ioctl(
 		ret = -ENOSYS;
 	}
 
+	cuddlk_manager_unlock();
+
 	kfree(id_data);
 	kfree(void_data);
 	kfree(driver_info_data);
@@ -1223,6 +1238,8 @@ static int __init cuddlk_manager_init(void)
 		cuddlk_print("%s: kzalloc failed: %d\n", __func__, ret);
 		goto handle_failure;
 	}
+
+	mutex_init(&cuddlk_global_manager_ptr->priv.global_mutex);
 
 	ret = alloc_chrdev_region(&cuddlk_manager_dev, 0, 1, "cuddl");
 	if (ret < 0) {

@@ -68,8 +68,8 @@ enum cuddlk_resource {
  * device manager to retrieve the information required to access a particular
  * memory region or event source.  Typically, there is only a single, global
  * ``cuddlk_manager`` instance that is managed by the Cuddl implementation.
- * A pointer to this manager instance may be retrieved by called
- * ``cuddlk_manager_get()``.
+ * A pointer to this manager instance may be retrieved by calling
+ * ``cuddlk_manager_lock()``.
  *
  * Unused members of this data structure must be set to zero.  This is
  * typically done by allocating this structure via ``kzalloc()`` or using
@@ -81,11 +81,31 @@ struct cuddlk_manager {
 };
 
 /**
- * cuddlk_manager_get() - Retrieve a pointer to the global device manager.
+ * cuddlk_manager_lock() - Retrieve an exclusive pointer to the global device
+ *                         manager.
+ *
+ * This function may block if the device manager is currently in use.  The
+ * ``cuddlk_manager_unlock()`` function should be called as soon as exclusive
+ * access to the global device manager is no longer required to avoid
+ * blocking other threads.  Note that ``cuddlk_device_manage()`` and
+ * ``cuddlk_device_release()`` lock/unlock the global device manager
+ * internally, so these two functions should not be called with the manager
+ * locked.
  *
  * Return: Pointer to the global device manager instance, or ``NULL``.
  */
-struct cuddlk_manager *cuddlk_manager_get(void);
+struct cuddlk_manager *cuddlk_manager_lock(void);
+
+/**
+ * cuddlk_manager_unlock() - Release exclusive access to the global device
+ *                           manager.
+ *
+ * This function releases a lock on the global device manager that was
+ * acquired by calling ``cuddlk_manager_lock()``.
+ *
+ * Return: Pointer to the global device manager instance, or ``NULL``.
+ */
+void cuddlk_manager_unlock(void);
 
 /**
  * cuddlk_manager_add_device() - Start managing a Cuddl device.

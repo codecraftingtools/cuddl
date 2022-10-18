@@ -246,6 +246,7 @@ static long cuddlk_manager_ioctl(
 	struct cuddlci_get_driver_info_ioctl_data *driver_info_data;
 	struct cuddlci_void_ioctl_data *void_data;
 	struct cuddlci_ref_count_ioctl_data *id_data;
+	struct cuddlci_eventsrc_is_enabled_ioctl_data *is_enabled_data;
 	struct cuddlk_resource_ref_list *tmp_ref;
 	struct cuddlk_resource_ref_list *pos;
 	struct cuddlk_resource_ref_list *tmp;
@@ -355,6 +356,23 @@ static long cuddlk_manager_ioctl(
 		sizeof(struct cuddlci_ref_count_ioctl_data),
 		GFP_KERNEL);
 	if (!id_data) {
+		kfree(void_data);
+		kfree(driver_info_data);
+		kfree(commit_data);
+		kfree(get_id_data);
+		kfree(erdata);
+		kfree(mrdata);
+		kfree(edata);
+		kfree(mdata);
+		cuddlk_print("kzalloc failed\n");
+		return -ENOMEM;
+	}
+
+	is_enabled_data = kzalloc(
+		sizeof(struct cuddlci_eventsrc_is_enabled_ioctl_data),
+		GFP_KERNEL);
+	if (!is_enabled_data) {
+		kfree(id_data);
 		kfree(void_data);
 		kfree(driver_info_data);
 		kfree(commit_data);
@@ -534,6 +552,8 @@ static long cuddlk_manager_ioctl(
 			edata->info.flags |= CUDDL_EVENTSRCF_HAS_ENABLE;
 		if (dev->events[eslot].intr.disable)
 			edata->info.flags |= CUDDL_EVENTSRCF_HAS_DISABLE;
+		if (dev->events[eslot].intr.is_enabled)
+			edata->info.flags |= CUDDL_EVENTSRCF_HAS_IS_ENABLED;
 
 		if (rt) {
 			snprintf(edata->info.priv.device_name,
@@ -1157,6 +1177,51 @@ static long cuddlk_manager_ioctl(
 		cuddlk_debug("  success\n");
 		break;
 
+	case CUDDLCI_EVENTSRC_IS_ENABLED_IOCTL:
+		cuddlk_debug(
+			"CUDDLCI_EVENTSRC_IS_ENABLED_IOCTL called\n");
+		if (copy_from_user(
+			    is_enabled_data, (void*)arg,
+			    sizeof(*is_enabled_data))) {
+			cuddlk_print("copy_from_user failed\n");
+			ret = -EOVERFLOW;
+			break;
+		}
+		if (!_version_code_is_compat(is_enabled_data->version_code)) {
+			cuddlk_print("cuddl user/kernel version mismatch "
+			             "in IOCTL\n");
+			ret = -ENOEXEC;
+			break;
+		}
+		slot = is_enabled_data->token.device_index;
+		eslot = is_enabled_data->token.resource_index;
+		cuddlk_debug("  token: %d %d\n", slot, eslot);
+		if ((slot >= CUDDLK_MAX_MANAGED_DEVICES) || (slot < 0)) {
+			ret = -EBADSLT;
+			break;
+		}
+		dev = cuddlk_global_manager_ptr->devices[slot];
+		if (!dev) {
+			ret = -ENODEV;
+			break;
+		}
+		cuddlk_debug("  found slot: %d (dev_ptr: %p)\n", slot, dev);
+		if ((eslot >= CUDDLK_MAX_DEV_EVENTS) || (eslot < 0)) {
+			ret = -EBADSLT;
+			break;
+		}
+		cuddlk_debug("  found eslot: %d\n", eslot);
+		if (!dev->events[eslot].intr.is_enabled) {
+			ret = -EINVAL;
+			break;
+		}
+		ret = dev->events[eslot].intr.is_enabled(
+			&dev->events[eslot].intr);
+		if (ret < 0)
+			break;
+		cuddlk_debug("  success\n");
+		break;
+
 	default:
 		cuddlk_print("Unknown Cuddl manager IOCTL\n");
 		ret = -ENOSYS;
@@ -1164,6 +1229,7 @@ static long cuddlk_manager_ioctl(
 
 	cuddlk_manager_unlock();
 
+	kfree(is_enabled_data);
 	kfree(id_data);
 	kfree(void_data);
 	kfree(driver_info_data);

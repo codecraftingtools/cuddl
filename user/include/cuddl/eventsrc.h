@@ -367,6 +367,47 @@ int cuddl_eventsrc_enable(struct cuddl_eventsrc *eventsrc);
 int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc);
 
 /**
+ * cuddl_eventsrc_is_enabled() - Check if an event source is enabled.
+ *
+ * @eventsrc: Input parameter identifying the event source to be queried.
+ *            The data structure pointed to by this parameter should contain
+ *            the information returned by a successful call to
+ *            ``cuddl_eventsrc_open()`` or
+ *            ``cuddl_eventsrc_claim_and_open()``.
+ *
+ * Checks if event source is currently enabled (if this operation is
+ * supported).
+ *
+ * Return: ``0``, ``1``, or a negative error code.
+ *
+ *   A value of ``0`` indicates that the event source is disabled, a value of
+ *   ``1`` indicates that the event source is enabled, and a negative value
+ *   indicates an error condition.
+ *
+ *   On some systems (e.g. Linux and Xenomai, at least), this feature is
+ *   implemented via the manager interface (which involves acquiring a global
+ *   lock), so real-time use of this function is not recommended.
+ *
+ *   Error codes:
+ *     - ``-EINVAL``: This functionality was not implemented by the kernel
+ *       driver.
+ *     - ``-ENODEV``: The device slot associated with the specified resource
+ *       id is empty.
+ *     - ``-EBADSLT``: The device slot associated with the specified resource
+ *       id is out of range.
+ *     - ``-ENOMEM``: Error allocating memory in IOCTL call (Linux).
+ *     - ``-EOVERFLOW``: Error copying data to/from kernel space (Linux).
+ *     - ``-ENOEXEC``: User/kernel major version number mismatch (Linux).
+ *     - Value of ``-errno`` resulting from from ``open()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``ioctl()`` call on Cuddl
+ *       manager device (Linux).
+ *     - Value of ``-errno`` resulting from from ``close()`` call on Cuddl
+ *       manager device (Linux).
+ */
+int cuddl_eventsrc_is_enabled(struct cuddl_eventsrc *eventsrc);
+
+/**
  * cuddl_eventsrc_get_resource_id() - Get the associated resource ID.
  *
  * @eventsrc: Input identifying the event source to be queried.  The data

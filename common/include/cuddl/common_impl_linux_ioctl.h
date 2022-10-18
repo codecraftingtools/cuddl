@@ -128,6 +128,10 @@
  * .. c:macro:: CUDDLCI_GET_KERNEL_VARIANT_IOCTL
  *
  *    IOCTL associated with ``cuddl_get_kernel_variant()``.
+ *
+ * .. c:macro:: CUDDLCI_EVENTSRC_IS_ENABLED_IOCTL
+ *
+ *    IOCTL associated with ``cuddl_eventsrc_is_enabled()``.
  */
 
 /**
@@ -268,6 +272,17 @@ struct cuddlci_get_driver_info_ioctl_data {
 	char info_str[CUDDLCI_MAX_STR_LEN];
 };
 
+/**
+ * struct cuddlci_eventsrc_is_enabled_ioctl_data - IOCTL data for is_enabled.
+ *
+ * @version_code: Cuddl version code passed in from user space.
+ * @token: Token for event source to be queried (passed in from user space).
+ */
+struct cuddlci_eventsrc_is_enabled_ioctl_data {
+	int version_code;
+	struct cuddlci_token token;
+};
+
 #define CUDDLCI_IOCTL_TYPE 'A'
 
 #define CUDDLCI_MEMREGION_CLAIM_UIO_IOCTL \
@@ -334,5 +349,8 @@ struct cuddlci_get_driver_info_ioctl_data {
 #define CUDDLCI_GET_KERNEL_VARIANT_IOCTL \
   _IOWR(CUDDLCI_IOCTL_TYPE, 26, \
         struct cuddlci_get_kernel_commit_id_ioctl_data)
+
+#define CUDDLCI_EVENTSRC_IS_ENABLED_IOCTL \
+  _IOW(CUDDLCI_IOCTL_TYPE, 27, struct cuddlci_eventsrc_is_enabled_ioctl_data)
 
 #endif /* !_CUDDL_COMMON_IMPL_LINUX_IOCTL_H */

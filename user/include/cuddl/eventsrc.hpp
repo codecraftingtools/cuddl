@@ -32,19 +32,21 @@ namespace cuddl {
 ///
 /// \endverbatim
 enum class EventSrcFlag {
-	SHARED      = CUDDL_EVENTSRCF_SHARED,
-	WAITABLE    = CUDDL_EVENTSRCF_WAITABLE,
-	HAS_DISABLE = CUDDL_EVENTSRCF_HAS_DISABLE,
-	HAS_ENABLE  = CUDDL_EVENTSRCF_HAS_ENABLE,
+	SHARED         = CUDDL_EVENTSRCF_SHARED,
+	WAITABLE       = CUDDL_EVENTSRCF_WAITABLE,
+	HAS_DISABLE    = CUDDL_EVENTSRCF_HAS_DISABLE,
+	HAS_ENABLE     = CUDDL_EVENTSRCF_HAS_ENABLE,
+	HAS_IS_ENABLED = CUDDL_EVENTSRCF_HAS_IS_ENABLED,
 };
 
 inline std::ostream &operator <<(std::ostream &os, const EventSrcFlag &f)
 {
-	if      (f == EventSrcFlag::SHARED)      os << "SHARED";
-	else if (f == EventSrcFlag::WAITABLE)    os << "WAITABLE";
-	else if (f == EventSrcFlag::HAS_DISABLE) os << "HAS_DISABLE";
-	else if (f == EventSrcFlag::HAS_ENABLE)  os << "HAS_ENABLE";
-	else                                     os << "INVALID_FLAG";
+	if      (f == EventSrcFlag::SHARED)         os << "SHARED";
+	else if (f == EventSrcFlag::WAITABLE)       os << "WAITABLE";
+	else if (f == EventSrcFlag::HAS_DISABLE)    os << "HAS_DISABLE";
+	else if (f == EventSrcFlag::HAS_ENABLE)     os << "HAS_ENABLE";
+	else if (f == EventSrcFlag::HAS_IS_ENABLED) os << "HAS_IS_ENABLED";
+	else                                        os << "INVALID_FLAG";
 	return os;
 }
 
@@ -82,6 +84,10 @@ inline std::ostream &operator <<(std::ostream &os, const EventSrcFlags &f)
 	}
 	if (f.is_set(EventSrcFlag::HAS_ENABLE)) {
 		os << sep << EventSrcFlag::HAS_ENABLE;
+		sep = flag_sep;
+	}
+	if (f.is_set(EventSrcFlag::HAS_IS_ENABLED)) {
+		os << sep << EventSrcFlag::HAS_IS_ENABLED;
 		sep = flag_sep;
 	}
 	return os;
@@ -397,6 +403,18 @@ public:
 	/// \endverbatim
 	int disable() {return cuddl_eventsrc_disable(&eventsrc);}
         ///  @}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrc_is_enabled`.
+	///
+	/// \endverbatim
+	/// @throws std::system_error Operation failed.
+	int is_enabled() {
+		int ret = cuddl_eventsrc_is_enabled(&eventsrc);
+		if (ret < 0) { throw_err(ret, __func__); }
+		return ret;
+	}
 
 	/// \verbatim embed:rst:leading-slashes
 	///

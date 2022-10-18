@@ -69,13 +69,24 @@
  *     source.  If supported, writing a ``uint32_t`` value of ``1`` to the
  *     file descriptor unmasks (enables) interrupt events.
  *
+ * @CUDDL_EVENTSRCF_HAS_IS_ENABLED:
+ *     Indicates that a user-space task may query the interrupt enable status
+ *     through the event source.
+ *
+ *     If this flag is set, ``cuddl_eventsrc_is_enabled()`` is supported.
+ *
+ *     On Linux and Xenomai, this feature is implemented via the manager
+ *     interface (which involves acquiring a global lock), so real-time use
+ *     of ``cuddl_eventsrc_is_enabled()`` is not recommended.
+ *
  * Flags that describe the properties of an event source to user-space code.
  */
 enum cuddl_eventsrc_flags {
-	CUDDL_EVENTSRCF_SHARED      = (1 << 0),
-	CUDDL_EVENTSRCF_WAITABLE    = (1 << 1),
-	CUDDL_EVENTSRCF_HAS_DISABLE = (1 << 2),
-	CUDDL_EVENTSRCF_HAS_ENABLE  = (1 << 3),
+	CUDDL_EVENTSRCF_SHARED          = (1 << 0),
+	CUDDL_EVENTSRCF_WAITABLE        = (1 << 1),
+	CUDDL_EVENTSRCF_HAS_DISABLE     = (1 << 2),
+	CUDDL_EVENTSRCF_HAS_ENABLE      = (1 << 3),
+	CUDDL_EVENTSRCF_HAS_IS_ENABLED  = (1 << 4),
 };
 
 /**

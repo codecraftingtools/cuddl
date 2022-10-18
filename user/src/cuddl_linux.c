@@ -568,6 +568,30 @@ int cuddl_eventsrc_disable(struct cuddl_eventsrc *eventsrc)
 	return 0;
 }
 
+int cuddl_eventsrc_is_enabled(struct cuddl_eventsrc *eventsrc)
+{
+	int fd;
+	int ret, ret2;
+	struct cuddlci_eventsrc_is_enabled_ioctl_data s;
+
+	fd = open("/dev/cuddl", O_RDWR);
+	if (fd == -1)
+		return -errno;
+
+	s.version_code = CUDDL_VERSION_CODE;
+	s.token = eventsrc->priv.token;
+
+	ret = ioctl(fd, CUDDLCI_EVENTSRC_IS_ENABLED_IOCTL, &s);
+	if ((ret == -1) && errno)
+		ret = -errno;
+
+	ret2 = close(fd);
+	if ((ret2 == -1) && (ret >= 0))
+		return -errno;
+
+	return ret;
+}
+
 int cuddl_eventsrc_get_resource_id(
 	struct cuddl_eventsrc *eventsrc, struct cuddl_resource_id *id)
 {

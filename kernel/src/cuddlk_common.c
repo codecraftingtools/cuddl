@@ -23,16 +23,25 @@ int cuddlk_get_commit_id(char *id_str, cuddlk_size_t id_len)
 {
 	int remaining_space;
 
+	if (id_len > 0)
+		id_str[0] = '\0';
+
+	remaining_space = id_len - 1;
+	if (remaining_space <= 0)
+		return 0;
+
+	strncat(id_str, CUDDLKI_COMMIT_HASH, remaining_space);
+
+	remaining_space = id_len - strnlen(id_str, id_len) - 1;
+	if (remaining_space <= 0)
+		return 0;
+
 	if (CUDDLKI_REPO_IS_DIRTY) {
-		strncpy(id_str, "M", id_len);
+		strncat(id_str, "(M)", remaining_space);
 	} else {
-		strncpy(id_str, "", id_len);
+		strncat(id_str, "", remaining_space);
 	}
-	remaining_space = id_len - strnlen(id_str, id_len);
-	if (remaining_space > 0) {
-		remaining_space -= 1;
-		strncat(id_str, CUDDLKI_COMMIT_HASH, remaining_space);
-	}
+
 	return 0;
 }
 

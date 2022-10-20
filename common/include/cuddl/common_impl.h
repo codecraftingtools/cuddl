@@ -42,7 +42,7 @@
  */
 
 /* Maximum allowed length for Cuddl strings. */
-#define CUDDLCI_MAX_STR_LEN 128
+#define CUDDLCI_MAX_STR_LEN 256
 
 /* Version information declarations */
 #define CUDDLCI_VERSION_MAJOR 0

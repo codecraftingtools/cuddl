@@ -125,6 +125,10 @@ struct cuddlk_device_kernel {
  *
  * @events: Array of event sources to expose.
  *
+ * @extra_ptr: This field is available for use by Cuddl drivers to store a
+ *             pointer to a custom data structure for use by the driver. This
+ *             field is not manged or used by the Cuddl implementation.
+ *
  * @parent_device_ptr: Parent device pointer.
  *
  *                     OS-specific field that contains a pointer to the
@@ -194,6 +198,7 @@ struct cuddlk_device {
 	int instance;
 	struct cuddlk_memregion mem[CUDDLK_MAX_DEV_MEM_REGIONS];
 	struct cuddlk_eventsrc events[CUDDLK_MAX_DEV_EVENTS];
+	void *extra_ptr;
 	cuddlk_parent_device_t *parent_device_ptr;
 	cuddlk_owner_t *owner_ptr;
 	struct cuddlk_device_kernel kernel;

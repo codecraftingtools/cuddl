@@ -34,7 +34,7 @@
 typedef time_t cuddli_time_t;
 
 /* Represents time in seconds and nanoseconds. */
-typedef struct timespec cuddli_timespec;
+#define cuddli_timespec timespec
 
 /**
  * struct cuddli_memregion_priv - Private memory region data.

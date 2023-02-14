@@ -35,15 +35,22 @@
  */
 typedef cuddli_time_t cuddl_time_t;
 
+// For documentation purposes
+#if 0
 /**
- * typedef cuddl_timespec - Represents time in seconds and nanoseconds.
+ * struct cuddl_timespec - Represents time in seconds and nanoseconds.
  *
- * This structure has ``tv_sec`` (seconds) and ``tv_nsec`` (nanoseconds)
- * members.
+ * @tv_sec: Seconds
+ * @tv_nsec: Nanoseconds
  *
- * This will be equivalent to ``struct timespec`` on POSIX systems.
+ * This is equivalent to ``struct timespec`` on POSIX systems.
  */
-typedef cuddli_timespec cuddl_timespec;
+struct cuddl_timespec {
+	cuddl_time_t tv_sec;
+	long tv_nsec;
+};
+#endif
+#define cuddl_timespec cuddli_timespec
 
 /**
  * struct cuddl_eventsrc - User-space event source interface.
@@ -323,7 +330,7 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
  */
 int cuddl_eventsrc_timed_wait(
 	struct cuddl_eventsrc *eventsrc,
-	const cuddl_timespec *timeout);
+	const struct cuddl_timespec *timeout);
 
 /**
  * cuddl_eventsrc_enable() - Enable an event source from user space.

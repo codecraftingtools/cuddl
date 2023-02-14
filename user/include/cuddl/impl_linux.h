@@ -17,6 +17,7 @@
 #define _CUDDL_IMPL_LINUX_H
 
 #include <sys/types.h> /* time_t, size_t */
+#include <time.h> /* timespec */
 
 /**
  * DOC: User-space declarations for the Linux implementation.
@@ -31,6 +32,9 @@
 
 /* System type used to represent a time in seconds. */
 typedef time_t cuddli_time_t;
+
+/* Represents time in seconds and nanoseconds. */
+typedef struct timespec cuddli_timespec;
 
 /**
  * struct cuddli_memregion_priv - Private memory region data.

@@ -515,7 +515,7 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc)
 
 int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
 {
-	struct cuddl_timespec timeout;
+	cuddl_timespec timeout;
 
 	timeout.tv_sec = 0;
 	timeout.tv_nsec = 0;
@@ -525,7 +525,7 @@ int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
 
 int cuddl_eventsrc_timed_wait(
 	struct cuddl_eventsrc *eventsrc,
-	const struct cuddl_timespec *timeout)
+	const cuddl_timespec *timeout)
 {
 	fd_set fds;
 	int ret;

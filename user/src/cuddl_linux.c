@@ -182,15 +182,15 @@ static void populate_id_from_args(
 	int instance)
 {
 	if (group)
-		strncpy(id->group, group, CUDDL_MAX_STR_LEN);
+		strncpy(id->group, group, CUDDL_MAX_STR_LEN-1);
 	else
 		id->group[0] = '\0';
 	if (device)
-		strncpy(id->device, device, CUDDL_MAX_STR_LEN);
+		strncpy(id->device, device, CUDDL_MAX_STR_LEN-1);
 	else
 		id->device[0] = '\0';
 	if (resource)
-		strncpy(id->resource, resource, CUDDL_MAX_STR_LEN);
+		strncpy(id->resource, resource, CUDDL_MAX_STR_LEN-1);
 	else
 		id->resource[0] = '\0';
 	id->instance = instance;

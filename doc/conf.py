@@ -22,7 +22,7 @@ call('doxygen')
 # -- Project information -----------------------------------------------------
 
 project = 'Cuddl'
-copyright = '2022 Jeff Webb'
+copyright = '2022, 2023 Jeff Webb'
 author = 'Jeff Webb'
 
 # -- General configuration ---------------------------------------------------

@@ -18,6 +18,12 @@ Overview
 The Cuddl project provides a cross-platform API for writing user-space device
 drivers that works under `Linux`_, `Xenomai`_, and `RTEMS`_.
 
+Status
+======
+
+`Xenomai`_ and standard `Linux`_ systems are fully supported.  Support for
+`RTEMS`_ has not been implemented at this time.
+
 .. _Linux: https://www.kernel.org
 .. _Xenomai: https://www.xenomai.org
 .. _RTEMS: https://www.rtems.org

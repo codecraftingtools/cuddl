@@ -65,8 +65,18 @@ into a top half and a bottom half.  The top half executes quickly, handling
 the urgent tasks with interrupts disabled, and then it schedules the bottom
 half to be executed a bit later, with interrupts enabled.
 
-.. image:: images/unix_device_driver_arch.*
-   :width: 60%
+.. raw:: html
+
+   <!-- special case code for clickable svg files -->
+   <object data="images/unix_device_driver_arch.svg"
+           width=60% type="image/svg+xml">
+   </object>
+
+.. only:: latex
+
+   .. image:: images/unix_device_driver_arch.*
+      :align: center
+      :scale: 60%
 
 Advantages of the conventional UNIX device driver architecture:
 
@@ -108,8 +118,18 @@ functional or object-oriented end-user API instead of using the POSIX file
 convention.  Depending on your preferences, and on the type of device you are
 dealing with, this may be an advantage or a disadvantage.
 
-.. image:: images/userspace_device_driver_arch.*
-   :width: 60%
+.. raw:: html
+
+   <!-- special case code for clickable svg files -->
+   <object data="images/userspace_device_driver_arch.svg"
+           width=60% type="image/svg+xml">
+   </object>
+
+.. only:: latex
+
+   .. image:: images/userspace_device_driver_arch.*
+      :align: center
+      :scale: 60%
 
 Advantages of the user-space device driver architecture:
 
@@ -161,8 +181,18 @@ system and platform-specific implementation details, as shown below.
 
 ..  sphinx-include-arch-diagram-start
 
-.. image:: images/cuddl_arch.*
-   :width: 100%
+.. raw:: html
+
+   <!-- special case code for clickable svg files -->
+   <object data="images/cuddl_arch.svg"
+           width=100% type="image/svg+xml">
+   </object>
+
+.. only:: latex
+
+   .. image:: images/cuddl_arch.*
+      :align: center
+      :scale: 100%
 
 ..  sphinx-include-arch-diagram-end
 
@@ -193,8 +223,18 @@ come together for the Xenomai implementation.
 
 ..  sphinx-include-xeno-arch-diagram-start
 
-.. image:: images/cuddl_xeno_sw_stack.*
-   :width: 80%
+.. raw:: html
+
+   <!-- special case code for clickable svg files -->
+   <object data="images/cuddl_xeno_sw_stack.svg"
+           width=80% type="image/svg+xml">
+   </object>
+
+.. only:: latex
+
+   .. image:: images/cuddl_xeno_sw_stack.*
+      :align: center
+      :scale: 80%
 
 ..  sphinx-include-xeno-arch-diagram-end
 

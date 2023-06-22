@@ -64,7 +64,7 @@ html_theme = 'sphinx_rtd_theme'
 html_static_path = ['_static']
 
 # -- Extension configuration -------------------------------------------------
-intersphinx_mapping = {'cc': ('https://www.codecraftsmen.org', None)}
+intersphinx_mapping = {'cc': ('https://tools.codecraftsmen.org', None)}
 
 extlinks = {
     'github-repo': ('https://github.com/codecraftingtools/cuddl/%s',''),

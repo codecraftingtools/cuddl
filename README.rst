@@ -23,14 +23,14 @@ This project provides a cross-platform user-space device driver layer for
 `Cuddl`_ is part of the `Code Craftsmen`_ project.  The `documentation`_ is
 hosted on `Read the Docs`_ and the `source code`_ can be found on `GitHub`_.
 
-.. _Cuddl: https://www.codecraftsmen.org/software.html#cuddl
+.. _Cuddl: https://tools.codecraftsmen.org/software.html#cuddl
 .. _Linux: https://www.kernel.org
 .. _Xenomai: https://www.xenomai.org
 .. _RTEMS: https://www.rtems.org
 .. _Code Craftsmen: https://www.codecraftsmen.org
 .. _documentation: https://cuddl.readthedocs.io
-.. _Read the Docs: https://www.codecraftsmen.org/foundation.html#read-the-docs
+.. _Read the Docs: https://tools.codecraftsmen.org/foundation.html#read-the-docs
 .. _source code: https://github.com/codecraftingtools/cuddl
-.. _GitHub: https://www.codecraftsmen.org/foundation.html#github
+.. _GitHub: https://tools.codecraftsmen.org/foundation.html#github
 
 ..  sphinx-include-summary-end

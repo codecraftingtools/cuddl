@@ -78,9 +78,9 @@ public:
 
 	/// @name Setter Functions
 	/// @{
-	void group   (const char *s) {strncpy(id.group,    s, MAX_STR_LEN);}
-	void device  (const char *s) {strncpy(id.device,   s, MAX_STR_LEN);}
-	void resource(const char *s) {strncpy(id.resource, s, MAX_STR_LEN);}
+	void group   (const char *s) {strncpy(id.group,    s, MAX_STR_LEN-1);}
+	void device  (const char *s) {strncpy(id.device,   s, MAX_STR_LEN-1);}
+	void resource(const char *s) {strncpy(id.resource, s, MAX_STR_LEN-1);}
 	void instance(int i)         {id.instance = i;}
         ///  @}
 

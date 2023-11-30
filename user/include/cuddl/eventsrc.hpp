@@ -363,6 +363,13 @@ public:
 
 	/// \verbatim embed:rst:leading-slashes
 	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrc_try_wait`.
+	///
+	/// \endverbatim
+	int try_wait() {return cuddl_eventsrc_try_wait(&eventsrc);}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
 	/// C++ wrapper for :c:func:`cuddl_eventsrc_timed_wait`.
 	///
 	/// \endverbatim

@@ -424,6 +424,9 @@ int cuddl_eventsrc_open(
 	eventsrc->priv.token = eventinfo->priv.token;
 	eventsrc->priv.fd = fd;
 
+	cuddl_eventsrc_disable(eventsrc);
+	cuddl_eventsrc_try_wait(eventsrc);
+
 	return 0;
 }
 

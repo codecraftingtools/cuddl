@@ -513,7 +513,7 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc)
 	return count;
 }
 
-int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc)
+int cuddl_eventsrc_try_wait(struct cuddl_eventsrc *eventsrc)
 {
 	struct cuddl_timespec timeout;
 

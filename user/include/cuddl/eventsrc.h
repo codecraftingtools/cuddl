@@ -282,9 +282,8 @@ int cuddl_eventsrc_close_and_release(struct cuddl_eventsrc *eventsrc);
  */
 int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
 
-/* NOT PUBLIC AT THIS TIME -- This may not turn out to be useful.
- *
- * cuddl_eventsrc_trywait() - Check for the occurance of a user-space event.
+/**
+ * cuddl_eventsrc_try_wait() - Check for the occurance of a user-space event.
  *
  * @eventsrc: Input parameter identifying the event source to be polled for
  *            an event.  The data structure pointed to by this parameter
@@ -300,7 +299,7 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
  *   Error codes:
  *     - Error code returned by `cuddl_eventsrc_timed_wait()`` (Linux).
  */
-int cuddl_eventsrc_trywait(struct cuddl_eventsrc *eventsrc);
+int cuddl_eventsrc_try_wait(struct cuddl_eventsrc *eventsrc);
 
 /**
  * cuddl_eventsrc_timed_wait() - Timed wait for an event in user space.

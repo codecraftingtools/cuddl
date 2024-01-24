@@ -23,6 +23,9 @@
 
 namespace cuddl {
 
+// Forward declaration.
+class EventSrcSet;
+
 /// \verbatim embed:rst:leading-slashes
 ///
 /// C++ wrapper for :c:enum:`cuddl_eventsrc_flags`.
@@ -379,7 +382,7 @@ public:
 
 	/// \verbatim embed:rst:leading-slashes
 	///
-	/// C++ wrapper for :c:func:`cuddl_eventsrc_wait`.
+	/// C++ wrapper for :c:func:`cuddl_eventsrc_timed_wait`.
 	///
 	/// \endverbatim
 	int timed_wait(const std::chrono::nanoseconds &timeout) {
@@ -440,6 +443,8 @@ public:
 private:
 	cuddl_eventsrc eventsrc;
 	bool opened_{false};
+
+	friend class EventSrcSet;
 };
 
 inline std::ostream &operator <<(std::ostream &os, const EventSrc &eventsrc)
@@ -447,6 +452,84 @@ inline std::ostream &operator <<(std::ostream &os, const EventSrc &eventsrc)
 	os << "flags: " << eventsrc.flags();
 	return os;
 }
+
+/// \verbatim embed:rst:leading-slashes
+///
+/// C++ wrapper class for :c:type:`cuddl_eventsrcset`.
+///
+/// \endverbatim
+class EventSrcSet
+{
+public:
+	/// @name Constructor
+	/// @{
+	EventSrcSet() {
+		cuddl_eventsrcset_zero(&eventsrcset);
+	}
+	EventSrcSet(const cuddl_eventsrcset other) {
+		eventsrcset = other;
+	}
+        ///  @}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrcset_add`.
+	///
+	/// \endverbatim
+	void add(const EventSrc &eventsrc) {
+		cuddl_eventsrcset_add(&eventsrcset, &eventsrc.eventsrc);
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrcset_remove`.
+	///
+	/// \endverbatim
+	void remove(const EventSrc &eventsrc) {
+		cuddl_eventsrcset_remove(&eventsrcset, &eventsrc.eventsrc);
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrcset_contains`.
+	///
+	/// \endverbatim
+	bool contains(const EventSrc &eventsrc) {
+		return cuddl_eventsrcset_contains(
+		       &eventsrcset, &eventsrc.eventsrc);
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrcset_timed_wait`.
+	///
+	/// \endverbatim
+	int timed_wait(const cuddl_timespec &timeout,
+	               EventSrcSet *active_set = NULL) {
+		return cuddl_eventsrcset_timed_wait(
+		       &eventsrcset, &timeout, &active_set->eventsrcset);
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrcset_timed_wait`.
+	///
+	/// \endverbatim
+	int timed_wait(const std::chrono::nanoseconds &timeout,
+	               EventSrcSet *active_set = NULL) {
+		auto s = std::chrono::duration_cast<std::chrono::seconds>(
+			timeout);
+		auto ns = timeout - s;
+		cuddl_timespec ts;
+		ts.tv_sec = s.count();
+		ts.tv_nsec = ns.count();
+		return cuddl_eventsrcset_timed_wait(
+		       &eventsrcset, &ts, &active_set->eventsrcset);
+	}
+
+private:
+	cuddl_eventsrcset eventsrcset;
+};
 
 } // namespace cuddl
 

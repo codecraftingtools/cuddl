@@ -297,7 +297,7 @@ int cuddl_eventsrc_wait(struct cuddl_eventsrc *eventsrc);
  *   occurred since the last check), or a negative error code.
  *
  *   Error codes:
- *     - Error code returned by `cuddl_eventsrc_timed_wait()`` (Linux).
+ *     - Error code returned by ``cuddl_eventsrc_timed_wait()`` (Linux).
  */
 int cuddl_eventsrc_try_wait(struct cuddl_eventsrc *eventsrc);
 
@@ -433,5 +433,91 @@ int cuddl_eventsrc_is_enabled(struct cuddl_eventsrc *eventsrc);
  */
 int cuddl_eventsrc_get_resource_id(
 	struct cuddl_eventsrc *eventsrc, struct cuddl_resource_id *id);
+
+/**
+ * struct cuddl_eventsrcset - Represents a set of event sources.
+ *
+ * @priv: Private data reserved for internal use by the Cuddl implementation.
+ *
+ * Event source sets allow user-space tasks to be woken up when any one of a
+ * specified set of events (such as hardware interrupts from a specific set
+ * of peripheral devices) occurs.
+ */
+struct cuddl_eventsrcset {
+	struct cuddli_eventsrcset_priv priv;
+};
+
+/**
+ * cuddl_eventsrcset_zero() - Initialize an event source set.
+ *
+ * @set: The event source set to initialize.
+ *
+ * After calling this function, the specified event source set will be valid
+ * and empty.
+ */
+void cuddl_eventsrcset_zero(struct cuddl_eventsrcset *set);
+
+/**
+ * cuddl_eventsrcset_add() - Add an event source to an event source set.
+ *
+ * @set: The event source set to be modified.
+ *
+ * @eventsrc: The event source to be added.
+ */
+void cuddl_eventsrcset_add(
+	struct cuddl_eventsrcset *set, const struct cuddl_eventsrc *eventsrc);
+
+/**
+ * cuddl_eventsrcset_remove() - Remove an event source from an event src set.
+ *
+ * @set: The event source set to be modified.
+ *
+ * @eventsrc: The event source to be removed.
+ */
+void cuddl_eventsrcset_remove(
+	struct cuddl_eventsrcset *set, const struct cuddl_eventsrc *eventsrc);
+
+/**
+ * cuddl_eventsrcset_contains() - Check if event src set contains an eventsrc.
+ *
+ * @set: The event source set to be checked.
+ *
+ * @eventsrc: The event source to look for.
+ *
+ * Return: ``1`` if ``eventsrc`` is in the set, or ``0`` otherwise..
+ */
+int cuddl_eventsrcset_contains(
+	struct cuddl_eventsrcset *set, const struct cuddl_eventsrc *eventsrc);
+
+/**
+ * cuddl_eventsrcset_timed_wait() - Timed wait for events in user space.
+ *
+ * @eventsrcset: Input parameter identifying the sources of events to be
+ *               waited on.
+ *
+ * @timeout: Relative time value specifying the maximum time to wait for an
+ *           event.
+ *
+ * @result: Output parameter identifying the event sources that have
+ *          triggered or ``NULL``.
+ *
+ * Performs a blocking wait for events from ``eventsrcset`` with a
+ * timeout.
+ *
+ * Return:
+ *   The number of interrupting event sources on success (i.e. an event has
+ *   occurred since the last check), or a negative error code.
+ *
+ *   Error codes:
+ *     - ``-ETIMEDOUT``: A timeout occurred.
+ *     - Value of ``-errno`` resulting from from ``select()`` call on event
+ *       source file descriptors (Linux).
+ *     - Value of ``-errno`` resulting from from ``read()`` call on event
+ *       source file descriptor (Linux).
+ */
+int cuddl_eventsrcset_timed_wait(
+	struct cuddl_eventsrcset *eventsrcset,
+	const struct cuddl_timespec *timeout,
+	struct cuddl_eventsrcset *result);
 
 #endif /* !_CUDDL_EVENTSRC_H */

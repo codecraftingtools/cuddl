@@ -16,6 +16,7 @@
 #ifndef _CUDDL_IMPL_LINUX_H
 #define _CUDDL_IMPL_LINUX_H
 
+#include <sys/select.h> /* fd_set, select() */
 #include <sys/types.h> /* time_t, size_t */
 #include <time.h> /* timespec */
 
@@ -71,7 +72,7 @@ struct cuddli_memregion_priv {
  * struct cuddli_eventsrc_priv - Private event source data.
  *
  * @fd: File descriptor used in the ``open()`` call when opening the event
- *      source.  This file descriptor will be to wait on events and to
+ *      source.  This file descriptor will be used to wait on events and to
  *      enable/disable interrupt events.  The file descriptor will be closed
  *      via ``close()`` when closing the event source.
  *
@@ -84,6 +85,23 @@ struct cuddli_memregion_priv {
 struct cuddli_eventsrc_priv {
 	int fd;
 	struct cuddlci_token token;
+};
+
+/**
+ * struct cuddli_eventsrc_priv - Private event source data.
+ *
+ * @fds: File descriptor set used in the ``select()`` call in
+ *       ``cuddl_eventsrcset_timed_wait()``.
+ *
+ * @max_fd: Maximum file descriptor value that has been added to the set.
+ *          This is required when calling ``select()``.
+ *
+ * This data structure contains private, platform-specific data members
+ * reserved for internal use by the Cuddl implementation.
+ */
+struct cuddli_eventsrcset_priv {
+	fd_set fds;
+	int max_fd;
 };
 
 /**

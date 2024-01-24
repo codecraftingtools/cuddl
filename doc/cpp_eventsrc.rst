@@ -46,3 +46,7 @@ following entities are defined in the ``cuddl`` namespace.
 .. doxygenclass:: cuddl::EventSrc
    :undoc-members:
    :members:
+
+.. doxygenclass:: cuddl::EventSrcSet
+   :undoc-members:
+   :members:

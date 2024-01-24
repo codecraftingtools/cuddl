@@ -604,6 +604,71 @@ int cuddl_eventsrc_is_enabled(struct cuddl_eventsrc *eventsrc)
 	return ret;
 }
 
+void cuddl_eventsrcset_zero(struct cuddl_eventsrcset *set)
+{
+	FD_ZERO(&set->priv.fds);
+	set->priv.max_fd = 0;
+}
+
+void cuddl_eventsrcset_add(
+	struct cuddl_eventsrcset *set, const struct cuddl_eventsrc *eventsrc)
+{
+	FD_SET(eventsrc->priv.fd, &set->priv.fds);
+	if (eventsrc->priv.fd > set->priv.max_fd)
+		set->priv.max_fd = eventsrc->priv.fd;
+}
+
+void cuddl_eventsrcset_remove(
+	struct cuddl_eventsrcset *set, const struct cuddl_eventsrc *eventsrc)
+{
+	FD_CLR(eventsrc->priv.fd, &set->priv.fds);
+}
+
+int cuddl_eventsrcset_contains(
+	struct cuddl_eventsrcset *set, const struct cuddl_eventsrc *eventsrc)
+{
+	return FD_ISSET(eventsrc->priv.fd, &set->priv.fds);
+}
+
+int cuddl_eventsrcset_timed_wait(
+	struct cuddl_eventsrcset *eventsrcset,
+	const struct cuddl_timespec *timeout,
+	struct cuddl_eventsrcset *result)
+{
+	uint32_t count = 0;
+
+	struct cuddl_eventsrcset tmp_result;
+	if (!result) {
+		result = &tmp_result;
+	}
+
+	*result = *eventsrcset;
+
+	struct timeval tv;
+	tv.tv_sec = timeout->tv_sec;
+	tv.tv_usec = timeout->tv_nsec/1000;
+
+	int ret = select(result->priv.max_fd + 1, &result->priv.fds,
+	                 NULL, NULL, &tv);
+	if (ret == -1)
+		return -errno;
+
+	int n_ready_fds = 0;
+	for (int fd=0; fd <= result->priv.max_fd; fd++) {
+		if (FD_ISSET(fd, &result->priv.fds)) {
+			n_ready_fds++;
+			ret = read(fd, &count, sizeof(count));
+			if (ret == -1)
+				return -errno;
+		}
+	}
+
+	if (n_ready_fds == 0)
+		return -ETIMEDOUT;
+
+	return n_ready_fds;
+}
+
 int cuddl_eventsrc_get_resource_id(
 	struct cuddl_eventsrc *eventsrc, struct cuddl_resource_id *id)
 {

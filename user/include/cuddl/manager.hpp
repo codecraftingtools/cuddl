@@ -73,7 +73,15 @@ inline ResourceID get_memregion_id_for_slot(int device_slot, int mem_slot)
 	cuddl_resource_id id;
 
 	int ret = cuddl_get_memregion_id_for_slot(&id, device_slot, mem_slot);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) {
+		throw_err(
+			ret, std::string(__func__) +
+			" for cuddl device_slot:" +
+			std::to_string(device_slot) +
+			", mem_slot:" +
+			std::to_string(mem_slot));
+		throw_err(ret, __func__);
+	}
 	return ResourceID(id);
 }
 
@@ -89,7 +97,15 @@ inline ResourceID get_eventsrc_id_for_slot(int device_slot, int event_slot)
 
 	int ret = cuddl_get_eventsrc_id_for_slot(
 		&id, device_slot, event_slot);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) {
+		throw_err(
+			ret, std::string(__func__) +
+			" for cuddl device_slot:" +
+			std::to_string(device_slot) +
+			", event_slot:" +
+			std::to_string(event_slot));
+		throw_err(ret, __func__);
+	}
 	return ResourceID(id);
 }
 
@@ -104,7 +120,7 @@ inline MemRegionInfo get_memregion_info_for_id(const cuddl_resource_id &id)
 	cuddl_memregion_info info;
 
 	int ret = cuddl_get_memregion_info_for_id(&info, &id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return MemRegionInfo(info);
 }
 
@@ -119,7 +135,7 @@ inline EventSrcInfo get_eventsrc_info_for_id(const cuddl_resource_id &id)
 	cuddl_eventsrc_info info;
 
 	int ret = cuddl_get_eventsrc_info_for_id(&info, &id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return EventSrcInfo(info);
 }
 
@@ -132,7 +148,7 @@ inline EventSrcInfo get_eventsrc_info_for_id(const cuddl_resource_id &id)
 inline int get_memregion_ref_count_for_id(const cuddl_resource_id &id)
 {
 	int ret = cuddl_get_memregion_ref_count_for_id(&id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return ret;
 }
 
@@ -145,7 +161,7 @@ inline int get_memregion_ref_count_for_id(const cuddl_resource_id &id)
 inline int get_eventsrc_ref_count_for_id(const cuddl_resource_id &id)
 {
 	int ret = cuddl_get_eventsrc_ref_count_for_id(&id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return ret;
 }
 
@@ -158,7 +174,7 @@ inline int get_eventsrc_ref_count_for_id(const cuddl_resource_id &id)
 inline int decrement_memregion_ref_count_for_id(const cuddl_resource_id &id)
 {
 	int ret = cuddl_decrement_memregion_ref_count_for_id(&id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return ret;
 }
 
@@ -171,7 +187,7 @@ inline int decrement_memregion_ref_count_for_id(const cuddl_resource_id &id)
 inline int decrement_eventsrc_ref_count_for_id(const cuddl_resource_id &id)
 {
 	int ret = cuddl_decrement_eventsrc_ref_count_for_id(&id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return ret;
 }
 
@@ -187,7 +203,7 @@ inline std::string get_driver_info_for_memregion_id(
 	char s[MAX_STR_LEN];
 	int ret = cuddl_get_driver_info_for_memregion_id(
 		s, MAX_STR_LEN, &id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return s;
 }
 
@@ -203,7 +219,7 @@ inline std::string get_driver_info_for_eventsrc_id(
 	char s[MAX_STR_LEN];
 	int ret = cuddl_get_driver_info_for_eventsrc_id(
 		s, MAX_STR_LEN, &id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return s;
 }
 
@@ -218,7 +234,7 @@ inline std::string get_hw_info_for_memregion_id(const cuddl_resource_id &id)
 	char s[MAX_STR_LEN];
 	int ret = cuddl_get_hw_info_for_memregion_id(
 		s, MAX_STR_LEN, &id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return s;
 }
 
@@ -233,7 +249,7 @@ inline std::string get_hw_info_for_eventsrc_id(const cuddl_resource_id &id)
 	char s[MAX_STR_LEN];
 	int ret = cuddl_get_hw_info_for_eventsrc_id(
 		s, MAX_STR_LEN, &id);
-	if (ret < 0) { throw_err(ret, __func__); }
+	if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 	return s;
 }
 

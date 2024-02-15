@@ -70,10 +70,11 @@ public:
 
 	/// @name Getter Functions
 	/// @{
-	std::string group()    const {return id.group;}
-	std::string device()   const {return id.device;}
-	std::string resource() const {return id.resource;}
-	int         instance() const {return id.instance;}
+	std::string group()     const {return id.group;}
+	std::string device()    const {return id.device;}
+	std::string resource()  const {return id.resource;}
+	int         instance()  const {return id.instance;}
+	inline std::string full_name() const;
         ///  @}
 
 	/// @name Setter Functions
@@ -88,25 +89,42 @@ private:
 	cuddl_resource_id id;
 };
 
-inline std::ostream &operator <<(std::ostream &os, const ResourceID &id)
+inline std::string ResourceID::full_name() const
 {
-	std::string group       {id.group() };
-	std::string device      {id.device()};
-	std::string resource    {id.resource()};
-	int instance            {id.instance()};
+	std::string group    {this->group() };
+	std::string device   {this->device()};
+	std::string resource {this->resource()};
+	int         instance {this->instance()};
 
 	if (group    == "") group="*";
 	if (device   == "") device="*";
 	if (resource == "") resource="*";
 
-	os << group << "/" << device << "/" << resource << "/";
+	std::string full = group + "/" + device + "/" + resource + "/";
 
 	if (instance)
-		os << id.instance();
+		full += std::to_string(instance);
 	else
-		os << "*";
+		full += "*";
 
+	return full;
+}
+
+inline std::ostream &operator <<(std::ostream &os, const ResourceID &id)
+{
+	os << id.full_name();
 	return os;
+}
+
+//----------------------------------------------------------------------------
+// C++ Utility Code for Internal Use
+//----------------------------------------------------------------------------
+
+inline void throw_resource_id_err(int code, std::string const &msg,
+                                  const cuddl_resource_id &id)
+{
+	throw_err(code, msg + " for cuddl resource '" +
+		  ResourceID(id).full_name() + "'");
 }
 
 } // namespace cuddl

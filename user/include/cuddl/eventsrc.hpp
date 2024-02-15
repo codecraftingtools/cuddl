@@ -332,12 +332,12 @@ public:
 	/// \endverbatim
 	/// @throws std::system_error Operation failed.
 	void claim_and_open(const cuddl_resource_id &id,
-		           const EventSrcClaimFlags &claim_flags=0,
-		           const EventSrcOpenFlags &open_flags=0) {
+		            const EventSrcClaimFlags &claim_flags=0,
+		            const EventSrcOpenFlags &open_flags=0) {
 		int ret = cuddl_eventsrc_claim_and_open(
 			&eventsrc, id.group, id.device, id.resource,
 			id.instance, claim_flags.as_int(), 0);
-		if (ret < 0) { throw_err(ret, __func__); }
+		if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 		opened_ = true;
 	}
 

@@ -276,7 +276,7 @@ public:
 		int ret = cuddl_memregion_claim_and_map(
 			&mem, id.group, id.device, id.resource,
 			id.instance, claim_flags.as_int(), 0);
-		if (ret < 0) { throw_err(ret, __func__); }
+		if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 		mapped_ = true;
 	}
 

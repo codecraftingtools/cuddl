@@ -228,7 +228,7 @@ public:
 		claim_and_map(id, claim_flags, map_flags);
 	}
 	/// @throws std::system_error Operation failed.
-	MemRegion(const char *group, const char *device="",
+	MemRegion(const char *group, const char *device,
 		  const char *resource="", int instance=0,
 		  const MemRegionClaimFlags &claim_flags=0,
 		  const MemRegionMapFlags &map_flags=0) {
@@ -236,6 +236,13 @@ public:
 		claim_and_map(
 			ResourceID(group, device, resource, instance),
 			claim_flags, map_flags);
+	}
+	/// @throws std::system_error Operation failed.
+	MemRegion(const std::string &full_name,
+		  const MemRegionClaimFlags &claim_flags=0,
+		  const MemRegionMapFlags &map_flags=0) {
+		memset(&mem, 0, sizeof(mem));
+		claim_and_map(ResourceID(full_name), claim_flags, map_flags);
 	}
         ///  @}
 
@@ -278,6 +285,32 @@ public:
 			id.instance, claim_flags.as_int(), 0);
 		if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 		mapped_ = true;
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_memregion_claim_and_map`.
+	///
+	/// \endverbatim
+	/// @throws std::system_error Operation failed.
+	void claim_and_map(const char *group, const char *device,
+		           const char *resource="", int instance=0,
+		           const MemRegionClaimFlags &claim_flags=0,
+		           const MemRegionMapFlags &map_flags=0) {
+		ResourceID id(group, device, resource, instance);
+		claim_and_map(id, claim_flags, map_flags);
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_memregion_claim_and_map`.
+	///
+	/// \endverbatim
+	/// @throws std::system_error Operation failed.
+	void claim_and_map(const std::string &full_name,
+		           const MemRegionClaimFlags &claim_flags=0,
+		           const MemRegionMapFlags &map_flags=0) {
+		claim_and_map(ResourceID(full_name), claim_flags, map_flags);
 	}
 
 	/// \verbatim embed:rst:leading-slashes

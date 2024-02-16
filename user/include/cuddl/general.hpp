@@ -55,12 +55,15 @@ public:
 	ResourceID(const cuddl_resource_id &id) : id{id} {
 	}
 	ResourceID(const char *group, const char *device,
-		   const char *resource, int instance) {
+		   const char *resource="", int instance=0) {
 		memset(&id, 0, sizeof(id));
 		this->group(group);
 		this->device(device);
 		this->resource(resource);
 		this->instance(instance);
+	}
+	ResourceID(const std::string &full_name) {
+		this->full_name(full_name);
 	}
         ///  @}
 
@@ -83,6 +86,7 @@ public:
 	void device  (const char *s) {strncpy(id.device,   s, MAX_STR_LEN-1);}
 	void resource(const char *s) {strncpy(id.resource, s, MAX_STR_LEN-1);}
 	void instance(int i)         {id.instance = i;}
+	inline void full_name(const std::string &name);
         ///  @}
 
 private:
@@ -108,6 +112,48 @@ inline std::string ResourceID::full_name() const
 		full += "*";
 
 	return full;
+}
+
+inline void ResourceID::full_name(const std::string &name)
+{
+	using namespace std;
+	memset(&id, 0, sizeof(id));
+
+	auto i1 = name.find('/');
+	if (i1 == string::npos) {
+		device(name.c_str());
+	} else {
+		group(name.substr(0, i1).c_str());
+		auto i2 = name.find('/', i1 + 1);
+		if (i2 == string::npos) {
+			device(name.substr(i1 + 1, string::npos)
+			       .c_str());
+		} else {
+			device(name.substr(i1 + 1, i2-i1-1).c_str());
+			i1 = i2;
+			i2 = name.find('/', i1 + 1);
+			if (i2 == string::npos) {
+				resource(
+					name.substr(i1 + 1, string::npos)
+					.c_str());
+			} else {
+				resource(
+					name.substr(i1 + 1, i2-i1-1)
+					.c_str());
+				auto instance_str = name.substr(
+					i2 + 1,
+					string::npos);
+				if (instance_str.length() > 0) {
+					try {
+						instance(stoi(instance_str
+							      .c_str()));
+					} catch (exception &e) {
+						instance(-1);
+					}
+				}
+			}
+		}
+	}
 }
 
 inline std::ostream &operator <<(std::ostream &os, const ResourceID &id)

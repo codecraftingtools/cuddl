@@ -291,7 +291,7 @@ public:
 		claim_and_open(id, claim_flags, open_flags);
 	}
 	/// @throws std::system_error Operation failed.
-	EventSrc(const char *group, const char *device="",
+	EventSrc(const char *group, const char *device,
 		  const char *resource="", int instance=0,
 		  const EventSrcClaimFlags &claim_flags=0,
 		  const EventSrcOpenFlags &open_flags=0) {
@@ -299,6 +299,13 @@ public:
 		claim_and_open(
 			ResourceID(group, device, resource, instance),
 			claim_flags, open_flags);
+	}
+	/// @throws std::system_error Operation failed.
+	EventSrc(const std::string &full_name,
+		 const EventSrcClaimFlags &claim_flags=0,
+		 const EventSrcOpenFlags &open_flags=0) {
+		memset(&eventsrc, 0, sizeof(eventsrc));
+		claim_and_open(ResourceID(full_name), claim_flags, open_flags);
 	}
         ///  @}
 
@@ -339,6 +346,32 @@ public:
 			id.instance, claim_flags.as_int(), 0);
 		if (ret < 0) { throw_resource_id_err(ret, __func__, id); }
 		opened_ = true;
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrc_claim_and_open`.
+	///
+	/// \endverbatim
+	/// @throws std::system_error Operation failed.
+	void claim_and_open(const char *group, const char *device,
+		            const char *resource="", int instance=0,
+		            const EventSrcClaimFlags &claim_flags=0,
+		            const EventSrcOpenFlags &open_flags=0) {
+		ResourceID id(group, device, resource, instance);
+		claim_and_open(id, claim_flags, open_flags);
+	}
+
+	/// \verbatim embed:rst:leading-slashes
+	///
+	/// C++ wrapper for :c:func:`cuddl_eventsrc_claim_and_open`.
+	///
+	/// \endverbatim
+	/// @throws std::system_error Operation failed.
+	void claim_and_open(const std::string &full_name,
+		            const EventSrcClaimFlags &claim_flags=0,
+		            const EventSrcOpenFlags &open_flags=0) {
+		claim_and_open(ResourceID(full_name), claim_flags, open_flags);
 	}
 
 	/// \verbatim embed:rst:leading-slashes

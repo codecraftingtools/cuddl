@@ -38,6 +38,7 @@
 #endif /* CUDDLC_BUILD_WARN_TARGET */
 
 #include <linux/uio_driver.h>
+#include <asm/io.h>
 
 #define CUDDLK_PAGE_SIZE PAGE_SIZE
 

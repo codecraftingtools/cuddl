@@ -45,8 +45,8 @@
 #define CUDDLCI_MAX_STR_LEN 256
 
 /* Version information declarations */
-#define CUDDLCI_VERSION_MAJOR 0
-#define CUDDLCI_VERSION_MINOR 1
+#define CUDDLCI_VERSION_MAJOR 1
+#define CUDDLCI_VERSION_MINOR 0
 #define CUDDLCI_REVISION_LEVEL 0
 
 /* The following macros are used both in kernel and user space.*/

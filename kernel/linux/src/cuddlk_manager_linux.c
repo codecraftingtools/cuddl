@@ -221,6 +221,12 @@ static int _version_code_is_compat(int user_version_code) {
 	if (CUDDLK_MAJOR_VERSION_FROM_CODE(user_version_code) ==
 	    CUDDLK_MAJOR_VERSION_FROM_CODE(CUDDLK_VERSION_CODE))
 		return 1;
+	else if (CUDDLK_MAJOR_VERSION_FROM_CODE(user_version_code) == 0 &&
+	         CUDDLK_MAJOR_VERSION_FROM_CODE(CUDDLK_VERSION_CODE) == 1)
+		return 1;
+	else if (CUDDLK_MAJOR_VERSION_FROM_CODE(user_version_code) == 1 &&
+	         CUDDLK_MAJOR_VERSION_FROM_CODE(CUDDLK_VERSION_CODE) == 0)
+		return 1;
 	else
 		return 0;
 }

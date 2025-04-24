@@ -287,22 +287,22 @@ static int cuddlk_cleanup(struct cuddlk_device *dev,
 #if defined(CUDDLK_USE_UDD)
 		ret = udd_unregister_device(&dev->priv.udd);
 #endif
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_FAIL_UDD_REGISTER:
 #if defined(CUDDLK_USE_UDD)
 		rtdm_nrtsig_destroy(&dev->events[0].priv.nrt_sig);
 #endif
 		uio_unregister_device(&dev->priv.uio);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_FAIL_UIO_REGISTER:
 		kfree(dev->priv.unique_name);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_FAIL_UNIQUE_NAME:
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_FAIL_NULL_NAME:
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_FAIL_NULL_GROUP:
-		/* FALLTHROUGH */
+		fallthrough;
 	default:
 		break;
 	}

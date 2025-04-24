@@ -128,18 +128,18 @@ static int cuddlk_janitor_cleanup(enum cuddlk_janitor_init_failure failure)
 	switch(failure) {
 	case CUDDLK_JANITOR_NO_FAILURE:
 		device_destroy(cuddlk_janitor_class, cuddlk_janitor_dev);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_JANITOR_FAIL_DEVICE_CREATE:
 		class_destroy(cuddlk_janitor_class);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_JANITOR_FAIL_CLASS_CREATE:
 		cdev_del(&cuddlk_janitor_cdev);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_JANITOR_FAIL_CDEV_ADD:
 		unregister_chrdev_region(cuddlk_janitor_dev, 1);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_JANITOR_FAIL_ALLOC_CHRDEV:
-		/* FALLTHROUGH */
+		fallthrough;
 	default:
 		break;
 	}
@@ -166,7 +166,9 @@ static int __init cuddlk_janitor_init(void)
 	}
 
 	/* Create sysfs class node */
-	cuddlk_janitor_class = class_create(THIS_MODULE, "cuddl_janitor");
+	cuddlk_janitor_class = class_create_compat(
+		THIS_MODULE, "cuddl_janitor");
+
 	if (IS_ERR(cuddlk_janitor_class)) {
 		ret = -ENODEV;
 		failure = CUDDLK_JANITOR_FAIL_CLASS_CREATE;

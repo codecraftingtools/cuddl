@@ -59,7 +59,7 @@
 #ifdef CUDDLK_ENABLE_INTRUSIVE_DEBUG_PRINT
   #define cuddlk_idebug(...) cuddlki_print(__VA_ARGS__)
 #else
-  #define cuddlk_idebug(...)
+  #define cuddlk_idebug(...) {}
 #endif
 
 #endif /* !_CUDDLK_PRINT_H */

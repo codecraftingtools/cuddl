@@ -173,6 +173,8 @@ static int _memregion_decr_ref_count(struct cuddlk_memregion *memregion)
 	return failed;
 }
 
+void cuddlk_manager_free_refs_for_pid(pid_t pid); // Get rid of warning on 6.12 kernel
+
 void cuddlk_manager_free_refs_for_pid(pid_t pid)
 {
 	struct cuddlk_resource_ref_list *pos;
@@ -396,10 +398,10 @@ static long cuddlk_manager_ioctl(
 	switch(cmd) {
 	case CUDDLCI_MEMREGION_CLAIM_UDD_IOCTL:
 		rt = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_MEMREGION_CLAIM_UIO_IOCTL:
 		claim = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_GET_MEMREGION_INFO_IOCTL:
 		cuddlk_debug("CUDDLCI_MEMREGION_CLAIM_*/INFO_IOCTL called\n");
 		if (copy_from_user(mdata, (void*)arg, sizeof(*mdata))) {
@@ -498,10 +500,10 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDLCI_EVENTSRC_CLAIM_UDD_IOCTL:
 		rt = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_EVENTSRC_CLAIM_UIO_IOCTL:
 		claim = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_GET_EVENTSRC_INFO_IOCTL:
 		cuddlk_debug("CUDDLCI_EVENTSRC_CLAIM_*/INFO_IOCTL called\n");
 		if (copy_from_user(edata, (void*)arg, sizeof(*edata))) {
@@ -601,7 +603,7 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDLCI_MEMREGION_RELEASE_UDD_IOCTL:
 		rt = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_MEMREGION_RELEASE_UIO_IOCTL:
 		cuddlk_debug("CUDDLCI_MEMREGION_RELEASE_*_IOCTL called\n");
 		if (copy_from_user(mrdata, (void*)arg, sizeof(*mrdata))) {
@@ -664,7 +666,7 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDLCI_EVENTSRC_RELEASE_UDD_IOCTL:
 		rt = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_EVENTSRC_RELEASE_UIO_IOCTL:
 		cuddlk_debug("CUDDLCI_EVENTSRC_RELEASE_*_IOCTL called\n");
 		if (copy_from_user(erdata, (void*)arg, sizeof(*erdata))) {
@@ -898,7 +900,7 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDLCI_DECREMENT_MEMREGION_REF_COUNT_IOCTL:
 		decrement = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL:
 		cuddlk_debug(
 			"CUDDLCI_GET_MEMREGION_REF_COUNT_IOCTL called\n");
@@ -951,7 +953,7 @@ static long cuddlk_manager_ioctl(
 
 	case CUDDLCI_DECREMENT_EVENTSRC_REF_COUNT_IOCTL:
 		decrement = 1;
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL:
 		cuddlk_debug("CUDDLCI_GET_EVENTSRC_REF_COUNT_IOCTL called\n");
 		if (copy_from_user(
@@ -1269,21 +1271,21 @@ static int cuddlk_manager_cleanup(enum cuddlk_manager_init_failure failure)
 	switch(failure) {
 	case CUDDLK_MGR_NO_FAILURE:
 		device_destroy(cuddlk_manager_class, cuddlk_manager_dev);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_MGR_FAIL_DEVICE_CREATE:
 		class_destroy(cuddlk_manager_class);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_MGR_FAIL_CLASS_CREATE:
 		cdev_del(&cuddlk_manager_cdev);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_MGR_FAIL_CDEV_ADD:
 		unregister_chrdev_region(cuddlk_manager_dev, 1);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_MGR_FAIL_ALLOC_CHRDEV:
 		kfree(cuddlk_global_manager_ptr);
-		/* FALLTHROUGH */
+		fallthrough;
 	case CUDDLK_MGR_FAIL_ALLOC_MANAGER:
-		/* FALLTHROUGH */
+		fallthrough;
 	default:
 		break;
 	}
@@ -1327,7 +1329,8 @@ static int __init cuddlk_manager_init(void)
 	}
 
 	/* Create sysfs class node */
-	cuddlk_manager_class = class_create(THIS_MODULE, "cuddl");
+	cuddlk_manager_class = class_create_compat(THIS_MODULE, "cuddl");
+
 	if (IS_ERR(cuddlk_manager_class)) {
 		ret = -ENODEV;
 		failure = CUDDLK_MGR_FAIL_CLASS_CREATE;

@@ -37,8 +37,15 @@
   #endif
 #endif /* CUDDLC_BUILD_WARN_TARGET */
 
+#include <linux/version.h>
 #include <linux/uio_driver.h>
 #include <asm/io.h>
+
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,4,0)
+  #define class_create_compat(a, b) class_create(b)
+#else
+  #define class_create_compat(a, b) class_create(a, b)
+#endif
 
 #define CUDDLK_PAGE_SIZE PAGE_SIZE
 
@@ -79,6 +86,14 @@
   #define CUDDLKI_IRQ_NONE   UIO_IRQ_NONE
   #define CUDDLKI_IRQ_CUSTOM UIO_IRQ_CUSTOM
 #endif /* defined(CUDDLK_USE_UDD) */
+
+#ifndef fallthrough
+#  if __has_attribute(__fallthrough__)
+#    define fallthrough __attribute__((__fallthrough__))
+#  else
+#    define fallthrough do {} while (0) /* FALLTHROUGH */
+#  endif
+#endif
 
 typedef void __iomem cuddlki_iomem_t;
 
